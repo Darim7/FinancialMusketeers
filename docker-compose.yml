@@ -1,0 +1,23 @@
+services:
+  # Frontend
+  # server:
+  #   container_name: react
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "8080:3000"
+  #   command: npm run dev
+
+  # Backend
+  transcription-service:
+    container_name: flask
+    build:
+      context: ./backend
+      target: builder
+
+    stop_signal: SIGINT
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./backend:/app
+      
