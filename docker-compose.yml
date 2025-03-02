@@ -1,15 +1,26 @@
 services:
   # Frontend
-  # server:
-  #   container_name: react
-  #   build:
-  #     context: ./frontend
-  #   ports:
-  #     - "8080:3000"
-  #   command: npm run dev
+  react_frontend:
+    container_name: react
+    build:
+      context: ./frontend
+    ports:
+      - "8080:3000"
+    volumes:
+      # NOTE: Right now, since we're trying to skip the rebuild
+      # step while made active changes on the frontend when the
+      # container is up, we will NEED YOU TO DO npm install on
+      # your host machine so that all the packages is installed
+      # on your host machine and thus able to be mapped to the
+      # volume on the container.
+      - ./frontend/public:/app/public
+      - ./frontend/src:/app/src
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+    depends_on:
+      - flask_server
 
   # Backend
-  transcription-service:
+  flask_server:
     container_name: flask
     build:
       context: ./backend
@@ -20,4 +31,3 @@ services:
       - '8000:8000'
     volumes:
       - ./backend:/app
-      
