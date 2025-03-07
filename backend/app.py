@@ -11,6 +11,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(mess
 # Connect to the db
 db = MongoClient(host=['mongodb://root:example@mongodb:27017'])
 
+@app.route('/api/test')
+def test():
+    app.logger.info('Reached test route.')
+    res = {"data": "Hello World!"}
+    return jsonify(res)
+
 @app.route('/')
 def hello():
     app.logger.info('Serving the HTML page')
