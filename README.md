@@ -13,7 +13,7 @@ git clone <link to this repo>
 
 Navigate to the project directory.
 ```
-git clone <this repo link>
+cd FinancialMusketeers
 ```
 
 Compose the docker services.
