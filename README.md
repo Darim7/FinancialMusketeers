@@ -35,7 +35,8 @@ docker compose up -d
 
 Frontend
 ```
-./setup-npm.sh
+cd frontend
+./setup-frontend.sh
 ```
 
 Backend
