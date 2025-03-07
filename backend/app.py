@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file
+from pymongo import MongoClient
 import os
 import logging
 
@@ -6,6 +7,9 @@ app = Flask(__name__)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+
+# Connect to the db
+db = MongoClient(host=['mongodb://root:example@mongodb:27017'])
 
 @app.route('/')
 def hello():
