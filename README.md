@@ -1,5 +1,5 @@
 # FinancialMusketeers
-Welcome to FinancialMusketeers! This is an app develop by the Musketeers :sunglasses:
+Welcome to FinancialMusketeers! This is an app develop by **the Musketeers** :sunglasses:
 
 This app is aimed to provide a basic financial planner that helps you to plan your life! Include spendings, income taxes, investments...
 
@@ -21,7 +21,7 @@ Compose the docker services.
 docker compose up -d
 ```
 
-### If you don't have docker installed you should install docker first
+### If you don't have docker installed you should install docker first :whale:
 ```
 ./setup-docker.sh
 ```
@@ -29,7 +29,7 @@ docker compose up -d
 **After the services are up, you can access the app's frontend at `localhost:8080`. Have fun :smile:**
 
 # For Developers
-### REMEMBER TO READ THE READMEs IN BOTH FRONTEND AND BACKEND!!!
+### REMEMBER TO READ THE READMEs IN BOTH FRONTEND AND BACKEND :rage::rage::rage:
 
 **Set up the development environment for...**
 
@@ -45,7 +45,7 @@ cd backend
 ./setup-backend.sh
 ```
 
-## Note
+## Note :innocent:
 The development environment is installed ON your **host machine**.
 
 However, the docker container will only copy the `requirement.txt` (for backend) or `package.json` (for frontend) and set up their environment during the `build` process.
