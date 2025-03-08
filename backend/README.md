@@ -22,3 +22,8 @@ cd .. # Navigate to root directory
 docker compose down
 docker compose up -d
 ```
+
+## What if VSCode is too dumb to find the Python Interpreter in `musk-venv`? :sob:
+1. Click on `Select Interpreter`
+2. Click on `Enter interpreter path...`
+3. Enter the path `<whatever path to>/FinancialMusketeers/backend/musk-venv`
