@@ -22,5 +22,3 @@ cd .. # Navigate to root directory
 docker compose down
 docker compose up -d
 ```
-
-## What's going on inside the container? :eyes:
