@@ -1,0 +1,45 @@
+.scenario{
+    display: flex;
+    align-items: flex-start;
+}
+
+.main-content {
+    margin-left: 200px; /* Same as the width of the navbar */
+    padding: 25px;
+    background-color: #ffffff; /* Background color for the main content */
+    /* flex-grow: 1; Take up the remaining space */
+}
+
+.scenario-header {
+    margin: 0; /* Ensure no margin on the top */
+    padding: 0; /* Ensure no padding on the top */
+}
+
+
+.scenario-content{
+    margin-top: 10px;
+}
+
+
+.create-button{
+    background-color: #2ba8fb;
+    color: #0e0e0e;
+    transition: background-color 0.3s, transform 0.3s;
+    border-radius: 18px;
+    padding: 10px 18px;
+    font-weight: bold; 
+
+}
+      
+.create-button:hover {
+    background-color: #6fc5ff;
+    cursor: pointer; 
+    border-radius:30px; 
+    transform: scale(0.98);
+}
+      
+.create-button:active {
+    background-color: #3d94cf;
+  
+}
+
