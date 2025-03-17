@@ -15,7 +15,9 @@ function NavBar(){
 
             {/* User Profile Logo */}
             <div className = 'user-profile-logo'>
-                <img src={userprofile} alt ="userlogo" className='profileLogo' />
+                <Link to='/profile'>
+                    <img src={userprofile} alt ="userlogo" className='profileLogo'/>
+                </Link>
             </div>
 
             {/* Sidebar for navigation */}

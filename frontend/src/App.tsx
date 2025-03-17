@@ -6,6 +6,7 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Scenario from './pages/Scenarios';
 import CreateScenario from './components/CreateScenario';
+import ProfilePage from './pages/ProfilePage';
 
 
 function App(){
@@ -19,17 +20,11 @@ function App(){
           <Route path = "/overview" element={<Overview/>} />
           <Route path = "/scenarios" element={<Scenario/>} />
           <Route path = "/createscenario" element={<CreateScenario/>} />
-
+          <Route path = '/profile' element={<ProfilePage/>} />
         </Routes>
-      
-      
       </BrowserRouter>
     </div>
- 
   )
-
 }
-
-
 
 export default App;
