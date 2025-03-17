@@ -20,7 +20,7 @@ label{
     display: block;
     width: 100%;
     text-align: left;
-    margin-top: 6px;
+    margin-top: 1px;
     margin-bottom: 3px;
 }
 
@@ -46,3 +46,4 @@ select {
     border-radius: 13px;       
 
 }
+ 

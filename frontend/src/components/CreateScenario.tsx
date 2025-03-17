@@ -187,7 +187,7 @@ function CreateScenario() {
       )}
 
       {formStep === 2 && (
-        <div className='container'>
+        <div className='investment-container'>
           <h3>Investment</h3>
 
           <label htmlFor = "investment-name">Investment Name: </label>
@@ -212,14 +212,49 @@ function CreateScenario() {
               name = "returnAmtOrPct"        
             />
           
+          {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
+            from a Markov Process
+          */}
           <label htmlFor = "return-distribution"> Return Distribution: </label>
             <input
               type = "text"
               name = "returnDistribution"        
             />
 
+          <label htmlFor = "expense-ratio"> Expense Ratio: </label>
+            <input
+              type = "number"
+              name = "expenseRatio"        
+            />
 
-       
+          <label htmlFor = "income-amount"> Income Amount or Percent: </label>
+            <input
+              type = "text"
+              name = "incomeAmtOrPct"        
+            />
+          
+          <label htmlFor = "income-distribution"> Income Distribution: </label>
+            <input
+              type = "text"
+              name = "incomeDistribution"        
+            />
+
+          <label htmlFor = "taxability"> Taxability: </label>
+            <input
+              type = "radio"
+              id = "Taxable"
+              value = "Taxable"
+              name = "taxability"        
+            /> Taxable
+            <input 
+              type ="radio"
+              id = "Tax-Exempt"
+              name=  "taxability"     
+              value = "Tax-Exempt"
+            /> Tax-Exempt
+          
+          
+          <button>Add Investment</button>
 
           <button type="button" onClick={() => setformStep(1)}>
             Back
