@@ -5,34 +5,40 @@ import './CreateScenario.css';
 import Scenario from '../pages/Scenarios';
 
 function CreateScenario() {
-  {/* Allow user to pick a state */}
-  const [selectedState, setSelectedState] = useState('');
+
+  // {/* Allow user to pick a state */}
+  // const [selectedState, setSelectedState] = useState('');
 
   {/* Go to the next page */}
-  const [info, setInfo] = useState(1); 
-  const [investment, setInvestment] = useState(''); 
-  const [events, setEvents] = useState('');
+  const [formStep, setformStep] = useState(1);
 
   {/* Update user input change */}
   const [values, setValues] = useState({
     scenarioName : '',
+    states: '',
     retirementAge : '',
     financialGoal: '',
     lifeExpectancy: '',
     maritalStatus: '',
-    birthYear: '' 
+    birthYear: '' ,
+    investment: []
 
   })
 
+  console.log(values);
+
+  {/* Handle user input change */}
+  {/* Store in array because of multiple input */}
   const handleChanges = (e) =>{
     setValues({...values, [e.target.name]:[e.target.value]})
+
   }
 
   
 
   const handleNext = (e) => {
     e.preventDefault(); // Prevent form from submitting
-    setInfo(info + 1);
+    setformStep(formStep + 1);
   };
 
   const states = [
@@ -90,22 +96,19 @@ function CreateScenario() {
     
   ]
 
-    const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedState(event.target.value);
-    };
   return (
     <div className="create-scenario"> 
       <h1>Scenario</h1>
       
       <form>
 
-      {info === 1 && (
+      {formStep === 1 && (
       <div className="label-container">
         
-        <label htmlFor="scenario-name"> Name:</label>
-            <input 
-              type= "text"
-              name ="scenarioName"
+        <label htmlFor="scenario-name"> Scenario Name:</label> 
+            <input // Type of data
+              type= "text"  // Input text format
+              name ="scenarioName"  // Name of the input
               value={values.scenarioName}
               onChange={(e)=> handleChanges(e)}
             />
@@ -114,8 +117,8 @@ function CreateScenario() {
         <select
             id="states"
             name="states"
-            value={selectedState}
-            onChange={handleStateChange}
+            value={values.states}
+            onChange={handleChanges}
         >
             <option value="">Select a state</option>
             {states.map((state) => (
@@ -143,6 +146,7 @@ function CreateScenario() {
             onChange={(e)=> handleChanges(e)}
           />
         
+        {/* TODO: Life Expectancy is optional, if user no input, default is 80 */}
         <label htmlFor="life-expectancy"> Life Expectancy:</label>
           <input 
             type = "text" 
@@ -153,16 +157,21 @@ function CreateScenario() {
           />
 
         <label htmlFor="marital-status"> Marital Status:</label>
-          <input type="radio" name = "maritalStatus" 
-          onChange={(e)=> handleChanges(e)}
-          value={values.maritalStatus}
-          />Couple
-          <input type ="radio" name = "maritalStatus"
-          onChange={(e)=> handleChanges(e)}
-          value={values.maritalStatus}
-          />Individual
-         
+          <input
+            type="radio"
+            id = "Individual"
+            name = "maritalStatus" 
+            value ="Individual"
+            onChange={(e)=> handleChanges(e)}/> Individual
 
+          <input 
+            type ="radio"
+            id = "Couple"
+            name = "maritalStatus" 
+            value = "Couple"
+            onChange={(e)=> handleChanges(e)} /> Couple
+         
+        {/* TODO: Only allow 2 year input if married */}
         <label htmlFor="birth-year"> Birth Year:</label>
           <input
             type = "text" 
@@ -177,12 +186,44 @@ function CreateScenario() {
 
       )}
 
-      {info === 2 && (
+      {formStep === 2 && (
         <div className='container'>
           <h3>Investment</h3>
+
+          <label htmlFor = "investment-name">Investment Name: </label>
+            <input
+              type = "text"
+              name = "investmentName"
+
+            />
+
+          <label htmlFor = "description"> Description: </label>
+            <input
+              type = "text"
+              name = "description"        
+            />
+
+          {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
+            from a Markov Process
+          */}
+          <label htmlFor = "return-amount"> Return Amount or Percent: </label>
+            <input
+              type = "text"
+              name = "returnAmtOrPct"        
+            />
           
+          <label htmlFor = "return-distribution"> Return Distribution: </label>
+            <input
+              type = "text"
+              name = "returnDistribution"        
+            />
 
 
+       
+
+          <button type="button" onClick={() => setformStep(1)}>
+            Back
+          </button>
           <button onClick={handleNext}>Next</button>
 
 
