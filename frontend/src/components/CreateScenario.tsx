@@ -21,8 +21,18 @@ function CreateScenario() {
     lifeExpectancy: '',
     maritalStatus: '',
     birthYear: '' ,
-    investment: []
+    investments: [] as any[]
+  })
 
+  const [investment, setInvestment] = useState({
+    investmentName: '',
+    description: '',
+    returnAmtOrPct: '',
+    returnDistribution: '',
+    expenseRatio: '',
+    incomeAmtOrPct: '',
+    incomeDistribution: '',
+    taxability: ''
   })
 
   console.log(values);
@@ -31,15 +41,34 @@ function CreateScenario() {
   {/* Store in array because of multiple input */}
   const handleChanges = (e) =>{
     setValues({...values, [e.target.name]:[e.target.value]})
-
   }
-
-  
 
   const handleNext = (e) => {
     e.preventDefault(); // Prevent form from submitting
     setformStep(formStep + 1);
   };
+
+  const handleInvestmentChange = (e) => {
+    setInvestment({...investment, [e.target.name]:e.target.value});
+  };
+
+  const addInvestment = (e) => {
+    setValues({...values, investments: [...values.investments, investment]})
+
+    setInvestment({
+      investmentName: '',
+      description: '',
+      returnAmtOrPct: '',
+      returnDistribution: '',
+      expenseRatio: '',
+      incomeAmtOrPct: '',
+      incomeDistribution: '',
+      taxability: ''
+    })
+  }
+
+
+
 
   const states = [
     { value: 'AL', label: 'Alabama' },
@@ -194,13 +223,16 @@ function CreateScenario() {
             <input
               type = "text"
               name = "investmentName"
-
+              value={investment.investmentName}
+              onChange={handleInvestmentChange}
             />
 
           <label htmlFor = "description"> Description: </label>
             <input
               type = "text"
-              name = "description"        
+              name = "description"    
+              value={investment.description}
+              onChange={handleInvestmentChange}
             />
 
           {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
@@ -209,7 +241,9 @@ function CreateScenario() {
           <label htmlFor = "return-amount"> Return Amount or Percent: </label>
             <input
               type = "text"
-              name = "returnAmtOrPct"        
+              name = "returnAmtOrPct"     
+              value={investment.returnAmtOrPct}
+              onChange={handleInvestmentChange}
             />
           
           {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
@@ -218,25 +252,33 @@ function CreateScenario() {
           <label htmlFor = "return-distribution"> Return Distribution: </label>
             <input
               type = "text"
-              name = "returnDistribution"        
+              name = "returnDistribution"    
+              value={investment.returnDistribution}
+              onChange={handleInvestmentChange}
             />
 
           <label htmlFor = "expense-ratio"> Expense Ratio: </label>
             <input
               type = "number"
-              name = "expenseRatio"        
+              name = "expenseRatio" 
+              value={investment.expenseRatio}
+              onChange={handleInvestmentChange}
             />
 
           <label htmlFor = "income-amount"> Income Amount or Percent: </label>
             <input
               type = "text"
-              name = "incomeAmtOrPct"        
+              name = "incomeAmtOrPct" 
+              value={investment.incomeAmtOrPct}
+              onChange={handleInvestmentChange}
             />
           
           <label htmlFor = "income-distribution"> Income Distribution: </label>
             <input
               type = "text"
-              name = "incomeDistribution"        
+              name = "incomeDistribution"  
+              value={investment.incomeDistribution}
+              onChange={handleInvestmentChange}
             />
 
           <label htmlFor = "taxability"> Taxability: </label>
@@ -244,18 +286,22 @@ function CreateScenario() {
               type = "radio"
               id = "Taxable"
               value = "Taxable"
-              name = "taxability"        
+              name = "taxability"
+              checked={investment.taxability === "Taxable"}
+              onChange={handleInvestmentChange}
             /> Taxable
             <input 
               type ="radio"
               id = "Tax-Exempt"
               name=  "taxability"     
               value = "Tax-Exempt"
+              checked={investment.taxability === "Tax-Exempt"}
+              onChange={handleInvestmentChange}
             /> Tax-Exempt
           
           
-          <button>Add Investment</button>
-
+          <button type='button' onClick={addInvestment}>Add Investment</button>
+ 
           <button type="button" onClick={() => setformStep(1)}>
             Back
           </button>
