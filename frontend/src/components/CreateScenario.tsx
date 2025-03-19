@@ -36,39 +36,63 @@ function CreateScenario() {
     taxability: ''
   })
 
+
   // There are 4 different types of event
-  const [incomeEvents, setIncomeEvents] = useState({
-    initialAmount: '',
-    changeAmtOrPct: '',
-    changeDistribution: '',
-    inflationAdjusted: '',
-    userFraction: '',
-    socialSecurity: ''
-  })
+  const diffEvent = {
+    Income: [
+      { question: "Event Names: ", type: "text" },
+      { question: "Start: ", type: "text" },
+      { question: "Duration: ", type: "number" },
+      { question: "Initial Amount: ", type: "number"},
+      { question: "Change Amount or Percent: ", type: "text"},
+      { question: "Change Distribution: ", type: "text"},
+      { question: "Inflation Adjusted: ", type: "text"},
+      { question: "User Fraction: ", type: "text"},
+      { question: "Social Security: ", type: "number"},
+    ],
 
-  const [expenseEvents, setExpenseEvents] = useState({
-    initialAmount: '',
-    changeAmtOrPct: '',
-    changeDistribution: '',
-    inflationAdjusted: '',
-    userFraction: '',
-    discretionary: ''
+    Expense: [
+      { question: "Event Names: ", type: "text" },
+      { question: "Start: ", type: "text" },
+      { question: "Duration: ", type: "number" },
+      { question: "Initial Amount: ", type: "number"},
+      { question: "Change Amount or Percent: ", type: "text"},
+      { question: "Change Distribution: ", type: "text"},
+      { question: "Inflation Adjusted: ", type: "text"},
+      { question: "User Fraction: ", type: "text"},
+      { question: "Discretionary : ", type: "text"},
 
-  })
+    ],
+    Invest: [
+      { question: "Event Names: ", type: "text" },
+      { question: "Start: ", type: "text" },
+      { question: "Duration: ", type: "number" },
+      { question: "Asset Allocation: ", type: "text" },
+      { question: "Glide Path : ", type: "text" },
+    ],
 
-  const [investEvents, setInvestEvents] = useState({
-    assetAllocation: '',
-    glidePath: '',
-    assetAllocation2: '',
-    maxCash: ''
+    Rebalance: [
+      { question: "Event Names: ", type: "text" },
+      { question: "Start: ", type: "text" },
+      { question: "Duration: ", type: "number" },
+      { question: "Asset Allocation: ", type: "text" },
+    ],
+  };
 
-  })
+  const [selectedEvent, setSelectedEvent] = useState("");
+  const [answers, setAnswers] = useState(""); 
 
-  const [rebalanceEvents, setRebalanceEvents] = useState({
-    assetAllocation: ''
 
-  })
+  const handleEventChange = (e) => {
+    const eventType = e.target.value;
+    setSelectedEvent(eventType);
+    setAnswers({});
+   
+  };
 
+  const handleAnswerChange = (question, value) => {
+    setAnswers((prev) => ({ ...prev, [question]: value }));
+  };
 
   console.log(values);
 
@@ -101,7 +125,6 @@ function CreateScenario() {
       taxability: ''
     })
   }
-
 
 
 
@@ -348,29 +371,47 @@ function CreateScenario() {
       {formStep === 3 && (
         <div className='event-page'>
            <h3>Events</h3>
-           <label htmlFor = "eventName"> Event Name: </label>
-            <input
-              type = "text"
-              name = "eventName"           
-            />
+          
+          <label htmlFor="type-of-event"> Type of Event:</label>
+          <select
+            id = "typeOfEvents"
+            name = "typeOfEvents"
+            onChange={handleEventChange} value={selectedEvent}>
 
-          <label htmlFor = "startsWith"> Start Date: </label>
-            <input
-              type = "text"
-              name = "startsWith"           
-            />
+            <option value="">-- Choose an Event --</option>
+              {Object.keys(diffEvent).map((event) => (
+               <option key={event} value={event}>{event.slice(0)}</option>
+              ))}
+          </select>
 
+          {selectedEvent && (
+          <div>
+            <h3>{selectedEvent} Questions</h3>
+                {diffEvent[selectedEvent].map(({ question, type}, index) => (
+                  
+                  <div key={index}>
+                  <label>{question}</label>
+                  {type === "text" || type === "number" ? (
+                    <input
+                      type={type}
+                      value={answers[question] || ""}
+                      onChange={(e) => handleAnswerChange(question, e.target.value)}
+                    />
+                  ) : null}
+            </div>
+              
+          ))}
+          
+ 
+        </div>
+        
+      )}
 
-
+          <button onClick={handleNext}>Next</button>
 
         </div>
 
-
-
       )}
-
-
-
 
       </form>
 
@@ -382,5 +423,6 @@ function CreateScenario() {
 
   );
 }
+
 
 export default CreateScenario;  
