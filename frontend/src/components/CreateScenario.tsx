@@ -21,7 +21,8 @@ function CreateScenario() {
     lifeExpectancy: '',
     maritalStatus: '',
     birthYear: '' ,
-    investments: [] as any[]
+    investments: [] as any[],
+    events: [] as any[]
   })
 
   const [investment, setInvestment] = useState({
@@ -34,6 +35,40 @@ function CreateScenario() {
     incomeDistribution: '',
     taxability: ''
   })
+
+  // There are 4 different types of event
+  const [incomeEvents, setIncomeEvents] = useState({
+    initialAmount: '',
+    changeAmtOrPct: '',
+    changeDistribution: '',
+    inflationAdjusted: '',
+    userFraction: '',
+    socialSecurity: ''
+  })
+
+  const [expenseEvents, setExpenseEvents] = useState({
+    initialAmount: '',
+    changeAmtOrPct: '',
+    changeDistribution: '',
+    inflationAdjusted: '',
+    userFraction: '',
+    discretionary: ''
+
+  })
+
+  const [investEvents, setInvestEvents] = useState({
+    assetAllocation: '',
+    glidePath: '',
+    assetAllocation2: '',
+    maxCash: ''
+
+  })
+
+  const [rebalanceEvents, setRebalanceEvents] = useState({
+    assetAllocation: ''
+
+  })
+
 
   console.log(values);
 
@@ -217,7 +252,7 @@ function CreateScenario() {
 
       {formStep === 2 && (
         <div className='investment-container'>
-          <h3>Investment</h3>
+          <h3>Investments</h3>
 
           <label htmlFor = "investment-name">Investment Name: </label>
             <input
@@ -305,12 +340,30 @@ function CreateScenario() {
           <button type="button" onClick={() => setformStep(1)}>
             Back
           </button>
+
           <button onClick={handleNext}>Next</button>
+
+        </div>
+      )}
+      {formStep === 3 && (
+        <div className='event-page'>
+           <h3>Events</h3>
+           <label htmlFor = "eventName"> Event Name: </label>
+            <input
+              type = "text"
+              name = "eventName"           
+            />
+
+          <label htmlFor = "startsWith"> Start Date: </label>
+            <input
+              type = "text"
+              name = "startsWith"           
+            />
+
+
 
 
         </div>
-
-
 
 
 
