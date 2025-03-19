@@ -1,12 +1,13 @@
 from typing import List
-from investment import Investment
-from event_series import EventSeries, Expense
-from roth_optimizer import RothConvertOptimizer
-from rmd import RMD
-from user import User
-from results import SimulationResults
+from models.investment import Investment
+from models.event_series import EventSeries, Expense
+from models.roth_optimizer import RothConvertOptimizer
+from models.rmd import RMD
+from models.results import SimulationResults
 class Scenario:
-    def __init__(self, name:str, financial_goal:int, state:str, birth_yr: int, life_exp:int, ivmts: List[Investment], event_series: List[EventSeries], spending_strat: List[Expense], expense_withdrawal_strat: List[Investment], inflation_rate:float, roth_optimizer:RothConvertOptimizer, rmd_strat: RMD, pretax_ann_contribution:int, aftertax_ann_contribution: int, is_married: bool, spouse_name:str="", spouse_birth_yr:int=0, spouse_life_exp:int=0, shared:List[User]=[]):
+    def __init__(self, name:str, financial_goal:int, state:str, birth_yr: int, life_exp:int, ivmts: List[Investment], event_series: List[EventSeries], spending_strat: List[Expense], expense_withdrawal_strat: List[Investment], inflation_rate:float, roth_optimizer:RothConvertOptimizer, rmd_strat: RMD, pretax_ann_contribution:int, aftertax_ann_contribution: int, is_married: bool, spouse_name:str="", spouse_birth_yr:int=0, spouse_life_exp:int=0, shared:List=[]):
+        from models.user import User
+
         self.name=name
         self.financial_goal=financial_goal
         self.state=state
@@ -25,7 +26,8 @@ class Scenario:
         self.spouse_name=spouse_name
         self.spouse_birth_yr=spouse_birth_yr
         self.spouse_life_exp=spouse_life_exp
-        self.shared=shared
+
+        self.shared = [User(**user) if isinstance(user, dict) else user for user in self.shared]
         self.sim_results=[]
         
     def run(runs:int):

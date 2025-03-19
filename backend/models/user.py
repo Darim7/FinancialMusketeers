@@ -1,6 +1,7 @@
-from scenario import Scenario
+from models.scenario import Scenario
 from typing import Iterable
 from datetime import date
+
 class User:
     def __init__(self, name: str, email:str , profile_path:str, scenarios: Iterable[Scenario]=[]):
         self.name=name

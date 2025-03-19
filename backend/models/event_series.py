@@ -1,5 +1,5 @@
 from typing import List
-from investment import Investment, AssetType
+from models.investment import Investment, AssetType
 class EventSeries: 
     def __init__(self, name:str, description:str, start_yr:int, duration:int):
         self.name=name
