@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List, Dict, Self, Union
 import yaml
 
 from exportable import Exportable
@@ -6,7 +6,6 @@ from investment import Investment, AssetType
 from event_series import EventSeries, Expense
 from roth_optimizer import RothConvertOptimizer
 from rmd import RMD
-from user import User
 from results import SimulationResults
 
 class Scenario(Exportable):
@@ -31,7 +30,7 @@ class Scenario(Exportable):
             financial_goal: int,
             residence_state: str,
             pretax_contribution_limit: int = 0,
-            shared: List[User] = None
+            shared: List = None
         ):
 
         # Name
@@ -104,7 +103,7 @@ class Scenario(Exportable):
             "maritalStatus": "couple" if self.is_married else "individual",
             "birthYears": self._brith_years,
             "lifeExpectancy": self._life_expectancy,
-            "investmentTypes": self.ivmt_type,
+            "investmentTypes": [ivmt_type.to_dict() for ivmt_type in self.ivmt_type],
             "investments": [ivmt.to_dict() for ivmt in self.ivmts],
             "eventSeries": [es.to_dict() for es in self.event_series],
             "inflationAssumption": self.inflation_rate,
@@ -135,6 +134,7 @@ class Scenario(Exportable):
             sort_keys=False,
             default_flow_style=None,
             allow_unicode=True,
+            indent=2,
             width=120
         )
         
@@ -149,5 +149,50 @@ class Scenario(Exportable):
         # {type: GBM, mu: <number>, sigma: <number>}
         # percentages are represented by their decimal value, e.g., 4% is represented as 0.04.\n\n"""
         
-        with open(filename, 'w') as f:
+        with open(filename, 'x') as f:
             f.write(header + yaml_content)
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> Self:
+        """Factory method for creating from dictionary"""
+        return cls(
+            name=data['name'],
+            marital_status=data['maritalStatus'],
+            birth_years=data['birthYears'],
+            life_expectancy=data['lifeExpectancy'],
+            investment_types=[
+                AssetType.from_dict(it)
+                for it in data['investmentTypes']
+            ],
+            investments=[
+                Investment.from_dict(iv) 
+                for iv in data['investments']
+            ],
+            event_series=[
+                EventSeries.from_dict(es) 
+                for es in data['eventSeries']
+            ],
+            inflation_assumption=data['inflationAssumption'],
+            after_tax_contribution_limit=data['afterTaxContributionLimit'],
+            spending_strategy=data['spendingStrategy'],
+            expense_withdrawal_strategy=data['expenseWithdrawalStrategy'],
+            rmd_strategy=data['RMDStrategy'],
+            roth_conversion_opt=data['RothConversionOpt'],
+            roth_conversion_start=data['RothConversionStart'],
+            roth_conversion_end=data['RothConversionEnd'],
+            roth_conversion_strategy=data['RothConversionStrategy'],
+            financial_goal=data['financialGoal'],
+            residence_state=data['residenceState'],
+            pretax_contribution_limit=data.get('pretaxContributionLimit', 0)
+        )
+
+    @classmethod
+    def from_yaml(cls, filename: str) -> Self:
+        """Create Scenario from YAML file"""
+        with open(filename, 'r') as f:
+            data = yaml.safe_load(f)
+        return cls.from_dict(data)
+    
+if __name__ == '__main__':
+    s = Scenario.from_yaml("./tests/python_scripts_test/scenario.yaml")
+    s.export_yaml('test.yml')

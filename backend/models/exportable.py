@@ -14,7 +14,3 @@ class Exportable(ABC):
     @abstractmethod
     def to_dict(self) -> dict:
         """Convert instance to dictionary representation."""
-
-    @abstractmethod
-    def to_yaml(self, path: str):
-        """Export as a yaml file to the specific path."""

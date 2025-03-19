@@ -12,8 +12,8 @@ class AssetType(Exportable):
             incomeAmtOrPct: str,
             incomeDistribution: Dict,
             taxability: bool,
-            exp_ann_return: float,
-            exp_ann_recur_rev: float
+            # exp_ann_return: float,
+            # exp_ann_recur_rev: float
         ):
         self.name = name
         self.description = description
@@ -73,14 +73,14 @@ class AssetType(Exportable):
 class Investment(Exportable):
     def __init__(
             self,
-            investmentType: AssetType,
+            investmentType: str,
             value: str,
             taxStatus: str,
             id: str
         ):
-        self.asset_type=investmentType
-        self.value=value
-        self.tax_status=taxStatus
+        self.asset_type = investmentType
+        self.value = value
+        self.tax_status = taxStatus
         self.inviestment_id = id
 
     def to_dict(self) -> Dict:
