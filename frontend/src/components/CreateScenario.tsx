@@ -22,7 +22,6 @@ function CreateScenario({formInfo, saveForms}) {
 
   {/* Update user input change */}
   const [values, setValues] = useState({
-    name: '',
     scenarioName : '',
     states: '',
     retirementAge : '',
@@ -37,7 +36,6 @@ function CreateScenario({formInfo, saveForms}) {
   useEffect(() => {
     console.log('formData:', formInfo);
     setValues({
-      name: formInfo.name || '',
       scenarioName: formInfo.scenarioName || '',
       states: formInfo.details || '',
       retirementAge: formInfo.retirementAge || '',
@@ -50,8 +48,6 @@ function CreateScenario({formInfo, saveForms}) {
     });
 }, [formInfo]);
 
-
-  
 
 
   const [investment, setInvestment] = useState({
@@ -130,18 +126,24 @@ function CreateScenario({formInfo, saveForms}) {
 
   console.log("test Here", values);
 
-  {/* Handle user input change */}
-  {/* Store in array because of multiple input */}
-  const handleChanges = (e:React.ChangeEvent<any>) =>{
-    setValues({...values, [e.target.name]:[e.target.value]})
+ 
+   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+          const { name, value } = e.target;
+  
+          setValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+          }));
+      
+          //When user edits, it updates
+          saveForms((prevForms) =>
+            prevForms.map((form) =>
+            // Finds the form by ID and set the name == Scenario Name so user can see
+            form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
 
-    saveForms((prevForms) =>
-      prevForms.map((form) =>
-          form.id === formInfo.id ? { ...form, [e.target.name]: e.target.value } : form
-      )
-    );
-
-  };
+            )
+          );
+        };
 
   
 
@@ -232,16 +234,8 @@ function CreateScenario({formInfo, saveForms}) {
 
       <form>
 
-      {/* <Button variant="primary" onClick={handleShow}>
-      Launch demo modal
-      </Button> */}
       {formStep === 1 && (
-        
-      //  <Modal  show={show} onHide={handleClose}>
-
-
-       
-           
+              
       <div className="label-container">
         
         <label htmlFor="scenario-name"> Scenario Name:</label> 

@@ -2,15 +2,14 @@
 import React from 'react';
 import './Overview.css';
 import './Scenario.css';
-// import CreateScenario from '../components/CreateScenario';
+import CreateScenario from '../components/CreateScenario';
 import NavBar from '../components/NavBar';
 import { useNavigate} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
-import CreateScenario from '../components/testCreate'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Prev } from 'react-bootstrap/esm/PageItem';
+
 
 
 
@@ -22,7 +21,7 @@ function Scenario() {
     const [saveForms, setSaveForms] = useState<{ id: number; name: string; details: string; }[]>([])
 
     //Current Scenario Form
-    const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string; details: string; } | null>(null);
+    const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string;} | null>(null);
     
 
     const handleClose = () => setShow(false);
@@ -31,17 +30,21 @@ function Scenario() {
     const handleCreateNew = () => {
         const newScenario = {id: Date.now(), name: ''};
         
-        setSaveForms((prev) => [...prev, newScenario]); // Store previous forms
-        setScenarioForm(newScenario); // Set the new form as active
+        setSaveForms((prev) => [...prev, newScenario]); // Store the form user just created 
+
+        setScenarioForm(newScenario);  // New form 
         handleShow();
     };
+  
 
+    
     const handleViewForm = (form) => {
         setScenarioForm(form);
         handleShow();
     };
 
     console.log(scenarioForm);
+    
     return (
         
         <div className='scenario'>
@@ -67,15 +70,16 @@ function Scenario() {
                     ))}
 
                 </div>
-            )} 
+            )}  
+
 
            
             <Modal show={show} onHide={handleClose}>
 
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        {/* If there exist a scenario: Edit, Else: Create */}
-                        {scenarioForm ? "Edit Scenario" : "Create Scenario"}
+                        Edit Scenario
+                        {/* {scenarioForm ? "Edit Scenario" : "Create Scenario"} */}
 
                         </Modal.Title>
 
@@ -83,13 +87,13 @@ function Scenario() {
 
                 
                 <Modal.Body>
-                
-                    {scenarioForm && (
+
+            {scenarioForm && (
                         
                         <CreateScenario
-                           formData={scenarioForm}
-                           setSaveForms={setSaveForms}/>
-                    )}
+                           formInfo={scenarioForm}
+                           saveForms={setSaveForms}/>
+                    )} 
                     
                 </Modal.Body> 
                     <Modal.Footer>
