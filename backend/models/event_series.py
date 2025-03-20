@@ -1,44 +1,74 @@
-from typing import List
-from models.investment import Investment, AssetType
-class EventSeries: 
-    def __init__(self, name:str, description:str, start_yr:int, duration:int):
-        self.name=name
-        self.description=description
-        self.start_yr=start_yr
-        self.duration=duration
+from typing import List, Self, Dict
+from exportable import Exportable
+from investment import Investment, AssetType
+
+class EventSeries(Exportable): 
+    def __init__(
+            self,
+            name: str,
+            start: int,
+            duration: int,
+            type: str,
+            data: Dict
+        ):
+        self.name = name
+        self.start = start
+        self.duration = duration
+        self.type = type
+        self.data = data
+
+    def to_dict(self) -> Dict:
+        return self.data
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> Self:
+        return cls(
+            name=data['name'],
+            start=data['start'],
+            duration=data['duration'],
+            type=data['type'],
+            data=data
+        )
 
 class Income(EventSeries):
-    def __init__(self, name:str, description:str, start_yr:int, duration:int, is_wages:bool, init_amt: float, exp_ann_change_in_amt: float, is_inflation_adj: bool, spouse_percentage:float):
-        super().__init__(name, description, start_yr, duration)
-        self.is_wages=is_wages
-        self.init_amt=init_amt
-        self.exp_ann_change_in_amt=exp_ann_change_in_amt
-        self.is_inflation_adj=is_inflation_adj
-        self.spouse_percentage=spouse_percentage
+    def __init__(self, eventSerie: EventSeries):
+        data = eventSerie.data
+        self.initalAmount = data['initialAmount']
+        self.changeAmtOrPct = data['changeAmtOrPct']
+        self.changeDistribution = data['changeDistribution']
+        self.inflationAdjusted = data['inflationAdjusted']
+        self.userFraction = data['userFraction']
+        self.socialSecurity = data['socialSecurity']
 
 class Expense(EventSeries):
-    def __init__(self, name:str, description:str, start_yr:int, duration:int, is_discretionary:bool, init_amt:float, exp_ann_change_in_amt: float, is_inflation_adj: bool, spouse_percentage:float):
-        super().__init__(name, description, start_yr, duration)
-        self.is_discretionary=is_discretionary
-        self.init_amt=init_amt
-        self.exp_ann_change_in_amt=exp_ann_change_in_amt
-        self.is_inflation_adj=is_inflation_adj
-        self.spouse_percentage=spouse_percentage
+    def __init__(self, eventSerie: EventSeries):
+        data = eventSerie.data
+        self.is_discretionary = data['discretionary']
+
+        self.initalAmount = data['initialAmount']
+        self.changeAmtOrPct = data['changeAmtOrPct']
+        self.changeDistribution = data['changeDistribution']
+        self.inflationAdjusted = data['inflationAdjusted']
+        self.userFraction = data['userFraction']
 
 class Invest(EventSeries):
-    def __init__(self, name:str, description:str, start_yr:int, duration:int, asset_allocation:List[float], selected_invest: List[Investment], max_cash: float):
-        super().__init__(name, description, start_yr, duration)
-        self.asset_allocation=asset_allocation
-        self.selected_invest=selected_invest
-        self.max_cash=max_cash
+    def __init__(self, eventSerie: EventSeries):
+        data = eventSerie.data
+
+        self.assetAllocation = data['assetAllocation']
+        self.glidePath = data['glidePath']
+        self.assetAllocation2 = data['assetAllocation2'] if self.glidePath else None
+        self.maxCash = data['maxCash']
+
     def calculate_excess(self,cash:float)->float:
-        pass
+        return -1
         
 
 class Rebalance(EventSeries):
-    def __init__(self, name:str, description:str, start_yr:int, duration:int, asset_allocation:List[float], investments:List[Investment]):
-        super().__init__(name, description, start_yr, duration)
-        self.asset_allocation=asset_allocation
-        self.investments=investments
+    def __init__(self, eventSerie: EventSeries):
+        data = eventSerie.data
+
+        self.assetAllocation = data['assetAllocation']
+
     def rebalance(self)->List[Investment]:
         pass
