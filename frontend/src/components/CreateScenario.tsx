@@ -206,12 +206,15 @@ function CreateScenario({formInfo, saveForms}) {
       // Update if editing
       //setValues({...values, investments: updatedInvestment})
     setValues({...values, investments: [...values.investments, investment]});
+
+    
     closeInvestmentModal();
   }
   
 
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
     setInvestment({...investment, [e.target.name]:e.target.value});
+
   };
 
   const addInvestment = (e:React.ChangeEvent<any>) => {
