@@ -1,7 +1,7 @@
 from typing import List
-from investment import Investment
+from models.investment import Investment
 class RothConvertOptimizer:
-    def __init__(self, start:int, end: int, ord_tax_deferred_ivmts:List[Investment]):
+    def __init__(self, start:int, end: int, ord_tax_deferred_ivmts:List[str]):
         self.start=start
         self.end=end
         self.ord_tax_deferred_ivmts=ord_tax_deferred_ivmts

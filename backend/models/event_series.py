@@ -1,6 +1,6 @@
 from typing import List, Self, Dict
-from exportable import Exportable
-from investment import Investment, AssetType
+from models.exportable import Exportable
+from models.investment import Investment, AssetType
 
 class EventSeries(Exportable): 
     def __init__(

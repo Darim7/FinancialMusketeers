@@ -1,15 +1,13 @@
 from flask import Flask, request, jsonify, send_file
-from pymongo import MongoClient
 import os
 import logging
+
+from dbconn import mongo_client
 
 app = Flask(__name__)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
-
-# Connect to the db
-db = MongoClient(host=['mongodb://root:example@mongodb:27017'])
 
 @app.route('/api/test')
 def test():
@@ -26,3 +24,8 @@ if __name__ == "__main__":
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)
     app.logger.info('Stopping Flask application')
+
+    # Close the database connection.
+    app.logger.info('Closing the database connection')
+    mongo_client.close()
+    app.logger.info('Database connection closed')

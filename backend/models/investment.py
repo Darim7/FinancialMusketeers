@@ -1,5 +1,5 @@
 from typing import Dict, Self, List
-from exportable import Exportable
+from models.exportable import Exportable
 
 class AssetType(Exportable):
     def __init__(
