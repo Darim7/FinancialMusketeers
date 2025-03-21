@@ -21,6 +21,26 @@ function CreateScenario({formInfo, saveForms}) {
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
 
+
+  /*********** Define types for Investment and Events *********/ 
+  // type Investment = {
+  //   id: number;
+  //   investmentName: string;
+  //   description: string;
+  //   returnAmtOrPct: string;
+  //   returnDistribution: string;
+  //   expenseRatio: string;
+  //   incomeAmtOrPct: string;
+  //   incomeDistribution: string;
+  //   taxability: string;
+  // }
+
+  // type Event = {
+
+  // }
+
+  /*************************************************************/
+
   {/* Update user input change */}
   const [values, setValues] = useState({
     scenarioName : '',
@@ -60,16 +80,7 @@ function CreateScenario({formInfo, saveForms}) {
     incomeDistribution: '',
     taxability: ''
   })
-  // const [currentInvestment, setCurrentInvestment] = useState({
-  //   investmentName: '',
-  //   description: '',
-  //   returnAmtOrPct: '',
-  //   returnDistribution: '',
-  //   expenseRatio: '',
-  //   incomeAmtOrPct: '',
-  //   incomeDistribution: '',
-  //   taxability: ''
-  // })
+
   const [isEditingInvestment, setIsEditingInvestment] = useState(false);
 
 
@@ -177,16 +188,6 @@ function CreateScenario({formInfo, saveForms}) {
 
   const [showInvestmentModal, setShowInvestmentModal] = useState(false)
   const newInvestmentModal = () => {
-    setInvestment({
-      investmentName: '',
-      description: '',
-      returnAmtOrPct: '',
-      returnDistribution: '',
-      expenseRatio: '',
-      incomeAmtOrPct: '',
-      incomeDistribution: '',
-      taxability: ''
-    });
     setIsEditingInvestment(false);
     setShowInvestmentModal(true);
   }
@@ -201,13 +202,39 @@ function CreateScenario({formInfo, saveForms}) {
     setShowInvestmentModal(false);
   }
 
-  const saveInvestment = () => {
+  const saveInvestment = (e) => {
   
       // Update if editing
       //setValues({...values, investments: updatedInvestment})
-    setValues({...values, investments: [...values.investments, investment]});
-
+    const updatedInvestments = [...values.investments, investment];
+    // Update the local state with the new investments array
+    setValues(prevValues => ({
+      ...prevValues,
+      investments: updatedInvestments
+    }));
+    saveForms(prevForms => 
+      prevForms.map(form => 
+        form.id === formInfo.id 
+          ? { 
+              ...form, 
+              investments: updatedInvestments  // Pass the complete updated investments array
+            } 
+          : form
+      )
+    );
+    // Reset the investment form fields
+    setInvestment({
+      investmentName: '',
+      description: '',
+      returnAmtOrPct: '',
+      returnDistribution: '',
+      expenseRatio: '',
+      incomeAmtOrPct: '',
+      incomeDistribution: '',
+      taxability: ''
+    });
     
+    // Close the modal
     closeInvestmentModal();
   }
   
@@ -234,38 +261,17 @@ function CreateScenario({formInfo, saveForms}) {
   /******************** Investment Functions *************************************/
 
   /******************** Event Functions *************************************/
-  const [showEventModal, setShowEventModal] = useState(false)
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [isEditingEvent, setIsEditingEvent] = useState(false);
 
   const newEventCard = (e:React.ChangeEvent<any>) => {
-    const newEventModal = () => {
-      setInvestment({
-        investmentName: '',
-        description: '',
-        returnAmtOrPct: '',
-        returnDistribution: '',
-        expenseRatio: '',
-        incomeAmtOrPct: '',
-        incomeDistribution: '',
-        taxability: ''
-      });
-      setIsEditingInvestment(false);
-      setShowInvestmentModal(true);
-    }
+      setIsEditingEvent(false);
+      setShowEventModal(true);
   }
 
   const addNewEvent = (e:React.ChangeEvent<any>) => {
-    setInvestment({
-      investmentName: '',
-      description: '',
-      returnAmtOrPct: '',
-      returnDistribution: '',
-      expenseRatio: '',
-      incomeAmtOrPct: '',
-      incomeDistribution: '',
-      taxability: ''
-    });
-    setIsEditingInvestment(false);
-    setShow(true);
+    setIsEditingEvent(false);
+    setShowEventModal(true);
   }
 
   const closeEventModal = () => {
@@ -273,7 +279,25 @@ function CreateScenario({formInfo, saveForms}) {
   }
 
   const saveEventModal = () => {
-
+    const updatedEvent = [...values.events, event];
+    // Update the local state with the new investments array
+    setValues(prevValues => ({
+      ...prevValues,
+      events: updatedEvent
+    }));
+    saveForms(prevForms => 
+      prevForms.map(form => 
+        form.id === formInfo.id 
+          ? { 
+              ...form, 
+              events: updatedEvent
+                // Pass the complete updated investments array
+            } 
+          : form
+      )
+    );
+    closeEventModal();
+    // Reset the investment form fields
   }
   /******************** Event Functions *************************************/
 
@@ -453,100 +477,6 @@ function CreateScenario({formInfo, saveForms}) {
           <Button variant='light' onClick={handleBack}>Back</Button>
           <Button variant='light' onClick={handleNext}>Next</Button> 
         </div>
-        // <div className='investment-container'>
-        //   <h3>Investments</h3>
-
-        //   <label htmlFor = "investment-name">Investment Name: </label>
-        //     <input
-        //       type = "text"
-        //       name = "investmentName"
-        //       value={investment.investmentName}
-        //       onChange={handleInvestmentChange}
-        //     />
-
-        //   <label htmlFor = "description"> Description: </label>
-        //     <input
-        //       type = "text"
-        //       name = "description"    
-        //       value={investment.description}
-        //       onChange={handleInvestmentChange}
-        //     />
-
-        //   {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
-        //     from a Markov Process
-        //   */}
-        //   <label htmlFor = "return-amount"> Return Amount or Percent: </label>
-        //     <input
-        //       type = "text"
-        //       name = "returnAmtOrPct"     
-        //       value={investment.returnAmtOrPct}
-        //       onChange={handleInvestmentChange}
-        //     />
-          
-        //   {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
-        //     from a Markov Process
-        //   */}
-        //   <label htmlFor = "return-distribution"> Return Distribution: </label>
-        //     <input
-        //       type = "text"
-        //       name = "returnDistribution"    
-        //       value={investment.returnDistribution}
-        //       onChange={handleInvestmentChange}
-        //     />
-
-        //   <label htmlFor = "expense-ratio"> Expense Ratio: </label>
-        //     <input
-        //       type = "number"
-        //       name = "expenseRatio" 
-        //       value={investment.expenseRatio}
-        //       onChange={handleInvestmentChange}
-        //     />
-
-        //   <label htmlFor = "income-amount"> Income Amount or Percent: </label>
-        //     <input
-        //       type = "text"
-        //       name = "incomeAmtOrPct" 
-        //       value={investment.incomeAmtOrPct}
-        //       onChange={handleInvestmentChange}
-        //     />
-          
-        //   <label htmlFor = "income-distribution"> Income Distribution: </label>
-        //     <input
-        //       type = "text"
-        //       name = "incomeDistribution"  
-        //       value={investment.incomeDistribution}
-        //       onChange={handleInvestmentChange}
-        //     />
-
-        //   <label htmlFor = "taxability"> Taxability: </label>
-        //     <input
-        //       type = "radio"
-        //       id = "Taxable"
-        //       value = "Taxable"
-        //       name = "taxability"
-        //       checked={investment.taxability === "Taxable"}
-        //       onChange={handleInvestmentChange}
-        //     /> Taxable
-        //     <input 
-        //       type ="radio"
-        //       id = "Tax-Exempt"
-        //       name=  "taxability"     
-        //       value = "Tax-Exempt"
-        //       checked={investment.taxability === "Tax-Exempt"}
-        //       onChange={handleInvestmentChange}
-        //     /> Tax-Exempt
-          
-          
-        //   <button type='button' onClick={addInvestment}>Add Investment</button>
-
- 
-        //   <button type="button" onClick={() => setformStep(1)}>
-        //     Back
-        //   </button>
-
-        //   <button onClick={handleNext}>Next</button>
-
-        // </div>
       )}
       {formStep === 3 && (
         <div className='events-container'>
@@ -574,16 +504,16 @@ function CreateScenario({formInfo, saveForms}) {
       //      <h3>Events</h3>
           
       //     <label htmlFor="type-of-event"> Type of Event:</label>
-      //     <select
-      //       id = "typeOfEvents"
-      //       name = "typeOfEvents"
-      //       onChange={handleEventChange} value={selectedEvent}>
+          // <select
+          //   id = "typeOfEvents"
+          //   name = "typeOfEvents"
+          //   onChange={handleEventChange} value={selectedEvent}>
 
-      //       <option value="">-- Choose an Event --</option>
-      //         {Object.keys(diffEvent).map((event) => (
-      //          <option key={event} value={event}>{event.slice(0)}</option>
-      //         ))}
-      //     </select>
+          //   <option value="">-- Choose an Event --</option>
+          //     {Object.keys(diffEvent).map((event) => (
+          //      <option key={event} value={event}>{event.slice(0)}</option>
+          //     ))}
+          // </select>
 
       //     {selectedEvent && (
       //     <div>
@@ -754,9 +684,6 @@ function CreateScenario({formInfo, saveForms}) {
         </div>
         
       )}
-
-          <button onClick={handleNext}>Next</button>
-
         </div>
           </Modal.Body>
           <Modal.Footer>
