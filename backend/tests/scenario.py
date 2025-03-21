@@ -29,8 +29,9 @@ def test_import_individual():
 
     scenario=Scenario.from_yaml(file_name)
     
-    assert scenario_yaml==scenario
-    
+    assert scenario_yaml.verify_yaml_to_scenario(scenario)==True
 
 # TODO: Scenario Export 
+
+
 # export_yaml(self, filename) 

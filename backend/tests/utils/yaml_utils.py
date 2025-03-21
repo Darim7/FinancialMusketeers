@@ -258,7 +258,7 @@ class ScenarioYamlUtils:
     def compare_residence_state(self, scenario:Scenario):
         return self.get_residence_state()==scenario.get_residence_state()
 
-    def __eq__(self, scenario:Scenario):
+    def verify_yaml_to_scenario(self, scenario:Scenario):
         return self.compare_name(scenario) and \
             self.compare_marital_status(scenario) and \
             self.compare_birth_years(scenario) and \
