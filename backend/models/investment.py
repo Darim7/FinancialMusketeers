@@ -1,5 +1,5 @@
 from typing import Dict, Self, List
-from exportable import Exportable
+from models.exportable import Exportable
 
 class AssetType(Exportable):
     def __init__(
@@ -47,14 +47,18 @@ class AssetType(Exportable):
         return self.name
     def get_description(self)-> str:
         return self.description
-    def get_exp_ann_return(self)-> float:
-        return self.exp_ann_return
+    def get_return_amt_or_pct(self)->str:
+        return self.returnAmtOrPct
+    def get_return_distribution(self)->Dict:
+        return self.returnDistribution
     def get_expense_ratio(self)-> float:
-        return self.expense_ratio
-    def get_exp_ann_recur_rev(self)-> float:
-        return self.exp_ann_recur_rev
+        return self.expenseRatio
+    def get_income_amt_or_pct(self)->str:
+        return self.incomeAmtOrPct
+    def get_income_distribution(self)->Dict:
+        return self.incomeDistribution
     def get_taxable(self)-> bool:
-        return self.is_taxable
+        return self.taxability
     
     # NOTE: Don't know if this is needed, but I added this here.
     def set_name(self, name:str):
@@ -81,20 +85,29 @@ class Investment(Exportable):
         self.asset_type = investmentType
         self.value = value
         self.tax_status = taxStatus
-        self.inviestment_id = id
+        self.investment_id = id
 
     def to_dict(self) -> Dict:
         return {
             "investmentType": self.asset_type,
             "value": self.value,
             "taxStatus": self.tax_status,
-            "id": self.inviestment_id
+            "id": self.investment_id
         }
     
     @classmethod
     def from_dict(cls, data: Dict) -> 'Investment':
         return cls(**data)
         
+    def get_asset_type(self)->str:
+        return self.asset_type
+    def get_value(self):
+        return self.value
+    def get_tax_status(self):
+        return self.tax_status
+    def get_investment_id(self):
+        return self.investment_id
+    
     ### TODO: Below are to be implemented
     # Utilities for investments
     def update(self):
