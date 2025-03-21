@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 function CreateScenario({formInfo, saveForms}) {
 
   // const [currData, setCurrData] = useState(formInfo);
-  console.log('test:', formInfo); 
+  // console.log('test:', formInfo); 
 
 
   // {/* Allow user to pick a state */}
@@ -61,11 +61,7 @@ function CreateScenario({formInfo, saveForms}) {
     taxability: ''
   })
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+ 
 
   // There are 4 different types of event
   const diffEvent = {
@@ -124,26 +120,28 @@ function CreateScenario({formInfo, saveForms}) {
     setAnswers((prev) => ({ ...prev, [question]: value }));
   };
 
-  console.log("test Here", values);
+  // console.log("test Here", values);
 
  
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-          const { name, value } = e.target;
-  
-          setValues((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-          }));
-      
-          //When user edits, it updates
-          saveForms((prevForms) =>
-            prevForms.map((form) =>
-            // Finds the form by ID and set the name == Scenario Name so user can see
-            form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
 
-            )
-          );
-        };
+    // All the declared variable and its values
+    const { name, value } = e.target;
+  
+    setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+    }));
+      
+    //Loop through the form 
+    saveForms((prevForms) =>
+      prevForms.map((form) =>
+      // Finds the form by ID and set the name == Scenario Name so user can see
+      form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
+
+      )
+      );
+    };
 
   
 
