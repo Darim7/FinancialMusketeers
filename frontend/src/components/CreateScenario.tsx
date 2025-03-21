@@ -1,10 +1,11 @@
 // Create Scenario Page
-import React from 'react';
+import React, { ReactComponentElement } from 'react';
 import {useState, useEffect } from 'react';
 // import './CreateScenario.css';
 import Scenario from '../pages/Scenarios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 
 
@@ -48,8 +49,7 @@ function CreateScenario({formInfo, saveForms}) {
     });
 }, [formInfo]);
 
-
-
+  {/*Show current investment modal*/}
   const [investment, setInvestment] = useState({
     investmentName: '',
     description: '',
@@ -60,8 +60,24 @@ function CreateScenario({formInfo, saveForms}) {
     incomeDistribution: '',
     taxability: ''
   })
+  // const [currentInvestment, setCurrentInvestment] = useState({
+  //   investmentName: '',
+  //   description: '',
+  //   returnAmtOrPct: '',
+  //   returnDistribution: '',
+  //   expenseRatio: '',
+  //   incomeAmtOrPct: '',
+  //   incomeDistribution: '',
+  //   taxability: ''
+  // })
+  const [isEditingInvestment, setIsEditingInvestment] = useState(false);
 
- 
+
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   // There are 4 different types of event
   const diffEvent = {
@@ -144,11 +160,55 @@ function CreateScenario({formInfo, saveForms}) {
     };
 
   
-
+  /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting
     setformStep(formStep + 1);
   };
+
+  const handleBack = (e:React.ChangeEvent<any>) => {
+    e.preventDefault();
+    setformStep(formStep - 1);
+  }
+  /******************* Handles Pagination ****************************************/
+  
+
+  /******************** Investment Functions *************************************/
+
+  const [showInvestmentModal, setShowInvestmentModal] = useState(false)
+  const newInvestmentModal = () => {
+    setInvestment({
+      investmentName: '',
+      description: '',
+      returnAmtOrPct: '',
+      returnDistribution: '',
+      expenseRatio: '',
+      incomeAmtOrPct: '',
+      incomeDistribution: '',
+      taxability: ''
+    });
+    setIsEditingInvestment(false);
+    setShowInvestmentModal(true);
+  }
+
+  const editInvestmentModal = (investment) => {
+    setInvestment({...investment});
+    setIsEditingInvestment(true);
+    setShowInvestmentModal(true);
+  }
+
+  const closeInvestmentModal = () => {
+    setShowInvestmentModal(false);
+  }
+
+  const saveInvestment = () => {
+  
+      // Update if editing
+      //setValues({...values, investments: updatedInvestment})
+    setValues({...values, investments: [...values.investments, investment]});
+    closeInvestmentModal();
+  }
+  
 
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
     setInvestment({...investment, [e.target.name]:e.target.value});
@@ -168,8 +228,51 @@ function CreateScenario({formInfo, saveForms}) {
       taxability: ''
     })
   }
+  /******************** Investment Functions *************************************/
 
+  /******************** Event Functions *************************************/
+  const [showEventModal, setShowEventModal] = useState(false)
 
+  const newEventCard = (e:React.ChangeEvent<any>) => {
+    const newEventModal = () => {
+      setInvestment({
+        investmentName: '',
+        description: '',
+        returnAmtOrPct: '',
+        returnDistribution: '',
+        expenseRatio: '',
+        incomeAmtOrPct: '',
+        incomeDistribution: '',
+        taxability: ''
+      });
+      setIsEditingInvestment(false);
+      setShowInvestmentModal(true);
+    }
+  }
+
+  const addNewEvent = (e:React.ChangeEvent<any>) => {
+    setInvestment({
+      investmentName: '',
+      description: '',
+      returnAmtOrPct: '',
+      returnDistribution: '',
+      expenseRatio: '',
+      incomeAmtOrPct: '',
+      incomeDistribution: '',
+      taxability: ''
+    });
+    setIsEditingInvestment(false);
+    setShow(true);
+  }
+
+  const closeEventModal = () => {
+    setShowEventModal(false);  
+  }
+
+  const saveEventModal = () => {
+
+  }
+  /******************** Event Functions *************************************/
 
   const states = [
     { value: 'AL', label: 'Alabama' },
@@ -326,6 +429,196 @@ function CreateScenario({formInfo, saveForms}) {
       {formStep === 2 && (
         <div className='investment-container'>
           <h3>Investments</h3>
+          <Button variant='primary' onClick={newInvestmentModal}>
+            + Add New Investment
+          </Button>
+          
+          {values.investments.length > 0 ? (
+            <div className='investmentLists'>
+                {values.investments.map((investment, index) => (
+                  <Card key={index} className='investmentCards' onClick={() => editInvestmentModal(investment)}>
+                    <Card.Body>
+                      <Card.Title>{investment.investmentName}</Card.Title>
+                      <Card.Text>{investment.description}</Card.Text>
+                    </Card.Body>
+                  </Card>  
+                ))}
+            </div>
+          ) : (
+            <p>No Events</p>
+          )}
+          <Button variant='light' onClick={handleBack}>Back</Button>
+          <Button variant='light' onClick={handleNext}>Next</Button> 
+        </div>
+        // <div className='investment-container'>
+        //   <h3>Investments</h3>
+
+        //   <label htmlFor = "investment-name">Investment Name: </label>
+        //     <input
+        //       type = "text"
+        //       name = "investmentName"
+        //       value={investment.investmentName}
+        //       onChange={handleInvestmentChange}
+        //     />
+
+        //   <label htmlFor = "description"> Description: </label>
+        //     <input
+        //       type = "text"
+        //       name = "description"    
+        //       value={investment.description}
+        //       onChange={handleInvestmentChange}
+        //     />
+
+        //   {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
+        //     from a Markov Process
+        //   */}
+        //   <label htmlFor = "return-amount"> Return Amount or Percent: </label>
+        //     <input
+        //       type = "text"
+        //       name = "returnAmtOrPct"     
+        //       value={investment.returnAmtOrPct}
+        //       onChange={handleInvestmentChange}
+        //     />
+          
+        //   {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
+        //     from a Markov Process
+        //   */}
+        //   <label htmlFor = "return-distribution"> Return Distribution: </label>
+        //     <input
+        //       type = "text"
+        //       name = "returnDistribution"    
+        //       value={investment.returnDistribution}
+        //       onChange={handleInvestmentChange}
+        //     />
+
+        //   <label htmlFor = "expense-ratio"> Expense Ratio: </label>
+        //     <input
+        //       type = "number"
+        //       name = "expenseRatio" 
+        //       value={investment.expenseRatio}
+        //       onChange={handleInvestmentChange}
+        //     />
+
+        //   <label htmlFor = "income-amount"> Income Amount or Percent: </label>
+        //     <input
+        //       type = "text"
+        //       name = "incomeAmtOrPct" 
+        //       value={investment.incomeAmtOrPct}
+        //       onChange={handleInvestmentChange}
+        //     />
+          
+        //   <label htmlFor = "income-distribution"> Income Distribution: </label>
+        //     <input
+        //       type = "text"
+        //       name = "incomeDistribution"  
+        //       value={investment.incomeDistribution}
+        //       onChange={handleInvestmentChange}
+        //     />
+
+        //   <label htmlFor = "taxability"> Taxability: </label>
+        //     <input
+        //       type = "radio"
+        //       id = "Taxable"
+        //       value = "Taxable"
+        //       name = "taxability"
+        //       checked={investment.taxability === "Taxable"}
+        //       onChange={handleInvestmentChange}
+        //     /> Taxable
+        //     <input 
+        //       type ="radio"
+        //       id = "Tax-Exempt"
+        //       name=  "taxability"     
+        //       value = "Tax-Exempt"
+        //       checked={investment.taxability === "Tax-Exempt"}
+        //       onChange={handleInvestmentChange}
+        //     /> Tax-Exempt
+          
+          
+        //   <button type='button' onClick={addInvestment}>Add Investment</button>
+
+ 
+        //   <button type="button" onClick={() => setformStep(1)}>
+        //     Back
+        //   </button>
+
+        //   <button onClick={handleNext}>Next</button>
+
+        // </div>
+      )}
+      {formStep === 3 && (
+        <div className='events-container'>
+          <h3>Events</h3>
+          <Button variant='primary' onClick={addNewEvent}>
+            + Add New Event
+          </Button>
+        {values.events.length > 0 ? (
+          <div className='eventsList'>
+              {values.events.map((event, index) => (
+                <Card key={index} className='eventCards' onClick={() => newEventCard(event)}>
+                  <Card.Body>
+                    <Card.Title>Event# {index}</Card.Title>
+                  </Card.Body>
+                </Card>  
+              ))}
+          </div>
+        ) : (
+          <p>No Events</p>
+        )}
+        <Button variant='light' onClick={handleBack}>Back</Button>
+        <Button variant='light' onClick={handleNext}>Next</Button> 
+      </div>
+      //   <div className='event-page'>
+      //      <h3>Events</h3>
+          
+      //     <label htmlFor="type-of-event"> Type of Event:</label>
+      //     <select
+      //       id = "typeOfEvents"
+      //       name = "typeOfEvents"
+      //       onChange={handleEventChange} value={selectedEvent}>
+
+      //       <option value="">-- Choose an Event --</option>
+      //         {Object.keys(diffEvent).map((event) => (
+      //          <option key={event} value={event}>{event.slice(0)}</option>
+      //         ))}
+      //     </select>
+
+      //     {selectedEvent && (
+      //     <div>
+      //       <h3>{selectedEvent} Questions</h3>
+      //           {diffEvent[selectedEvent].map(({ question, type}, index) => (
+                  
+      //             <div key={index}>
+      //             <label>{question}</label>
+      //             {type === "text" || type === "number" ? (
+      //               <input
+      //                 type={type}
+      //                 value={answers[question] || ""}
+      //                 onChange={(e) => handleAnswerChange(question, e.target.value)}
+      //               />
+      //             ) : null}
+      //       </div>
+              
+      //     ))}
+          
+ 
+      //   </div>
+        
+      // )}
+
+      //     <button onClick={handleNext}>Next</button>
+
+      //   </div>
+
+      )}
+
+      </form>
+      
+      {/* Investment Modal */}
+      <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
+        <Modal.Header closeButton> </Modal.Header>
+        <Modal.Body>
+        <div className='investment-container'>
+          <h3>Investments</h3>
 
           <label htmlFor = "investment-name">Investment Name: </label>
             <input
@@ -406,21 +699,23 @@ function CreateScenario({formInfo, saveForms}) {
               checked={investment.taxability === "Tax-Exempt"}
               onChange={handleInvestmentChange}
             /> Tax-Exempt
-          
-          
-          <button type='button' onClick={addInvestment}>Add Investment</button>
-
- 
-          <button type="button" onClick={() => setformStep(1)}>
-            Back
-          </button>
-
-          <button onClick={handleNext}>Next</button>
-
         </div>
-      )}
-      {formStep === 3 && (
-        <div className='event-page'>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='danger' onClick={closeInvestmentModal}>
+            Cancel
+          </Button>
+          <Button variant='primary' onClick={saveInvestment}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    
+      {/* Events Modal */}
+      <Modal show={showEventModal} onHide={closeEventModal} centered>
+        <Modal.Header closeButton> </Modal.Header>
+          <Modal.Body>
+          <div className='event-page'>
            <h3>Events</h3>
           
           <label htmlFor="type-of-event"> Type of Event:</label>
@@ -439,7 +734,6 @@ function CreateScenario({formInfo, saveForms}) {
           <div>
             <h3>{selectedEvent} Questions</h3>
                 {diffEvent[selectedEvent].map(({ question, type}, index) => (
-                  
                   <div key={index}>
                   <label>{question}</label>
                   {type === "text" || type === "number" ? (
@@ -461,16 +755,18 @@ function CreateScenario({formInfo, saveForms}) {
           <button onClick={handleNext}>Next</button>
 
         </div>
-
-      )}
-
-      </form>
-
-    
-    
+          </Modal.Body>
+          <Modal.Footer>
+          <Button variant='danger' onClick={closeEventModal}>
+            Cancel
+          </Button>
+          <Button variant='primary' onClick={saveEventModal}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
 
-  
 
   );
 }
