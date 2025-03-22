@@ -1,8 +1,13 @@
+import re
 from flask import Flask, request, jsonify, send_file
 import os
 import logging
 
-from dbconn import mongo_client
+from flask.config import T
+
+from backend.models.user import User
+from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
+from models.scenario import Scenario
 
 app = Flask(__name__)
 
@@ -19,6 +24,95 @@ def test():
 def hello():
     app.logger.info('Serving the HTML page')
     return send_file('index.html')
+
+@app.route('/api/get_scenario', methods=['GET'])
+def get_scenario():
+    try:
+        # Get the scenario ID from the query parameters
+        scenario_id = request.args.get('id')
+        
+        if not scenario_id:
+            return jsonify({"error": "Scenario ID is required"}), 400
+        
+        # Find the scenario by ID
+        scenario = find_document(SCENARIO_COLLECTION, {"_id": scenario_id})
+        
+        if scenario:
+            # Convert ObjectId to string for JSON serialization
+            scenario['_id'] = str(scenario['_id'])
+            return jsonify({"data": scenario}), 200
+        else:
+            return jsonify({"error": "Scenario not found"}), 404
+    
+    except Exception as e:
+        app.logger.error(f"Error in get_scenario: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
+@app.route('/api/add_scenario', methods=['POST'])
+def add_scenario():
+    app.logger.info('Received request to add a scenario.')
+    
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid JSON data"}), 400
+        
+        # Grab User info
+        user_email = data['user_email']
+        user_name = data['user_name']
+
+        # Create objects
+        user = User(user_name, user_email)
+        scenario = Scenario.from_dict(data['scenario'])
+
+        # Add the scenario ID to the user's list of scenarios
+        user.add_scenario(scenario)
+        
+        return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
+
+    except Exception as e:
+        app.logger.error(f"Error adding scenario: {e}")
+        return jsonify({"error": "Failed to add scenario"}), 500
+
+@app.route('/api/update_scenario', methods=['POST'])
+def update_scenario():
+    app.logger.info('Reached update_scenario route.')
+
+    # Get the scenario ID from the request
+    scenario_id = request.args.get('id')
+    if not scenario_id:
+        return jsonify({"error": "Scenario ID is required"}), 400
+    
+    # Get the updated scenario data
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    new_scenario = Scenario.from_dict(data['scenario'])
+
+    # Find the scenario by ID
+    scenario = find_document(SCENARIO_COLLECTION, {"_id": scenario_id})
+    if not scenario:
+        return jsonify({"error": "Scenario not found"}), 404
+    
+    # Update the scenario data
+    update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True)
+
+    return jsonify({"message": "Scenario updated successfully"}), 200
+
+@app.route('/api/delete_scenario', methods=['POST'])
+def delete_scenario():
+    app.logger.info('Reached delete_scenario route.')
+    return jsonify({"data": "Hello World!"})
+
+@app.route('/api/export_scenario', methods=['GET'])
+def export_scenario():
+    app.logger.info('Reached export_scenario route.')
+    return jsonify({"data": "Hello World!"})
+
+@app.route('/api/import_scenario', methods=['POST'])
+def import_scenario():
+    app.logger.info('Reached import_scenario route.')
+    return jsonify({"data": "Hello World!"})
 
 if __name__ == "__main__":
     app.logger.info('Starting Flask application')
