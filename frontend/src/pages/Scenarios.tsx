@@ -16,9 +16,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Scenario() {
 
     const [show, setShow] = useState(false);
+    const [scenarioSaved, setScenarioSaved] = useState(false);
+    
+
 
     //Store Multiple Scenario Forms
-    const [saveForms, setSaveForms] = useState<{ id: number; name: string; details: string; }[]>([])
+    const [saveForms, setSaveForms] = useState<{ id: number; name: string; }[]>([])
 
     //Current Scenario Form
     const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string;} | null>(null);
@@ -27,38 +30,47 @@ function Scenario() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
     const handleCreateNew = () => {
         const newScenario = {id: Date.now(), name: ''};
-        
-        setSaveForms((prev) => [...prev, newScenario]); // Store the form user just created 
 
+        setSaveForms((prev) => [...prev, newScenario]); // Store the form user just created 
+        
         setScenarioForm(newScenario);  // New form 
+       
         handleShow();
     };
   
 
     
     const handleViewForm = (form) => {
+        
         setScenarioForm(form);
         handleShow();
+        
     };
 
-    console.log(scenarioForm);
-    
+    // console.log(scenarioForm);
+
     return (
         
         <div className='scenario'>
             <NavBar/>
        
            <div className='main-content'>
+                {/* Export form: YAML File */}
+                <Button variant = "primary">
+                  + Export
+                </Button>
+
+
                 <Button variant="primary" onClick={handleCreateNew}>
                     + Create New
                 </Button>
             </div>
 
-            {/* If another form exists */}
-            {saveForms.length > 0 && (
             
+            {scenarioSaved && (
                 <div className='scenario-header'>
                     <h3>Scenario Forms:</h3>
                     {saveForms.map((form) => (
@@ -71,37 +83,31 @@ function Scenario() {
 
                 </div>
             )}  
-
-
            
             <Modal show={show} onHide={handleClose}>
 
                 <Modal.Header closeButton>
                     <Modal.Title>
                         Edit Scenario
-                        {/* {scenarioForm ? "Edit Scenario" : "Create Scenario"} */}
-
-                        </Modal.Title>
+                    </Modal.Title>
 
                 </Modal.Header>
 
-                
-                <Modal.Body>
+            <Modal.Body>
+                {scenarioForm && (
+                    <CreateScenario
+                        formInfo={scenarioForm}
+                        saveForms={setSaveForms}/>
+                    )}         
+            </Modal.Body> 
 
-            {scenarioForm && (
-                        
-                        <CreateScenario
-                           formInfo={scenarioForm}
-                           saveForms={setSaveForms}/>
-                    )} 
-                    
-                </Modal.Body> 
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}> 
-                        Save
-                    </Button>
+            <Modal.Footer>
+            <Button variant="secondary" onClick={() => { handleClose(); setScenarioSaved(true); }}>
+                 Save
+            </Button>
                 
-                </Modal.Footer> 
+            </Modal.Footer> 
+
             </Modal>
         </div>
 

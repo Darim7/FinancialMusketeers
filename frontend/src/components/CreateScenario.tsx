@@ -12,7 +12,7 @@ import Card from 'react-bootstrap/Card';
 function CreateScenario({formInfo, saveForms}) {
 
   // const [currData, setCurrData] = useState(formInfo);
-  console.log('test:', formInfo); 
+  // console.log('test:', formInfo); 
 
 
   // {/* Allow user to pick a state */}
@@ -81,7 +81,6 @@ function CreateScenario({formInfo, saveForms}) {
     taxability: ''
   })
 
-  const [currentInvestmentIndex, setCurrentInvestmentIndex] = useState(-1);
 
 
 
@@ -133,40 +132,42 @@ function CreateScenario({formInfo, saveForms}) {
   };
 
   const [selectedEvent, setSelectedEvent] = useState("");
-  const [answers, setAnswers] = useState(""); 
-
+  const [answers, setAnswers] = useState({}); 
+  const [currentEventIndex ,setCurrentEventIndex] = useState(-1);
 
   const handleEventChange = (e:React.ChangeEvent<any>) => {
     const eventType = e.target.value;
     setSelectedEvent(eventType);
     setAnswers({});
-   
   };
 
   const handleAnswerChange = (question, value) => {
     setAnswers((prev) => ({ ...prev, [question]: value }));
+    console.log(answers)
   };
 
-  console.log("test Here", values);
+  // console.log("test Here", values);
 
  
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-          const { name, value } = e.target;
-  
-          setValues((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-          }));
-      
-          //When user edits, it updates
-          saveForms((prevForms) =>
-            prevForms.map((form) =>
-            // Finds the form by ID and set the name == Scenario Name so user can see
-            form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
 
-            )
-          );
-        };
+    // All the declared variable and its values
+    const { name, value } = e.target;
+  
+    setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+    }));
+      
+    //Loop through the form 
+    saveForms((prevForms) =>
+      prevForms.map((form) =>
+      // Finds the form by ID and set the name == Scenario Name so user can see
+      form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
+
+      )
+      );
+    };
 
   
   /******************* Handles Pagination ****************************************/
@@ -185,6 +186,8 @@ function CreateScenario({formInfo, saveForms}) {
   /******************** Investment Functions *************************************/
 
   const [showInvestmentModal, setShowInvestmentModal] = useState(false)
+  const [currentInvestmentIndex, setCurrentInvestmentIndex] = useState(-1);
+
   const newInvestmentModal = () => {
     setShowInvestmentModal(true);
     setCurrentInvestmentIndex(-1);
@@ -240,7 +243,6 @@ function CreateScenario({formInfo, saveForms}) {
     });
 
     setCurrentInvestmentIndex(-1);
-    
     // Close the modal
     closeInvestmentModal();
   }
@@ -248,6 +250,7 @@ function CreateScenario({formInfo, saveForms}) {
 
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
     setInvestment({...investment, [e.target.name]:e.target.value});
+
   };
 
   const addInvestment = (e:React.ChangeEvent<any>) => {
@@ -271,8 +274,15 @@ function CreateScenario({formInfo, saveForms}) {
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
   const newEventCard = (e:React.ChangeEvent<any>) => {
-      setIsEditingEvent(false);
+      setCurrentEventIndex(-1);
       setShowEventModal(true);
+  }
+  
+  const editEventModal = (event, index) => {
+    setSelectedEvent(event.eventType);
+    setAnswers({...event});
+    setCurrentEventIndex(index);
+    setShowEventModal(true);
   }
 
   const addNewEvent = (e:React.ChangeEvent<any>) => {
@@ -285,23 +295,40 @@ function CreateScenario({formInfo, saveForms}) {
   }
 
   const saveEventModal = () => {
-    const updatedEvent = [...values.events, event];
-    // Update the local state with the new investments array
+    const newEvent = {
+      eventType: selectedEvent,
+      eventName: answers["Event Names: "] || "Unnamed Event",
+      // Add other properties based on the event type
+      ...answers // Include all answers
+    };
+
+    let updatedEvents;
+
+    if (currentEventIndex >= 0){
+      //Editing an existing event
+      updatedEvents = [...values.events];
+      updatedEvents[currentEventIndex] = newEvent;      
+    } else {
+      updatedEvents = [...values.events, newEvent];
+    }
     setValues(prevValues => ({
       ...prevValues,
-      events: updatedEvent
+      events: updatedEvents
     }));
     saveForms(prevForms => 
       prevForms.map(form => 
         form.id === formInfo.id 
           ? { 
               ...form, 
-              events: updatedEvent
+              events: updatedEvents
                 // Pass the complete updated investments array
             } 
           : form
       )
     );
+
+    setAnswers({});
+    setSelectedEvent("");
     closeEventModal();
     // Reset the investment form fields
   }
@@ -493,7 +520,7 @@ function CreateScenario({formInfo, saveForms}) {
         {values.events.length > 0 ? (
           <div className='eventsList'>
               {values.events.map((event, index) => (
-                <Card key={index} className='eventCards' onClick={() => newEventCard(event)}>
+                <Card key={index} className='eventCards' onClick={() => editEventModal(event, index)}>
                   <Card.Body>
                     <Card.Title>{event.eventName}</Card.Title>
                   </Card.Body>
