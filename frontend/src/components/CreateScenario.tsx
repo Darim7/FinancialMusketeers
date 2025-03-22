@@ -81,7 +81,6 @@ function CreateScenario({formInfo, saveForms}) {
     taxability: ''
   })
 
-  const [isEditingInvestment, setIsEditingInvestment] = useState(false);
 
 
 
@@ -134,18 +133,18 @@ function CreateScenario({formInfo, saveForms}) {
   };
 
   const [selectedEvent, setSelectedEvent] = useState("");
-  const [answers, setAnswers] = useState(""); 
-
+  const [answers, setAnswers] = useState({}); 
+  const [currentEventIndex ,setCurrentEventIndex] = useState(-1);
 
   const handleEventChange = (e:React.ChangeEvent<any>) => {
     const eventType = e.target.value;
     setSelectedEvent(eventType);
     setAnswers({});
-   
   };
 
   const handleAnswerChange = (question, value) => {
     setAnswers((prev) => ({ ...prev, [question]: value }));
+    console.log(answers)
   };
 
   // console.log("test Here", values);
@@ -188,14 +187,16 @@ function CreateScenario({formInfo, saveForms}) {
   /******************** Investment Functions *************************************/
 
   const [showInvestmentModal, setShowInvestmentModal] = useState(false)
+  const [currentInvestmentIndex, setCurrentInvestmentIndex] = useState(-1);
+
   const newInvestmentModal = () => {
-    setIsEditingInvestment(false);
     setShowInvestmentModal(true);
+    setCurrentInvestmentIndex(-1);
   }
 
-  const editInvestmentModal = (investment) => {
+  const editInvestmentModal = (investment, index) => {
     setInvestment({...investment});
-    setIsEditingInvestment(true);
+    setCurrentInvestmentIndex(index);
     setShowInvestmentModal(true);
   }
 
@@ -204,10 +205,16 @@ function CreateScenario({formInfo, saveForms}) {
   }
 
   const saveInvestment = (e) => {
-  
+
+      let updatedInvestments;
       // Update if editing
-      //setValues({...values, investments: updatedInvestment})
-    const updatedInvestments = [...values.investments, investment];
+      if (currentInvestmentIndex >= 0) {
+        updatedInvestments = [...values.investments];
+        updatedInvestments[currentInvestmentIndex] = investment;
+      } else { /* then it is new */
+        updatedInvestments = [...values.investments, investment];
+      }
+
     // Update the local state with the new investments array
     setValues(prevValues => ({
       ...prevValues,
@@ -220,7 +227,6 @@ function CreateScenario({formInfo, saveForms}) {
       
     
     );
-    console.log('id', formInfo.id)
 
     // Reset the investment form fields
     setInvestment({
@@ -233,7 +239,8 @@ function CreateScenario({formInfo, saveForms}) {
       incomeDistribution: '',
       taxability: ''
     });
-    
+
+    setCurrentInvestmentIndex(-1);
     // Close the modal
     closeInvestmentModal();
   }
@@ -268,8 +275,15 @@ function CreateScenario({formInfo, saveForms}) {
   const [isEditingEvent, setIsEditingEvent] = useState(false);
 
   const newEventCard = (e:React.ChangeEvent<any>) => {
-      setIsEditingEvent(false);
+      setCurrentEventIndex(-1);
       setShowEventModal(true);
+  }
+  
+  const editEventModal = (event, index) => {
+    setSelectedEvent(event.eventType);
+    setAnswers({...event});
+    setCurrentEventIndex(index);
+    setShowEventModal(true);
   }
 
   const addNewEvent = (e:React.ChangeEvent<any>) => {
@@ -282,24 +296,40 @@ function CreateScenario({formInfo, saveForms}) {
   }
 
   const saveEventModal = () => {
-    const updatedEvent = [...values.events, event];
-    // Update the local state with the new investments array
+    const newEvent = {
+      eventType: selectedEvent,
+      eventName: answers["Event Names: "] || "Unnamed Event",
+      // Add other properties based on the event type
+      ...answers // Include all answers
+    };
+
+    let updatedEvents;
+
+    if (currentEventIndex >= 0){
+      //Editing an existing event
+      updatedEvents = [...values.events];
+      updatedEvents[currentEventIndex] = newEvent;      
+    } else {
+      updatedEvents = [...values.events, newEvent];
+    }
     setValues(prevValues => ({
       ...prevValues,
-      events: updatedEvent
+      events: updatedEvents
     }));
     saveForms(prevForms => 
       prevForms.map(form => 
         form.id === formInfo.id 
           ? { 
               ...form, 
-              events: updatedEvent
+              events: updatedEvents
                 // Pass the complete updated investments array
             } 
           : form
       )
     );
-    
+
+    setAnswers({});
+    setSelectedEvent("");
     closeEventModal();
     // Reset the investment form fields
   }
@@ -466,7 +496,7 @@ function CreateScenario({formInfo, saveForms}) {
           {values.investments.length > 0 ? (
             <div className='investmentLists'>
                 {values.investments.map((investment, index) => (
-                  <Card key={index} className='investmentCards' onClick={() => editInvestmentModal(investment)}>
+                  <Card key={index} className='investmentCards' onClick={() => editInvestmentModal(investment, index)}>
                     <Card.Body>
                       <Card.Title>{investment.investmentName}</Card.Title>
                       <Card.Text>{investment.description}</Card.Text>
@@ -492,9 +522,9 @@ function CreateScenario({formInfo, saveForms}) {
         {values.events.length > 0 ? (
           <div className='eventsList'>
               {values.events.map((event, index) => (
-                <Card key={index} className='eventCards' onClick={() => newEventCard(event)}>
+                <Card key={index} className='eventCards' onClick={() => editEventModal(event, index)}>
                   <Card.Body>
-                    <Card.Title>Event# {index}</Card.Title>
+                    <Card.Title>{event.eventName}</Card.Title>
                   </Card.Body>
                 </Card>  
               ))}
