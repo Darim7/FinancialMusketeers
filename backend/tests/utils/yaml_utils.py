@@ -16,6 +16,8 @@ class ScenarioYamlUtils:
         with open(file, 'r') as file: 
             self.scenario=yaml.safe_load(file)
     
+    def get_yaml(self): 
+        return self.scenario
     def get_name(self): 
         return self.scenario['name']
     

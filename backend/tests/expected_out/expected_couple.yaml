@@ -1,0 +1,69 @@
+# file format for scenario import/export.  version: 2025-03-11
+
+name: "Married Couple Retirement Plan"
+maritalStatus: couple
+birthYears: [1980, 1982]
+lifeExpectancy: [{type: fixed, value: 85}, {type: normal, mean: 88, stdev: 3}]
+
+investmentTypes:
+  - name: cash
+    description: Cash held in account
+    returnAmtOrPct: amount
+    returnDistribution: {type: fixed, value: 0}
+    expenseRatio: 0
+    incomeAmtOrPct: percent
+    incomeDistribution: {type: fixed, value: 0}
+    taxability: true
+
+  - name: S&P 500
+    description: S&P 500 index fund
+    returnAmtOrPct: percent
+    returnDistribution: {type: GBM, mu: 0.06, sigma: 0.02}
+    expenseRatio: 0.001
+    incomeAmtOrPct: percent
+    incomeDistribution: {type: normal, mean: 0.01, stdev: 0.005}
+    taxability: true
+
+  - name: tax-exempt bonds
+    description: NY tax-exempt bonds
+    returnAmtOrPct: amount
+    returnDistribution: {type: fixed, value: 0}
+    expenseRatio: 0.004
+    incomeAmtOrPct: percent
+    incomeDistribution: {type: normal, mean: 0.03, stdev: 0.01}
+    taxability: false
+
+investments:
+  - investmentType: cash
+    value: 500
+    taxStatus: non-retirement
+    id: cash
+
+  - investmentType: S&P 500
+    value: 20000
+    taxStatus: non-retirement
+    id: S&P 500 non-retirement
+
+  - investmentType: tax-exempt bonds
+    value: 5000
+    taxStatus: non-retirement
+    id: tax-exempt bonds
+
+eventSeries:
+  - name: salary
+    start: {type: fixed, value: 2025}
+    duration: {type: fixed, value: 40}
+    type: income
+    initialAmount: 120000
+    changeAmtOrPct: amount
+    changeDistribution: {type: uniform, lower: 1000, upper: 5000}
+    inflationAdjusted: false
+    userFraction: 0.6
+    socialSecurity: true
+
+inflationAssumption: {type: fixed, value: 0.03}
+afterTaxContributionLimit: 14000
+spendingStrategy: ["mortgage"]
+expenseWithdrawalStrategy: [S&P 500 non-retirement, tax-exempt bonds]
+financialGoal: 500000
+residenceState: CA
