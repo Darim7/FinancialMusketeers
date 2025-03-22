@@ -3,6 +3,8 @@ Welcome to FinancialMusketeers! This is an app develop by **the Musketeers** :su
 
 This app is aimed to provide a basic financial planner that helps you to plan your life! Include spendings, income taxes, investments...
 
+**NOTE: When running the scripts in the project, we assume users are on an Ubuntu machine!**
+
 # For Users
 ### To run our app, please follow the steps below
 
