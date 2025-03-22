@@ -88,6 +88,7 @@ function CreateScenario({formInfo, saveForms}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [investmentSaved, setInvestmentSaved] = useState(false);
 
 
   // There are 4 different types of event
@@ -214,14 +215,13 @@ function CreateScenario({formInfo, saveForms}) {
     }));
     saveForms(prevForms => 
       prevForms.map(form => 
-        form.id === formInfo.id 
-          ? { 
-              ...form, 
-              investments: updatedInvestments  // Pass the complete updated investments array
-            } 
-          : form
+        form.id === formInfo.id?{...form,investments: updatedInvestments}:form
       )
+      
+    
     );
+    console.log('id', formInfo.id)
+
     // Reset the investment form fields
     setInvestment({
       investmentName: '',
@@ -240,6 +240,9 @@ function CreateScenario({formInfo, saveForms}) {
   
 
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
+
+
+    
     setInvestment({...investment, [e.target.name]:e.target.value});
 
   };
@@ -296,6 +299,7 @@ function CreateScenario({formInfo, saveForms}) {
           : form
       )
     );
+    
     closeEventModal();
     // Reset the investment form fields
   }
@@ -373,8 +377,7 @@ function CreateScenario({formInfo, saveForms}) {
               type= "text"  // Input text format
               name ="scenarioName"  // Name of the input
               value={values.scenarioName}
-              onChange={(e)=> handleChanges(e)}
-              
+              onChange={handleChanges}
             />
         
         <label htmlFor="state-of-residence"> State of Residence:</label>
@@ -478,6 +481,8 @@ function CreateScenario({formInfo, saveForms}) {
           <Button variant='light' onClick={handleNext}>Next</Button> 
         </div>
       )}
+
+
       {formStep === 3 && (
         <div className='events-container'>
           <h3>Events</h3>
@@ -638,9 +643,12 @@ function CreateScenario({formInfo, saveForms}) {
           <Button variant='danger' onClick={closeInvestmentModal}>
             Cancel
           </Button>
+      
           <Button variant='primary' onClick={saveInvestment}>
             Save
           </Button>
+
+          
         </Modal.Footer>
       </Modal>
     
