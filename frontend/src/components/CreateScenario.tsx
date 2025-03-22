@@ -81,7 +81,7 @@ function CreateScenario({formInfo, saveForms}) {
     taxability: ''
   })
 
-  const [isEditingInvestment, setIsEditingInvestment] = useState(false);
+  const [currentInvestmentIndex, setCurrentInvestmentIndex] = useState(-1);
 
 
 
@@ -186,13 +186,13 @@ function CreateScenario({formInfo, saveForms}) {
 
   const [showInvestmentModal, setShowInvestmentModal] = useState(false)
   const newInvestmentModal = () => {
-    setIsEditingInvestment(false);
     setShowInvestmentModal(true);
+    setCurrentInvestmentIndex(-1);
   }
 
-  const editInvestmentModal = (investment) => {
+  const editInvestmentModal = (investment, index) => {
     setInvestment({...investment});
-    setIsEditingInvestment(true);
+    setCurrentInvestmentIndex(index);
     setShowInvestmentModal(true);
   }
 
@@ -201,10 +201,16 @@ function CreateScenario({formInfo, saveForms}) {
   }
 
   const saveInvestment = (e) => {
-  
+
+      let updatedInvestments;
       // Update if editing
-      //setValues({...values, investments: updatedInvestment})
-    const updatedInvestments = [...values.investments, investment];
+      if (currentInvestmentIndex >= 0) {
+        updatedInvestments = [...values.investments];
+        updatedInvestments[currentInvestmentIndex] = investment;
+      } else { /* then it is new */
+        updatedInvestments = [...values.investments, investment];
+      }
+
     // Update the local state with the new investments array
     setValues(prevValues => ({
       ...prevValues,
@@ -220,6 +226,7 @@ function CreateScenario({formInfo, saveForms}) {
           : form
       )
     );
+
     // Reset the investment form fields
     setInvestment({
       investmentName: '',
@@ -231,6 +238,8 @@ function CreateScenario({formInfo, saveForms}) {
       incomeDistribution: '',
       taxability: ''
     });
+
+    setCurrentInvestmentIndex(-1);
     
     // Close the modal
     closeInvestmentModal();
@@ -460,7 +469,7 @@ function CreateScenario({formInfo, saveForms}) {
           {values.investments.length > 0 ? (
             <div className='investmentLists'>
                 {values.investments.map((investment, index) => (
-                  <Card key={index} className='investmentCards' onClick={() => editInvestmentModal(investment)}>
+                  <Card key={index} className='investmentCards' onClick={() => editInvestmentModal(investment, index)}>
                     <Card.Body>
                       <Card.Title>{investment.investmentName}</Card.Title>
                       <Card.Text>{investment.description}</Card.Text>
@@ -486,7 +495,7 @@ function CreateScenario({formInfo, saveForms}) {
               {values.events.map((event, index) => (
                 <Card key={index} className='eventCards' onClick={() => newEventCard(event)}>
                   <Card.Body>
-                    <Card.Title>Event# {index}</Card.Title>
+                    <Card.Title>{event.eventName}</Card.Title>
                   </Card.Body>
                 </Card>  
               ))}
