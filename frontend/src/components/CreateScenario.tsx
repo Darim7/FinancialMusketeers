@@ -1,5 +1,5 @@
 // Create Scenario Page
-import React, { ReactComponentElement } from 'react';
+import React from 'react';
 import {useState, useEffect } from 'react';
 // import './CreateScenario.css';
 import Scenario from '../pages/Scenarios';
@@ -9,37 +9,14 @@ import Card from 'react-bootstrap/Card';
 
 
 
+
 function CreateScenario({formInfo, saveForms}) {
-
-  // const [currData, setCurrData] = useState(formInfo);
-  // console.log('test:', formInfo); 
-
-
-  // {/* Allow user to pick a state */}
-  // const [selectedState, setSelectedState] = useState('');
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
 
 
-  /*********** Define types for Investment and Events *********/ 
-  // type Investment = {
-  //   id: number;
-  //   investmentName: string;
-  //   description: string;
-  //   returnAmtOrPct: string;
-  //   returnDistribution: string;
-  //   expenseRatio: string;
-  //   incomeAmtOrPct: string;
-  //   incomeDistribution: string;
-  //   taxability: string;
-  // }
 
-  // type Event = {
-
-  // }
-
-  /*************************************************************/
 
   {/* Update user input change */}
   const [values, setValues] = useState({
@@ -53,6 +30,8 @@ function CreateScenario({formInfo, saveForms}) {
     investments: [] as any[],
     events: [] as any[]
   })
+
+  console.log("what is the value", values);
 
   useEffect(() => {
     console.log('formData:', formInfo);
@@ -78,16 +57,30 @@ function CreateScenario({formInfo, saveForms}) {
     expenseRatio: '',
     incomeAmtOrPct: '',
     incomeDistribution: '',
-    taxability: ''
+    taxability: '',
+    value: '',
+    taxStatus: '',
+    investmentCases: [] as any[]
   })
-
-
 
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [investmentSaved, setInvestmentSaved] = useState(false);
+
+
+  // const [showSetInvestment, setShowSetInvestment] = useState(false);
+
+  // const closeSetInvestmentModal = () => {
+  //   setShowSetInvestment(false);
+  // }
+
+  // const newSetInvestmentModal = () => {
+  //   setShowSetInvestment(true);
+   
+  // }
+
+ 
 
 
   // There are 4 different types of event
@@ -147,8 +140,6 @@ function CreateScenario({formInfo, saveForms}) {
     console.log(answers)
   };
 
-  // console.log("test Here", values);
-
  
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -168,7 +159,12 @@ function CreateScenario({formInfo, saveForms}) {
 
       )
       );
-    };
+   };
+
+  
+
+    
+    
 
   
   /******************* Handles Pagination ****************************************/
@@ -184,10 +180,44 @@ function CreateScenario({formInfo, saveForms}) {
   /******************* Handles Pagination ****************************************/
   
 
-  /******************** Investment Functions *************************************/
+  /******************** Investment Types *************************************/
 
   const [showInvestmentModal, setShowInvestmentModal] = useState(false)
   const [currentInvestmentIndex, setCurrentInvestmentIndex] = useState(-1);
+
+  /******************** Investment Types *************************************/
+
+
+
+
+  {/* ----- This is for investment case after declaring the investment type -----*/}
+
+    const addInvestmentCase = () => {
+      setInvestment((prevInvestment) => ({
+        ...prevInvestment,
+        investmentCases: [
+          ...prevInvestment.investmentCases,
+          { id: Date.now(), value: '' },
+        ],
+      }));
+    };
+  
+    const handleInvestmentCaseChange = (index, e) => {
+      const { name, value } = e.target;
+
+      const updatedInvestmentCases = investment.investmentCases.map((investmentCase, i) =>
+        i === index ? { ...investmentCase, [name]: value } : investmentCase
+      );
+
+      setInvestment((prevInvestment) => ({
+        ...prevInvestment,
+        investmentCases: updatedInvestmentCases,
+      }));
+     
+    };
+
+  {/* ------ This is for investments case after declaring the investment type -----*/}
+
 
   const newInvestmentModal = () => {
     setShowInvestmentModal(true);
@@ -237,7 +267,10 @@ function CreateScenario({formInfo, saveForms}) {
       expenseRatio: '',
       incomeAmtOrPct: '',
       incomeDistribution: '',
-      taxability: ''
+      taxability: '',
+      value: '',
+      taxStatus: '',
+      investmentCases: [],
     });
 
     setCurrentInvestmentIndex(-1);
@@ -265,7 +298,10 @@ function CreateScenario({formInfo, saveForms}) {
       expenseRatio: '',
       incomeAmtOrPct: '',
       incomeDistribution: '',
-      taxability: ''
+      taxability: '',
+      value: '',
+      taxStatus: '',
+      investmentCases: [] as any [],
     })
   }
   /******************** Investment Functions *************************************/
@@ -459,6 +495,7 @@ function CreateScenario({formInfo, saveForms}) {
             id = "Individual"
             name = "maritalStatus" 
             value ="Individual"
+            checked={values.maritalStatus === "Individual"} 
             onChange={(e)=> handleChanges(e)}/> Individual
 
           <input 
@@ -466,6 +503,7 @@ function CreateScenario({formInfo, saveForms}) {
             id = "Couple"
             name = "maritalStatus" 
             value = "Couple"
+            checked={values.maritalStatus === "Couple"} 
             onChange={(e)=> handleChanges(e)} /> Couple
          
         {/* TODO: Only allow 2 year input if married */}
@@ -480,9 +518,7 @@ function CreateScenario({formInfo, saveForms}) {
         
           <button onClick={handleNext}>Next</button>
       </div>
-      
- 
-      // </Modal>
+    
 
       )}
 
@@ -535,49 +571,26 @@ function CreateScenario({formInfo, saveForms}) {
         <Button variant='light' onClick={handleBack}>Back</Button>
         <Button variant='light' onClick={handleNext}>Next</Button> 
       </div>
-      //   <div className='event-page'>
-      //      <h3>Events</h3>
-          
-      //     <label htmlFor="type-of-event"> Type of Event:</label>
-          // <select
-          //   id = "typeOfEvents"
-          //   name = "typeOfEvents"
-          //   onChange={handleEventChange} value={selectedEvent}>
-
-          //   <option value="">-- Choose an Event --</option>
-          //     {Object.keys(diffEvent).map((event) => (
-          //      <option key={event} value={event}>{event.slice(0)}</option>
-          //     ))}
-          // </select>
-
-      //     {selectedEvent && (
-      //     <div>
-      //       <h3>{selectedEvent} Questions</h3>
-      //           {diffEvent[selectedEvent].map(({ question, type}, index) => (
-                  
-      //             <div key={index}>
-      //             <label>{question}</label>
-      //             {type === "text" || type === "number" ? (
-      //               <input
-      //                 type={type}
-      //                 value={answers[question] || ""}
-      //                 onChange={(e) => handleAnswerChange(question, e.target.value)}
-      //               />
-      //             ) : null}
-      //       </div>
-              
-      //     ))}
-          
- 
-      //   </div>
-        
-      // )}
-
-      //     <button onClick={handleNext}>Next</button>
-
-      //   </div>
 
       )}
+
+    {formStep === 4 && (
+        <div className='scenarioPart2-container'>
+          
+
+
+
+
+
+         
+        <Button variant='light' onClick={handleBack}>Back</Button>
+        <Button variant='light' onClick={handleNext}>Next</Button> 
+      </div>
+
+      )}
+
+
+
 
       </form>
       
@@ -667,6 +680,119 @@ function CreateScenario({formInfo, saveForms}) {
               checked={investment.taxability === "Tax-Exempt"}
               onChange={handleInvestmentChange}
             /> Tax-Exempt
+
+{/*------------ Ask user the amount of their investment, and whether it is tax-exempt or not ---------*/}
+            <Button onClick={addInvestmentCase}>Set Investment</Button>
+
+            {investment.investmentCases.map((investmentCase, index) => (
+              <div key={investmentCase.id}>
+
+            {/* <label htmlFor="marital-status"> Marital Status:</label>
+                      <input
+                        type="radio"
+                        id = "Individual"
+                        name = "maritalStatus" 
+                        value ="Individual"
+                        onChange={(e)=> handleChanges(e)}/> Individual
+
+                      <input 
+                        type ="radio"
+                        id = "Couple"
+                        name = "maritalStatus" 
+                        value = "Couple"
+                        onChange={(e)=> handleChanges(e)} /> Couple */}
+
+
+
+
+
+                <label htmlFor="value">Value: </label>
+                <input
+                  type="text"
+                  name="value"
+                  value={investmentCase.value ||''}
+                  onChange={(e) => handleInvestmentCaseChange(index, e)}
+                />
+
+                <label htmlFor="tax-status"> Tax Status:</label>
+                      <input
+                        type="radio"
+                        id = "non-retirement"
+                        name = "taxStatus"
+                        value="non-retirement"
+                        checked={investmentCase.taxStatus === "non-retirement"}
+                        onChange={(e) => handleInvestmentCaseChange(index, e)}/> Non-Retirement
+
+                      <input 
+                        type ="radio"
+                        id = "pre-tax"
+                        name = "taxStatus"
+                        value="pre-tax"
+                        checked={investmentCase.taxStatus === "pre-tax"}
+                        onChange={(e) => handleInvestmentCaseChange(index, e)} /> Pre-Tax
+                      
+                      
+                      <input 
+                        type ="radio"
+                        id = "after-tax"
+                        name = "taxStatus"
+                        value="after-tax"
+                        checked={investmentCase.taxStatus === "after-tax"}
+                        onChange={(e) => handleInvestmentCaseChange(index, e)} /> After-Tax
+
+
+
+
+                {/* <label htmlFor="tax-status">Tax Status: </label>
+                <input
+                  type="text"
+                  name="taxStatus"
+                  value={investmentCase.taxStatus ||''}
+                  onChange={(e) => handleInvestmentCaseChange(index, e)}
+                /> */}
+
+              </div>
+            ))}
+
+
+
+            {/* <Modal show={showSetInvestment} onHide={closeSetInvestmentModal}>
+
+              <Modal.Header closeButton>
+                <Modal.Title>Set Investment</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+
+              <label htmlFor = "value"> Value: </label>
+              <input
+                type = "text"
+                name = "value"  
+                value={investment.value}
+                onChange={handleInvestmentChange}
+              />
+               */}
+              {/* <Button onClick={addInvestmentCaseModal}>Open New Child Modal</Button>
+
+           
+            
+              </Modal.Body> */}
+
+            {/* <Modal.Footer>
+              <Button variant='primary' onClick={closeSetInvestmentModal}>Close</Button>
+
+              
+              <Button variant='primary' onClick={saveInvestment}>Save</Button>
+
+            </Modal.Footer> */}
+
+
+            {/* </Modal> */}
+       
+
+
+
+
         </div>
         </Modal.Body>
         <Modal.Footer>
