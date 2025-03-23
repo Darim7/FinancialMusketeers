@@ -1,4 +1,6 @@
 from typing import List, Dict, Self, Union
+from bson import ObjectId
+from datetime import date
 import yaml
 
 from models.exportable import Exportable
@@ -7,6 +9,7 @@ from models.event_series import EventSeries, Expense
 from models.roth_optimizer import RothConvertOptimizer
 from models.rmd import RMD
 from models.results import SimulationResults
+from dbconn import SCENARIO_COLLECTION
 
 class Scenario(Exportable):
     def __init__(
@@ -30,7 +33,7 @@ class Scenario(Exportable):
             financial_goal: int,
             residence_state: str,
             pretax_contribution_limit: int = 0,
-            shared: List = None
+            shared: List = []
         ):
 
         # Name
@@ -160,6 +163,8 @@ class Scenario(Exportable):
     def simulate(self):
         pass
 
+    # PT: Can you write me a method that converts this class to a dictionary for
+    # creating yaml file?
     def to_dict(self) -> Dict:
         """Convert Scenario object to a dictionary matching YAML structure."""
         base = {
@@ -184,10 +189,14 @@ class Scenario(Exportable):
         }
         
         # Add pretax contribution limit if exists
-        if hasattr(self, 'pretax_ann_contribution'):
-            base["pretaxContributionLimit"] = self.pretax_ann_contribution
-            
+        # if hasattr(self, 'pretax_ann_contribution'):
+        #     base["pretaxContributionLimit"] = self.pretax_ann_contribution
+
         return base
+    
+    def save_to_db(self) -> ObjectId:
+        """Save the scenario to the database and return the ObjectId."""
+        return SCENARIO_COLLECTION.insert_one(self.to_dict()).inserted_id
 
     def export_yaml(self, filename: str):
         """Export scenario to YAML file with proper formatting."""
@@ -216,6 +225,8 @@ class Scenario(Exportable):
         with open(filename, 'x') as f:
             f.write(header + yaml_content)
 
+    # PT: Can you write me the from_dict() method that reads a dictionary that is
+    # read from a yaml file and create an instance of this class?
     @classmethod
     def from_dict(cls, data: Dict) -> Self:
         """Factory method for creating from dictionary"""
@@ -259,5 +270,10 @@ class Scenario(Exportable):
 
 
 if __name__ == '__main__':
-    s = Scenario.from_yaml("./tests/python_scripts_test/scenario.yaml")
-    s.export_yaml('test.yml')
+    print("Running test scenario")
+    # s = Scenario.from_yaml("./tests/python_scripts_test/scenario.yaml")
+    # s.export_yaml('test.yaml')
+    # objid = s.save_to_db()
+    # print(objid)
+    # SCENARIO_COLLECTION.delete_one({"_id": objid})
+    # print("Deleted scenario from db")
