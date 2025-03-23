@@ -6,6 +6,7 @@ import Scenario from '../pages/Scenarios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Prev } from 'react-bootstrap/esm/PageItem';
 
 
 
@@ -14,8 +15,6 @@ function CreateScenario({formInfo, saveForms}) {
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
-
-
 
 
   {/* Update user input change */}
@@ -27,8 +26,18 @@ function CreateScenario({formInfo, saveForms}) {
     lifeExpectancy: '',
     maritalStatus: '',
     birthYear: '' ,
+    inflationAssumption: '',
+    afterTaxContributionLimit: '',
+    spendingStrategy: [] as any,
+    expenseWithdrawalStrategy: [] as any [],
+    RMDStrategy: [] as any [],
+    RothConversionOpt: '',
+    RothConversionStart: '',
+    RothConversionEnd: '',
+    RothConversionStrategy: [] as any,
     investments: [] as any[],
-    events: [] as any[]
+    events: [] as any[],
+    discretionary: [] as any []
   })
 
   console.log("what is the value", values);
@@ -43,8 +52,18 @@ function CreateScenario({formInfo, saveForms}) {
       lifeExpectancy: formInfo.lifeExpectancy || '',
       maritalStatus: formInfo.maritalStatus || '',
       birthYear: formInfo.birthYear || '',
+      inflationAssumption: formInfo.inflationAssumption || '',
+      afterTaxContributionLimit: formInfo.afterTaxContributionLimit || '',
+      spendingStrategy: formInfo.spendingStrategy || [],
+      expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
+      RMDStrategy: formInfo.RMDStrategy || [],
+      RothConversionOpt: formInfo.RothConversionOpt || '',
+      RothConversionStart: formInfo.RothConversionStart || '',
+      RothConversionEnd: formInfo.RothConversionEnd || '',
+      RothConversionStrategy: formInfo.RothConversionStrategy || [],
       investments: formInfo.investments || [],
-      events: formInfo.events || []
+      events: formInfo.events || [],
+      discretionary: formInfo.discretionary || []
     });
 }, [formInfo]);
 
@@ -58,8 +77,6 @@ function CreateScenario({formInfo, saveForms}) {
     incomeAmtOrPct: '',
     incomeDistribution: '',
     taxability: '',
-    value: '',
-    taxStatus: '',
     investmentCases: [] as any[]
   })
 
@@ -106,7 +123,7 @@ function CreateScenario({formInfo, saveForms}) {
       { question: "Change Distribution: ", type: "text"},
       { question: "Inflation Adjusted: ", type: "text"},
       { question: "User Fraction: ", type: "text"},
-      { question: "Discretionary : ", type: "text"},
+      { question: "Discretionary : ", type: "boolean"}, // This should be Boolean
 
     ],
     Invest: [
@@ -136,9 +153,15 @@ function CreateScenario({formInfo, saveForms}) {
   };
 
   const handleAnswerChange = (question, value) => {
-    setAnswers((prev) => ({ ...prev, [question]: value }));
-    console.log(answers)
-  };
+    setAnswers((prev) => ({
+       ...prev, 
+       [question]: value }));
+       
+    console.log("Handle Answer Change: ", answers)
+
+
+
+};
 
  
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,6 +236,8 @@ function CreateScenario({formInfo, saveForms}) {
         ...prevInvestment,
         investmentCases: updatedInvestmentCases,
       }));
+
+    
      
     };
 
@@ -268,8 +293,6 @@ function CreateScenario({formInfo, saveForms}) {
       incomeAmtOrPct: '',
       incomeDistribution: '',
       taxability: '',
-      value: '',
-      taxStatus: '',
       investmentCases: [],
     });
 
@@ -299,8 +322,6 @@ function CreateScenario({formInfo, saveForms}) {
       incomeAmtOrPct: '',
       incomeDistribution: '',
       taxability: '',
-      value: '',
-      taxStatus: '',
       investmentCases: [] as any [],
     })
   }
@@ -340,25 +361,52 @@ function CreateScenario({formInfo, saveForms}) {
     };
 
     let updatedEvents;
+    let updatedDiscretionary;
+
 
     if (currentEventIndex >= 0){
       //Editing an existing event
       updatedEvents = [...values.events];
-      updatedEvents[currentEventIndex] = newEvent;      
+      updatedEvents[currentEventIndex] = newEvent;  
+    
+     if(newEvent.eventType === "Expense" && newEvent["Discretionary : "] === "true"){
+        updatedDiscretionary = [...values.discretionary];
+        updatedDiscretionary[currentEventIndex] = newEvent;
+
+     }
+     else{
+      updatedDiscretionary = values.discretionary;
+      updatedDiscretionary = values.discretionary.filter(event => newEvent["Discretionary : "] === "true");
+
+     }
+      
+
     } else {
       updatedEvents = [...values.events, newEvent];
+
+      if (newEvent.eventType === "Expense" && newEvent["Discretionary : "] === "true") {
+        updatedDiscretionary = [...values.discretionary, newEvent];
+      } else {
+        updatedDiscretionary = values.discretionary;
+        updatedDiscretionary = values.discretionary.filter(event => newEvent["Discretionary : "] === "true");
+      }
+      
+
     }
     setValues(prevValues => ({
       ...prevValues,
-      events: updatedEvents
+      events: updatedEvents,
+      discretionary: updatedDiscretionary
     }));
+
+
     saveForms(prevForms => 
       prevForms.map(form => 
         form.id === formInfo.id 
           ? { 
               ...form, 
-              events: updatedEvents
-                // Pass the complete updated investments array
+              events: updatedEvents,
+              discretionary: updatedDiscretionary
             } 
           : form
       )
@@ -576,21 +624,89 @@ function CreateScenario({formInfo, saveForms}) {
 
     {formStep === 4 && (
         <div className='scenarioPart2-container'>
+          <label htmlFor="inflationAssumption"> Inflation Assumption:</label>
+          <input
+            type = "number" 
+            name = "inflationAssumption"
+            value = {values.inflationAssumption}
+            onChange={handleChanges} 
+          />
+
+
+          <label htmlFor="afterTaxContributionLimit"> After Tax Contribution Limit:</label>
+            <input
+              type = "number" 
+              name = "afterTaxContributionLimit"
+              value = {values.afterTaxContributionLimit}
+              onChange={handleChanges} 
+          />
+
+          {/* Select the order of  spending  */}
+          <label htmlFor="spendingStrategy"> Spending Strategy:</label>
+          <input
+              type = "text"
+              // value = {values.discretionary}
           
+          />
+         
+         
 
+          {/* Array */}
+          <label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</label>
+            <input
+              type = "text" 
+              name = "expenseWithdrawalStrategy"
+              value = {values.expenseWithdrawalStrategy}
+              onChange={handleChanges} 
+          />
 
-
-
+           {/* Array */}
+           <label htmlFor="RMDStrategy"> RMD Strategy:</label>
+            <input
+              type = "text" 
+              name = "RMDStrategy"
+              value = {values.RMDStrategy}
+              onChange={handleChanges} 
+          />
 
          
-        <Button variant='light' onClick={handleBack}>Back</Button>
-        <Button variant='light' onClick={handleNext}>Next</Button> 
+           <label htmlFor="RothConversionOpt"> Roth Conversion Opt:</label>
+            <input
+              type = "text" 
+              name = "RothConversionOpt"
+              value = {values.RothConversionOpt}
+              onChange={handleChanges} 
+          />
+
+            
+          <label htmlFor="RothConversionStart"> Roth Conversion Start:</label>
+            <input
+              type = "text" 
+              name = "RothConversionStart"
+              value = {values.RothConversionStart}
+              onChange={handleChanges} 
+          />
+
+          <label htmlFor="RothConversionEnd"> Roth Conversion End:</label>
+            <input
+              type = "number" 
+              name = "RothConversionEnd"
+              value = {values.RothConversionEnd}
+              onChange={handleChanges} 
+          />
+
+            {/* Array */}
+          <label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</label>
+            <input
+              type = "text" 
+              name = "RothConversionStrategy"
+              value = {values.RothConversionStrategy}
+              onChange={handleChanges} 
+          />
+       
       </div>
 
       )}
-
-
-
 
       </form>
       
@@ -686,25 +802,6 @@ function CreateScenario({formInfo, saveForms}) {
 
             {investment.investmentCases.map((investmentCase, index) => (
               <div key={investmentCase.id}>
-
-            {/* <label htmlFor="marital-status"> Marital Status:</label>
-                      <input
-                        type="radio"
-                        id = "Individual"
-                        name = "maritalStatus" 
-                        value ="Individual"
-                        onChange={(e)=> handleChanges(e)}/> Individual
-
-                      <input 
-                        type ="radio"
-                        id = "Couple"
-                        name = "maritalStatus" 
-                        value = "Couple"
-                        onChange={(e)=> handleChanges(e)} /> Couple */}
-
-
-
-
 
                 <label htmlFor="value">Value: </label>
                 <input
@@ -832,9 +929,35 @@ function CreateScenario({formInfo, saveForms}) {
             <h3>{selectedEvent} Questions</h3>
                 {diffEvent[selectedEvent].map(({ question, type}, index) => (
                   <div key={index}>
-                  <label>{question}</label>
-                  {type === "text" || type === "number" ? (
+                  <label>
+                    {question}
+                  </label>
+                    
+                  {type === "boolean" ? (
+                  <div>
+                    <label>
+                      <input
+                        type="radio"
+                        name={question}
+                        value="true"
+                        checked={answers[question] === "true"}
+                        onChange={(e) => handleAnswerChange(question, e.target.value)}
+                        /> True
+                    </label>
+                    
+                    <label>
+                      <input
+                        type="radio"
+                        name={question}
+                        value="false"
+                        checked={answers[question] === "false"}
+                        onChange={(e) => handleAnswerChange(question, e.target.value)}
+                        />False
+                    </label>
+            </div>
+                      ): type === "text" || type === "number" ? (
                     <input
+
                       type={type}
                       value={answers[question] || ""}
                       onChange={(e) => handleAnswerChange(question, e.target.value)}
