@@ -63,6 +63,7 @@ class EventSeries(Exportable):
 
 class Income(EventSeries):
     def __init__(self, eventSerie: EventSeries):
+        super().__init__(eventSerie.name, eventSerie.start, eventSerie.duration, eventSerie.type, eventSerie.data)
         data = eventSerie.data
         self.initalAmount = data['initialAmount']
         self.changeAmtOrPct = data['changeAmtOrPct']
@@ -109,6 +110,7 @@ class Income(EventSeries):
         self.socialSecurity = social_security
 class Expense(EventSeries):
     def __init__(self, eventSerie: EventSeries):
+        super().__init__(eventSerie.name, eventSerie.start, eventSerie.duration, eventSerie.type, eventSerie.data)
         data = eventSerie.data
         self.is_discretionary = data['discretionary']
 
@@ -156,6 +158,7 @@ class Expense(EventSeries):
         self.userFraction = fraction
 class Invest(EventSeries):
     def __init__(self, eventSerie: EventSeries):
+        super().__init__(eventSerie.name, eventSerie.start, eventSerie.duration, eventSerie.type, eventSerie.data)
         data = eventSerie.data
 
         self.assetAllocation = data['assetAllocation']
@@ -198,6 +201,7 @@ class Invest(EventSeries):
 
 class Rebalance(EventSeries):
     def __init__(self, eventSerie: EventSeries):
+        super().__init__(eventSerie.name, eventSerie.start, eventSerie.duration, eventSerie.type, eventSerie.data)
         data = eventSerie.data
 
         self.assetAllocation = data['assetAllocation']
