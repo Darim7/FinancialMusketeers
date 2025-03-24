@@ -1,20 +1,4 @@
-/*.create-scenario{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 610px; /* Adjust the width as needed */
-    /* height: 610px;
-    padding: 20px;
-    background-color: #ffffff; /* Whitish background color */
-    /* border-radius: 8px; /* Rounded corners */
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    /* position: absolute;
-    margin: auto;
-    top: 50%;
-    left: 50%; */ */
-    /* transform: translate(-50%, -50%); */ */ */
-/* }  */
+/* Asked ChatGPT to give me some CSS code for me to start with */
 
 label{
     display: block;

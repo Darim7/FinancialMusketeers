@@ -88,7 +88,7 @@ function CreateScenario({formInfo, saveForms}) {
 
   // const [showSetInvestment, setShowSetInvestment] = useState(false);
 
-  // const closeSetInvestmentModal = () => {
+  // const closeSetInvestmentModal = () => {i
   //   setShowSetInvestment(false);
   // }
 
@@ -177,12 +177,15 @@ function CreateScenario({formInfo, saveForms}) {
     //Loop through the form 
     saveForms((prevForms) =>
       prevForms.map((form) =>
+      // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
       // Finds the form by ID and set the name == Scenario Name so user can see
       form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
 
       )
       );
    };
+
+
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting
@@ -1234,6 +1237,7 @@ function CreateScenario({formInfo, saveForms}) {
           {selectedEvent && (
           <div>
             <h3>{selectedEvent} Questions</h3>
+             {/* Asked ChatGPT on how to map diff questions depends on the event user selects */}
                 {diffEvent[selectedEvent].map(({ question, type}, index) => (
                   <div key={index}>
                   <label>
