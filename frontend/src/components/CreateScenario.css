@@ -1,20 +1,20 @@
-.create-scenario{
+/*.create-scenario{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     width: 610px; /* Adjust the width as needed */
-    height: 610px;
+    /* height: 610px;
     padding: 20px;
     background-color: #ffffff; /* Whitish background color */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    position: absolute;
+    /* border-radius: 8px; /* Rounded corners */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    /* position: absolute;
     margin: auto;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+    left: 50%; */ */
+    /* transform: translate(-50%, -50%); */ */ */
+/* }  */
 
 label{
     display: block;
@@ -46,4 +46,15 @@ select {
     border-radius: 13px;       
 
 }
- 
+
+
+.spending-item{
+    background-color:rgb(196, 218, 241);
+    padding: 10px;
+    margin-bottom: 10px; 
+    cursor: move;
+}
+
+.spending-list{
+    margin-top: 2px;
+}

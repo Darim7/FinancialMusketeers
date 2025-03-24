@@ -1,7 +1,7 @@
 // Create Scenario Page
 import React from 'react';
 import {useState, useEffect } from 'react';
-// import './CreateScenario.css';
+import './CreateScenario.css';
 import Scenario from '../pages/Scenarios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -376,7 +376,8 @@ function CreateScenario({formInfo, saveForms}) {
      }
      else{
       updatedDiscretionary = values.discretionary;
-      updatedDiscretionary = values.discretionary.filter(event => newEvent["Discretionary : "] === "true");
+      updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
+
 
      }
       
@@ -388,7 +389,8 @@ function CreateScenario({formInfo, saveForms}) {
         updatedDiscretionary = [...values.discretionary, newEvent];
       } else {
         updatedDiscretionary = values.discretionary;
-        updatedDiscretionary = values.discretionary.filter(event => newEvent["Discretionary : "] === "true");
+        updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
+
       }
       
 
@@ -473,6 +475,36 @@ function CreateScenario({formInfo, saveForms}) {
     { value: 'WY', label: 'Wyoming' }
     
   ]
+
+  {/* Drag and Drop For Discretionary Item */}
+  {/*---------------------------------------*/}
+  
+  //Stores things but does not re-render the components
+  //Also save drag items
+  const dragItem = React.useRef<any>(null)
+  const dragOver = React.useRef<any>(null)
+
+  // Sort Drag
+  const handleSortDrag = () => {
+    // Have a copy of the discretionary array and make change
+    let discretionaryItems = [...values.discretionary]
+
+    // Remove and Save Drag Item 
+    const dragItems = discretionaryItems.splice(dragItem.current, 1)[0]
+ 
+    // Switch the Position 
+    discretionaryItems.splice(dragOver.current, 0, dragItems)
+
+    // Reset the position 
+    dragItem.current = null
+    dragOver.current = null
+
+    // Update the discretionary array after user rearrange
+    setValues(prevValues => ({
+      ...prevValues,
+      discretionary: discretionaryItems
+    }));
+  }
 
   return (
     <div className="create-scenario"> 
@@ -643,13 +675,21 @@ function CreateScenario({formInfo, saveForms}) {
 
           {/* Select the order of  spending  */}
           <label htmlFor="spendingStrategy"> Spending Strategy:</label>
-          <input
-              type = "text"
-              // value = {values.discretionary}
-          
-          />
-         
-         
+            <div className='spending-list'>
+              {values.discretionary.map((item, index) => (
+                <div key={index} className='spending-item'
+                draggable
+                onDragStart={(e)=> dragItem.current = index}
+                onDragEnter={(e)=> dragOver.current = index}
+                onDragEnd={handleSortDrag}
+                onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
+                >
+                  {item.eventName}
+                
+                </div>
+              ))}
+
+            </div>
 
           {/* Array */}
           <label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</label>
