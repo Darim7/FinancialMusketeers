@@ -30,6 +30,7 @@ function CreateScenario({formInfo, saveForms}) {
     expenseWithdrawalStrategy: [] as any [],
     RMDStrategy: [] as any [],
     RothConversionOpt: '',
+    RothConversionOptInfo: [] as any [],
     RothConversionStart: '',
     RothConversionEnd: '',
     RothConversionStrategy: [] as any,
@@ -56,6 +57,7 @@ function CreateScenario({formInfo, saveForms}) {
       expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
       RMDStrategy: formInfo.RMDStrategy || [],
       RothConversionOpt: formInfo.RothConversionOpt || '',
+      RothConversionOptInfo: formInfo.RothConversionOptInfo || [],
       RothConversionStart: formInfo.RothConversionStart || '',
       RothConversionEnd: formInfo.RothConversionEnd || '',
       RothConversionStrategy: formInfo.RothConversionStrategy || [],
@@ -261,6 +263,9 @@ function CreateScenario({formInfo, saveForms}) {
   const saveInvestment = (e) => {
 
       let updatedInvestments;
+      let updatedExpenseWithdrawalStrategy;
+      let updateRMD;
+      let updateRothConversionStrategy;
       // Update if editing
       const investmentToSave = {
         ...investment,
@@ -270,21 +275,65 @@ function CreateScenario({formInfo, saveForms}) {
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
       if (currentInvestmentIndex >= 0) {
         updatedInvestments = [...values.investments];
-        updatedInvestments[currentInvestmentIndex] = investmentToSave;
+        updatedInvestments[currentInvestmentIndex] = investment;
+
+        
+        updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
+        updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investment;
+
+        if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
+        // If the tax-status is "pre-tax" then added to the array 
+            updateRMD = [...values.RMDStrategy];
+            updateRMD[currentInvestmentIndex] = investment;
+
+            updateRothConversionStrategy = [...values.RothConversionStrategy];
+            updateRothConversionStrategy[currentInvestmentIndex] = investment;
+            
+        } 
+        // Keep the same 
+        else {
+          updateRMD = [...values.RMDStrategy];
+          updateRothConversionStrategy = [...values.RothConversionStrategy]
+        }
+
       } else { /* then it is new */
-        updatedInvestments = [...values.investments, investmentToSave];
+        updatedInvestments = [...values.investments, investment];
+        updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
+
+        
+        if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
+                updateRMD = [...values.RMDStrategy, investment];
+                updateRothConversionStrategy = [...values.RothConversionStrategy, investment];       
+          }
+          else {
+            updateRMD = [...values.RMDStrategy];
+
+            updateRothConversionStrategy = [...values.RothConversionStrategy];
+          }
       }
-      
-      //update the distribution
-      // handleAddDistribution(e, 'returnDistribution', 0, 'investment');
+
+    
+
     // Update the local state with the new investments array
     setValues(prevValues => ({
       ...prevValues,
-      investments: updatedInvestments
+      investments: updatedInvestments,
+      expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
+      RMDStrategy : updateRMD,
+      RothConversionStrategy: updateRothConversionStrategy,
+   
+
     }));
     saveForms(prevForms => 
       prevForms.map(form => 
-        form.id === formInfo.id?{...form,investments: updatedInvestments}:form
+        form.id === formInfo.id?{
+          ...form,
+          investments: updatedInvestments,
+          expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
+          RMDStrategy: updateRMD,
+          RothConversionStrategy: updateRothConversionStrategy
+
+        }:form
       )
       
     
@@ -575,24 +624,91 @@ function CreateScenario({formInfo, saveForms}) {
   const dragOver = React.useRef<any>(null)
 
   // Sort Drag
-  const handleSortDrag = () => {
+  const handleSortDragForDiscretionary = () => {
     // Have a copy of the discretionary array and make change
     let discretionaryItems = [...values.discretionary]
 
     // Remove and Save Drag Item 
-    const dragItems = discretionaryItems.splice(dragItem.current, 1)[0]
+    const dragItems = discretionaryItems.splice(dragItem.current, 1)[0] //Removes 1 item and takes the 1st one
  
     // Switch the Position 
-    discretionaryItems.splice(dragOver.current, 0, dragItems)
+    discretionaryItems.splice(dragOver.current, 0, dragItems) // 0 means: just insert, dragOver.current: this is the new position
 
     // Reset the position 
     dragItem.current = null
     dragOver.current = null
 
+    
     // Update the discretionary array after user rearrange
     setValues(prevValues => ({
       ...prevValues,
       discretionary: discretionaryItems
+    }));
+  }
+
+  const handleSortDragForWithdrawal = () => {
+    // Have a copy of the discretionary array and make change
+    let withdrawalItems = [...values.expenseWithdrawalStrategy]
+
+    // Remove and Save Drag Item 
+    const dragItems = withdrawalItems.splice(dragItem.current, 1)[0] //Removes 1 item and takes the 1st one
+ 
+    // Switch the Position 
+    withdrawalItems.splice(dragOver.current, 0, dragItems) // 0 means: just insert, dragOver.current: this is the new position
+
+    // Reset the position 
+    dragItem.current = null
+    dragOver.current = null
+
+    
+    // Update the discretionary array after user rearrange
+    setValues(prevValues => ({
+      ...prevValues,
+      expenseWithdrawalStrategy: withdrawalItems
+    }));
+  }
+
+  const handleSortDragForRMD = () => {
+    // Have a copy of the discretionary array and make change
+    let rmdItems = [...values.expenseWithdrawalStrategy]
+
+    // Remove and Save Drag Item 
+    const dragItems = rmdItems.splice(dragItem.current, 1)[0] //Removes 1 item and takes the 1st one
+ 
+    // Switch the Position 
+    rmdItems.splice(dragOver.current, 0, dragItems) // 0 means: just insert, dragOver.current: this is the new position
+
+    // Reset the position 
+    dragItem.current = null
+    dragOver.current = null
+
+    
+    // Update the discretionary array after user rearrange
+    setValues(prevValues => ({
+      ...prevValues,
+      RMDStrategy: rmdItems
+    }));
+  }
+
+  const handleSortDragForConversionStrategy = () => {
+    // Have a copy of the discretionary array and make change
+    let conversionItems = [...values.RothConversionStrategy]
+
+    // Remove and Save Drag Item 
+    const dragItems = conversionItems.splice(dragItem.current, 1)[0] //Removes 1 item and takes the 1st one
+ 
+    // Switch the Position 
+    conversionItems.splice(dragOver.current, 0, dragItems) // 0 means: just insert, dragOver.current: this is the new position
+
+    // Reset the position 
+    dragItem.current = null
+    dragOver.current = null
+
+    
+    // Update the discretionary array after user rearrange
+    setValues(prevValues => ({
+      ...prevValues,
+      RothConversionStrategy: conversionItems
     }));
   }
 
@@ -777,52 +893,89 @@ function CreateScenario({formInfo, saveForms}) {
               onChange={handleChanges} 
           />
 
-          {/* Select the order of  spending  */}
+          {/* Select the order of spending  */}
           <label htmlFor="spendingStrategy"> Spending Strategy:</label>
             <div className='spending-list'>
-              {values.discretionary.map((item, index) => (
+            {values.discretionary.length > 0 ? (
+              values.discretionary.map((item, index) => (
                 <div key={index} className='spending-item'
                 draggable
                 onDragStart={(e)=> dragItem.current = index}
                 onDragEnter={(e)=> dragOver.current = index}
-                onDragEnd={handleSortDrag}
+                onDragEnd={handleSortDragForDiscretionary}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
                   {item.eventName}
                 
                 </div>
-              ))}
-
+            ))
+            ) : (
+                <b>No discretionary items to select</b>
+              )}
             </div>
 
-          {/* Array */}
+          {/* Select the order for withdraw strategy */}
           <label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</label>
-            <input
-              type = "text" 
-              name = "expenseWithdrawalStrategy"
-              value = {values.expenseWithdrawalStrategy}
-              onChange={handleChanges} 
-          />
+          <div className='spending-list'>
+            {values.expenseWithdrawalStrategy.length > 0 ? (
+              values.expenseWithdrawalStrategy.map((item, index) => (
+                <div key={index} className='spending-item'
+                draggable
+                onDragStart={(e)=> dragItem.current = index}
+                onDragEnter={(e)=> dragOver.current = index}
+                onDragEnd={handleSortDragForWithdrawal}
+                onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
+                >
+                  {item.investmentName}
+                
+                </div>
+            ))
+            ) : (
+                <b>No withdrawal items to select</b>
+              )}
 
-           {/* Array */}
+            </div>
+          
+
+           {/* Select the order for RMD strategy  */}
            <label htmlFor="RMDStrategy"> RMD Strategy:</label>
-            <input
-              type = "text" 
-              name = "RMDStrategy"
-              value = {values.RMDStrategy}
-              onChange={handleChanges} 
-          />
+            <div className='spending-list'>
+              {values.RMDStrategy.length > 0 ? (
+                values.RMDStrategy.map((item, index) => (
+                <div key={index} className='spending-item'
+                draggable
+                onDragStart={(e)=> dragItem.current = index}
+                onDragEnter={(e)=> dragOver.current = index}
+                onDragEnd={handleSortDragForRMD}
+                onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
+                >
+                  {item.investmentName}
+                
+                </div>
+            ))
+            ) : (
+                <b>No RMD Strategy items to select</b>
+              )}
 
+            </div>
          
+          {/* If it is true, then display the start and end year */}
            <label htmlFor="RothConversionOpt"> Roth Conversion Opt:</label>
             <input
-              type = "text" 
+              type = "radio" 
               name = "RothConversionOpt"
-              value = {values.RothConversionOpt}
-              onChange={handleChanges} 
-          />
+              value = "True"
+              checked = {values.RothConversionOpt === "True"}
+              onChange={handleChanges}/>True
+            <input 
+              type ="radio"
+              name = "RothConversionOpt" 
+              value = "False"
+              checked={values.RothConversionOpt === "False"} 
+              onChange={(e)=> handleChanges(e)} /> False 
 
-            
+        {values.RothConversionOpt === "True" && (
+          <>
           <label htmlFor="RothConversionStart"> Roth Conversion Start:</label>
             <input
               type = "text" 
@@ -831,6 +984,7 @@ function CreateScenario({formInfo, saveForms}) {
               onChange={handleChanges} 
           />
 
+          
           <label htmlFor="RothConversionEnd"> Roth Conversion End:</label>
             <input
               type = "number" 
@@ -838,15 +992,30 @@ function CreateScenario({formInfo, saveForms}) {
               value = {values.RothConversionEnd}
               onChange={handleChanges} 
           />
+          </>
+         )}
 
-            {/* Array */}
-          <label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</label>
-            <input
-              type = "text" 
-              name = "RothConversionStrategy"
-              value = {values.RothConversionStrategy}
-              onChange={handleChanges} 
-          />
+        <label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</label>
+          <div className='spending-list'>
+            {values.RothConversionStrategy.length > 0 ? (
+              values.RothConversionStrategy.map((item, index) => (
+                <div key={index} className='spending-item'
+                draggable
+                onDragStart={(e)=> dragItem.current = index}
+                onDragEnter={(e)=> dragOver.current = index}
+                onDragEnd={handleSortDragForConversionStrategy}
+                onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
+                >
+                  {item.investmentName}
+                
+                </div>
+            ))
+            ) : (
+                <b>No Conversion Strategy to select</b>
+              )}
+
+            </div>
+
        
       </div>
 
