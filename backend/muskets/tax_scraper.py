@@ -10,7 +10,12 @@ FEDERAL_DEDUCTIONS_URL='https://www.irs.gov/publications/p17#en_US_2024_publink1
 NY_INCOME_URL="https://www.tax.ny.gov/forms/current-forms/it/it201i.htm#nys-tax-rate-schedule"
 NJ_INCOME_URL="https://nj-us.icalculator.com/income-tax-rates/2024.html"
 CT_INCOME_URL='https://ct-us.icalculator.com/income-tax-rates/2024.html'
-
+def extract_value_from_dollar(dollar:str):
+    dollar=dollar.replace(' ', '')
+    dollar=dollar.replace('$', '')
+    dollar=dollar.replace(",", '')
+    dollar=dollar.replace(".00", '')
+    return dollar
 def extract_table(table):
     """
     Parse the table received from the website.
@@ -37,7 +42,8 @@ def income_to_dict(rows:List):
         print(f"Rate: {rate}, Lower: {lower}, Upper: {upper}")
         if upper=="And up":
             upper="inf"
-        income_rates[rate]=upper
+        upper=extract_value_from_dollar(upper)
+        income_rates[upper]=rate
     print(f"Resulting Dict: {income_rates}")
     return income_rates
 
@@ -58,10 +64,12 @@ def cap_gains_to_dict(ulists:List, is_married:bool=False):
     index=0
     if is_married:
         index=1
-    cap_gain_rates["0%"]=zero_pct_matches[index][0]
+    zero_value=extract_value_from_dollar(zero_pct_matches[index][0])
+    fifteen_value=extract_value_from_dollar(fifteen_pct_matches[index][1])
+    cap_gain_rates[zero_value]="0%"
     print(fifteen_pct_matches)
-    cap_gain_rates["15%"]=fifteen_pct_matches[index][1]
-    cap_gain_rates["20%"]="inf"
+    cap_gain_rates[fifteen_value]="15%"
+    cap_gain_rates["inf"]="20%"
     
     print(cap_gain_rates)
     return cap_gain_rates
@@ -72,9 +80,10 @@ def ny_income_to_dict(rows):
         if len(row)==0:
             continue
         _, upper, _, _, rate, _,_=row
+        upper=extract_value_from_dollar(upper)
         if upper=='----':
             upper='inf'
-        income_dict[rate]=upper
+        income_dict[upper]=rate
     return income_dict
 
 def icalculator_income_to_dict(rows):
@@ -85,15 +94,18 @@ def icalculator_income_to_dict(rows):
         rate, _, _, upper =row
         if upper=='and above':
             upper='inf'
-        upper=upper.replace(' ', '')
-        income_dict[rate]=upper
+        upper=extract_value_from_dollar(upper)
+        income_dict[upper]=rate
     return income_dict
-def read_tax():
+def read_tax(file_path:str):
     """
     Read a Yaml file that has the tax info.
+    Returns a dictionary
     """
+    with open(file_path, 'r') as file:
     # TODO To be implemented
-
+        tax=yaml.safe_load(file)
+    return tax
 def save(to_yaml:Dict, to_dest:str):
     """
     Saves the scraped tax information to a Yaml file.
@@ -243,6 +255,8 @@ def scrape_nj_ct_income_tax(is_ct:bool=False):
 
 
 if __name__=="__main__":                
-    # scrape_federal_tax()
-    # scrape_ny_income_tax()
+    scrape_federal_tax()
+    scrape_ny_income_tax()
+    scrape_nj_ct_income_tax()
     scrape_nj_ct_income_tax(is_ct=True)
+    
