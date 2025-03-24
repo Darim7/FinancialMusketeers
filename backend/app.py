@@ -3,10 +3,8 @@ from flask import Flask, request, jsonify, send_file
 import os
 import logging
 
-from flask.config import T
-
-from backend.models.user import User
-from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
+from models.user import User
+from dbconn import SCENARIO_COLLECTION, mongo_client, find_document, update_document
 from models.scenario import Scenario
 
 app = Flask(__name__)
@@ -78,15 +76,16 @@ def add_scenario():
 def update_scenario():
     app.logger.info('Reached update_scenario route.')
 
-    # Get the scenario ID from the request
-    scenario_id = request.args.get('id')
-    if not scenario_id:
-        return jsonify({"error": "Scenario ID is required"}), 400
-    
     # Get the updated scenario data
     data = request.get_json()
     if not data:
         return jsonify({"error": "Invalid JSON data"}), 400
+    
+    # Get the scenario ID from the request
+    scenario_id = data['scenario']['_id']
+    if not scenario_id:
+        return jsonify({"error": "Scenario ID is required"}), 400
+
     new_scenario = Scenario.from_dict(data['scenario'])
 
     # Find the scenario by ID
@@ -95,14 +94,33 @@ def update_scenario():
         return jsonify({"error": "Scenario not found"}), 404
     
     # Update the scenario data
-    update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True)
+    cnt = update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True).matched_count
 
-    return jsonify({"message": "Scenario updated successfully"}), 200
+    return jsonify({"message": "Scenario updated successfully"}), 200 if cnt > 0 else 500
 
 @app.route('/api/delete_scenario', methods=['POST'])
 def delete_scenario():
     app.logger.info('Reached delete_scenario route.')
-    return jsonify({"data": "Hello World!"})
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    # Get user email and create a user object
+    user_email = data['user_email']
+    user_name = data['user_name']
+    user = User(user_name, user_email)
+
+    # Check if the scenario ID is in the user's list of scenarios
+    scenario_id = data['scenario_id']
+    if scenario_id not in user.scenarios:
+        return jsonify({"error": "Scenario not found"}), 404
+    
+    # Remove the scenario from the user's list of scenarios
+    if user.delete_scenario(scenario_id):
+        return jsonify({"message": "Scenario deleted successfully"}), 200
+    else:
+        return jsonify({"error": "Failed to delete scenario"}), 500
 
 @app.route('/api/export_scenario', methods=['GET'])
 def export_scenario():
