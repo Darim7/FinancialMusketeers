@@ -39,6 +39,10 @@ test.describe('login page', () => {
         await page.goto(path)
         click_on_guest(page)
         await expect(page).toHaveURL(/\/overview$/); // Regex to match /scenarios 
+        const overview = await page.locator('ul.items a[href="/overview"] > li');
+        // Assert that the button exists
+        await expect(overview).toBeVisible();
+        await expect(overview).toBeEnabled();
 
     })
 });

@@ -160,7 +160,6 @@ def test_export_individual():
         roth_conversion_strategy=["S&P 500 pre-tax"],
         financial_goal=10000,
         residence_state="NY",
-        pretax_contribution_limit=0,
         shared=[]
     )
     scenario.export_yaml('exports/result_individual.yaml')
@@ -290,7 +289,6 @@ def test_export_couple():
         roth_conversion_strategy=["S&P 500 pre-tax"],
         financial_goal=500000,
         residence_state="CA",
-        pretax_contribution_limit=40000,
         shared=[]
     )
     scenario_married.export_yaml('exports/result_couple.yaml')
@@ -402,7 +400,6 @@ def test_export_individual_no_rco():
         roth_conversion_strategy=[],
         financial_goal=200000,
         residence_state="TX",
-        pretax_contribution_limit=20000,
         shared=[]
     )
     # Open the 2 yaml files

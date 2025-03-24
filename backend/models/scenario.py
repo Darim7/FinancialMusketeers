@@ -32,7 +32,6 @@ class Scenario(Exportable):
             roth_conversion_strategy: List[str],
             financial_goal: int,
             residence_state: str,
-            pretax_contribution_limit: int = 0,
             shared: List = []
         ):
 
@@ -87,7 +86,6 @@ class Scenario(Exportable):
         # residence state
         self.state = residence_state
 
-        self.pretax_ann_contribution = pretax_contribution_limit
 
         # Operational Needed Data.
         self.shared=shared
@@ -148,8 +146,6 @@ class Scenario(Exportable):
     def get_residence_state(self) -> str:
         return self.state
 
-    def get_pretax_contribution_limit(self) -> int:
-        return self.pretax_ann_contribution
 
     def get_shared_data(self) -> List:
         return self.shared
@@ -258,7 +254,6 @@ class Scenario(Exportable):
             roth_conversion_strategy=data['RothConversionStrategy'],
             financial_goal=data['financialGoal'],
             residence_state=data['residenceState'],
-            pretax_contribution_limit=data.get('pretaxContributionLimit', 0)
         )
 
     @classmethod

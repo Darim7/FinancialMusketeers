@@ -4,7 +4,7 @@ from pymongo.collection import Collection
 from bson import ObjectId
 
 # Connect to the db
-mongo_client = MongoClient(host=['mongodb://root:example@mongodb:27017'])
+mongo_client = MongoClient('mongodb://root:example@mongodb:27017')
 db = mongo_client['financial_planner']
 
 """

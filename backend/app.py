@@ -5,7 +5,7 @@ import logging
 
 from flask.config import T
 
-from backend.models.user import User
+from models.user import User
 from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
 from models.scenario import Scenario
 

@@ -83,4 +83,24 @@ eventSeries:
     discretionary: false
 
   - name: vacation
-   
+    start: {type: startWith, eventSeries: salary}
+    duration: {type: fixed, value: 40}
+    type: expense
+    initialAmount: 1200
+    changeAmtOrPct: amount
+    changeDistribution: {type: fixed, value: 0}
+    inflationAdjusted: true
+    userFraction: 1.0
+    discretionary: true
+
+inflationAssumption: {type: fixed, value: 0.03}
+afterTaxContributionLimit: 7000
+spendingStrategy: ["vacation"]
+expenseWithdrawalStrategy: [S&P 500 non-retirement, tax-exempt bonds]
+RMDStrategy: [S&P 500 pre-tax]
+RothConversionOpt: true
+RothConversionStart: 2050
+RothConversionEnd: 2060
+RothConversionStrategy: [S&P 500 pre-tax]
+financialGoal: 10000
+residenceState: NY
