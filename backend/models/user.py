@@ -1,13 +1,8 @@
 from scenario import Scenario
 from typing import Self, List
 from datetime import date
-from bson import ObjectId
-
-from models.exportable import Exportable
-from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document
-
-class User(Exportable):
-    def __init__(self, name: str, email:str, scenarios: List[ObjectId]=[]):
+class User:
+    def __init__(self, name: str, email:str , profile_path:str, scenarios: Iterable[Scenario]=[]):
         self.name=name
         self.email=email
         self.scenarios=scenarios
