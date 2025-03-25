@@ -52,6 +52,22 @@ function Scenario() {
 
     // console.log(scenarioForm);
 
+    // Export YAML File
+    const exportYAML = async () =>{
+
+
+
+    }
+
+     // Import YAML File
+     const importYAML = async () =>{
+
+
+
+     }
+
+    
+
     return (
         
         <div className='scenario'>
@@ -59,14 +75,21 @@ function Scenario() {
        
            <div className='main-content'>
                 {/* Export form: YAML File */}
-                <Button variant = "primary">
+                <Button onClick={exportYAML} variant = "primary">
                   + Export
                 </Button>
 
+                <Button onClick={importYAML} variant = "primary">
+                  + Import
+                </Button>
 
                 <Button variant="primary" onClick={handleCreateNew}>
                     + Create New
                 </Button>
+
+                {/* <Button variant="primary" onClick={handleShow}>
+                    + Create New
+                </Button> */}
             </div>
 
             
@@ -102,7 +125,7 @@ function Scenario() {
             </Modal.Body> 
 
             <Modal.Footer>
-            <Button variant="secondary" onClick={() => { handleClose(); setScenarioSaved(true); }}>
+            <Button variant="secondary" onClick={() => {handleClose(); setScenarioSaved(true); }}>
                  Save
             </Button>
                 
