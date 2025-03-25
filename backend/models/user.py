@@ -23,7 +23,7 @@ class User(Exportable):
         return {
             'name': self.name,
             'email': self.email,
-            'scenarios': self.scenarios
+            'scenarios': [str(s) for s in self.scenarios]
         }
     
     @classmethod
