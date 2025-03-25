@@ -70,9 +70,9 @@ def test_add_scenario():
     new_object_id=user_data['scenarios'][-1]
 
     # Verify scenario exists in the mock DB
-    saved_scenario = SCENARIO_COLLECTION.find_one({"_id": new_object_id})
+    saved_scenario = SCENARIO_COLLECTION.find_one({"_id": ObjectId(new_object_id)})
     assert saved_scenario is not None
-    assert saved_scenario["marital_status"] == "individual"
+    assert saved_scenario["maritalStatus"] == "individual"
     cleanup(new_object_id, user_email)
     
 
