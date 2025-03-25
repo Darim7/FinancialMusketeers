@@ -11,6 +11,14 @@ from models.investment import AssetType, Investment
 from models.event_series import Expense, EventSeries, Income
 from utils.yaml_utils import ScenarioYamlUtils
 
+def initialize():
+    individual="exports/result_individual.yaml"
+    couple="exports/result_couple.yaml"
+    individual_no_rco="exports/result_individual_no_rco.yaml"
+    paths=[individual, couple, individual_no_rco]
+    for path in paths:
+        if os.path.exists(path):
+            os.remove(path)
 # TODO: Scenario Import 
 def test_import_couple():
     # convert Yaml to instance
@@ -46,7 +54,8 @@ def test_import_individual_no_rco():
 def test_export_individual():
     # TODO: Ask GPT to generate a Scenario Object and the expected yaml file
     # Creating Asset Types
-    cash = {
+    initialize()
+    cash = AssetType.from_dict({
     "name": "cash",
     "description": "Cash held in account",
     "returnAmtOrPct": "amount",
@@ -55,9 +64,9 @@ def test_export_individual():
     "incomeAmtOrPct": "percent",
     "incomeDistribution": {"type": "fixed", "value": 0},
     "taxability": True
-    }
+    })
 
-    sp500 = {
+    sp500 = AssetType.from_dict({
         "name": "S&P 500",
         "description": "S&P 500 index fund",
         "returnAmtOrPct": "percent",
@@ -66,9 +75,9 @@ def test_export_individual():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.01, "stdev": 0.005},
         "taxability": True
-    }
+    })
 
-    bonds = {
+    bonds = AssetType.from_dict({
         "name": "tax-exempt bonds",
         "description": "NY tax-exempt bonds",
         "returnAmtOrPct": "amount",
@@ -77,17 +86,23 @@ def test_export_individual():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.03, "stdev": 0.01},
         "taxability": False
-    }
+    })
 
 
     # Creating Investments
-    investment1 = {"name":cash, "value":100, "taxStatus":"non-retirement", "id":"cash"}
-    investment2 = {"name": "S&P 500", "value": 10000, "taxStatus": "non-retirement", "id": "S&P 500 non-retirement"}
-    investment3 = {"name": "tax-exempt bonds", "value": 2000, "taxStatus": "non-retirement", "id": "tax-exempt bonds"}
-    investment4 = {"name": "S&P 500", "value": 10000, "taxStatus": "pre-tax", "id": "S&P 500 pre-tax"}
-    investment5 = {"name": "S&P 500", "value": 2000, "taxStatus": "after-tax", "id": "S&P 500 after-tax"}
+    investment1 = {"investmentType":"cash", "value":100, "taxStatus":"non-retirement", "id":"cash"}
+    investment2 = {"investmentType": "S&P 500", "value": 10000, "taxStatus": "non-retirement", "id": "S&P 500 non-retirement"}
+    investment3 = {"investmentType": "tax-exempt bonds", "value": 2000, "taxStatus": "non-retirement", "id": "tax-exempt bonds"}
+    investment4 = {"investmentType": "S&P 500", "value": 10000, "taxStatus": "pre-tax", "id": "S&P 500 pre-tax"}
+    investment5 = {"investmentType": "S&P 500", "value": 2000, "taxStatus": "after-tax", "id": "S&P 500 after-tax"}
 
-    investments = [investment1, investment2, investment3, investment4, investment5]
+    investments = [
+        Investment.from_dict(investment1),
+        Investment.from_dict(investment2),
+        Investment.from_dict(investment3),
+        Investment.from_dict(investment4),
+        Investment.from_dict(investment5)
+    ]
 
     # Creating Event Series
     salary_event = {
@@ -129,7 +144,7 @@ def test_export_individual():
         "discretionary": True
     }
 
-    event_series = [salary_event, food_event, vacation_event]
+    event_series = [EventSeries.from_dict(salary_event), EventSeries.from_dict(food_event), EventSeries.from_dict(vacation_event)]
 
     # Creating the Scenario instance
     scenario = Scenario(
@@ -166,8 +181,9 @@ def test_export_individual():
     assert not diff, f"YAML files {res_yaml} and {expect_yaml} differ: {diff}"
 
 def test_export_couple():
+    initialize()
     # Asset Types
-    cash = {
+    cash = AssetType.from_dict({
         "name": "cash",
         "description": "Cash held in account",
         "returnAmtOrPct": "amount",
@@ -176,9 +192,9 @@ def test_export_couple():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "fixed", "value": 0},
         "taxability": True
-    }   
+    })   
 
-    sp500 = {
+    sp500 = AssetType.from_dict({
         "name": "S&P 500",
         "description": "S&P 500 index fund",
         "returnAmtOrPct": "percent",
@@ -187,9 +203,9 @@ def test_export_couple():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.01, "stdev": 0.005},
         "taxability": True
-    }   
+    })   
 
-    bonds = {
+    bonds = AssetType.from_dict({
         "name": "tax-exempt bonds",
         "description": "NY tax-exempt bonds",
         "returnAmtOrPct": "amount",
@@ -198,61 +214,55 @@ def test_export_couple():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.03, "stdev": 0.01},
         "taxability": False
-    }   
+    })   
 
     # Investments
     investments = [
-        {"name": "cash", "value": 500, "taxStatus": "non-retirement", "id": "cash"},
-        {"name": "S&P 500", "value": 20000, "taxStatus": "non-retirement", "id": "S&P 500 non-retirement"},
-        {"name": "tax-exempt bonds", "value": 5000, "taxStatus": "non-retirement", "id": "tax-exempt bonds"},
-        {"name": "S&P 500", "value": 15000, "taxStatus": "pre-tax", "id": "S&P 500 pre-tax"},
-        {"name": "S&P 500", "value": 3000, "taxStatus": "after-tax", "id": "S&P 500 after-tax"}
+        Investment.from_dict({"investmentType": "cash", "value": 500, "taxStatus": "non-retirement", "id": "cash"}),
+        Investment.from_dict({"investmentType": "S&P 500", "value": 20000, "taxStatus": "non-retirement", "id": "S&P 500 non-retirement"}),
+        Investment.from_dict({"investmentType": "tax-exempt bonds", "value": 5000, "taxStatus": "non-retirement", "id": "tax-exempt bonds"}),
+        Investment.from_dict({"investmentType": "S&P 500", "value": 15000, "taxStatus": "pre-tax", "id": "S&P 500 pre-tax"}),
+        Investment.from_dict({"investmentType": "S&P 500", "value": 3000, "taxStatus": "after-tax", "id": "S&P 500 after-tax"})
     ]   
 
     # Event Series
     event_series = [
-        {
+        EventSeries.from_dict({
             "name": "salary",
             "start": {"type": "fixed", "value": 2025},
             "duration": {"type": "fixed", "value": 40},
             "type": "income",
-            "data": {
-                "initialAmount": 120000,
-                "changeAmtOrPct": "amount",
-                "changeDistribution": {"type": "uniform", "lower": 1000, "upper": 5000},
-                "inflationAdjusted": False,
-                "userFraction": 0.6,
-                "socialSecurity": True
-            }
-        },
-        {
+            "initialAmount": 120000,
+            "changeAmtOrPct": "amount",
+            "changeDistribution": {"type": "uniform", "lower": 1000, "upper": 5000},
+            "inflationAdjusted": False,
+            "userFraction": 0.6,
+            "socialSecurity": True
+        }),
+        EventSeries.from_dict({
             "name": "spouse salary",
             "start": {"type": "fixed", "value": 2025},
             "duration": {"type": "fixed", "value": 35},
             "type": "income",
-            "data": {
-                "initialAmount": 90000,
-                "changeAmtOrPct": "amount",
-                "changeDistribution": {"type": "uniform", "lower": 800, "upper": 3000},
-                "inflationAdjusted": False,
-                "userFraction": 0.4,
-                "socialSecurity": True
-            }
-        },
-        {
+            "initialAmount": 90000,
+            "changeAmtOrPct": "amount",
+            "changeDistribution": {"type": "uniform", "lower": 800, "upper": 3000},
+            "inflationAdjusted": False,
+            "userFraction": 0.4,
+            "socialSecurity": True
+        }),
+        EventSeries.from_dict({
             "name": "mortgage",
             "start": {"type": "fixed", "value": 2025},
             "duration": {"type": "fixed", "value": 30},
             "type": "expense",
-            "data": {
-                "initialAmount": 1500,
-                "changeAmtOrPct": "amount",
-                "changeDistribution": {"type": "fixed", "value": 0},
-                "inflationAdjusted": False,
-                "userFraction": 1.0,
-                "discretionary": False
-            }
-        }
+            "initialAmount": 1500,
+            "changeAmtOrPct": "amount",
+            "changeDistribution": {"type": "fixed", "value": 0},
+            "inflationAdjusted": False,
+            "userFraction": 1.0,
+            "discretionary": False
+        })
     ]
 
 
@@ -296,8 +306,9 @@ def test_export_couple():
     assert not diff, f"YAML files {res_yaml} and {expect_yaml} differ: {diff}"
 
 def test_export_individual_no_rco():
+    initialize()
     # Creating Asset Types
-    cash = {
+    cash = AssetType.from_dict({
     "name": "cash",
     "description": "Cash held in account",
     "returnAmtOrPct": "amount",
@@ -306,9 +317,9 @@ def test_export_individual_no_rco():
     "incomeAmtOrPct": "percent",
     "incomeDistribution": {"type": "fixed", "value": 0},
     "taxability": True
-    }
+    })
 
-    sp500 = {
+    sp500 = AssetType.from_dict({
         "name": "S&P 500",
         "description": "S&P 500 index fund",
         "returnAmtOrPct": "percent",
@@ -317,9 +328,9 @@ def test_export_individual_no_rco():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.01, "stdev": 0.005},
         "taxability": True
-    }
+    })
 
-    bonds = {
+    bonds = AssetType.from_dict({
         "name": "tax-exempt bonds",
         "description": "NY tax-exempt bonds",
         "returnAmtOrPct": "amount",
@@ -328,48 +339,53 @@ def test_export_individual_no_rco():
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.03, "stdev": 0.01},
         "taxability": False
-    }
+    })
 
     # Creating Investments
-    investment1 = {
-        "asset": "cash",
-        "amount": 500,
-        "account_type": "non-retirement",
-        "description": "cash"
-    }
+    investment1 = Investment.from_dict({
+        "investmentType": "cash",
+        "value": 500,
+        "taxStatus": "non-retirement",
+        "id": "cash"
+    })
 
     investment2 = {
-        "asset": "S&P 500",
-        "amount": 20000,
-        "account_type": "non-retirement",
-        "description": "S&P 500 non-retirement"
+        "investmentType": "S&P 500",
+        "value": 20000,
+        "taxStatus": "non-retirement",
+        "id": "S&P 500 non-retirement"
     }
+    investment2 = Investment.from_dict(investment2)
 
     investment3 = {
-        "asset": "tax-exempt bonds",
-        "amount": 5000,
-        "account_type": "non-retirement",
-        "description": "tax-exempt bonds"
+        "investmentType": "tax-exempt bonds",
+        "value": 5000,
+        "taxStatus": "non-retirement",
+        "id": "tax-exempt bonds"
     }
+    investment3 = Investment.from_dict(investment3)
 
     investment4 = {
-        "asset": "S&P 500",
-        "amount": 15000,
-        "account_type": "pre-tax",
-        "description": "S&P 500 pre-tax"
+        "investmentType": "S&P 500",
+        "value": 15000,
+        "taxStatus": "pre-tax",
+        "id": "S&P 500 pre-tax"
     }
+    investment4 = Investment.from_dict(investment4)
 
     investment5 = {
-        "asset": "S&P 500",
-        "amount": 3000,
-        "account_type": "after-tax",
-        "description": "S&P 500 after-tax"
+        "investmentType": "S&P 500",
+        "value": 3000,
+        "taxStatus": "after-tax",
+        "id": "S&P 500 after-tax"
     }
+    investment5 = Investment.from_dict(investment5)
+
 
     investments = [investment1, investment2, investment3, investment4, investment5]
 
     # Creating Event Series
-    salary_event = {
+    salary_event = EventSeries.from_dict({
         "name": "salary",
         "start": {"type": "fixed", "value": 2025},
         "duration": {"type": "fixed", "value": 40},
@@ -380,9 +396,9 @@ def test_export_individual_no_rco():
         "inflationAdjusted": False,
         "userFraction": 1.0,
         "socialSecurity": True
-    }
+    })
 
-    rent_expense = {
+    rent_expense = EventSeries.from_dict({
         "name": "rent",
         "start": {"type": "fixed", "value": 2025},
         "duration": {"type": "fixed", "value": 30},
@@ -393,7 +409,7 @@ def test_export_individual_no_rco():
         "inflationAdjusted": True,
         "userFraction": 1.0,
         "discretionary": False
-    }
+    })
 
     event_series = [salary_event, rent_expense]
 

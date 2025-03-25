@@ -1,4 +1,3 @@
-from scenario import Scenario
 from models.scenario import Scenario
 from typing import Self, List
 from datetime import date

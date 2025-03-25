@@ -45,13 +45,21 @@ investments:
 - {investmentType: S&P 500, value: 15000, taxStatus: pre-tax, id: S&P 500 pre-tax}
 - {investmentType: S&P 500, value: 3000, taxStatus: after-tax, id: S&P 500 after-tax}
 eventSeries:
-- initialAmount: 100000
+- name: salary
+  start: {type: fixed, value: 2025}
+  duration: {type: fixed, value: 40}
+  type: income
+  initialAmount: 100000
   changeAmtOrPct: amount
   changeDistribution: {type: uniform, lower: 1000, upper: 5000}
   inflationAdjusted: false
   userFraction: 1.0
   socialSecurity: true
-- initialAmount: 2000
+- name: rent
+  start: {type: fixed, value: 2025}
+  duration: {type: fixed, value: 30}
+  type: expense
+  initialAmount: 2000
   changeAmtOrPct: percent
   changeDistribution: {type: fixed, value: 0.02}
   inflationAdjusted: true

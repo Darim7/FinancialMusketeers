@@ -1,60 +1,89 @@
 import pytest
-from fastapi.testclient import TestClient
-from mongomock import MongoClient
-from app import app  # Import your FastAPI app
+import sys
+import os
+import requests
+import json
+from bson import ObjectId
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from app import app  # Import your Flask app and DB function
+from dbconn import SCENARIO_COLLECTION, USER_COLLECTION
+from models.user import User
+from utils.yaml_utils import ScenarioYamlUtils
 
-# Mock MongoDB connection
-@pytest.fixture
-def mock_mongo():
-    client = MongoClient()  # Create a mock MongoDB client
-    db = client["test_db"]  # Use a test database
-    return db
+def cleanup(obj_id:str, user_email:str):
+    # Cleanup
+    # Convert the string to ObjectId
+    object_id = ObjectId(obj_id)
+    SCENARIO_COLLECTION.delete_one({"_id": object_id})
+    USER_COLLECTION.delete_one({"email": user_email})
+def add_scenario(file:str):
+    scenario_yaml=ScenarioYamlUtils(file)
+    scenario_payload=scenario_yaml.get_yaml()
 
-# Use FastAPI's TestClient
-client = TestClient(app)
-
-def test_add_scenario(mock_mongo, monkeypatch):
-    """
-    Test the /api/add_scenario endpoint.
-    """
-
-    # Mock the database dependency
-    def mock_get_db():
-        return mock_mongo
-
-    # Patch the database function in the app
-    monkeypatch.setattr("app.get_db", mock_get_db)
-
-    # Sample scenario payload
-    scenario_payload = {
-        "name": "Test Scenario",
-        "marital_status": "individual",
-        "birth_years": [1990],
-        "life_expectancy": [{"type": "fixed", "value": 85}],
-        "investment_types": [],
-        "investments": [],
-        "event_series": [],
-        "inflation_assumption": {"type": "fixed", "value": 0.03},
-        "after_tax_contribution_limit": 7000,
-        "spending_strategy": [],
-        "expense_withdrawal_strategy": [],
-        "rmd_strategy": [],
-        "roth_conversion_opt": False,
-        "roth_conversion_start": 0,
-        "roth_conversion_end": 0,
-        "roth_conversion_strategy": [],
-        "financial_goal": 10000,
-        "residence_state": "NY",
+    user_name="Test"
+    user_email="test@financialmusketeers.org"
+    # user = User(user_name, user_email)
+    
+    data= {
+        "user_name": user_name,
+        "user_email": user_email,
+        "scenario": scenario_payload
     }
-
-    # Make API request
-    response = client.post("localhost:8000/api/add_scenario", json=scenario_payload)
+    # data=json.dumps(data)
+    # Send POST request to add scenario
+    response = requests.post("http://flask_server:8000/api/add_scenario", json=data, headers={'Content-Type': 'application/json'})
 
     # Assertions
     assert response.status_code == 201
-    assert response.json()["message"] == "Scenario added successfully"
+    res_json=response.json()
+    assert res_json["message"] == "Scenario added successfully"
+    
+    # Unpack body
+    user_data=res_json["data"]
+    new_object_id=user_data['scenarios'][-1]
 
-    # Check if scenario was inserted into mock DB
-    saved_scenario = mock_mongo.scenarios.find_one({"name": "Test Scenario"})
+    return (new_object_id, user_email)
+def test_add_scenario():
+    scenario_yaml=ScenarioYamlUtils('imports/scenario_individual.yaml')
+    scenario_payload=scenario_yaml.get_yaml()
+
+    user_name="Test"
+    user_email="test@financialmusketeers.org"
+    # user = User(user_name, user_email)
+    
+    data= {
+        "user_name": user_name,
+        "user_email": user_email,
+        "scenario": scenario_payload
+    }
+    # data=json.dumps(data)
+    # Send POST request to add scenario
+    response = requests.post("http://flask_server:8000/api/add_scenario", json=data, headers={'Content-Type': 'application/json'})
+
+    # Assertions
+    assert response.status_code == 201
+    res_json=response.json()
+    assert res_json["message"] == "Scenario added successfully"
+    
+    # Unpack body
+    user_data=res_json["data"]
+    new_object_id=user_data['scenarios'][-1]
+
+    # Verify scenario exists in the mock DB
+    saved_scenario = SCENARIO_COLLECTION.find_one({"_id": new_object_id})
     assert saved_scenario is not None
     assert saved_scenario["marital_status"] == "individual"
+    cleanup(new_object_id, user_email)
+    
+
+def test_get_scenario():
+    new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
+    
+    response=requests.get('http://flask_server:8000/api/get_scenario', json={"id": new_obj_id}, headers={'Content-Type': 'application/json'})
+    assert response.status_code==200
+    res_json=response.json()
+    
+    # Verify that the scenario is equal to the object id we are requesting for
+    assert res_json["_id"]==new_obj_id
+    
+    cleanup(new_obj_id, user_email)
