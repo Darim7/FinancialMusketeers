@@ -1,0 +1,95 @@
+# file format for scenario import/export.  version: 2025-03-11
+
+name: "Retirement Plan Without Roth Conversion"
+maritalStatus: individual
+birthYears: [1980]
+lifeExpectancy: [{type: fixed, value: 85}]
+
+investmentTypes:
+  - name: cash
+    description: Cash held in account
+    returnAmtOrPct: amount
+    returnDistribution: {type: fixed, value: 0}
+    expenseRatio: 0
+    incomeAmtOrPct: percent
+    incomeDistribution: {type: fixed, value: 0}
+    taxability: true
+
+  - name: S&P 500
+    description: S&P 500 index fund
+    returnAmtOrPct: percent
+    returnDistribution: {type: GBM, mu: 0.06, sigma: 0.02}
+    expenseRatio: 0.001
+    incomeAmtOrPct: percent
+    incomeDistribution: {type: normal, mean: 0.01, stdev: 0.005}
+    taxability: true
+
+  - name: tax-exempt bonds
+    description: NY tax-exempt bonds
+    returnAmtOrPct: amount
+    returnDistribution: {type: fixed, value: 0}
+    expenseRatio: 0.004
+    incomeAmtOrPct: percent
+    incomeDistribution: {type: normal, mean: 0.03, stdev: 0.01}
+    taxability: false
+
+investments:
+  - investmentType: cash
+    value: 500
+    taxStatus: non-retirement
+    id: cash
+
+  - investmentType: S&P 500
+    value: 20000
+    taxStatus: non-retirement
+    id: S&P 500 non-retirement
+
+  - investmentType: tax-exempt bonds
+    value: 5000
+    taxStatus: non-retirement
+    id: tax-exempt bonds
+
+  - investmentType: S&P 500
+    value: 15000
+    taxStatus: pre-tax
+    id: S&P 500 pre-tax
+
+  - investmentType: S&P 500
+    value: 3000
+    taxStatus: after-tax
+    id: S&P 500 after-tax
+
+eventSeries:
+  - name: salary
+    start: {type: fixed, value: 2025}
+    duration: {type: fixed, value: 40}
+    type: income
+    initialAmount: 100000
+    changeAmtOrPct: amount
+    changeDistribution: {type: uniform, lower: 1000, upper: 5000}
+    inflationAdjusted: false
+    userFraction: 1.0
+    socialSecurity: true
+
+  - name: rent
+    start: {type: fixed, value: 2025}
+    duration: {type: fixed, value: 30}
+    type: expense
+    initialAmount: 2000
+    changeAmtOrPct: percent
+    changeDistribution: {type: fixed, value: 0.02}
+    inflationAdjusted: true
+    userFraction: 1.0
+    discretionary: false
+
+inflationAssumption: {type: fixed, value: 0.03}
+afterTaxContributionLimit: 7000
+spendingStrategy: ["rent"]
+expenseWithdrawalStrategy: [S&P 500 non-retirement, tax-exempt bonds]
+RMDStrategy: [S&P 500 pre-tax]
+RothConversionOpt: false  # No Roth Conversion
+RothConversionStart: 0
+RothConversionEnd: 0
+RothConversionStrategy: []
+financialGoal: 200000
+residenceState: TX

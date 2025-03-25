@@ -1,0 +1,1 @@
+To run the test, do `npx playwright test`

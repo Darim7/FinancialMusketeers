@@ -26,8 +26,6 @@ This way the container will install packages according to `package.json` and the
 
 **TLDR: The frontend is running on a docker container, so any npm commands that is run locally WON'T reflect on the container!!!**
 
-## What's going on inside the container? :eyes:
-
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
