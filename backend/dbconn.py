@@ -71,3 +71,12 @@ def find_document(collection: Collection, query, projection=None):
     :return: Document or None if not found
     """
     return collection.find_one(query, projection)
+
+def delete_document(collection: Collection, object_id: str | ObjectId):
+    """
+    Delete a document in the collection.
+    :param collection: MongoDB collection object
+    :param query: Query dictionary to search for the document
+    :return: Delete result object
+    """
+    return collection.delete_one({'_id': ObjectId(object_id)})

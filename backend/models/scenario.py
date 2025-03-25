@@ -208,15 +208,7 @@ class Scenario(Exportable):
         )
         
         # Add header comments
-        header = """# file format for scenario import/export.  version: 2025-03-11
-        # CSE416, Software Engineering, Scott D. Stoller.
-
-        # a distribution is represented as a map with one of the following forms:
-        # {type: fixed, value: <number>}
-        # {type: normal, mean: <number>, stdev: <number>}
-        # {type: uniform, lower: <number>, upper: <number>}
-        # {type: GBM, mu: <number>, sigma: <number>}
-        # percentages are represented by their decimal value, e.g., 4% is represented as 0.04.\n\n"""
+        header = "# file format for scenario import/export.\n# version: 2025-03-11\n# CSE416, Software Engineering, Scott D. Stoller.\n# a distribution is represented as a map with one of the following forms:\n# {type: fixed, value: <number>}\n# {type: normal, mean: <number>, stdev: <number>}\n# {type: uniform, lower: <number>, upper: <number>}\n# {type: GBM, mu: <number>, sigma: <number>}\n# percentages are represented by their decimal value, e.g., 4% is represented as 0.04.\n\n"
         
         with open(filename, 'x') as f:
             f.write(header + yaml_content)

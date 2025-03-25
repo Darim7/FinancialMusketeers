@@ -1,10 +1,9 @@
-from models.scenario import Scenario
 from typing import Self, List
-from datetime import date
 from bson import ObjectId
 
+from models.scenario import Scenario
 from models.exportable import Exportable
-from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document
+from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document
 
 class User(Exportable):
     def __init__(self, name: str, email:str, scenarios: List[ObjectId]=[]):
@@ -24,7 +23,7 @@ class User(Exportable):
         return {
             'name': self.name,
             'email': self.email,
-            'scenarios': self.scenarios
+            'scenarios': [str(s) for s in self.scenarios]
         }
     
     @classmethod
@@ -53,12 +52,14 @@ class User(Exportable):
         self.scenarios.append(scenario_id)
         return
     
-    # def get_scenario(scenario:Scenario)->Scenario:
-    #     pass
-    def update_scenario(self, scenario:Scenario) -> Scenario:
-        pass
-    def delete_scenario(self, scenario:Scenario) -> Scenario:
-        pass
+    def delete_scenario(self, scenario_id: ObjectId | str) -> bool:
+        if scenario_id not in self.scenarios:
+            return False
+        
+        if delete_document(SCENARIO_COLLECTION, scenario_id).deleted_count > 0:
+            return True
+        else:
+            return False
     
     # Utilities for sharing scenarios
     ### TODO: Decide whether we need to return anything for share & revoke

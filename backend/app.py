@@ -1,12 +1,13 @@
 import re
+from bson import ObjectId
 from flask import Flask, request, jsonify, send_file
 import os
 import logging
-
-from flask.config import T
+from datetime import datetime
+import yaml
 
 from models.user import User
-from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
+from dbconn import SCENARIO_COLLECTION, mongo_client, find_document, update_document
 from models.scenario import Scenario
 
 app = Flask(__name__)
@@ -29,13 +30,14 @@ def hello():
 def get_scenario():
     try:
         # Get the scenario ID from the query parameters
-        scenario_id = request.args.get('id')
+        scenario_id = request.get_json().get('_id')
         
         if not scenario_id:
+            app.logger.error(f'Scenario ID is required received {scenario_id}')
             return jsonify({"error": "Scenario ID is required"}), 400
         
         # Find the scenario by ID
-        scenario = find_document(SCENARIO_COLLECTION, {"_id": scenario_id})
+        scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
         
         if scenario:
             # Convert ObjectId to string for JSON serialization
@@ -54,25 +56,19 @@ def add_scenario():
     
     try:
         data = request.get_json()
-        app.logger.info(type(data))
-        app.logger.info(data)
 
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
         
-        app.logger.info(f"User email")
         # Grab User info
         user_email = data['user_email']
         user_name = data['user_name']
 
         # Create objects
         user = User(user_name, user_email)
-        app.logger.info("Added User")
         scenario = Scenario.from_dict(data['scenario'])
-        app.logger.info("Added Scenario")
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
-        app.logger.info("Added Scenario to User")
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
     except Exception as e:
@@ -83,15 +79,16 @@ def add_scenario():
 def update_scenario():
     app.logger.info('Reached update_scenario route.')
 
-    # Get the scenario ID from the request
-    scenario_id = request.args.get('id')
-    if not scenario_id:
-        return jsonify({"error": "Scenario ID is required"}), 400
-    
     # Get the updated scenario data
     data = request.get_json()
     if not data:
         return jsonify({"error": "Invalid JSON data"}), 400
+    
+    # Get the scenario ID from the request
+    scenario_id = data['scenario']['_id']
+    if not scenario_id:
+        return jsonify({"error": "Scenario ID is required"}), 400
+
     new_scenario = Scenario.from_dict(data['scenario'])
 
     # Find the scenario by ID
@@ -100,24 +97,94 @@ def update_scenario():
         return jsonify({"error": "Scenario not found"}), 404
     
     # Update the scenario data
-    update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True)
+    cnt = update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True).matched_count
 
-    return jsonify({"message": "Scenario updated successfully"}), 200
+    return jsonify({"message": "Scenario updated successfully"}), 200 if cnt > 0 else 500
 
 @app.route('/api/delete_scenario', methods=['POST'])
 def delete_scenario():
     app.logger.info('Reached delete_scenario route.')
-    return jsonify({"data": "Hello World!"})
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    # Get user email and create a user object
+    user_email = data['user_email']
+    user_name = data['user_name']
+    user = User(user_name, user_email)
+
+    # Check if the scenario ID is in the user's list of scenarios
+    scenario_id = data['scenario_id']
+    if scenario_id not in user.scenarios:
+        return jsonify({"error": "Scenario not found"}), 404
+    
+    # Remove the scenario from the user's list of scenarios
+    if user.delete_scenario(scenario_id):
+        return jsonify({"message": "Scenario deleted successfully"}), 200
+    else:
+        return jsonify({"error": "Failed to delete scenario"}), 500
 
 @app.route('/api/export_scenario', methods=['GET'])
 def export_scenario():
     app.logger.info('Reached export_scenario route.')
-    return jsonify({"data": "Hello World!"})
 
+    try:
+        # Get the scenario object from the get request
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid JSON data"}), 400
+
+        # Create objects
+        scenario = Scenario.from_dict(data['scenario'])
+        fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.yaml"
+        scenario.export_yaml(fname)
+        
+        return send_file(fname), 201
+
+    except Exception as e:
+        app.logger.error(f"Error adding scenario: {e}")
+        return jsonify({"error": "Failed to add scenario"}), 500
+
+# PT: Can you help me on implementing this? I am going to receive the yaml file?
 @app.route('/api/import_scenario', methods=['POST'])
 def import_scenario():
     app.logger.info('Reached import_scenario route.')
-    return jsonify({"data": "Hello World!"})
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    # Get user email and create a user object
+    user_email = data['user_email']
+    user_name = data['user_name']
+    user = User(user_name, user_email)
+
+    # Ensure a file is provided
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    # Ensure it's a YAML file
+    if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
+        return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
+    
+    fname = f"uploads/{file.filename}"
+    file.save(fname)
+    
+    try:
+        # Parse YAML content
+        scenario = Scenario.from_yaml(fname)
+
+        # Add the scenario ID to the user's list of scenarios
+        user.add_scenario(scenario)
+
+        return jsonify({"message": "Scenario imported successfully", "data": user.to_dict()}), 201
+
+    except yaml.YAMLError as e:
+        return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.logger.info('Starting Flask application')

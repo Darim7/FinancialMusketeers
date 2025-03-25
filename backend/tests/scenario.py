@@ -70,20 +70,20 @@ def test_add_scenario():
     new_object_id=user_data['scenarios'][-1]
 
     # Verify scenario exists in the mock DB
-    saved_scenario = SCENARIO_COLLECTION.find_one({"_id": new_object_id})
+    saved_scenario = SCENARIO_COLLECTION.find_one({"_id": ObjectId(new_object_id)})
     assert saved_scenario is not None
-    assert saved_scenario["marital_status"] == "individual"
+    assert saved_scenario["maritalStatus"] == "individual"
     cleanup(new_object_id, user_email)
     
 
 def test_get_scenario():
     new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
     
-    response=requests.get('http://flask_server:8000/api/get_scenario', json={"id": new_obj_id}, headers={'Content-Type': 'application/json'})
+    response=requests.get('http://flask_server:8000/api/get_scenario', json={"_id": new_obj_id}, headers={'Content-Type': 'application/json'})
     assert response.status_code==200
     res_json=response.json()
     
     # Verify that the scenario is equal to the object id we are requesting for
-    assert res_json["_id"]==new_obj_id
+    assert res_json['data']["_id"]==new_obj_id
     
     cleanup(new_obj_id, user_email)
