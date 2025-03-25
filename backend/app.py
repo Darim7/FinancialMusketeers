@@ -2,6 +2,7 @@ import re
 from flask import Flask, request, jsonify, send_file
 import os
 import logging
+from datetime import datetime
 
 from models.user import User
 from dbconn import SCENARIO_COLLECTION, mongo_client, find_document, update_document
@@ -125,7 +126,23 @@ def delete_scenario():
 @app.route('/api/export_scenario', methods=['GET'])
 def export_scenario():
     app.logger.info('Reached export_scenario route.')
-    return jsonify({"data": "Hello World!"})
+
+    try:
+        # Get the scenario object from the get request
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid JSON data"}), 400
+
+        # Create objects
+        scenario = Scenario.from_dict(data['scenario'])
+        fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.yaml"
+        scenario.export_yaml(fname)
+        
+        return send_file(fname), 201
+
+    except Exception as e:
+        app.logger.error(f"Error adding scenario: {e}")
+        return jsonify({"error": "Failed to add scenario"}), 500
 
 @app.route('/api/import_scenario', methods=['POST'])
 def import_scenario():
