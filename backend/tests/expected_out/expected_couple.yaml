@@ -49,6 +49,16 @@ investments:
     taxStatus: non-retirement
     id: tax-exempt bonds
 
+  - investmentType: S&P 500
+    value: 15000
+    taxStatus: pre-tax
+    id: S&P 500 pre-tax
+
+  - investmentType: S&P 500
+    value: 3000
+    taxStatus: after-tax
+    id: S&P 500 after-tax
+
 eventSeries:
   - name: salary
     start: {type: fixed, value: 2025}
@@ -60,10 +70,37 @@ eventSeries:
     inflationAdjusted: false
     userFraction: 0.6
     socialSecurity: true
+  - name: spouse salary
+    start: {type: fixed, value: 2025}
+    duration: {type: fixed, value: 35}
+    type: income
+    initialAmount: 90000
+    changeAmtOrPct: amount
+    changeDistribution: {type: uniform, lower: 800, upper: 3000}
+    inflationAdjusted: false
+    userFraction: 0.4
+    socialSecurity: true
+  - name: mortgage
+    start: {type: fixed, value: 2025}
+    duration: {type: fixed, value: 30}
+    type: expense
+    initialAmount: 1500
+    changeAmtOrPct: amount
+    changeDistribution: {type: fixed, value: 0}
+    inflationAdjusted: false
+    userFraction: 1.0
+    discretionary: false
+
+
 
 inflationAssumption: {type: fixed, value: 0.03}
 afterTaxContributionLimit: 14000
 spendingStrategy: ["mortgage"]
 expenseWithdrawalStrategy: [S&P 500 non-retirement, tax-exempt bonds]
+RMDStrategy: [S&P 500 pre-tax]
+RothConversionOpt: true
+RothConversionStart: 2055
+RothConversionEnd: 2065
+RothConversionStrategy: [S&P 500 pre-tax]
 financialGoal: 500000
 residenceState: CA

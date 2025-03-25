@@ -54,20 +54,25 @@ def add_scenario():
     
     try:
         data = request.get_json()
+        app.logger.info(type(data))
+        app.logger.info(data)
+
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
         
+        app.logger.info(f"User email")
         # Grab User info
         user_email = data['user_email']
         user_name = data['user_name']
 
         # Create objects
         user = User(user_name, user_email)
+        app.logger.info("Added User")
         scenario = Scenario.from_dict(data['scenario'])
-
+        app.logger.info("Added Scenario")
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
-        
+        app.logger.info("Added Scenario to User")
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
     except Exception as e:

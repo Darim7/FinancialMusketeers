@@ -5,8 +5,6 @@ test.describe('home page', () => {
     test('has overview on guest', async ({page})=> {
         await page.goto(path)
         click_on_guest(page)
-        // Expect Page to have Google OAuth
-        // Check if the button with class "login" exists
         const overview = await page.locator('ul.items a[href="/overview"] > li');
     
         // Assert that the button exists

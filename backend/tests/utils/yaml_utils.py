@@ -277,8 +277,7 @@ class ScenarioYamlUtils:
             self.compare_financial_goal(scenario) and \
             self.compare_residence_state(scenario)
 
-# file_name='imports/sample.yaml'
-# scenario_yaml=ScenarioYamlUtils(file_name)
+file_name='imports/scenario_couple.yaml'
+scenario_yaml=ScenarioYamlUtils(file_name)
 
-# scenario=Scenario.from_yaml(file_name)
-
+print(scenario_yaml.get_yaml())
