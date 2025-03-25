@@ -23,7 +23,7 @@ function CreateScenario({formInfo, saveForms}) {
     financialGoal: '',
     lifeExpectancy: [] as any[],
     maritalStatus: '',
-    birthYear: [] as number[],
+    birthYear: [] as any[],
     inflationAssumption: '',
     afterTaxContributionLimit: '',
     spendingStrategy: [] as any,
@@ -162,8 +162,6 @@ function CreateScenario({formInfo, saveForms}) {
 
 
 };
-
- 
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     // All the declared variable and its values
@@ -185,7 +183,26 @@ function CreateScenario({formInfo, saveForms}) {
       );
    };
 
+  const handleBirthYearChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const { name, value } = e.target;
+    
+    setValues((prevValues) => {
+      const updatedYears = [...prevValues.birthYear];
+      updatedYears[index] = value;
+      return { ...prevValues, birthYear: updatedYears };
+    });
 
+    console.log("CHECKCCCC", values.birthYear);
+    saveForms((prevForms) =>
+      prevForms.map((form) =>
+      // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
+      // Finds the form by ID and set the name == Scenario Name so user can see
+      
+      form.id === formInfo.id ? { ...form, [name]: Array.isArray(value) ? [...value] : value, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
+
+      )
+      );
+  }
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting
@@ -278,9 +295,9 @@ function CreateScenario({formInfo, saveForms}) {
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
       if (currentInvestmentIndex >= 0) {
         updatedInvestments = [...values.investments];
-        updatedInvestments[currentInvestmentIndex] = investment;
+        console.log('UPDATED INVESTMENTS', updatedInvestments);
+        updatedInvestments[currentInvestmentIndex] = investmentToSave;
 
-        
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
         updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investment;
 
@@ -300,9 +317,8 @@ function CreateScenario({formInfo, saveForms}) {
         }
 
       } else { /* then it is new */
-        updatedInvestments = [...values.investments, investment];
+        updatedInvestments = [...values.investments, investmentToSave];
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
-
         
         if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
                 updateRMD = [...values.RMDStrategy, investment];
@@ -335,7 +351,7 @@ function CreateScenario({formInfo, saveForms}) {
           expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
           RMDStrategy: updateRMD,
           RothConversionStrategy: updateRothConversionStrategy
-
+          
         }:form
       )
       
@@ -727,7 +743,6 @@ function CreateScenario({formInfo, saveForms}) {
         
         <label htmlFor="scenario-name"> Scenario Name:</label> 
         
-            
             <input // Type of data
               type= "text"  // Input text format
               name ="scenarioName"  // Name of the input
@@ -738,7 +753,7 @@ function CreateScenario({formInfo, saveForms}) {
         <label htmlFor="state-of-residence"> State of Residence:</label>
         <select
             id="states"
-            name="states"
+            name="residenceState"
             value={values.residenceState}
             onChange={handleChanges}
         >
@@ -788,31 +803,19 @@ function CreateScenario({formInfo, saveForms}) {
         {/* TODO: Only allow 2 year input if married */}
         <label htmlFor="birth-year"> Birth Year:</label>
           <input
-            type = "number"
-            min='1900'
-            max={new Date().getFullYear()}
-            name = "birthYear"
-            onChange={(e)=> {
-              const updatedYears = [...values.birthYear];
-              updatedYears[0] = parseInt(e.target.value, 10);
-              setValues({ ...values, birthYear: updatedYears });
-            }}
-          value={values.birthYear[0] || ''}
+            type = "text"
+            name = "primaryBirthYear"
+            onChange={(e)=> {handleBirthYearChange(e, 0);}}
+            value={values.birthYear[0] || ''}
         />
 
         {values.maritalStatus === 'Couple' && (
           <>
           <label htmlFor='birth-year'> Enter the birth year of your spouse: </label>
           <input 
-            type = "number"
-            min='1900'
-            max={new Date().getFullYear()}
-            name = "birthYear"
-            onChange={(e)=> {
-              const updatedYears = [...values.birthYear];
-              updatedYears[1] = parseInt(e.target.value, 10);
-              setValues({ ...values, birthYear: updatedYears });
-            }}
+            type = "text"
+            name = "spouseBirthYear"
+            onChange={(e)=> {handleBirthYearChange(e, 1);}}
             value={values.birthYear[1] || ''} />
           </>
         )}
