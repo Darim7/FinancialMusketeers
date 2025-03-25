@@ -1,0 +1,66 @@
+.navbar {
+    margin: 0;
+    padding: 0;
+    width: 220px;
+    background-color: #f8f9fa;
+    height: 100vh; /* Full height */
+    overflow: auto;
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.dollar {
+    width: 40px;  
+    height: auto; 
+    margin-right: 9px; /* Space between image and title */
+}
+
+.title {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.sidebar {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.items {
+    list-style-type: none; 
+    padding: 0;
+    margin: 0;
+    width: 100%;
+} 
+
+.items li {
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.items li:hover {
+    background-color: #ddd;
+}
+
+.user-profile-logo {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.profileLogo {
+    width: 40px;  
+    height: auto; 
+    margin-right: 9px; /* Space between image and title */
+}

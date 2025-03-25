@@ -1,0 +1,44 @@
+/* Asked ChatGPT to give me some CSS code for me to start with */
+
+label{
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-top: 1px;
+    margin-bottom: 3px;
+}
+
+input{
+    display: block;
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    border-radius: 13px;
+}
+
+input[type="radio"]{
+    display: inline;
+    width: 10%;
+    width: auto;
+}
+
+select {
+    cursor: pointer;    
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    border-radius: 13px;       
+
+}
+
+
+.spending-item{
+    background-color:rgb(196, 218, 241);
+    padding: 10px;
+    margin-bottom: 10px; 
+    cursor: move;
+}
+
+.spending-list{
+    margin-top: 2px;
+}
