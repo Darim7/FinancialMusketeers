@@ -37,5 +37,18 @@ test.describe('scenarios page', () => {
         const content=await createElmt.textContent()
         await expect(content).toContain("Create New")
     })
+
+    test("Save scenario without data", async ({page})=> {
+        await page.goto(path);
+        click_on_guest(page);
+        click_scenarios(page);
+        const createElmt = page.locator('button.btn.btn-primary:has-text("+ Create New")');
+        await expect(createElmt).toBeVisible()
+        await expect(createElmt).toBeEnabled()
+        createElmt.click()
+        const save_button=page.locator('button.btn.btn-secondary:has-text("Save")');
+        await expect(save_button).toBeVisible()
+        await expect(save_button).toBeDisabled() 
+    })
 })
 
