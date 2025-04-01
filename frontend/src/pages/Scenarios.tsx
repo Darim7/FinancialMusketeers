@@ -35,9 +35,10 @@ function Scenario() {
         const newScenario = {id: Date.now(), name: ''};
 
         setSaveForms((prev) => [...prev, newScenario]); // Store the form user just created 
-        
+            
         setScenarioForm(newScenario);  // New form 
-       
+            
+        
         handleShow();
     };
   

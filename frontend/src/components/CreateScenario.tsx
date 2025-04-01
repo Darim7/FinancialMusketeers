@@ -50,7 +50,7 @@ function CreateScenario({formInfo, saveForms}) {
       financialGoal: formInfo.financialGoal || '',
       lifeExpectancy: formInfo.lifeExpectancy || '',
       maritalStatus: formInfo.maritalStatus || '',
-      birthYear: formInfo.birthYear || '',
+      birthYear: formInfo.birthYear || [],
       inflationAssumption: formInfo.inflationAssumption || '',
       afterTaxContributionLimit: formInfo.afterTaxContributionLimit || '',
       spendingStrategy: formInfo.spendingStrategy || [],
@@ -164,15 +164,27 @@ function CreateScenario({formInfo, saveForms}) {
 };
 
  
-   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
     // All the declared variable and its values
     const { name, value } = e.target;
+
+    
   
     setValues((prevValues) => ({
+      
         ...prevValues,
+        
         [name]: value,
+       
     }));
+
+      // return {
+      //   ...prevValues,
+      //   [name]: value,
+      // };
+    
+    
       
     //Loop through the form 
     saveForms((prevForms) =>
@@ -183,6 +195,8 @@ function CreateScenario({formInfo, saveForms}) {
 
       )
       );
+
+    
    };
 
 
@@ -269,6 +283,7 @@ function CreateScenario({formInfo, saveForms}) {
       let updatedExpenseWithdrawalStrategy;
       let updateRMD;
       let updateRothConversionStrategy;
+
       // Update if editing
       const investmentToSave = {
         ...investment,
@@ -276,13 +291,14 @@ function CreateScenario({formInfo, saveForms}) {
         incomeDistribution: distributions[1] // Capture the full distribution object
       };
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
+
       if (currentInvestmentIndex >= 0) {
         updatedInvestments = [...values.investments];
-        updatedInvestments[currentInvestmentIndex] = investment;
+        updatedInvestments[currentInvestmentIndex] = investmentToSave;
 
-        
+  
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
-        updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investment;
+        updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investmentToSave;
 
         if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
         // If the tax-status is "pre-tax" then added to the array 
@@ -559,6 +575,13 @@ function CreateScenario({formInfo, saveForms}) {
         { type: "", values: {} },
       ]);
       setDistributionValues({ value: 0, mean: 0, std: 0, lower: 0, upper: 0 });
+
+
+
+
+
+
+
     }
   /******************** Distribution Form ***********************************/
 
@@ -735,10 +758,10 @@ function CreateScenario({formInfo, saveForms}) {
               onChange={handleChanges}
             />
         
-        <label htmlFor="state-of-residence"> State of Residence:</label>
+        <label htmlFor="state-of-residence"> State of Residence:</label> 
         <select
             id="states"
-            name="states"
+            name="residenceState"
             value={values.residenceState}
             onChange={handleChanges}
         >
@@ -746,6 +769,7 @@ function CreateScenario({formInfo, saveForms}) {
             {states.map((state) => (
               <option key={state.value} value={state.value}>
                 {state.label}
+                
               </option>
             ))}
           </select>
@@ -792,12 +816,17 @@ function CreateScenario({formInfo, saveForms}) {
             min='1900'
             max={new Date().getFullYear()}
             name = "birthYear"
+            
             onChange={(e)=> {
-              const updatedYears = [...values.birthYear];
+              const updatedYears = [...values.birthYear || []];
               updatedYears[0] = parseInt(e.target.value, 10);
-              setValues({ ...values, birthYear: updatedYears });
+              
+              setValues({ ...values, birthYear: updatedYears })
+              
+              handleChanges(e)
             }}
-          value={values.birthYear[0] || ''}
+            value={values.birthYear[0] || ''}
+
         />
 
         {values.maritalStatus === 'Couple' && (
