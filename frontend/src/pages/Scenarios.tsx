@@ -2,14 +2,14 @@
 import React from 'react';
 import './Overview.css';
 import './Scenario.css';
-import CreateScenario from '../components/CreateScenario';
+// import CreateScenario from '../components/CreateScenario';
 import NavBar from '../components/NavBar';
 import { useNavigate} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import CreateScenario from '../components/scenarioData';
 
 
 
