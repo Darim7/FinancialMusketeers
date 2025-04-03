@@ -1,104 +1,69 @@
 import { useState } from "react";
 
 /******************** Distribution Form ***********************************/
-const DistributionForm = ({values, distributions, lifeExpectancyDistributions, handleChanges, index }) => {
+const DistributionForm = ({ name, distributions, distributionValues, handleDistributionChange, index }) => {
     return (
+      <>
       <div>
-        <label htmlFor="life-expectancy">Life Expectancy:</label>
-
-        <select
-         id = "lifeExpectancyTypes"
-         name="lifeExpectancyChoice"
-         value={values.lifeExpectancyChoice || ''} 
-         onChange={(e) => handleChanges(e, index)}
-        >
-          <option value="">Select a distribution</option>
-          {distributions.map((distribution) => (
-            <option key={distribution.value} value={distribution.value}>
-              {distribution.label}
-            </option>
-          ))}
-        </select>
-
-       
-        {values.lifeExpectancyChoice === 'fixed' && (
-          <div>
-            <label htmlFor="fixedDistribution">Fixed Life Expectancy:</label>
-            <input
-              type="number"
-              min="0"
-              name="lifeExpectancyDistributions"
-              value={lifeExpectancyDistributions.fixed.values.value || ''}
-              onChange={(e) => handleChanges(e, index)}
-            />
-          </div>
-        )}
-
-        {values.lifeExpectancyChoice === 'fixed' && values.maritalStatus === 'Couple' && (
-          <div>
-            <label htmlFor="fixedDistribution">Spouse Fixed Life Expectancy:</label>
-            <input
-              type="number"
-              min="0"
-              name="lifeExpectancyDistributions"
-              value={lifeExpectancyDistributions.fixed.values.value2 || ''}
-              onChange={(e) => handleChanges(e, index)}
-            />
-          </div>
-        
-        )}
-
-        {values.lifeExpectancyChoice === 'normal' && (
-          <div>
-            <label htmlFor="distributionForm1">Normal Life Expectancy:</label>
-            <input
-              type="number"
-              min="0"
-              name="distributionForm1"
-              value={values.distributionForm1 || ''}
-              onChange={(e) => handleChanges(e, index)}
-            />
-            <label htmlFor="mean">Mean:</label>
-            <input
-              type="number"
-              min="0"
-              name="mean" // Ensure this matches the parent state key
-              value={values.mean || ''} // Reflects the saved state
-              onChange={(e) => handleChanges(e, index)} // Updates the parent state
-            />
-
-            <label htmlFor="stdv">Standard Deviation:</label>
-            <input
-              type="number"
-              min="0"
-              name="stdv" // Ensure this matches the parent state key
-              value={values.stdv || ''} // Reflects the saved state
-              onChange={(e) => handleChanges(e, index)} // Updates the parent state
-            />
-
-
-
-
-
-          </div>
-        )}
-
-        {values.lifeExpectancyChoice === 'normal' && values.maritalStatus === 'Couple' && (
-          <div>
-            <label htmlFor="distributionForm2">Uniform Life Expectancy:</label>
-            <input
-              type="number"
-              min="0"
-              name="distributionForm2"
-              value={values.distributionForm2 || ''}
-              onChange={(e) => handleChanges(e, index)}
-            />
-          </div>
-        )}
-
-
+         <label htmlFor='distribution-form'>{name}</label>
+          <select 
+            name='distribution-form' 
+            id='distribution-form'
+            value={distributions[index].type}
+            onChange={(e) => handleDistributionChange(e, index)}
+          >
+            <option disabled value=""> -- select an option -- </option>
+            <option value="fixed">fixed</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+          </select>
       </div>
-    );
-  }
+      {/* {console.log(distributions)}
+      {console.log(distributions[index])} */}
+      { distributions[index].type == 'fixed' && (
+        <div className='fixed-disribution'>
+        <input 
+          type='number' 
+          name='value'
+          value={distributions[index].values.value} 
+          placeholder='Enter the fixed value'
+          onChange={(e) => handleDistributionChange(e, index)}
+         />
+        </div>  
+      )}
+      { distributions[index].type == 'normal' && (
+        <div className='normal-distribution'>
+           <input type='number'
+           name='mean' 
+           value={distributions[index].values.mean} 
+           placeholder='Enter the mean'  
+           onChange={(e) => handleDistributionChange(e, index)}/>
+           <input 
+          type='number' 
+          name='std' 
+          value={distributions[index].values.std} 
+          placeholder='Enter the standard deviation' 
+          onChange={(e) => handleDistributionChange(e, index)}/>
+        </div>
+      )}
+      {distributions[index].type == 'uniform' && (
+      <div className='uniform-distribution'>
+         <input 
+          type='number'
+          name='lower'
+          value={distributions[index].values.lower} 
+          placeholder='Enter the lower value' 
+          onChange={(e) => handleDistributionChange(e, index)}/>
+         <input 
+          type='number' 
+          name='upper' 
+          value={distributions[index].values.upper} 
+          placeholder='Enter the upper value' 
+          onChange={(e) => handleDistributionChange(e, index)}/>
+      </div>
+      )}   
+      </> 
+    );  
+}
 
 export default DistributionForm;
