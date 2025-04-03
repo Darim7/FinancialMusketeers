@@ -7,6 +7,7 @@ import NavBar from './components/NavBar';
 import Scenario from './pages/Scenarios';
 import CreateScenario from './components/CreateScenario';
 import ProfilePage from './pages/ProfilePage';
+import NewScenario from './pages/newScenario';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 

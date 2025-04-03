@@ -1,7 +1,6 @@
 // Create Scenario Page
 import React from 'react';
 import {useState, useEffect } from 'react';
-import Select from 'react-select'
 import './CreateScenario.css';
 import Scenario from '../pages/Scenarios';
 import Modal from 'react-bootstrap/Modal';
@@ -9,6 +8,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Prev } from 'react-bootstrap/esm/PageItem';
 import DistributionForm from './DistributionForm';
+import Page1 from './page1';
+import EventForm from './EventForm';
 
 function CreateScenario({formInfo, saveForms}) {
 
@@ -23,8 +24,13 @@ function CreateScenario({formInfo, saveForms}) {
     retirementAge : '',
     financialGoal: '',
     lifeExpectancy: [] as any[],
+    lifeExpectancyChoice: '',
     maritalStatus: '',
     birthYear: [] as any[],
+    birthYear1: '',
+    birthYear2: '',
+    distributionForm1: '',
+    distributionForm2: '',
     inflationAssumption: '',
     afterTaxContributionLimit: '',
     spendingStrategy: [] as any,
@@ -49,9 +55,14 @@ function CreateScenario({formInfo, saveForms}) {
       residenceState: formInfo.residenceState || '',
       retirementAge: formInfo.retirementAge || '',
       financialGoal: formInfo.financialGoal || '',
-      lifeExpectancy: formInfo.lifeExpectancy || '',
+      lifeExpectancy: formInfo.lifeExpectancy || [],
+      lifeExpectancyChoice: '',
       maritalStatus: formInfo.maritalStatus || '',
       birthYear: formInfo.birthYear || [],
+      birthYear1: formInfo.birthYear1 || '',
+      birthYear2: formInfo.birthYear2 || '',
+      distributionForm1: formInfo.distributionForm1 || '',
+      distributionForm2: formInfo.distributionForm2 || '',
       inflationAssumption: formInfo.inflationAssumption || '',
       afterTaxContributionLimit: formInfo.afterTaxContributionLimit || '',
       spendingStrategy: formInfo.spendingStrategy || [],
@@ -81,24 +92,46 @@ function CreateScenario({formInfo, saveForms}) {
     investmentCases: [] as any[]
   })
 
+  // const [lifeExpectancyDistributions, setlifeExpectancyDistributions] = useState({
+   
+  //   fixed: {
+  //     type: "",
+  //     values: { value: 0, value2: 0}
+  //   },
+  //   normal: {
+  //     type: "",
+  //     values: {mean: 0, std: 0, mean2: 0, std2: 0}
+  //   },
+  //   uniform: {
+  //     type: "",
+  //     values: {lower: 0, upper: 0, lower2: 0, upper2: 0}
+  //   }
+  // })
+
+  // console.log("Life Expectancy Distributions: ", lifeExpectancyDistributions);
+
+  const handleLifeExpectancyChange = (e:React.ChangeEvent<any>, index: number) => {
+    const { name, value } = e.target;
+    
+    const updatedLifeExpectancy = { ...lifeExpectancyDistributions };
+
+    setlifeExpectancyDistributions((prevDistributions) => ({
+      ...prevDistributions,
+      [name]: {
+        ...prevDistributions[name],
+        values: {
+          ...prevDistributions[name].values,
+          [index]: value,
+        },
+      },
+    }));
+    console.log("Updated Life Expectancy: ", updatedLifeExpectancy);
+
+  }
+
+
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-
-  // const [showSetInvestment, setShowSetInvestment] = useState(false);
-
-  // const closeSetInvestmentModal = () => {i
-  //   setShowSetInvestment(false);
-  // }
-
-  // const newSetInvestmentModal = () => {
-  //   setShowSetInvestment(true);
-   
-  // }
-
- 
 
 
   // There are 4 different types of event
@@ -163,16 +196,14 @@ function CreateScenario({formInfo, saveForms}) {
 
 
 };
-   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-
 
  
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    console.log("WTFFFFFFF")
-    
+
     // All the declared variable and its values
     const { name, value } = e.target;
-    console.log("what is", values.residenceState)
+
+    const spouseYear = [values.birthYear1, values.birthYear2];
 
     
   
@@ -181,49 +212,29 @@ function CreateScenario({formInfo, saveForms}) {
         ...prevValues,
         
         [name]: value,
+        birthYear: spouseYear,
        
     }));
 
-      // return {
-      //   ...prevValues,
-      //   [name]: value,
-      // };
-    
-    
-      
     //Loop through the form 
     saveForms((prevForms) =>
       prevForms.map((form) =>
       // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
       // Finds the form by ID and set the name == Scenario Name so user can see
+      // form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
       form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
 
       )
       );
 
+      
+
+
+
     
    };
 
-  const handleBirthYearChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { name, value } = e.target;
-    
-    setValues((prevValues) => {
-      const updatedYears = [...prevValues.birthYear];
-      updatedYears[index] = value;
-      return { ...prevValues, birthYear: updatedYears };
-    });
 
-    console.log("CHECKCCCC", values.birthYear);
-    saveForms((prevForms) =>
-      prevForms.map((form) =>
-      // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
-      // Finds the form by ID and set the name == Scenario Name so user can see
-      
-      form.id === formInfo.id ? { ...form, [name]: Array.isArray(value) ? [...value] : value, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
-
-      )
-      );
-  }
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting
@@ -318,9 +329,6 @@ function CreateScenario({formInfo, saveForms}) {
 
       if (currentInvestmentIndex >= 0) {
         updatedInvestments = [...values.investments];
-        console.log('UPDATED INVESTMENTS', updatedInvestments);
-        updatedInvestments[currentInvestmentIndex] = investmentToSave;
-
         updatedInvestments[currentInvestmentIndex] = investmentToSave;
 
   
@@ -343,8 +351,9 @@ function CreateScenario({formInfo, saveForms}) {
         }
 
       } else { /* then it is new */
-        updatedInvestments = [...values.investments, investmentToSave];
+        updatedInvestments = [...values.investments, investment];
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
+
         
         if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
                 updateRMD = [...values.RMDStrategy, investment];
@@ -377,7 +386,7 @@ function CreateScenario({formInfo, saveForms}) {
           expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
           RMDStrategy: updateRMD,
           RothConversionStrategy: updateRothConversionStrategy
-          
+
         }:form
       )
       
@@ -538,18 +547,26 @@ function CreateScenario({formInfo, saveForms}) {
   }
   
   const [distributionValues, setDistributionValues] = useState<DistributionValues>({});
+
+
+
   const handleDistributionChange = (e, index) => {
     const { name, value } = e.target;
     console.log(name, value);
+ 
+
     setDistributions((prevDistributions) => {
       const updatedDistributions = [...prevDistributions];
+
       if (name === "distribution-form") {
         updatedDistributions[index] = {
           ...updatedDistributions[index],
           type: value, 
           values: {},  
         };  
-      } else {
+      } 
+    
+      else {
         updatedDistributions[index] = {
           ...updatedDistributions[index],
           values: {
@@ -558,17 +575,40 @@ function CreateScenario({formInfo, saveForms}) {
           },
         };
       }
+
+      setValues((prevValues)=>{
+        const updatedLifeExpectancy = [...prevValues.lifeExpectancy]
+        updatedLifeExpectancy[index] = updatedDistributions[index]
+        return{
+          ...prevValues,
+          lifeExpectancy: updatedLifeExpectancy
+        }
+      });
+
+      saveForms((prevForms) =>
+        prevForms.map((form) =>
+            form.id === formInfo.id
+                ? {
+                      ...form,
+                      lifeExpectancy: updatedDistributions,
+                  }
+                : form
+        )
+    );
+
+      
       return updatedDistributions;
     })
+    
   }
 
   const handleAddDistribution = (e: React.ChangeEvent<any>, dest: string, index: number, type: string) => {
       e.preventDefault(); // Prevent default form behavior
       
-      console.log("Destination: ", dest);
-      console.log("Index: ", index);
-      console.log("Type: ", type);
-      console.log("Distributions: ", distributions[index]);
+      // console.log("Destination: ", dest);
+      // console.log("Index: ", index);
+      // console.log("Type: ", type);
+      // console.log("Distributions: ", distributions[index]);
       const newDistribution = {
           type: distributions[index]?.type || "",
           ...(distributions[index]?.type === "fixed" && { value: distributions[index].values.value }),
@@ -608,8 +648,15 @@ function CreateScenario({formInfo, saveForms}) {
 
 
 
-    }
+  }
   /******************** Distribution Form ***********************************/
+
+  const lifeExpectancyTypes =[
+    { value: 'fixed', label: 'Fixed' },
+    { value: 'normal', label: 'Normal' },
+    { value: 'uniform', label: 'Uniform' }
+  ]
+
 
 
   const states = [
@@ -771,111 +818,22 @@ function CreateScenario({formInfo, saveForms}) {
       <form>
 
       {formStep === 1 && (
-              
-      <div className="label-container">
+        <div className="label-container">
+        <Page1 values={values} setValues={setValues} states={states} handleChanges={handleChanges} index={0} />
+     
+      
+       {/* TODO: Life Expectancy is optional, if user no input, default is 80 */}
+       <DistributionForm name={'Life Expetancy'} index={0} distributions={distributions} distributionValues={distributionValues} handleDistributionChange={handleDistributionChange} />
         
-        <label htmlFor="scenario-name"> Scenario Name:</label> 
-        
-            <input // Type of data
-              type= "text"  // Input text format
-              name ="scenarioName"  // Name of the input
-              value={values.scenarioName}
-              onChange={handleChanges}
-            />
-        
-        <label htmlFor="state-of-residence"> State of Residence:</label> 
-        <select
-            id="states"
-            name="residenceState"
-            value={values.residenceState}
-            onChange={handleChanges}
-        >
-            <option value="">Select a state</option>
-            {states.map((state) => (
-              <option key={state.value} value={state.value}>
-                {state.label}
-                
-              </option>
-            ))}
-          </select>
-       
-        <label htmlFor="retirement-age"> Retirement Age:</label>
-          <input 
-            type = "number" 
-            min = "0"
-            name = "retirementAge"
-            value={values.retirementAge}
-            onChange={(e)=> handleChanges(e)}
-          />
-        
-        <label htmlFor="financial-goal"> Financial Goal:</label>
-          <input 
-            type = "number" 
-            min = "0"
-            name = "financialGoal"
-            value={values.financialGoal}
-            onChange={(e)=> handleChanges(e)}
-          />
-        
-        <label htmlFor="marital-status"> Marital Status:</label>
-          <input
-            type="radio"
-            id = "Individual"
-            name = "maritalStatus" 
-            value ="Individual"
-            checked={values.maritalStatus === "Individual"} 
-            onChange={(e)=> handleChanges(e)}/> Individual
 
-          <input 
-            type ="radio"
-            id = "Couple"
-            name = "maritalStatus" 
-            value = "Couple"
-            checked={values.maritalStatus === "Couple"} 
-            onChange={(e)=> handleChanges(e)} /> Couple
-         
-        {/* TODO: Only allow 2 year input if married */}
-        <label htmlFor="birth-year"> Birth Year:</label>
-          <input
-            type = "text"
-            name = "primaryBirthYear"
-            onChange={(e)=> {handleBirthYearChange(e, 0);}}
-            value={values.birthYear[0] || ''}
-            type = "number"
-            min='1900'
-            max={new Date().getFullYear()}
-            name = "birthYear"
-            
-            onChange={(e)=> {
-              const updatedYears = [...values.birthYear || []];
-              updatedYears[0] = parseInt(e.target.value, 10);
-              
-              setValues({ ...values, birthYear: updatedYears })
-              
-              handleChanges(e)
-            }}
-            value={values.birthYear[0] || ''}
-
-        />
-
-        {values.maritalStatus === 'Couple' && (
-          <>
-          <label htmlFor='birth-year'> Enter the birth year of your spouse: </label>
-          <input 
-            type = "text"
-            name = "spouseBirthYear"
-            onChange={(e)=> {handleBirthYearChange(e, 1);}}
-            value={values.birthYear[1] || ''} />
-          </>
-        )}
-
-         {/* TODO: Life Expectancy is optional, if user no input, default is 80 */}
-         <DistributionForm name={'Life Expetancy'} index={0} distributions={distributions} distributionValues={distributionValues} handleDistributionChange={handleDistributionChange} />
-          <button onClick={handleNext}>Next</button>
+       <Button variant='light' onClick={handleNext}>Next</Button>
+        {/* <button onClick={handleNext}>Next</button> */}
       </div>
-    
 
       )}
+        
+      
+
 
       {formStep === 2 && (
         <div className='investment-container'>
@@ -1070,11 +1028,13 @@ function CreateScenario({formInfo, saveForms}) {
               )}
 
             </div>
+            <Button variant='light' onClick={handleBack}>Back</Button>
 
        
       </div>
 
       )}
+     
 
       </form>
       
@@ -1213,45 +1173,6 @@ function CreateScenario({formInfo, saveForms}) {
               </div>
             ))}
 
-
-
-            {/* <Modal show={showSetInvestment} onHide={closeSetInvestmentModal}>
-
-              <Modal.Header closeButton>
-                <Modal.Title>Set Investment</Modal.Title>
-              </Modal.Header>
-
-              <Modal.Body>
-
-              <label htmlFor = "value"> Value: </label>
-              <input
-                type = "text"
-                name = "value"  
-                value={investment.value}
-                onChange={handleInvestmentChange}
-              />
-               */}
-              {/* <Button onClick={addInvestmentCaseModal}>Open New Child Modal</Button>
-
-           
-            
-              </Modal.Body> */}
-
-            {/* <Modal.Footer>
-              <Button variant='primary' onClick={closeSetInvestmentModal}>Close</Button>
-
-              
-              <Button variant='primary' onClick={saveInvestment}>Save</Button>
-
-            </Modal.Footer> */}
-
-
-            {/* </Modal> */}
-       
-
-
-
-
         </div>
         </Modal.Body>
         <Modal.Footer>
@@ -1271,71 +1192,10 @@ function CreateScenario({formInfo, saveForms}) {
       <Modal show={showEventModal} onHide={closeEventModal} centered>
         <Modal.Header closeButton> </Modal.Header>
           <Modal.Body>
-          <div className='event-page'>
-           <h3>Events</h3>
-          
-          <label htmlFor="type-of-event"> Type of Event:</label>
-          <select
-            id = "typeOfEvents"
-            name = "typeOfEvents"
-            onChange={handleEventChange} value={selectedEvent}>
+          <EventForm handleEventChange={handleEventChange} handleAnswerChange={handleAnswerChange} answers={answers}
+           selectedEvent={selectedEvent} diffEvent= {diffEvent} index={0} />
+        </Modal.Body>
 
-            <option value="">-- Choose an Event --</option>
-              {Object.keys(diffEvent).map((event) => (
-               <option key={event} value={event}>{event.slice(0)}</option>
-              ))}
-          </select>
-
-          {selectedEvent && (
-          <div>
-            <h3>{selectedEvent} Questions</h3>
-             {/* Asked ChatGPT on how to map diff questions depends on the event user selects */}
-                {diffEvent[selectedEvent].map(({ question, type}, index) => (
-                  <div key={index}>
-                  <label>
-                    {question}
-                  </label>
-                    
-                  {type === "boolean" ? (
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name={question}
-                        value="true"
-                        checked={answers[question] === "true"}
-                        onChange={(e) => handleAnswerChange(question, e.target.value)}
-                        /> True
-                    </label>
-                    
-                    <label>
-                      <input
-                        type="radio"
-                        name={question}
-                        value="false"
-                        checked={answers[question] === "false"}
-                        onChange={(e) => handleAnswerChange(question, e.target.value)}
-                        />False
-                    </label>
-            </div>
-                      ): type === "text" || type === "number" ? (
-                    <input
-
-                      type={type}
-                      value={answers[question] || ""}
-                      onChange={(e) => handleAnswerChange(question, e.target.value)}
-                    />
-                  ) : null}
-            </div>
-              
-          ))}
-          
- 
-        </div>
-        
-      )}
-        </div>
-          </Modal.Body>
           <Modal.Footer>
           <Button variant='danger' onClick={closeEventModal}>
             Cancel
