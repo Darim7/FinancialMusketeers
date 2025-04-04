@@ -1,15 +1,15 @@
 // Login.js
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import dollarImage from '../assets/dollar.png';
 import googlelogo from '../assets/googlelogo.png';
 import './LoginPage.css';
 import {initializeApp} from 'firebase/app';
-import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
+import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browserLocalPersistence, setPersistence} from 'firebase/auth';
 
-
+  
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
@@ -26,11 +26,21 @@ import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
   const auth = getAuth(app);
   auth.languageCode = 'en'
 
+  setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log('Authentication persistence configured');
+  })
+  .catch((error) => {
+    console.error('Error setting persistence:', error.message);
+  });
+  
+
   const provider = new GoogleAuthProvider();
 
   function LoginPage() {
 
     const navigate = useNavigate();
+
 
     const googleSignIn = () => {
       signInWithPopup(auth, provider)
@@ -53,6 +63,19 @@ import {getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
       
         });
       }
+      // Listen for authentication state changes
+      useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            console.log('User is logged in:', user.email);
+            navigate('/overview'); // Redirect if user is authenticated
+          } else {
+            console.log('No user is logged in');
+          }
+        });
+      
+        return () => unsubscribe(); // Cleanup subscription on unmount
+      }, [auth, navigate]);
     return (
       <div className='login-form'>
 
