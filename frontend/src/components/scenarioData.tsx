@@ -143,9 +143,9 @@ function CreateScenario({formInfo, saveForms}) {
       { question: "Initial Amount: ", type: "number"},
       { question: "Change Amount or Percent: ", type: "text"},
       { question: "Change Distribution: ", type: "text"},
-      { question: "Inflation Adjusted: ", type: "text"},
+      { question: "Inflation Adjusted: ", type: "boolean"},
       { question: "User Fraction: ", type: "text"},
-      { question: "Social Security: ", type: "number"},
+      { question: "Social Security: ", type: "boolean"},
     ],
 
     Expense: [
@@ -155,24 +155,27 @@ function CreateScenario({formInfo, saveForms}) {
       { question: "Initial Amount: ", type: "number"},
       { question: "Change Amount or Percent: ", type: "text"},
       { question: "Change Distribution: ", type: "text"},
-      { question: "Inflation Adjusted: ", type: "text"},
-      { question: "User Fraction: ", type: "text"},
+      { question: "Inflation Adjusted: ", type: "boolean"},
+      { question: "User Fraction: ", type: "number"},
       { question: "Discretionary : ", type: "boolean"}, // This should be Boolean
+      
 
     ],
     Invest: [
       { question: "Event Names: ", type: "text" },
       { question: "Start: ", type: "text" },
       { question: "Duration: ", type: "number" },
-      { question: "Asset Allocation: ", type: "text" },
-      { question: "Glide Path : ", type: "text" },
+      { question: "Asset Allocation:",  type: "object", fields: [values.RothConversionStrategy]},
+      { question: "Glide Path:", type: "boolean" },
+      { question: "Asset Allocation2:", type: "object", fields: [values.RothConversionStrategy]},
+
     ],
 
     Rebalance: [
       { question: "Event Names: ", type: "text" },
       { question: "Start: ", type: "text" },
       { question: "Duration: ", type: "number" },
-      { question: "Asset Allocation: ", type: "text" },
+      { question: "Asset Allocation: ", type: "object", fields:[values.RothConversionStrategy] },
     ],
   };
 
@@ -991,7 +994,7 @@ function CreateScenario({formInfo, saveForms}) {
           <>
           <label htmlFor="RothConversionStart"> Roth Conversion Start:</label>
             <input
-              type = "text" 
+              type = "number" 
               name = "RothConversionStart"
               value = {values.RothConversionStart}
               onChange={handleChanges} 
@@ -1061,9 +1064,6 @@ function CreateScenario({formInfo, saveForms}) {
               onChange={handleInvestmentChange}
             />
 
-          {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
-            from a Markov Process
-          */}
           <label htmlFor = "return-amount"> Return Amount or Percent: </label>
             <input
               type = "text"
@@ -1072,17 +1072,8 @@ function CreateScenario({formInfo, saveForms}) {
               onChange={handleInvestmentChange}
             />
           
-          {/*TODO: 1)Fix Amount, 2)User input, 3)A percentage sampled
-            from a Markov Process
-          */}
-          {/* <label htmlFor = "return-distribution"> Return Distribution: </label>
-            <input
-              type = "text"
-              name = "returnDistribution"    
-              value={investment.returnDistribution}
-              onChange={handleInvestmentChange}
-            /> */}
           <DistributionForm name={'Return Distribution'} index={0} distributions={distributions} distributionValues={distributionValues} handleDistributionChange={handleDistributionChange} /> 
+
           <label htmlFor = "expense-ratio"> Expense Ratio: </label>
             <input
               type = "number"
@@ -1159,17 +1150,6 @@ function CreateScenario({formInfo, saveForms}) {
                         checked={investmentCase.taxStatus === "after-tax"}
                         onChange={(e) => handleInvestmentCaseChange(index, e)} /> After-Tax
 
-
-
-
-                {/* <label htmlFor="tax-status">Tax Status: </label>
-                <input
-                  type="text"
-                  name="taxStatus"
-                  value={investmentCase.taxStatus ||''}
-                  onChange={(e) => handleInvestmentCaseChange(index, e)}
-                /> */}
-
               </div>
             ))}
 
@@ -1191,6 +1171,7 @@ function CreateScenario({formInfo, saveForms}) {
       {/* Events Modal */}
       <Modal show={showEventModal} onHide={closeEventModal} centered>
         <Modal.Header closeButton> </Modal.Header>
+
           <Modal.Body>
           <EventForm handleEventChange={handleEventChange} handleAnswerChange={handleAnswerChange} answers={answers}
            selectedEvent={selectedEvent} diffEvent= {diffEvent} index={0} />
