@@ -7,7 +7,7 @@ from datetime import datetime
 import yaml
 
 from models.user import User
-from dbconn import SCENARIO_COLLECTION, mongo_client, find_document, update_document
+from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
 from models.scenario import Scenario
 
 app = Flask(__name__)
