@@ -42,38 +42,7 @@ class AssetType(Exportable):
     @classmethod
     def from_dict(cls, data) -> Self:
         return cls(**data)
-            
-    def get_name(self)->str:
-        return self.name
-    def get_description(self)-> str:
-        return self.description
-    def get_return_amt_or_pct(self)->str:
-        return self.returnAmtOrPct
-    def get_return_distribution(self)->Dict:
-        return self.returnDistribution
-    def get_expense_ratio(self)-> float:
-        return self.expenseRatio
-    def get_income_amt_or_pct(self)->str:
-        return self.incomeAmtOrPct
-    def get_income_distribution(self)->Dict:
-        return self.incomeDistribution
-    def get_taxable(self)-> bool:
-        return self.taxability
-    
-    # NOTE: Don't know if this is needed, but I added this here.
-    def set_name(self, name:str):
-        self.name=name
-    def set_description(self, description:str):
-        self.description=description
-    def set_exp_ann_return(self, exp_ann_return:float):
-        self.exp_ann_return=exp_ann_return
-    def set_expense_ratio(self, expense_ratio:float):
-        self.expense_ratio=expense_ratio
-    def set_exp_ann_recur_rev(self, exp_ann_recur_rev:float):
-        self.exp_ann_recur_rev=exp_ann_recur_rev
-    def set_taxable(self, is_taxable:bool):
-        self.is_taxable=is_taxable
-        
+
 class Investment(Exportable):
     def __init__(
             self,
@@ -98,15 +67,6 @@ class Investment(Exportable):
     @classmethod
     def from_dict(cls, data: Dict) -> 'Investment':
         return cls(**data)
-        
-    def get_asset_type(self)->str:
-        return self.asset_type
-    def get_value(self):
-        return self.value
-    def get_tax_status(self):
-        return self.tax_status
-    def get_investment_id(self):
-        return self.investment_id
     
     ### TODO: Below are to be implemented
     # Utilities for investments
