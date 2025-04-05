@@ -1078,7 +1078,7 @@ function CreateScenario({formInfo, saveForms}) {
 
       </form>
       
-      {/* Investment Modal */}
+      Investment Modal
       <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
         <Modal.Header closeButton> </Modal.Header>
         <Modal.Body>
@@ -1349,7 +1349,7 @@ function CreateScenario({formInfo, saveForms}) {
 
 
   );
-}
+}}
 
 
 export default CreateScenario;

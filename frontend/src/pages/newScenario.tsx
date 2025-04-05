@@ -15,9 +15,7 @@ import { CreateScenarioData } from '../components/scenarioData';
 function NewScenario() {
       const [show, setShow] = useState(false);
       const [scenarioSaved, setScenarioSaved] = useState(false);
-      
-  
-  
+    
       //Store Multiple Scenario Forms
       const [saveForms, setSaveForms] = useState<{ id: number; name: string; }[]>([])
   
