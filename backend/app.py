@@ -192,7 +192,7 @@ def get_user():
     app.logger.info('Reached get_user route.')
 
     # Get the user email from the query parameters
-    user_email = request.args.get('email')
+    user_email = request.args.get('user_email')
     
     if not user_email:
         return jsonify({"error": "User email is required"}), 400
