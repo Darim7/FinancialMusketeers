@@ -41,6 +41,7 @@ function CreateScenario({formInfo, saveForms}) {
     RothConversionStart: '',
     RothConversionEnd: '',
     RothConversionStrategy: [] as any,
+    AssetAllocation: [] as any[],
     investments: [] as any[],
     events: [] as any[],
     discretionary: [] as any []
@@ -73,6 +74,7 @@ function CreateScenario({formInfo, saveForms}) {
       RothConversionStart: formInfo.RothConversionStart || '',
       RothConversionEnd: formInfo.RothConversionEnd || '',
       RothConversionStrategy: formInfo.RothConversionStrategy || [],
+      AssetAllocation: formInfo.AssetAllocation || [],
       investments: formInfo.investments || [],
       events: formInfo.events || [],
       discretionary: formInfo.discretionary || []
@@ -165,9 +167,9 @@ function CreateScenario({formInfo, saveForms}) {
       { question: "Event Names: ", type: "text" },
       { question: "Start: ", type: "text" },
       { question: "Duration: ", type: "number" },
-      { question: "Asset Allocation:",  type: "object", fields: [values.RothConversionStrategy]},
+      { question: "Asset Allocation:",  type: "object", fields: [values.AssetAllocation]},
       { question: "Glide Path:", type: "boolean" },
-      { question: "Asset Allocation2:", type: "object", fields: [values.RothConversionStrategy]},
+      { question: "Asset Allocation2:", type: "object", fields: [values.AssetAllocation]},
 
     ],
 
@@ -321,6 +323,7 @@ function CreateScenario({formInfo, saveForms}) {
       let updatedExpenseWithdrawalStrategy;
       let updateRMD;
       let updateRothConversionStrategy;
+      let updateAssetAllocation;
 
       // Update if editing
       const investmentToSave = {
@@ -329,6 +332,7 @@ function CreateScenario({formInfo, saveForms}) {
         incomeDistribution: distributions[1] // Capture the full distribution object
       };
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
+      console.log("investment index", currentInvestmentIndex)
 
       if (currentInvestmentIndex >= 0) {
         updatedInvestments = [...values.investments];
@@ -347,26 +351,39 @@ function CreateScenario({formInfo, saveForms}) {
             updateRothConversionStrategy[currentInvestmentIndex] = investment;
             
         } 
+        // console.log("what is the investment Sattus", investment.investmentCases.some(investmentCase => investmentCase.taxStatus));
+        if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus !== "pre-tax")){
+              console.log("what is updateAssetAllocation", values.investments);
+              updateAssetAllocation = [...values.investments];
+              updateAssetAllocation[currentInvestmentIndex] = investment;
+              
+          } 
         // Keep the same 
         else {
           updateRMD = [...values.RMDStrategy];
-          updateRothConversionStrategy = [...values.RothConversionStrategy]
+          updateRothConversionStrategy = [...values.RothConversionStrategy];
+          updateAssetAllocation = [...values.investments];
         }
 
-      } else { /* then it is new */
+      } 
+      else { /* then it is new */
         updatedInvestments = [...values.investments, investment];
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
+        updateRMD = [...values.RMDStrategy];
 
+        updateRothConversionStrategy = [...values.RothConversionStrategy];
+
+        updateAssetAllocation = [...values.investments];
         
         if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
                 updateRMD = [...values.RMDStrategy, investment];
                 updateRothConversionStrategy = [...values.RothConversionStrategy, investment];       
-          }
-          else {
-            updateRMD = [...values.RMDStrategy];
+        }
 
-            updateRothConversionStrategy = [...values.RothConversionStrategy];
-          }
+        else if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus !== "pre-tax")){
+            updateAssetAllocation = [...values.investments, investment];
+            // console.log("what is updateAssetAllocation", updateAssetAllocation);
+        }
       }
 
     
@@ -378,6 +395,7 @@ function CreateScenario({formInfo, saveForms}) {
       expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
       RMDStrategy : updateRMD,
       RothConversionStrategy: updateRothConversionStrategy,
+      AssetAllocation: updateAssetAllocation,
    
 
     }));
@@ -388,12 +406,11 @@ function CreateScenario({formInfo, saveForms}) {
           investments: updatedInvestments,
           expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
           RMDStrategy: updateRMD,
-          RothConversionStrategy: updateRothConversionStrategy
+          RothConversionStrategy: updateRothConversionStrategy,
+          AssetAllocation: updateAssetAllocation
 
         }:form
       )
-      
-    
     );
     console.log('RETURN DISTRIBUTION', values.investments);
     //Reset the investment form fields
@@ -414,6 +431,7 @@ function CreateScenario({formInfo, saveForms}) {
     closeInvestmentModal();
   }
   
+
 
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
 
@@ -464,6 +482,30 @@ function CreateScenario({formInfo, saveForms}) {
   const closeEventModal = () => {
     setShowEventModal(false);  
   }
+
+//   const sendScenarioToBackend = async () => {
+//     console.log("SENDING DATA")
+//     try {
+//         const response = await fetch('/api/get_scenario', {
+//             method: 'POST', // Use POST to send data
+//             headers: {
+//                 'Content-Type': 'application/json', // Specify JSON format
+//             },
+//             body: JSON.stringify(values), // Convert the `values` object to JSON
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+
+//         const data = await response.json(); // Parse the response JSON
+//         console.log('Scenario saved successfully:', data);
+//         alert('Scenario saved successfully!');
+//     } catch (error) {
+//         console.error('Error sending scenario to backend:', error);
+//         alert('Failed to save scenario. Please try again.');
+//     }
+// };
 
   const saveEventModal = () => {
     const newEvent = {
@@ -530,7 +572,6 @@ function CreateScenario({formInfo, saveForms}) {
     setAnswers({});
     setSelectedEvent("");
     closeEventModal();
-    // Reset the investment form fields
   }
   /******************** Event Functions *************************************/
 

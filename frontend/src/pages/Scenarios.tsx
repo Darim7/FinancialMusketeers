@@ -19,7 +19,7 @@ function Scenario() {
     const [scenarioSaved, setScenarioSaved] = useState(false);
     
     //Store Multiple Scenario Forms
-    const [saveForms, setSaveForms] = useState<{ id: number; name: string; }[]>([])
+    const [saveFormArray, setSaveFormArray] = useState<{ id: number; name: string; }[]>([])
     const [unsavedForm, setUnsavedForm] = useState<{ id: number; name: string } | null>(null);
 
     //Current Scenario Form
@@ -32,7 +32,7 @@ function Scenario() {
     const handleCreateNew = () => {
         const newScenario = { id: Date.now(), name: '' };
         setScenarioForm(newScenario);
-        setSaveForms((prev) => [...prev, newScenario]);
+        setSaveFormArray((prev) => [...prev, newScenario]);
         handleShow();
     };
     
@@ -45,7 +45,7 @@ function Scenario() {
     };
 
     const handleDeleteForm = (id: number) => {
-        setSaveForms((prevForms) => prevForms.filter((form) => form.id !== id));
+        setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
     };
 
 
@@ -87,7 +87,7 @@ function Scenario() {
            
             <div className='scenario-header'>
                 <h3>Scenario Forms:</h3>
-                {saveForms.map((form) => (
+                {saveFormArray.map((form) => (
                     <Button key={form.id} 
                         variant="outline-primary" 
                         onClick={() => handleViewForm(form)}>
@@ -110,7 +110,7 @@ function Scenario() {
             {scenarioForm && (
                 <CreateScenario
                 formInfo={scenarioForm}
-                saveForms={setSaveForms}
+                saveForms={saveFormArray}
             />
         )}        
             </Modal.Body> 
