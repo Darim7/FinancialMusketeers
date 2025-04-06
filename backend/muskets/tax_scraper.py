@@ -10,12 +10,14 @@ FEDERAL_DEDUCTIONS_URL='https://www.irs.gov/publications/p17#en_US_2024_publink1
 NY_INCOME_URL="https://www.tax.ny.gov/forms/current-forms/it/it201i.htm#nys-tax-rate-schedule"
 NJ_INCOME_URL="https://nj-us.icalculator.com/income-tax-rates/2024.html"
 CT_INCOME_URL='https://ct-us.icalculator.com/income-tax-rates/2024.html'
+
 def extract_value_from_dollar(dollar:str):
     dollar=dollar.replace(' ', '')
     dollar=dollar.replace('$', '')
     dollar=dollar.replace(",", '')
     dollar=dollar.replace(".00", '')
     return dollar
+
 def extract_table(table):
     """
     Parse the table received from the website.
@@ -97,6 +99,7 @@ def icalculator_income_to_dict(rows):
         upper=extract_value_from_dollar(upper)
         income_dict[upper]=rate
     return income_dict
+
 def read_tax(file_path:str):
     """
     Read a Yaml file that has the tax info.
@@ -112,20 +115,6 @@ def save(to_yaml:Dict, to_dest:str):
     """
     with open(to_dest, 'w') as file:
             yaml.dump(to_yaml, file, default_flow_style=False, sort_keys=False)
-
-def scrape_state_tax(url: str, state: str, isSingle: bool) -> list[tuple[float, float]]:
-    """
-    Hello!
-    """
-    # Check if there is a yaml file that is saved.
-
-    # Make a request to the website.
-
-    # Process tables according to the filing status.
-
-    # Save yaml to the folder.
-
-    return [(-1, -1)]
 
 def scrape_income_tax()->tuple[Dict, Dict]:
     """ Scrapes Income Tax. Returns individual and married income dictionary if found, else None
