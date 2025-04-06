@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import yaml
 from typing import List, Dict
 import re
+import os
 
 FEDERAL_INCOME_URL='https://www.irs.gov/filing/federal-income-tax-rates-and-brackets'
 FEDERAL_CAP_GAINS_URL='https://www.irs.gov/taxtopics/tc409'
@@ -191,9 +192,9 @@ def scrape_federal_tax():
         "individual": {"income": income, "deduction": deduction, "cap_gains": cap_gains},
         "couple": {"income": married_income, "deduction": married_deduction, "cap_gains": married_cap_gains}
     }
-    save(to_yaml,'federal_tax.yaml')
+    save(to_yaml,'/app/tax_brackets/federal_tax.yaml')
 
-def scrape_ny_income_tax():     
+def scrape_ny_income_tax():
     """Scrapes NYS income tax from NYS official website. Saves yaml file to "ny_income_tax.yaml"
     """
     r=requests.get(NY_INCOME_URL)
@@ -212,7 +213,7 @@ def scrape_ny_income_tax():
             "couple": {"income": married_income_dict}
         }
         
-        save(to_yaml, "ny_income_tax.yaml")
+        save(to_yaml, "/app/tax_brackets/ny_income_tax.yaml")
 
 def scrape_nj_ct_income_tax(is_ct:bool=False):
     """Scrapes either NJ or CT income tax from iCalculator, which is a third party website.
@@ -238,14 +239,69 @@ def scrape_nj_ct_income_tax(is_ct:bool=False):
             "couple": {"income": married_income_dict}
         }
         
-        save(to_yaml, f"{state}_income_tax.yaml")
-                
+        save(to_yaml, f"/app/tax_brackets/{state}_income_tax.yaml")
     pass
 
+def convert_to_num(data: dict) -> dict:
+    """
+    Recursively convert:
+    - String keys representing integers to actual integers.
+    - Percentages represented as strings (e.g., '1.4%') to decimal numbers (e.g., 0.014).
+    """
+    if isinstance(data, dict):
+        return {int(k) if k.isdigit() else k: convert_to_num(v) for k, v in data.items()}
+    elif isinstance(data, list):
+        return [convert_to_num(i) for i in data]
+    elif isinstance(data, str) and data.endswith('%'):
+        # Convert percentage to decimal
+        return float(data[:-1]) / 100
+    elif isinstance(data, str) and data.startswith('$'):
+        # Convert dollars to decimal
+        return float(data[1:].replace(',', ''))
+    else:
+        return data
+
+def read_tax(state: str) -> dict:
+    """
+    Reads tax data for the given state.
+    If the YAML file does not exist, it triggers the appropriate scrape function.
+    Returns the parsed dictionary.
+    """
+    tax_file_map = {
+        "federal": ("/app/tax_brackets/federal_tax.yaml", scrape_federal_tax),
+        "ny": ("/app/tax_brackets/ny_income_tax.yaml", scrape_ny_income_tax),
+        "nj": ("/app/tax_brackets/nj_income_tax.yaml", lambda: scrape_nj_ct_income_tax(is_ct=False)),
+        "ct": ("/app/tax_brackets/ct_income_tax.yaml", lambda: scrape_nj_ct_income_tax(is_ct=True)),
+    }
+
+    if state not in tax_file_map:
+        raise ValueError(f"Unsupported state: {state}")
+
+    filename, scrape_func = tax_file_map[state]
+
+    if not os.path.exists(filename):
+        print(f"{filename} not found. Scraping...")
+        scrape_func()
+
+    with open(filename, "r") as f:
+        tax_data = yaml.safe_load(f)
+    
+    # Convert integer keys to actual integers
+    return convert_to_num(tax_data)
+    
 
 if __name__=="__main__":                
-    scrape_federal_tax()
-    scrape_ny_income_tax()
-    scrape_nj_ct_income_tax()
-    scrape_nj_ct_income_tax(is_ct=True)
+    # scrape_federal_tax()
+    # scrape_ny_income_tax()
+    # scrape_nj_ct_income_tax()
+    # scrape_nj_ct_income_tax(is_ct=True)
+    nj_tax = read_tax('nj')
+    ct_tax = read_tax('ct')
+    ny_tax = read_tax('ny')
+    federal_tax = read_tax('federal')
+
+    print(f"NJ Tax: {nj_tax}")
+    print(f"CT Tax: {ct_tax}")
+    print(f"NY Tax: {ny_tax}")
+    print(f"Federal Tax: {federal_tax}")
     
