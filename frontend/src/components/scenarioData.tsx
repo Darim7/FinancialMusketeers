@@ -11,7 +11,7 @@ import DistributionForm from './DistributionForm';
 import Page1 from './page1';
 import EventForm from './EventForm';
 
-function CreateScenario({formInfo, saveForms}) {
+function CreateScenario({formInfo, saveForms, userEmail}) {
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
@@ -19,6 +19,7 @@ function CreateScenario({formInfo, saveForms}) {
 
   {/* Update user input change */}
   const [values, setValues] = useState({
+    email: '',
     scenarioName : '',
     residenceState: '',
     retirementAge : '',
@@ -52,6 +53,7 @@ function CreateScenario({formInfo, saveForms}) {
   useEffect(() => {
     console.log('formData:', formInfo);
     setValues({
+      email: userEmail || formInfo.email || '',
       scenarioName: formInfo.scenarioName || '',
       residenceState: formInfo.residenceState || '',
       retirementAge: formInfo.retirementAge || '',

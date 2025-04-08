@@ -15,12 +15,19 @@ import CreateScenario from '../components/scenarioData';
 
 function Scenario() {
 
+    const userEmail = localStorage.getItem('userEmail');
+    
+
     const [show, setShow] = useState(false);
     const [scenarioSaved, setScenarioSaved] = useState(false);
     
     //Store Multiple Scenario Forms
     const [saveFormArray, setSaveFormArray] = useState<{ id: number; name: string; }[]>([])
     const [unsavedForm, setUnsavedForm] = useState<{ id: number; name: string } | null>(null);
+    
+    const saveForms = (updateFunction) => {
+        setSaveFormArray((prevForms) => updateFunction(prevForms));
+    };
 
     //Current Scenario Form
     const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string;} | null>(null);
@@ -110,7 +117,8 @@ function Scenario() {
             {scenarioForm && (
                 <CreateScenario
                 formInfo={scenarioForm}
-                saveForms={saveFormArray}
+                saveForms={saveForms}
+                userEmail={userEmail}
             />
         )}        
             </Modal.Body> 

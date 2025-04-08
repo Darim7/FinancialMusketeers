@@ -46,7 +46,7 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
     const navigate = useNavigate();
 
 
-    const googleSignIn = async () => {
+    const googleSignIn = () => {
       signInWithPopup(auth, provider)
       .then((result) => {
 
@@ -58,14 +58,9 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
 
         // The signed-in user info.
         const user = result.user;
-        // console.log('User signed in:', user.email);
-        // console.log('Access DisplayName:', user.displayName);
-        // console.log('User UID:', user.uid);
-        // await axios.post('http://localhost:8080/api/add_scenario', user);
-        // @app.route('/api/add_scenario', methods=['POST'])
-        
-        // fetch('http://localhost:8080/api/add_scenario', user)
 
+        localStorage.setItem('userEmail', JSON.stringify(user.email));
+        
         navigate('./overview')
      
       }).catch((error) => {
