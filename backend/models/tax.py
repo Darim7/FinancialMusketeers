@@ -1,11 +1,14 @@
 from typing import Dict
-class Tax:
+import os
+import yaml
+
+from muskets.tax_scraper import scrape_federal_tax, scrape_nj_ct_income_tax
+
+class FederalTax: 
     def __init__(self, file_status:str):
-        pass
-class FederalTax(Tax): 
-    def __init__(self, file_status:str):
-        super().__init__(file_status)
+        self.status = file_status
         self.bracket=self.get_bracket()
+
     def get_bracket(self):
         pass
     
@@ -24,10 +27,11 @@ class FederalTax(Tax):
     def calculate_withdrawal_tax(self, withdrawal:int)->int:
         pass
 
-class StateTax(Tax):
+class StateTax:
     def __init__(self, file_status:str):
-        super().__init__(file_status)
+        self.status = file_status
         self.bracket=self.get_bracket()
+
     def get_bracket(self):
         pass
     

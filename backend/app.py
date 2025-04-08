@@ -186,6 +186,27 @@ def import_scenario():
     except Exception as e:
         return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
 
+# PT: Can you help me to implement a route to get a user profile by email?
+@app.route('/api/get_user', methods=['GET'])
+def get_user():
+    app.logger.info('Reached get_user route.')
+
+    # Get the user email from the query parameters
+    user_email = request.args.get('user_email')
+    
+    if not user_email:
+        return jsonify({"error": "User email is required"}), 400
+    
+    # Find the user by email
+    user = find_document(USER_COLLECTION, {"email": user_email})
+    
+    if user:
+        # Convert ObjectId to string for JSON serialization
+        user['_id'] = str(user['_id'])
+        return jsonify({"data": user}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+
 if __name__ == "__main__":
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)
