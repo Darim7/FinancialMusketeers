@@ -1,12 +1,28 @@
 import numpy as np
 
 def update_inflation(tax_obj, inflation_assumption):
+    """
+    Update the inflation rate and all of the inflation-related values
+    """
     pass
 
 def update_investments():
+    """
+    Update the values of investments, reflecting expected annual return, reinvestment of generated income, and subtraction of expenses.
+    """
     pass
 
-def perform_rmd():
+def perform_rmd(rmd_obj, age: int)-> float:
+    """ Performs the required minimum distribution (RMD) for previous year
+
+
+    Args:
+        rmd_obj (RMD): RMD object
+        age (int): current age of user
+
+    Returns:
+        float: RMD amount
+    """
     pass
 
 def fed_income_tax(tax_obj, income: float) -> float:
