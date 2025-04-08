@@ -93,15 +93,15 @@ def test_get_user():
     # Add a scenario to the mock DB
     new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
     # Send GET request to retrieve the user
-    response=requests.get('http://flask_server:8000/api/get_user', json={"email": user_email}, headers={'Content-Type': 'application/json'})
+    response=requests.get('http://flask_server:8000/api/get_user', json={"user_email": user_email}, headers={'Content-Type': 'application/json'})
     assert response.status_code==200
     res_json=response.json()
     with open('utils/user_data.json', 'r') as f:
         user_data=json.load(f)
     
     # Verify that the user information is correct
-    assert res_json['data']['email']==user_email
-    assert res_json['data']['name']==user_data['user_name']
+    assert res_json['data']['user_email']==user_email
+    assert res_json['data']['user_name']==user_data['user_name']
     scenarios=res_json['data']['scenarios']
     assert len(scenarios)==1
     assert scenarios[0]==new_obj_id
