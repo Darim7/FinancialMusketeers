@@ -62,7 +62,7 @@ def add_scenario():
         
         # Grab User info
         user_email = data['user_email']
-        user_name = data['user_name']
+        user_name = data['user_name'] 
 
         # Create objects
         user = User(user_name, user_email)

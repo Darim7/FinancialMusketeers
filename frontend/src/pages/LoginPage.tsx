@@ -6,7 +6,9 @@ import './LoginPage.css';
 import dollarImage from '../assets/dollar.png';
 import googlelogo from '../assets/googlelogo.png';
 import './LoginPage.css';
+import axios from 'axios';
 import {initializeApp} from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browserLocalPersistence, setPersistence} from 'firebase/auth';
 
   
@@ -24,6 +26,8 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+
+
   auth.languageCode = 'en'
 
   setPersistence(auth, browserLocalPersistence)
@@ -42,7 +46,7 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
     const navigate = useNavigate();
 
 
-    const googleSignIn = () => {
+    const googleSignIn = async () => {
       signInWithPopup(auth, provider)
       .then((result) => {
 
@@ -54,7 +58,14 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
 
         // The signed-in user info.
         const user = result.user;
+        // console.log('User signed in:', user.email);
+        // console.log('Access DisplayName:', user.displayName);
+        // console.log('User UID:', user.uid);
+        // await axios.post('http://localhost:8080/api/add_scenario', user);
+        // @app.route('/api/add_scenario', methods=['POST'])
         
+        // fetch('http://localhost:8080/api/add_scenario', user)
+
         navigate('./overview')
      
       }).catch((error) => {
@@ -87,7 +98,7 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
 
         <div className = 'google-login'>
           <img src={googlelogo} alt="Google" className='google-logo' />
-          <h3 className='signin' onClick={googleSignIn}>
+          <h3 className='signin' onClick={() => {googleSignIn()}}>
               Sign in with Google
           </h3>
 
