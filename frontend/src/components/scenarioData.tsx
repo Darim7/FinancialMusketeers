@@ -11,12 +11,15 @@ import DistributionForm from './DistributionForm';
 import Page1 from './page1';
 import EventForm from './EventForm';
 import InvestmentForm from './InvestmentForm';
+import NewEventForm from './newEventForm';
 
 function CreateScenario({formInfo, saveForms}) {
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
 
+  {/* Handle showing the modal */}
+  const [show, setShow] = useState(false);
 
   {/* Update user input change */}
   const [values, setValues] = useState({
@@ -24,15 +27,14 @@ function CreateScenario({formInfo, saveForms}) {
     residenceState: '',
     retirementAge : '',
     financialGoal: '',
-    lifeExpectancy: [] as any[],
-    lifeExpectancyChoice: '',
+    lifeExpectancy: {},
     maritalStatus: '',
     birthYear: [] as any[],
     birthYear1: '',
     birthYear2: '',
     distributionForm1: '',
     distributionForm2: '',
-    inflationAssumption: '',
+    inflationAssumption: {},
     afterTaxContributionLimit: '',
     spendingStrategy: [] as any,
     expenseWithdrawalStrategy: [] as any [],
@@ -56,15 +58,14 @@ function CreateScenario({formInfo, saveForms}) {
       residenceState: formInfo.residenceState || '',
       retirementAge: formInfo.retirementAge || '',
       financialGoal: formInfo.financialGoal || '',
-      lifeExpectancy: formInfo.lifeExpectancy || [],
-      lifeExpectancyChoice: '',
+      lifeExpectancy: formInfo.lifeExpectancy || {},
       maritalStatus: formInfo.maritalStatus || '',
       birthYear: formInfo.birthYear || [],
       birthYear1: formInfo.birthYear1 || '',
       birthYear2: formInfo.birthYear2 || '',
       distributionForm1: formInfo.distributionForm1 || '',
       distributionForm2: formInfo.distributionForm2 || '',
-      inflationAssumption: formInfo.inflationAssumption || '',
+      inflationAssumption: formInfo.inflationAssumption || {},
       afterTaxContributionLimit: formInfo.afterTaxContributionLimit || '',
       spendingStrategy: formInfo.spendingStrategy || [],
       expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
@@ -85,98 +86,57 @@ function CreateScenario({formInfo, saveForms}) {
     investmentName: '',
     description: '',
     returnAmtOrPct: '',
-    returnDistribution: {} as any,
+    returnDistribution: {},
     expenseRatio: '',
     incomeAmtOrPct: '',
-    incomeDistribution: '',
+    incomeDistribution: {},
     taxability: '',
     investmentCases: [] as any[]
   })
 
-  // const [lifeExpectancyDistributions, setlifeExpectancyDistributions] = useState({
-   
-  //   fixed: {
-  //     type: "",
-  //     values: { value: 0, value2: 0}
-  //   },
-  //   normal: {
-  //     type: "",
-  //     values: {mean: 0, std: 0, mean2: 0, std2: 0}
-  //   },
-  //   uniform: {
-  //     type: "",
-  //     values: {lower: 0, upper: 0, lower2: 0, upper2: 0}
-  //   }
-  // })
-
-  // console.log("Life Expectancy Distributions: ", lifeExpectancyDistributions);
-
-  const handleLifeExpectancyChange = (e:React.ChangeEvent<any>, index: number) => {
-    const { name, value } = e.target;
-    
-    const updatedLifeExpectancy = { ...lifeExpectancyDistributions };
-
-    setlifeExpectancyDistributions((prevDistributions) => ({
-      ...prevDistributions,
-      [name]: {
-        ...prevDistributions[name],
-        values: {
-          ...prevDistributions[name].values,
-          [index]: value,
-        },
-      },
-    }));
-    console.log("Updated Life Expectancy: ", updatedLifeExpectancy);
-
-  }
-
-
-
-  const [show, setShow] = useState(false);
-
-
   // There are 4 different types of event
   const diffEvent = {
     Income: [
-      { question: "Event Names: ", type: "text" },
-      { question: "Start: ", type: "text" },
-      { question: "Duration: ", type: "number" },
-      { question: "Initial Amount: ", type: "number"},
-      { question: "Change Amount or Percent: ", type: "text"},
-      { question: "Change Distribution: ", type: "text"},
-      { question: "Inflation Adjusted: ", type: "boolean"},
-      { question: "User Fraction: ", type: "text"},
-      { question: "Social Security: ", type: "boolean"},
+      { question: "Event Names: ", type: "text", name:"name"},
+      { question: "Start: ", type: "distribution", name:"start"  },
+      { question: "Duration: ", type: "distribution", name:"duration" },
+      { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
+      { question: "Change Amount or Percent: ", type: "text" , name:"changeAmountOrPercent"},
+      { question: "Change Distribution: ", type: "distribution" , name:"chanegeDistribution"},
+      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjustted"},
+      { question: "User Fraction: ", type: "number", name:"userFraction"},
+      { question: "Social Security: ", type: "boolean", name:"socialSecurity"},
+
     ],
 
     Expense: [
-      { question: "Event Names: ", type: "text" },
-      { question: "Start: ", type: "text" },
-      { question: "Duration: ", type: "number" },
-      { question: "Initial Amount: ", type: "number"},
-      { question: "Change Amount or Percent: ", type: "text"},
-      { question: "Change Distribution: ", type: "text"},
-      { question: "Inflation Adjusted: ", type: "boolean"},
-      { question: "User Fraction: ", type: "number"},
-      { question: "Discretionary : ", type: "boolean"}, // This should be Boolean
+      { question: "Event Names: ", type: "text", name:"name"},
+      { question: "Start: ", type: "distribution", name:"start"  },
+      { question: "Duration: ", type: "distribution", name:"duration" },
+      { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
+      { question: "Change Amount or Percent: ", type: "text" , name:"changeAmountOrPercent"},
+      { question: "Change Distribution: ", type: "distribution" , name:"chanegeDistribution"},
+      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjustted"},
+      { question: "User Fraction: ", type: "number", name:"userFraction"},
+      { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
       
 
     ],
     Invest: [
-      { question: "Event Names: ", type: "text" },
-      { question: "Start: ", type: "text" },
-      { question: "Duration: ", type: "number" },
-      { question: "Asset Allocation:",  type: "object", fields: [values.RothConversionStrategy]},
+      { question: "Event Names: ", type: "text", name:"name"},
+      { question: "Start: ", type: "distribution", name:"start"  },
+      { question: "Duration: ", type: "distribution", name:"duration" },
+      { question: "Asset Allocation:",  type: "object", name: "assetAllocation", fields: [values.RothConversionStrategy]},
       { question: "Glide Path:", type: "boolean" },
-      { question: "Asset Allocation2:", type: "object", fields: [values.RothConversionStrategy]},
+      { question: "Asset Allocation2:", type: "object", name: "assetAllocation2",fields: [values.RothConversionStrategy]},
 
     ],
 
     Rebalance: [
-      { question: "Event Names: ", type: "text" },
-      { question: "Start: ", type: "text" },
-      { question: "Duration: ", type: "number" },
-      { question: "Asset Allocation: ", type: "object", fields:[values.RothConversionStrategy] },
+      { question: "Event Names: ", type: "text", name:"name"},
+      { question: "Start: ", type: "distribution", name:"start"  },
+      { question: "Duration: ", type: "distribution", name:"duration" },
+      { question: "Asset Allocation: ", type: "object", name: "assetAllocation", fields:[values.RothConversionStrategy] },
     ],
   };
 
@@ -190,22 +150,21 @@ function CreateScenario({formInfo, saveForms}) {
     setAnswers({});
   };
 
-  const handleAnswerChange = (question, value) => {
+  const handleAnswerChange = (question: string, value: any) => {
     setAnswers((prev) => ({
        ...prev, 
        [question]: value }));
        
     console.log("Handle Answer Change: ", answers)
-
-
-
 };
 
  
    const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
     // All the declared variable and its values
+
     const { name, value } = e.target;
+    console.log(name, value);
 
     const spouseYear = [values.birthYear1, values.birthYear2];
 
@@ -237,18 +196,16 @@ function CreateScenario({formInfo, saveForms}) {
 
     
    };
-
-
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting
 
     if (formStep === 1){
-      handleAddDistribution(e, 'lifeExpectancy', 0,'values');
-      
-      if (values.maritalStatus === 'couple') {
-        handleAddDistribution(e, 'lifeExpectancy', 1, 'values');
-      }
+      saveForms((prevForms) =>
+        prevForms.map((form) =>
+          form.id === formInfo.id ? { ...form, ['lifeExpectancy']: values.lifeExpectancy, name: name === 'scenarioName' ? value : form.name } : form
+        )
+      );
     }
     setformStep(formStep + 1);
   };
@@ -326,8 +283,6 @@ function CreateScenario({formInfo, saveForms}) {
       // Update if editing
       const investmentToSave = {
         ...investment,
-        returnDistribution: distributions[0], // Capture the full distribution object
-        incomeDistribution: distributions[1] // Capture the full distribution object
       };
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
 
@@ -379,8 +334,6 @@ function CreateScenario({formInfo, saveForms}) {
       expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
       RMDStrategy : updateRMD,
       RothConversionStrategy: updateRothConversionStrategy,
-   
-
     }));
     saveForms(prevForms => 
       prevForms.map(form => 
@@ -402,10 +355,10 @@ function CreateScenario({formInfo, saveForms}) {
       investmentName: '',
       description: '',
       returnAmtOrPct: '',
-      returnDistribution: {},
+      returnDistribution: { type: '', values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
       expenseRatio: '',
       incomeAmtOrPct: '',
-      incomeDistribution: '',
+      incomeDistribution: { type: '', values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
       taxability: '',
       investmentCases: [],
     });
@@ -417,11 +370,7 @@ function CreateScenario({formInfo, saveForms}) {
   
 
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
-
-
-    
     setInvestment({...investment, [e.target.name]:e.target.value});
-
   };
 
   const addInvestment = (e:React.ChangeEvent<any>) => {
@@ -535,124 +484,268 @@ function CreateScenario({formInfo, saveForms}) {
   }
   /******************** Event Functions *************************************/
 
-  /******************** Distribution Form ***********************************/
-  const [distributions, setDistributions] = useState([
-    { type: "", values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } }, // First distribution
-    { type: "", values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } }, // Second distribution
-    { type: "", values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } }, // Third distribution
-  ]);
+  /******************** Distribution Data ***********************************/
+  const [distributions, setDistributions] = useState({
+    lifeExpectancy: { type: "", values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
+    lifeExpectancySpouse: { type: "", values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
+    retirementAge: { type: "", values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
+  });
 
-  interface DistributionValues {
-    value: number;
-    mean: number;
-    std: number; 
-    lower: number;
-    upper: number;
-  }
-  
-  const [distributionValues, setDistributionValues] = useState<DistributionValues>({});
-
-
-
-  const handleDistributionChange = (e, index) => {
+  const handleDistributionChange = (e, distributionType, field) => {
     const { name, value } = e.target;
-    console.log(name, value);
- 
-
-    setDistributions((prevDistributions) => {
-      const updatedDistributions = [...prevDistributions];
-
-      if (name === "distribution-form") {
-        updatedDistributions[index] = {
-          ...updatedDistributions[index],
-          type: value, 
-          values: {},  
-        };  
-      } 
     
-      else {
-        updatedDistributions[index] = {
-          ...updatedDistributions[index],
+    setValues(prev => {
+      let updatedValues = prev[field];
+
+      if (name === 'distribution-form') {
+        // Update distribution type and reset values
+        updatedValues = {
+          type: value,
+          values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 }
+        };
+      } else {
+        // Update a value inside the distribution (like mean, std, etc.)
+        updatedValues = {
+          ...updatedValues,
           values: {
-            ...updatedDistributions[index].values,
-            [name]: value,
-          },
+            ...updatedValues.values,
+            [name]: Number(value),
+          }
         };
       }
 
-      setValues((prevValues)=>{
-        const updatedLifeExpectancy = [...prevValues.lifeExpectancy]
-        updatedLifeExpectancy[index] = updatedDistributions[index]
-        return{
-          ...prevValues,
-          lifeExpectancy: updatedLifeExpectancy
-        }
-      });
+    return {
+      ...prev,
+      [field]: updatedValues
+    };
+  })
+  };
 
-      saveForms((prevForms) =>
-        prevForms.map((form) =>
-            form.id === formInfo.id
-                ? {
-                      ...form,
-                      lifeExpectancy: updatedDistributions,
-                  }
-                : form
-        )
-    );
-
-      
-      return updatedDistributions;
-    })
-    
-  }
-
-  const handleAddDistribution = (e: React.ChangeEvent<any>, dest: string, index: number, type: string) => {
-      e.preventDefault(); // Prevent default form behavior
-      
-      // console.log("Destination: ", dest);
-      // console.log("Index: ", index);
-      // console.log("Type: ", type);
-      // console.log("Distributions: ", distributions[index]);
-      const newDistribution = {
-          type: distributions[index]?.type || "",
-          ...(distributions[index]?.type === "fixed" && { value: distributions[index].values.value }),
-          ...(distributions[index]?.type === "normal" && { mean: distributions[index].values.mean, stdev: distributions[index].values.std }),
-          ...(distributions[index]?.type === "uniform" && { lower: distributions[index].values.lower, upper: distributions[index].values.upper }),
-      };
-      console.log("New Distribution: ", newDistribution);
-    
-      if (type === 'values'){
-        setValues((prevValues) => ({
-          ...prevValues,
-          [dest]: [...(prevValues[dest] || []), newDistribution], // Append to the correct array
-        }));
+  const handleLifeExpectancyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: string) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setValues(prev => {
+      const updated = [...prev.lifeExpectancy];
+  
+      if (name === 'distribution-form') {
+        // Changing the distribution type (reset the values object)
+        updated[index] = {
+          type: value,
+          values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 }
+        };
+      } else {
+        // Changing one of the internal values
+        updated[index] = {
+          ...updated[index],
+          values: {
+            ...updated[index].values,
+            [name]: Number(value)  // Convert string to number
+          }
+        };
       }
-      
-      if (type === 'investment'){
-        setInvestment((prevInvestment) => {
-          const updatedInvestment = {
-            ...prevInvestment,
-            [dest]: newDistribution,
-          };
-          console.log("Updated Investment: ", values.investments); // Log after updating
-          return updatedInvestment; // Return the updated state to save it
-        });
-        };    
-      // Reset the distribution form
-      setDistributions([
-        { type: "", values: {} },
-        { type: "", values: {} },
-        { type: "", values: {} },
-      ]);
-      setDistributionValues({ value: 0, mean: 0, std: 0, lower: 0, upper: 0 });
-
-
-
-
-
-
-
+      return {
+        ...prev,
+        lifeExpectancy: updated
+      };
+    });
   }
+
+  const handleMainDistributionChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const { name, value } = e.target
+    console.log(name, value); // Debugging log
+    
+    setValues(prev => {
+      let updatedValue;
+      if (name === 'type') {
+        updatedValue = { type: value }; // Initialize values
+      } else {
+        updatedValue = {
+          ...prev[field],
+          [name]: value,
+          }
+      };
+        return { ...prev, [field]: updatedValue };
+      });
+    };
+
+  const handleInvestmentDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
+    const { name, value } = e.target
+    console.log(name, value); // Debugging log
+    
+    setInvestment(prev => {
+      let updatedValue;
+      if (name === 'type') {
+        updatedValue = { type: value }; // Initialize values
+      } else {
+        updatedValue = {
+          ...prev[field],
+          [name]: value,
+          }
+      };
+        return { ...prev, [field]: updatedValue };
+      });
+  }
+
+  const handleEventDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
+    const { name, value } = e.target
+    console.log(name, value); // Debugging log
+    
+    setAnswers(prev => {
+      let updatedValue;
+      if (name === 'type') {
+        updatedValue = { type: value }; // Initialize values
+      } else {
+        updatedValue = {
+          ...prev[field],
+          [name]: value,
+          }
+      };
+        return { ...prev, [field]: updatedValue };
+      });
+  }
+  // const handleDistributionChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   console.log(name, value);
+
+  //   setDistributions((prevDistributions) => {
+  //     const updatedDistributions = [...prevDistributions];
+
+  //     if (name === "distribution-form") {
+  //       updatedDistributions[index] = {
+  //         ...updatedDistributions[index],
+  //         type: value, 
+  //         values: {},  
+  //       };  
+  //     } 
+    
+  //     else {
+  //       updatedDistributions[index] = {
+  //         ...updatedDistributions[index],
+  //         values: {
+  //           ...updatedDistributions[index].values,
+  //           [name]: value,
+  //         },
+  //       };
+  //     }
+
+  //     setValues((prevValues)=>{
+  //       const updatedLifeExpectancy = [...prevValues.lifeExpectancy]
+  //       updatedLifeExpectancy[index] = updatedDistributions[index]
+  //       return{
+  //         ...prevValues,
+  //         lifeExpectancy: updatedLifeExpectancy
+  //       }
+  //     });
+
+  //     saveForms((prevForms) =>
+  //       prevForms.map((form) =>
+  //           form.id === formInfo.id
+  //               ? {
+  //                     ...form,
+  //                     lifeExpectancy: updatedDistributions,
+  //                 }
+  //               : form
+  //       )
+  //   );
+
+      
+  //     return updatedDistributions;
+  //   })
+    
+  // }
+
+  // const handleLifeExpectancyDistribution = (e: React.ChangeEvent<any>, index: number) => {
+  //   e.preventDefault();
+
+  //   const { name, value } = e.target;
+
+  //   setDistributions((prevDistributions) => {
+  //     const updatedDistributions = [...prevDistributions];
+      
+  //     if (name === 'distribution-form') {
+  //       // When distribution type changes
+  //       updatedDistributions[index] = {
+  //         ...updatedDistributions[index],
+  //         type: value,
+  //         // Keep the values object but reset specific values if needed
+  //         values: { ...updatedDistributions[index].values }
+  //       };
+  //     } else {
+  //       // When a specific value changes (like mean, std, etc.)
+  //       updatedDistributions[index] = {
+  //         ...updatedDistributions[index],
+  //         values: {
+  //           ...updatedDistributions[index].values,
+  //           [name]: parseFloat(value) // Convert string value to number
+  //         }
+  //       };
+  //     }
+
+  //     saveForms((prevForms) =>
+  //       prevForms.map((form) =>
+  //           form.id === formInfo.id
+  //               ? {
+  //                     ...form,
+  //                     lifeExpectancyChoice1: updatedDistributions[0].type,
+  //                     lifeExpectancyChoice2: updatedDistributions[1].type,
+  //                     lifeExpectancy: updatedDistributions[0].values,
+  //                     lifeExpectancy2: updatedDistributions[1].values,
+  //                 }
+  //               : form
+  //       )
+  //   );
+      
+  //     return updatedDistributions;
+  //   });
+    
+
+
+  //   // You can add additional logic here if needed, like updating other state variables
+  //   console.log(`Updated ${name} to ${value} for distribution at index ${index}`);
+    
+
+  // }
+
+  // const handleAddDistribution = (e: React.ChangeEvent<any>, dest: string, index: number, type: string) => {
+  //     e.preventDefault(); // Prevent default form behavior
+      
+  //     // console.log("Destination: ", dest);
+  //     // console.log("Index: ", index);
+  //     // console.log("Type: ", type);
+  //     // console.log("Distributions: ", distributions[index]);
+  //     const newDistribution = {
+  //         type: distributions[index]?.type || "",
+  //         ...(distributions[index]?.type === "fixed" && { value: distributions[index].values.value }),
+  //         ...(distributions[index]?.type === "normal" && { mean: distributions[index].values.mean, stdev: distributions[index].values.std }),
+  //         ...(distributions[index]?.type === "uniform" && { lower: distributions[index].values.lower, upper: distributions[index].values.upper }),
+  //     };
+  //     console.log("New Distribution: ", newDistribution);
+    
+  //     if (type === 'values'){
+  //       setValues((prevValues) => ({
+  //         ...prevValues,
+  //         [dest]: [...(prevValues[dest] || []), newDistribution], // Append to the correct array
+  //       }));
+  //     }
+      
+  //     if (type === 'investment'){
+  //       setInvestment((prevInvestment) => {
+  //         const updatedInvestment = {
+  //           ...prevInvestment,
+  //           [dest]: newDistribution,
+  //         };
+  //         console.log("Updated Investment: ", values.investments); // Log after updating
+  //         return updatedInvestment; // Return the updated state to save it
+  //       });
+  //       };    
+  //     // Reset the distribution form
+  //     setDistributions([
+  //       { type: "", values: {} },
+  //       { type: "", values: {} },
+  //       { type: "", values: {} },
+  //     ]);
+  //     setDistributionValues({ value: 0, mean: 0, std: 0, lower: 0, upper: 0 });
+  // }
   /******************** Distribution Form ***********************************/
 
   const lifeExpectancyTypes =[
@@ -825,9 +918,8 @@ function CreateScenario({formInfo, saveForms}) {
         <div className="label-container">
         <Page1 values={values} setValues={setValues} states={states} handleChanges={handleChanges} index={0} />
      
-      
        {/* TODO: Life Expectancy is optional, if user no input, default is 80 */}
-       <DistributionForm name={'Life Expetancy'} index={0} distributions={distributions} distributionValues={distributionValues} handleDistributionChange={handleDistributionChange} />
+       <DistributionForm name={'lifeExpectancy'} field={'lifeExpectancy'} text="Life Expectancy:" distribution={values.lifeExpectancy} handleChange={handleMainDistributionChange} />
         
 
        <Button variant='light' onClick={handleNext}>Next</Button>
@@ -866,9 +958,9 @@ function CreateScenario({formInfo, saveForms}) {
             saveInvestment={saveInvestment}
             investment={investment}
             handleInvestmentChange={handleInvestmentChange}
-            distributions={distributions}
-            distributionValues={distributionValues}
-            handleDistributionChange={handleDistributionChange}
+            returnDistribution={investment.returnDistribution}
+            incomeDistribution={investment.incomeDistribution}
+            handleDistributionChange={handleInvestmentDistributionChange}
             addInvestmentCase={addInvestmentCase}
             handleInvestmentCaseChange={handleInvestmentCaseChange}
           />
@@ -895,22 +987,14 @@ function CreateScenario({formInfo, saveForms}) {
         ) : (
           <p>No Events</p>
         )}
-        <Button variant='light' onClick={handleBack}>Back</Button>
-        <Button variant='light' onClick={handleNext}>Next</Button> 
-      </div>
-
+          <Button variant='light' onClick={handleBack}>Back</Button>
+          <Button variant='light' onClick={handleNext}>Next</Button> 
+        </div>
       )}
 
     {formStep === 4 && (
         <div className='scenarioPart2-container'>
-          <label htmlFor="inflationAssumption"> Inflation Assumption:</label>
-          <input
-            type = "number" 
-            name = "inflationAssumption"
-            value = {values.inflationAssumption}
-            onChange={handleChanges} 
-          />
-
+          <DistributionForm name={"inflationAssumption"} text={"Inflation Assumption:"} field={"inflationAssumption"} distribution={values.inflationAssumption} handleChange={handleMainDistributionChange}/>
 
           <label htmlFor="afterTaxContributionLimit"> After Tax Contribution Limit:</label>
             <input
@@ -1051,14 +1135,21 @@ function CreateScenario({formInfo, saveForms}) {
 
 
       </form>
-          
+
       {/* Events Modal */}
       <Modal show={showEventModal} onHide={closeEventModal} centered>
         <Modal.Header closeButton> </Modal.Header>
 
           <Modal.Body>
-          <EventForm handleEventChange={handleEventChange} handleAnswerChange={handleAnswerChange} answers={answers}
-           selectedEvent={selectedEvent} diffEvent= {diffEvent} index={0} />
+          <EventForm 
+            handleEventChange={handleEventChange} 
+            handleAnswerChange={handleAnswerChange}
+            handleDistributionChange={handleEventDistributionChange} 
+            answers={answers}
+            selectedEvent={selectedEvent} 
+            diffEvent={diffEvent}
+            index={0} 
+          />
         </Modal.Body>
 
           <Modal.Footer>

@@ -1,4 +1,6 @@
-const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEvent, diffEvent }) => {
+import DistributionForm from "./DistributionForm";
+
+const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionChange, answers, selectedEvent, diffEvent }) => {
     return (
         <div className="event-page">
             <h3>Events</h3>
@@ -18,12 +20,13 @@ const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEve
                     </option>
                 ))}
             </select>
-
+            {console.log(diffEvent[selectedEvent])}
             {/* Render questions based on the selected event */}
             {selectedEvent && (
                 <div>
                     <h3>{selectedEvent} Questions</h3>
-                    {diffEvent[selectedEvent].map(({ question, type, fields }, index) => (
+                    
+                    {diffEvent[selectedEvent].map(({ question, type, fields, name }, index) => (
                         (question === "Asset Allocation2:" && answers["Glide Path:"] !== "true") ? null : (
                             <div key={index}>
                                 <label>{question}</label>
@@ -59,22 +62,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEve
                             )}    
                                 </div>
                                 )}
-                                {/* {type === "object" && fields && (
-                                <div>
-                                    {fields.map((field, fieldIndex) => {
-                                        console.log("Field:", field); // Log the entire field object
-                                        console.log("Field Investment Name:", field[fieldIndex].investmentName); // Log the investmentName property
-
-                                        return (
-                                            <div key={fieldIndex}>
-                                                <label>
-                                                    {field.[fieldIndex].investmentName}
-                                                </label>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            )} */}
+                                {/* Handle boolean type questions */}
                                 {type === "boolean" ? (
                                     <div>
                                         <label>
@@ -98,32 +86,6 @@ const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEve
                                         </label>
                                     </div>
                                 ) : null}
-                                
-                                {/* Handle boolean type questions */}
-                                {/* {type === "boolean" && (question === "Discretionary : " || question === "Glide Path:") ? (
-                                    <div>
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name={question}
-                                                value="true"
-                                                checked={answers[question] === "true"}
-                                                onChange={(e) => handleAnswerChange(question, e.target.value)}
-                                            /> True
-                                        </label>
-
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name={question}
-                                                value="false"
-                                                checked={answers[question] === "false"}
-                                                onChange={(e) => handleAnswerChange(question, e.target.value)}
-                                            /> False
-                                        </label>
-                                    </div>
-                                ) : null} */}
-
                                 {/* Handle text or number type questions */}
                                 {type === "text" || type === "number" ? (
                                     <input
@@ -133,7 +95,18 @@ const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEve
                                         onChange={(e) => handleAnswerChange(question, e.target.value)}
                                     />
                                 ) : null}
+                                {/* Handle distribution questions */}
+                                {type === "distribution" ? (
+                                    <DistributionForm
+                                        name={name}
+                                        text={""}
+                                        distribution={answers[name] || {}}
+                                        handleChange={handleDistributionChange}
+                                        field={name}
+                                    />
+                                ) : null }
                             </div>
+                            
                         )
                     ))}
                 </div>

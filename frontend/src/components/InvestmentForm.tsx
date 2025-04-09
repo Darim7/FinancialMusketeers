@@ -7,10 +7,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import DistributionForm from './DistributionForm';
+import TestDistributionForm from './DistributionForm';
 
  {/* Investment Modal */}
   
- function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, handleInvestmentChange, distributions, distributionValues, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}) {
+ function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}) {
 
     return (
         <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
@@ -45,7 +46,7 @@ import DistributionForm from './DistributionForm';
                     onChange={handleInvestmentChange}
                     />
 
-            <DistributionForm name={'Return Distribution'} index={0} distributions={distributions} distributionValues={distributionValues} handleDistributionChange={handleDistributionChange} /> 
+            <DistributionForm name={'returnDistribution'} field={"returnDistribution"} text={"Return Distribution:"} distribution={investment.returnDistribution} handleChange={handleDistributionChange}/> 
 
             <label htmlFor = "expense-ratio"> Expense Ratio: </label>
                 <input
@@ -62,7 +63,7 @@ import DistributionForm from './DistributionForm';
                 value={investment.incomeAmtOrPct}
                 onChange={handleInvestmentChange}
                 />
-            <DistributionForm name={'Income Distribution'} index={1} distributions={distributions} distributionValues={distributionValues} handleDistributionChange={handleDistributionChange} /> 
+            <DistributionForm name={'incomeDistribution'} field={"incomeDistribution"} text={"Income Distribution:"} distribution={investment.incomeDistribution} handleChange={handleDistributionChange} /> 
 
 
             <label htmlFor = "taxability"> Taxability: </label>

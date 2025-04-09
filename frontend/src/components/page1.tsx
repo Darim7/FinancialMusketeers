@@ -92,7 +92,7 @@ const Page1 = ({ values, setValues, states, handleChanges, index }) => {
             maxLength={4}
           />
         </>
-      )}
+      )} 
     </div>
   );
 };
