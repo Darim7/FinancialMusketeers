@@ -2,23 +2,28 @@ import numpy as np
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
 
-def update_inflation(tax_obj, inflation_assumption: dict) -> float:
-    """
-    Update the inflation rate and all of the inflation-related values
-    """
+def calculate_inflation_rate(inflation_assumption):
     inflation_rate = -1
 
     # Check to see if the inflation assumption is a distribution or a single value
     if inflation_assumption['type'] == 'fixed':
         inflation_rate = inflation_assumption['value']
-    elif inflation_assumption['uniform']:
+    elif inflation_assumption['type'] == 'uniform':
         inflation_rate = np.random.uniform(
             inflation_assumption['lower'],
-            inflation_assumption['upper'],)
+            inflation_assumption['upper'])
     else:
         inflation_rate = np.random.normal(
             inflation_assumption['mean'],
-            inflation_assumption['stdev'],)
+            inflation_assumption['stdev'])
+            
+    return inflation_rate
+
+def update_inflation(tax_obj: FederalTax | StateTax, inflation_assumption: dict) -> float:
+    """
+    Update the inflation rate and all of the inflation-related values
+    """
+    inflation_rate = calculate_inflation_rate(inflation_assumption)
 
     # Update the tax bracket
     res = {}
@@ -74,3 +79,11 @@ def state_income_tax(income: int, status: str) -> float:
 
 def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
     return -1
+
+# Main algorithm for the simulation
+
+# TODO
+"""
+Compute and store the inflation-adjusted annual limits on retirement account contributions, in a
+similar way.
+"""
