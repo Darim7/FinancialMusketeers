@@ -6,7 +6,7 @@ import './LoginPage.css';
 import dollarImage from '../assets/dollar.png';
 import googlelogo from '../assets/googlelogo.png';
 import './LoginPage.css';
-import axios from 'axios';
+// import axios from 'axios';
 import {initializeApp} from 'firebase/app';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browserLocalPersistence, setPersistence} from 'firebase/auth';

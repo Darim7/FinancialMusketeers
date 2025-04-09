@@ -22,10 +22,6 @@ function Scenario() {
     
     //Store Multiple Scenario Forms
     const [saveFormArray, setSaveFormArray] = useState<{ id: number; name: string; }[]>([])
-  
-    const saveScenarioForms = (updateFunction: (arg0: { id: number; name: string; }[]) => { id: number; name: string; }[]) => {
-        setSaveFormArray((prevForms) => updateFunction(prevForms));
-    };
 
     //Current Scenario Form
     const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string;} | null>(null);
@@ -107,7 +103,7 @@ function Scenario() {
             {scenarioForm && (
                 <CreateScenario
                 formInfo={scenarioForm}
-                saveForms={saveScenarioForms}
+                saveForms={setScenarioSaved}
                 userEmail={userEmail}
             />
         )}        

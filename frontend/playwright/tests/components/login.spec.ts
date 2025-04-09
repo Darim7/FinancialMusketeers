@@ -124,12 +124,13 @@ test.describe('login page', () => {
         // await page.goto(`${path}/overview`)
         await page.reload()
         const profile = await page.locator('div.user-profile-logo a[href="/profile"]');
-    
+        await page.waitForLoadState('domcontentloaded')
         // Assert that the button exists
         await expect(profile).toBeVisible();
 
         await profile.click()
-        await page.waitForTimeout(2000); // Wait for 2 seconds to ensure the page is fully loaded
+        // await page.waitForTimeout(2000); // Wait for 2 seconds to ensure the page is fully loaded
+
 
         const input = page.locator('input[name="email"]');
         const email = firebaseAuthState[0]['value']['email']
