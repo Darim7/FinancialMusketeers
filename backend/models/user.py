@@ -1,3 +1,4 @@
+from models.scenario import Scenario
 from typing import Self, List
 from bson import ObjectId
 

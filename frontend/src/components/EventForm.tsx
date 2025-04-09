@@ -50,7 +50,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                         onChange={(e) =>
                                                             handleAnswerChange(question, {
                                                                 ...answers[question],
-                                                                [innerField.investmentName]: e.target.value, // Save the value under the investment name
+                                                                [innerField.investmentName]: e.target.value, //Ask Copilot how to save the value under the investment name
                                                             })
                                                         }
                                                     

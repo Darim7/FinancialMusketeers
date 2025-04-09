@@ -20,9 +20,10 @@ def add_scenario(file:str):
     scenario_yaml=ScenarioYamlUtils(file)
     scenario_payload=scenario_yaml.get_yaml()
 
-    user_name="Test"
-    user_email="test@financialmusketeers.org"
-    # user = User(user_name, user_email)
+    with open('utils/user_data.json', 'r') as f: 
+        user_data=json.load(f)
+    user_name=user_data['user_name']
+    user_email=user_data['user_email']
     
     data= {
         "user_name": user_name,
@@ -87,3 +88,24 @@ def test_get_scenario():
     assert res_json['data']["_id"]==new_obj_id
     
     cleanup(new_obj_id, user_email)
+    
+def test_get_user():
+    # Add a scenario to the mock DB
+    new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
+    # Send GET request to retrieve the user
+    response=requests.get('http://flask_server:8000/api/get_user', json={"email": user_email}, headers={'Content-Type': 'application/json'})
+    assert response.status_code==200
+    res_json=response.json()
+    with open('utils/user_data.json', 'r') as f:
+        user_data=json.load(f)
+    
+    # Verify that the user information is correct
+    assert res_json['data']['email']==user_email
+    assert res_json['data']['name']==user_data['user_name']
+    scenarios=res_json['data']['scenarios']
+    assert len(scenarios)==1
+    assert scenarios[0]==new_obj_id
+    
+    cleanup(new_obj_id, user_email)
+
+    

@@ -7,7 +7,7 @@ from datetime import datetime
 import yaml
 
 from models.user import User
-from dbconn import SCENARIO_COLLECTION, mongo_client, find_document, update_document
+from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
 from models.scenario import Scenario
 
 app = Flask(__name__)
@@ -62,7 +62,7 @@ def add_scenario():
         
         # Grab User info
         user_email = data['user_email']
-        user_name = data['user_name']
+        user_name = data['user_name'] 
 
         # Create objects
         user = User(user_name, user_email)
@@ -185,6 +185,27 @@ def import_scenario():
         return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
     except Exception as e:
         return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
+
+# PT: Can you help me to implement a route to get a user profile by email?
+@app.route('/api/get_user', methods=['GET'])
+def get_user():
+    app.logger.info('Reached get_user route.')
+
+    # Get the user email from the query parameters
+    user_email = request.args.get('user_email')
+    
+    if not user_email:
+        return jsonify({"error": "User email is required"}), 400
+    
+    # Find the user by email
+    user = find_document(USER_COLLECTION, {"email": user_email})
+    
+    if user:
+        # Convert ObjectId to string for JSON serialization
+        user['_id'] = str(user['_id'])
+        return jsonify({"data": user}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 if __name__ == "__main__":
     app.logger.info('Starting Flask application')
