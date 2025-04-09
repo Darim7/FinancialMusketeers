@@ -60,7 +60,7 @@ eventSeries:
   start: {type: startWith, eventSeries: salary}
   duration: {type: fixed, value: 200}
   type: expense
-  initialAmount: 5000
+  initialAmount: 5000 
   changeAmtOrPct: percent
   changeDistribution: {type: normal, mean: 0.02, stdev: 0.01}
   inflationAdjusted: true
