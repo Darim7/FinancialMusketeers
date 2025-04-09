@@ -61,8 +61,8 @@ const Page1 = ({ values, setValues, states, handleChanges, index }) => {
         type="radio"
         id="Couple"
         name="maritalStatus"
-        value="Couple"
-        checked={values.maritalStatus === 'Couple'}
+        value="couple"
+        checked={values.maritalStatus === 'couple'}
         onChange={(e) => handleChanges(e, index)}
       />{' '}
       Couple
@@ -79,7 +79,7 @@ const Page1 = ({ values, setValues, states, handleChanges, index }) => {
        
       />
 
-      {values.maritalStatus === 'Couple' && (
+      {values.maritalStatus === 'couple' && (
         <>
           <label htmlFor="spouse-birth-year">Spouse Birth Year:</label>
           <input

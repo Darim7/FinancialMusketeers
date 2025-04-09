@@ -46,10 +46,10 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                     </label>
                                                     <input
                                                         type = "number"
-                                                        value = {answers[question]?.[innerField.investmentName] || ""}
+                                                        value = {answers[name]?.[innerField.investmentName] || ""}
                                                         onChange={(e) =>
                                                             handleAnswerChange(question, {
-                                                                ...answers[question],
+                                                                ...answers[name],
                                                                 [innerField.investmentName]: e.target.value, //Ask Copilot how to save the value under the investment name
                                                             })
                                                         }
@@ -70,8 +70,8 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                 type="radio"
                                                 name={question}
                                                 value="true"
-                                                checked={answers[question] === "true"}
-                                                onChange={(e) => handleAnswerChange(question, e.target.value)}
+                                                checked={answers[name] === "true"}
+                                                onChange={(e) => handleAnswerChange(name, e.target.value)}
                                             /> True
                                         </label>
 
@@ -80,19 +80,34 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                 type="radio"
                                                 name={question}
                                                 value="false"
-                                                checked={answers[question] === "false"}
-                                                onChange={(e) => handleAnswerChange(question, e.target.value)}
+                                                checked={answers[name] === "false"}
+                                                onChange={(e) => handleAnswerChange(name, e.target.value)}
                                             /> False
                                         </label>
                                     </div>
                                 ) : null}
+
+                                {type === "select" ? (
+                                    <div>
+                                        <select 
+                                            name={question}
+                                            value={answers[name] || ""}
+                                            onChange={(e) => handleAnswerChange(name, e.target.value)}
+                                            >
+                                            <option disabled value=""> -- select an option -- </option>
+                                            <option value="amount">amount</option>
+                                            <option value="percent">percent</option>
+                                        </select>
+                                           
+                                    </div>
+                                ): null}
                                 {/* Handle text or number type questions */}
                                 {type === "text" || type === "number" ? (
                                     <input
                                         type={type}
                                         name={question}
-                                        value={answers[question] || ""}
-                                        onChange={(e) => handleAnswerChange(question, e.target.value)}
+                                        value={answers[name] || ""}
+                                        onChange={(e) => handleAnswerChange(name, e.target.value)}
                                     />
                                 ) : null}
                                 {/* Handle distribution questions */}
@@ -100,7 +115,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                     <DistributionForm
                                         name={name}
                                         text={""}
-                                        distribution={answers[name] || {}}
+                                        distribution={answers[name] || {type:""}}
                                         handleChange={handleDistributionChange}
                                         field={name}
                                     />
