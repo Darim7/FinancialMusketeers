@@ -5,9 +5,8 @@ import Overview from './pages/Overview';
 import './App.css';
 import NavBar from './components/NavBar';
 import Scenario from './pages/Scenarios';
-import CreateScenario from './components/CreateScenario';
 import ProfilePage from './pages/ProfilePage';
-import NewScenario from './pages/newScenario';
+import ScenarioData from './components/scenarioData';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -20,7 +19,7 @@ function App(){
           <Route index element={<LoginPage/>} />
           <Route path = "/overview" element={<Overview/>} />
           <Route path = "/scenarios" element={<Scenario/>} />
-          <Route path = "/createscenario" element={<CreateScenario/>} />
+          <Route path = "/createscenario" element={<ScenarioData/>} />
           <Route path = '/profile' element={<ProfilePage/>} />
         </Routes>
       </BrowserRouter>

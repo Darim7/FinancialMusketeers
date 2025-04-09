@@ -12,7 +12,7 @@ import Page1 from './page1';
 import EventForm from './EventForm';
 import InvestmentForm from './InvestmentForm';
 
-function CreateScenario({formInfo, saveForms, userEmail}) {
+function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
@@ -183,8 +183,8 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
     }));
 
     //Loop through the form 
-    saveForms((prevForms) =>
-      prevForms.map((form) =>
+    saveForms((prevForms:any) =>
+      prevForms.map((form:any) =>
       // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
       // Finds the form by ID and set the name == Scenario Name so user can see
       // form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
@@ -198,8 +198,8 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
     e.preventDefault(); // Prevent form from submitting
 
     if (formStep === 1){
-      saveForms((prevForms) =>
-        prevForms.map((form) =>
+      saveForms((prevForms:any) =>
+        prevForms.map((form:any) =>
           form.id === formInfo.id ? { ...form, ['lifeExpectancy']: values.lifeExpectancy, name: name === 'scenarioName' ? value : form.name } : form
         )
       );
@@ -236,7 +236,7 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
       }));
     };
   
-    const handleInvestmentCaseChange = (index, e) => {
+    const handleInvestmentCaseChange = (index: number, e: React.ChangeEvent<any>) => {
       const { name, value } = e.target;
 
       const updatedInvestmentCases = investment.investmentCases.map((investmentCase, i) =>
@@ -256,7 +256,7 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
     setCurrentInvestmentIndex(-1);
   }
 
-  const editInvestmentModal = (investment, index) => {
+  const editInvestmentModal = (investment: any, index: number) => {
     setInvestment({...investment});
     setCurrentInvestmentIndex(index);
     setShowInvestmentModal(true);
@@ -266,12 +266,12 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
     setShowInvestmentModal(false);
   }
 
-  const saveInvestment = (e) => {
+  const saveInvestment = (e:React.ChangeEvent<any>) => {
 
       let updatedInvestments;
       let updatedExpenseWithdrawalStrategy;
-      let updateRMD;
-      let updateRothConversionStrategy;
+      let updateRMD: any;
+      let updateRothConversionStrategy: any;
       let updateAssetAllocation;
 
       // Update if editing
@@ -362,10 +362,10 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
       investmentName: '',
       description: '',
       returnAmtOrPct: '',
-      returnDistribution: { type: '', values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
+      returnDistribution: { type: ''},
       expenseRatio: '',
       incomeAmtOrPct: '',
-      incomeDistribution: { type: '', values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 } },
+      incomeDistribution: { type: ''},
       taxability: '',
       investmentCases: [],
     });
@@ -406,7 +406,7 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
       setShowEventModal(true);
   }
   
-  const editEventModal = (event, index) => {
+  const editEventModal = (event:any, index:number) => {
     setSelectedEvent(event.eventType);
     setAnswers({...event});
     setCurrentEventIndex(index);
@@ -490,36 +490,8 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
   }
   /******************** Event Functions *************************************/
 
-  /******************** Distribution Data ***********************************/
-  // const handleLifeExpectancyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: string) => {
-  //   const { name, value } = e.target;
-  //   console.log(name, value);
-  //   setValues(prev => {
-  //     const updated = [...prev.lifeExpectancy];
-  
-  //     if (name === 'distribution-form') {
-  //       // Changing the distribution type (reset the values object)
-  //       updated[index] = {
-  //         type: value,
-  //         values: { value: 0, mean: 0, std: 0, lower: 0, upper: 0 }
-  //       };
-  //     } else {
-  //       // Changing one of the internal values
-  //       updated[index] = {
-  //         ...updated[index],
-  //         values: {
-  //           ...updated[index].values,
-  //           [name]: Number(value)  // Convert string to number
-  //         }
-  //       };
-  //     }
-  //     return {
-  //       ...prev,
-  //       lifeExpectancy: updated
-  //     };
-  //   });
-  // }
-
+  /******************** Distribution Functions ***********************************/
+ 
   const handleMainDistributionChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const { name, value } = e.target
     console.log(name, value); // Debugging log
@@ -928,7 +900,7 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
         <label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</label>
           <div className='spending-list'>
             {values.RothConversionStrategy.length > 0 ? (
-              values.RothConversionStrategy.map((item, index) => (
+              values.RothConversionStrategy.map((item:any, index:number) => (
                 <div key={index} className='spending-item'
                 draggable
                 onDragStart={(e)=> dragItem.current = index}
@@ -967,7 +939,6 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
             answers={answers}
             selectedEvent={selectedEvent} 
             diffEvent={diffEvent}
-            index={0} 
           />
         </Modal.Body>
 

@@ -1,6 +1,6 @@
 import DistributionForm from "./DistributionForm";
 
-const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionChange, answers, selectedEvent, diffEvent }) => {
+const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionChange, answers, selectedEvent, diffEvent }:any) => {
     return (
         <div className="event-page">
             <h3>Events</h3>
@@ -26,7 +26,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                 <div>
                     <h3>{selectedEvent} Questions</h3>
                     
-                    {diffEvent[selectedEvent].map(({ question, type, fields, name }, index) => (
+                    {diffEvent[selectedEvent].map(({ question, type, fields, name }:any, index:any) => (
                         (question === "Asset Allocation2:" && answers["Glide Path:"] !== "true") ? null : (
                             <div key={index}>
                                 <label>{question}</label>
@@ -35,11 +35,11 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                 {type === "object" && fields && (
                                 <div>
                                     {console.log("Fields:", fields)}
-                                     {fields.every((outerArray) => outerArray.length === 0) ?  ( // Ask Copilot to check if fields are empty
+                                     {fields.every((outerArray:any) => outerArray.length === 0) ?  ( // Ask Copilot to check if fields are empty
                                         <p>No investments to select</p>
                                     ) : (
-                                       fields.map((outerArray, outerIndex) => (
-                                            outerArray.map((innerField, nestedIndex) => (
+                                       fields.map((outerArray:any, outerIndex:number) => (
+                                            outerArray.map((innerField:any, nestedIndex:number) => (
                                                 <div key={nestedIndex}>
                                                     <label>
                                                         {innerField.investmentName || "Unnamed Investment"} 

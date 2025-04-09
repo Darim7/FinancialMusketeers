@@ -1,7 +1,5 @@
-import { ChangeEvent, useState } from "react";
-
 /******************** Distribution Form ***********************************/
-const DistributionForm = ({name, text, field, distribution, handleChange}) => {
+const DistributionForm = ({name, text, field, distribution, handleChange}:any) => {
 
   console.log(distribution); // Debugging log
 

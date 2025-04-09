@@ -1,17 +1,12 @@
 // Create Scenario Page
-import React from 'react';
-import {useState, useEffect } from 'react';
-import Select from 'react-select'
 import './CreateScenario.css';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import DistributionForm from './DistributionForm';
-import TestDistributionForm from './DistributionForm';
 
  {/* Investment Modal */}
   
- function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}) {
+ function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}:any) {
 
     return (
         <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
@@ -39,12 +34,16 @@ import TestDistributionForm from './DistributionForm';
                     />
 
                 <label htmlFor = "return-amount"> Return Amount or Percent: </label>
-                    <input
-                    type = "text"
-                    name = "returnAmtOrPct"     
-                    value={investment.returnAmtOrPct}
-                    onChange={handleInvestmentChange}
-                    />
+                    <select 
+                        name = "returnAmtOrPct"   
+                        value={investment.returnAmtOrPct}
+                        onChange={handleInvestmentChange}
+                    >
+                        <option disabled value=""> -- select an option -- </option>
+                        <option value="amount">amount</option>
+                        <option value="percent">percent</option>
+                    </select>
+                
 
             <DistributionForm name={'returnDistribution'} field={"returnDistribution"} text={"Return Distribution:"} distribution={investment.returnDistribution} handleChange={handleDistributionChange}/> 
 
@@ -55,14 +54,17 @@ import TestDistributionForm from './DistributionForm';
                 value={investment.expenseRatio}
                 onChange={handleInvestmentChange}
                 />
-
+                
             <label htmlFor = "income-amount"> Income Amount or Percent: </label>
-                <input
-                type = "text"
-                name = "incomeAmtOrPct" 
-                value={investment.incomeAmtOrPct}
-                onChange={handleInvestmentChange}
-                />
+                    <select 
+                        name = "incomeAmtOrPct"  
+                        value={investment.incomeAmtOrPct}
+                        onChange={handleInvestmentChange}
+                    >
+                        <option disabled value=""> -- select an option -- </option>
+                        <option value="amount">amount</option>
+                        <option value="percent">percent</option>
+                    </select>
             <DistributionForm name={'incomeDistribution'} field={"incomeDistribution"} text={"Income Distribution:"} distribution={investment.incomeDistribution} handleChange={handleDistributionChange} /> 
 
 
@@ -87,7 +89,7 @@ import TestDistributionForm from './DistributionForm';
             {/*------------ Ask user the amount of their investment, and whether it is tax-exempt or not ---------*/}
                 <Button onClick={addInvestmentCase}>Set Investment</Button>
 
-                {investment.investmentCases.map((investmentCase, index) => (
+                {investment.investmentCases.map((investmentCase:any, index:number) => (
                     <div key={investmentCase.id}>
 
                         <label htmlFor="value">Value: </label>

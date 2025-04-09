@@ -1,6 +1,5 @@
-import React from 'react';
 
-const Page1 = ({ values, setValues, states, handleChanges, index }) => {
+const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
   return (
     
     <div className="label-container">
@@ -21,7 +20,7 @@ const Page1 = ({ values, setValues, states, handleChanges, index }) => {
         onChange={(e) => handleChanges(e, index)}
       >
         <option value="">Select a state</option>
-        {states.map((state) => (
+        {states.map((state:any) => (
           <option key={state.value} value={state.value}>
             {state.label}
           </option>
