@@ -18,7 +18,6 @@ function App(){
         <Routes>
           {/* Default Page */}
           <Route index element={<LoginPage/>} />
-
           <Route path = "/overview" element={<Overview/>} />
           <Route path = "/scenarios" element={<Scenario/>} />
           <Route path = "/createscenario" element={<CreateScenario/>} />

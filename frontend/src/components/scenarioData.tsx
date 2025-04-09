@@ -96,42 +96,6 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
     investmentCases: [] as any[]
   })
 
-  // const [lifeExpectancyDistributions, setlifeExpectancyDistributions] = useState({
-   
-  //   fixed: {
-  //     type: "",
-  //     values: { value: 0, value2: 0}
-  //   },
-  //   normal: {
-  //     type: "",
-  //     values: {mean: 0, std: 0, mean2: 0, std2: 0}
-  //   },
-  //   uniform: {
-  //     type: "",
-  //     values: {lower: 0, upper: 0, lower2: 0, upper2: 0}
-  //   }
-  // })
-
-  // console.log("Life Expectancy Distributions: ", lifeExpectancyDistributions);
-
-  const handleLifeExpectancyChange = (e:React.ChangeEvent<any>, index: number) => {
-    const { name, value } = e.target;
-    
-    const updatedLifeExpectancy = { ...lifeExpectancyDistributions };
-
-    setlifeExpectancyDistributions((prevDistributions) => ({
-      ...prevDistributions,
-      [name]: {
-        ...prevDistributions[name],
-        values: {
-          ...prevDistributions[name].values,
-          [index]: value,
-        },
-      },
-    }));
-    console.log("Updated Life Expectancy: ", updatedLifeExpectancy);
-
-  }
 
 
 
@@ -179,7 +143,7 @@ function CreateScenario({formInfo, saveForms, userEmail}) {
       { question: "Event Names: ", type: "text" },
       { question: "Start: ", type: "text" },
       { question: "Duration: ", type: "number" },
-      { question: "Asset Allocation: ", type: "object", fields:[values.RothConversionStrategy] },
+      { question: "Asset Allocation: ", type: "object", fields:[values.RothConversionStrategy]},
     ],
   };
 

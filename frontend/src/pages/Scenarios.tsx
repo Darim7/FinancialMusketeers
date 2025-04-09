@@ -17,15 +17,13 @@ function Scenario() {
 
     const userEmail = localStorage.getItem('userEmail');
     
-
     const [show, setShow] = useState(false);
     const [scenarioSaved, setScenarioSaved] = useState(false);
     
     //Store Multiple Scenario Forms
     const [saveFormArray, setSaveFormArray] = useState<{ id: number; name: string; }[]>([])
-    const [unsavedForm, setUnsavedForm] = useState<{ id: number; name: string } | null>(null);
-    
-    const saveForms = (updateFunction) => {
+  
+    const saveScenarioForms = (updateFunction: (arg0: { id: number; name: string; }[]) => { id: number; name: string; }[]) => {
         setSaveFormArray((prevForms) => updateFunction(prevForms));
     };
 
@@ -46,7 +44,7 @@ function Scenario() {
     const handleClose = () => setShow(false);
     
     
-    const handleViewForm = (form) => {
+    const handleViewForm = (form: React.SetStateAction<{ id: number; name: string; } | null>) => {
         setScenarioForm(form);
         handleShow();
     };
@@ -58,19 +56,14 @@ function Scenario() {
 
     // Export YAML File
     const exportYAML = async () =>{
-
-
-
     }
 
      // Import YAML File
      const importYAML = async () =>{
      }
 
-    
 
     return (
-        
         <div className='scenario'>
             <NavBar/>
        
@@ -90,8 +83,6 @@ function Scenario() {
 
             </div>
 
-            
-           
             <div className='scenario-header'>
                 <h3>Scenario Forms:</h3>
                 {saveFormArray.map((form) => (
@@ -103,7 +94,6 @@ function Scenario() {
                     ))}
             </div>
             
-           
             <Modal show={show} onHide={handleClose}>
 
                 <Modal.Header closeButton>
@@ -117,7 +107,7 @@ function Scenario() {
             {scenarioForm && (
                 <CreateScenario
                 formInfo={scenarioForm}
-                saveForms={saveForms}
+                saveForms={saveScenarioForms}
                 userEmail={userEmail}
             />
         )}        
@@ -140,12 +130,6 @@ function Scenario() {
                 Delete
         </Button>
     )}
-                
-
-
-
-
-
             </Modal.Footer> 
 
             </Modal>
@@ -153,11 +137,6 @@ function Scenario() {
 
     );
 }
-
-
-
-
-
 
 
 

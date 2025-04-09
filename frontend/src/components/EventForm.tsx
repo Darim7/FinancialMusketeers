@@ -59,22 +59,6 @@ const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEve
                             )}    
                                 </div>
                                 )}
-                                {/* {type === "object" && fields && (
-                                <div>
-                                    {fields.map((field, fieldIndex) => {
-                                        console.log("Field:", field); // Log the entire field object
-                                        console.log("Field Investment Name:", field[fieldIndex].investmentName); // Log the investmentName property
-
-                                        return (
-                                            <div key={fieldIndex}>
-                                                <label>
-                                                    {field.[fieldIndex].investmentName}
-                                                </label>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            )} */}
                                 {type === "boolean" ? (
                                     <div>
                                         <label>
@@ -99,31 +83,6 @@ const EventForm = ({ handleEventChange, handleAnswerChange, answers, selectedEve
                                     </div>
                                 ) : null}
                                 
-                                {/* Handle boolean type questions */}
-                                {/* {type === "boolean" && (question === "Discretionary : " || question === "Glide Path:") ? (
-                                    <div>
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name={question}
-                                                value="true"
-                                                checked={answers[question] === "true"}
-                                                onChange={(e) => handleAnswerChange(question, e.target.value)}
-                                            /> True
-                                        </label>
-
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name={question}
-                                                value="false"
-                                                checked={answers[question] === "false"}
-                                                onChange={(e) => handleAnswerChange(question, e.target.value)}
-                                            /> False
-                                        </label>
-                                    </div>
-                                ) : null} */}
-
                                 {/* Handle text or number type questions */}
                                 {type === "text" || type === "number" ? (
                                     <input

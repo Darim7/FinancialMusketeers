@@ -8,7 +8,7 @@ import googlelogo from '../assets/googlelogo.png';
 import './LoginPage.css';
 import axios from 'axios';
 import {initializeApp} from 'firebase/app';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+// import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browserLocalPersistence, setPersistence} from 'firebase/auth';
 
   
@@ -45,7 +45,6 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
 
     const navigate = useNavigate();
 
-
     const googleSignIn = () => {
       signInWithPopup(auth, provider)
       .then((result) => {
@@ -54,6 +53,7 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
         const credential = GoogleAuthProvider.credentialFromResult(result);
         
         // const token = credential.accessToken;
+        // Once user log in, a token will be created
         const token = credential ? credential.accessToken : null;
 
         // The signed-in user info.
