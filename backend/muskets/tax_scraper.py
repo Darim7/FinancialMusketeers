@@ -281,20 +281,32 @@ def read_tax_to_dict(state: str) -> dict:
     
     # Convert integer keys to actual integers
     return convert_to_num(tax_data)
+
+def read_rmd_to_dict()->dict:
+    rmd_map = {
+        "rmd": ("/app/rmd/rmd.yaml", scrape_rmd_table)
+    }
+    filename, scrape_func = rmd_map["rmd"]
+    if  not os.path.exists(filename):
+        print(f"{filename} not found. Scraping...")
+        scrape_func()
+    with open(filename, "r") as f:
+        rmd_data = yaml.safe_load(f)
+    return rmd_data
     
 if __name__=="__main__":                
     # scrape_federal_tax()
     # scrape_ny_income_tax()
     # scrape_nj_ct_income_tax()
     # scrape_nj_ct_income_tax(is_ct=True)
-    # nj_tax = read_tax_to_dict('nj')
-    # ct_tax = read_tax_to_dict('ct')
-    # ny_tax = read_tax_to_dict('ny')
-    # federal_tax = read_tax_to_dict('federal')
+    nj_tax = read_tax_to_dict('nj')
+    ct_tax = read_tax_to_dict('ct')
+    ny_tax = read_tax_to_dict('ny')
+    federal_tax = read_tax_to_dict('federal')
 
     # print(f"NJ Tax: {nj_tax}")
     # print(f"CT Tax: {ct_tax}")
     # print(f"NY Tax: {ny_tax}")
     # print(f"Federal Tax: {federal_tax}")
-    scrape_rmd_table()
+    rmd = read_rmd_to_dict()
     
