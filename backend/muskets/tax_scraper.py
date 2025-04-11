@@ -110,6 +110,7 @@ def read_tax(file_path:str):
     # TODO To be implemented
         tax=yaml.safe_load(file)
     return tax
+
 def save(to_yaml:Dict, to_dest:str):
     """
     Saves the scraped tax information to a Yaml file.
@@ -261,7 +262,7 @@ def convert_to_num(data: dict) -> dict:
     else:
         return data
 
-def read_tax(state: str) -> dict:
+def read_tax_to_dict(state: str) -> dict:
     """
     Reads tax data for the given state.
     If the YAML file does not exist, it triggers the appropriate scrape function.
@@ -295,10 +296,10 @@ if __name__=="__main__":
     # scrape_ny_income_tax()
     # scrape_nj_ct_income_tax()
     # scrape_nj_ct_income_tax(is_ct=True)
-    nj_tax = read_tax('nj')
-    ct_tax = read_tax('ct')
-    ny_tax = read_tax('ny')
-    federal_tax = read_tax('federal')
+    nj_tax = read_tax_to_dict('nj')
+    ct_tax = read_tax_to_dict('ct')
+    ny_tax = read_tax_to_dict('ny')
+    federal_tax = read_tax_to_dict('federal')
 
     print(f"NJ Tax: {nj_tax}")
     print(f"CT Tax: {ct_tax}")
