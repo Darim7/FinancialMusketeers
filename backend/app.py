@@ -26,7 +26,7 @@ def hello():
     app.logger.info('Serving the HTML page')
     return send_file('index.html')
 
-@app.route('/api/get_scenario', methods=['GET'])
+@app.route('/api/get_scenario', methods=['POST'])
 def get_scenario():
     try:
         # Get the scenario ID from the query parameters
@@ -125,7 +125,7 @@ def delete_scenario():
     else:
         return jsonify({"error": "Failed to delete scenario"}), 500
 
-@app.route('/api/export_scenario', methods=['GET'])
+@app.route('/api/export_scenario', methods=['POST'])
 def export_scenario():
     app.logger.info('Reached export_scenario route.')
 
