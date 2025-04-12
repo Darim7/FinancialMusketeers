@@ -122,7 +122,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
       
-
     ],
     Invest: [
       { question: "Event Names: ", type: "text", name:"name"},
@@ -425,7 +424,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   const saveEventModal = () => {
     const newEvent = {
       eventType: selectedEvent,
-      eventName: answers["Event Names: "] || "Unnamed Event",
+      // eventName: answers["Event Names: "] || "Unnamed Event",
       // Add other properties based on the event type
       ...answers // Include all answers
     };
@@ -770,7 +769,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
               {values.events.map((event, index) => (
                 <Card key={index} className='eventCards' onClick={() => editEventModal(event, index)}>
                   <Card.Body>
-                    <Card.Title>{event.eventName}</Card.Title>
+                    <Card.Title>{event.name}</Card.Title>
                   </Card.Body>
                 </Card>  
               ))}
