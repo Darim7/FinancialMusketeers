@@ -26,7 +26,7 @@ def hello():
     app.logger.info('Serving the HTML page')
     return send_file('index.html')
 
-@app.route('/api/get_scenario', methods=['GET'])
+@app.route('/api/get_scenario', methods=['POST'])
 def get_scenario():
     try:
         # Get the scenario ID from the query parameters
@@ -125,18 +125,21 @@ def delete_scenario():
     else:
         return jsonify({"error": "Failed to delete scenario"}), 500
 
-@app.route('/api/export_scenario', methods=['GET'])
+@app.route('/api/export_scenario', methods=['POST'])
 def export_scenario():
     app.logger.info('Reached export_scenario route.')
 
     try:
         # Get the scenario object from the get request
         data = request.get_json()
+        app.logger.info(f'Exporting scenario: {data}')
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
 
         # Create objects
         scenario = Scenario.from_dict(data['scenario'])
+        app.logger.info(f'Exporting scenario: {scenario}')
+      
         fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.yaml"
         scenario.export_yaml(fname)
         
@@ -193,6 +196,7 @@ def get_user():
 
     # Get the user email from the query parameters
     user_email = request.args.get('user_email')
+    user_name = request.args.get('user_name')
     
     if not user_email:
         return jsonify({"error": "User email is required"}), 400
@@ -200,12 +204,17 @@ def get_user():
     # Find the user by email
     user = find_document(USER_COLLECTION, {"email": user_email})
     
-    if user:
-        # Convert ObjectId to string for JSON serialization
-        user['_id'] = str(user['_id'])
-        return jsonify({"data": user}), 200
-    else:
-        return jsonify({"error": "User not found"}), 404
+    if not user:
+        # Create a new user using the user name and email
+        if not user_name:
+            return jsonify({"error": "User name is required"}), 400
+        new_user = User(user_name, user_email)
+        new_user.save_to_db()
+        user = new_user.to_dict()
+
+    # Convert ObjectId to string for JSON serialization
+    user['_id'] = str(user['_id'])
+    return jsonify({"data": user}), 200
 
 if __name__ == "__main__":
     app.logger.info('Starting Flask application')

@@ -1,4 +1,4 @@
-from typing import List, Dict, Self, Union
+from typing import List, Dict, Self, Union, Optional
 from bson import ObjectId
 from datetime import date
 import yaml
@@ -16,7 +16,9 @@ class Scenario(Exportable):
             self,
             name: str,
             marital_status: str,  # "couple" or "individual"
-            birth_years: List[int],
+            birth_year1: str,
+            # birth_years: List[int], # what if put birthyear into here? 
+            # birth_years: str, 
             life_expectancy: List[Dict],
             investment_types: List[AssetType],
             investments: List[Investment],
@@ -32,7 +34,8 @@ class Scenario(Exportable):
             roth_conversion_strategy: List[str],
             financial_goal: int,
             residence_state: str,
-            shared: List = []
+            shared: List = [],
+            birth_years: Optional[List[int]] = None
         ):
 
         # Name
@@ -43,6 +46,10 @@ class Scenario(Exportable):
 
         # Birth Years
         self._birth_years = birth_years
+        self._birth_years.append(int(birth_year1))
+        # Convert birth_years from a string to a list of integers
+        # self._birth_years = list(map(int, birth_years.split(','))) if isinstance(birth_years, str) else birth_years
+        # print("what is self.birth_years", self._birth_years)    
         self.birth_yr = birth_years[0]
         self.spouse_birth_yr = birth_years[1] if marital_status == 'couple' else -1
 
@@ -166,7 +173,8 @@ class Scenario(Exportable):
         base = {
             "name": self.name,
             "maritalStatus": "couple" if self.is_married else "individual",
-            "birthYears": self._birth_years,
+            # "birthYears": self._birth_years,
+            "birthYear1": self._birth_years,
             "lifeExpectancy": self._life_expectancy,
             "investmentTypes": [ivmt_type.to_dict() for ivmt_type in self.ivmt_types],
             "investments": [ivmt.to_dict() for ivmt in self.ivmts],
@@ -221,7 +229,8 @@ class Scenario(Exportable):
         return cls(
             name=data['name'],
             marital_status=data['maritalStatus'],
-            birth_years=data['birthYears'],
+            # birth_years=data['birthYears'],
+            birth_years=data['birthYear1'],
             life_expectancy=data['lifeExpectancy'],
             investment_types=[
                 AssetType.from_dict(it)
