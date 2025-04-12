@@ -7,10 +7,10 @@ from models.exportable import Exportable
 from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document
 
 class User(Exportable):
-    def __init__(self, name: str, email:str, scenarios: List[ObjectId]=[]):
+    def __init__(self, name: str, email:str, scenarios: List[ObjectId]=None):
         self.name=name
         self.email=email
-        self.scenarios=scenarios
+        self.scenarios=scenarios if scenarios else []
 
         # Check if the user already exists in the database
         if document_exists(USER_COLLECTION, {'email': email}):
@@ -37,7 +37,9 @@ class User(Exportable):
 
     # Utilities to Add & Remove from DB
     def save_to_db(self) -> ObjectId:
+        # import app
         self.savedId = insert_document(USER_COLLECTION, self.to_dict())
+        # app.logger.info(f"User Init: {self.name} | {self.email} | ID: {self.savedId}")
         return self.savedId
     
     # def remove(self):

@@ -67,6 +67,8 @@ def add_scenario():
         # Create objects
         user = User(user_name, user_email)
         scenario = Scenario.from_dict(data['scenario'])
+        app.logger.info(f"User: {user_email} | Scenarios before add: {len(user.scenarios)}")
+        
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
