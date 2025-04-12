@@ -62,7 +62,6 @@ def scenario_data(request):
         'user_name': user_name
     }
 
-    time.sleep(0.1)
     # Teardown
     assert SCENARIO_COLLECTION.delete_one({"_id": ObjectId(new_object_id)}) is not None
     USER_COLLECTION.delete_one({"email": user_email})
@@ -78,7 +77,6 @@ def test_add_scenario(scenario_data):
     
 
 def test_get_scenario(scenario_data):
-    # new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
     new_obj_id=scenario_data['object_id']
     # Send GET request to retrieve the scenario    
     response=requests.post('http://flask_server:8000/api/get_scenario', json={"_id": new_obj_id}, headers={'Content-Type': 'application/json'})
