@@ -3,109 +3,116 @@ import sys
 import os
 import requests
 import json
+import time
 from bson import ObjectId
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app import app  # Import your Flask app and DB function
 from dbconn import SCENARIO_COLLECTION, USER_COLLECTION
 from models.user import User
 from utils.yaml_utils import ScenarioYamlUtils
+import uuid
 
-def cleanup(obj_id:str, user_email:str):
-    # Cleanup
-    # Convert the string to ObjectId
-    object_id = ObjectId(obj_id)
-    SCENARIO_COLLECTION.delete_one({"_id": object_id})
+
+@pytest.fixture(scope="function")
+def scenario_data(request):
+    # Get scenario file from marker or default
+    file = getattr(request, 'param', 'imports/scenario_individual.yaml')
+    scenario_yaml = ScenarioYamlUtils(file)
+    scenario_payload = scenario_yaml.get_yaml()
+    uid=uuid.uuid4()
+    user_email = f'test_{uid}@financialmusketeers.org'
+
+    with open('utils/user_data.json', 'r') as f:
+        user_data = json.load(f)
+    user_name = f'Test_{uid}'
+
+    user_data={
+        "user_name": user_name,
+        "user_email": user_email
+    }
+    
+    # with open('utils/user_data.json', 'w') as f:
+    #     json.dump(user_data, f)
+    data = {
+        "user_name": user_name,
+        "user_email": user_email,
+        "scenario": scenario_payload
+    }
+
+    assert USER_COLLECTION.delete_one({"email": user_email}) is not None
+
+    response = requests.post(
+        "http://flask_server:8000/api/add_scenario",
+        json=data,
+        headers={'Content-Type': 'application/json'}
+    )
+
+
+    assert response.status_code == 201
+    res_json = response.json()
+    print("POST Response Data:", json.dumps(res_json["data"], indent=2))
+
+    assert res_json["message"] == "Scenario added successfully"
+
+    new_object_id = res_json["data"]["scenarios"][-1]
+
+    yield {
+        "object_id": new_object_id,
+        "user_email": user_email,
+        'user_name': user_name
+    }
+
+    time.sleep(0.1)
+    # Teardown
+    assert SCENARIO_COLLECTION.delete_one({"_id": ObjectId(new_object_id)}) is not None
     USER_COLLECTION.delete_one({"email": user_email})
-def add_scenario(file:str):
-    scenario_yaml=ScenarioYamlUtils(file)
-    scenario_payload=scenario_yaml.get_yaml()
-
-    with open('utils/user_data.json', 'r') as f: 
-        user_data=json.load(f)
-    user_name=user_data['user_name']
-    user_email=user_data['user_email']
-    
-    data= {
-        "user_name": user_name,
-        "user_email": user_email,
-        "scenario": scenario_payload
-    }
-    # data=json.dumps(data)
-    # Send POST request to add scenario
-    response = requests.post("http://flask_server:8000/api/add_scenario", json=data, headers={'Content-Type': 'application/json'})
-
-    # Assertions
-    assert response.status_code == 201
-    res_json=response.json()
-    assert res_json["message"] == "Scenario added successfully"
-    
-    # Unpack body
-    user_data=res_json["data"]
-    new_object_id=user_data['scenarios'][-1]
-
-    return (new_object_id, user_email)
-def test_add_scenario():
-    scenario_yaml=ScenarioYamlUtils('imports/scenario_individual.yaml')
-    scenario_payload=scenario_yaml.get_yaml()
-
-    user_name="Test"
-    user_email="test@financialmusketeers.org"
-    # user = User(user_name, user_email)
-    
-    data= {
-        "user_name": user_name,
-        "user_email": user_email,
-        "scenario": scenario_payload
-    }
-    # data=json.dumps(data)
-    # Send POST request to add scenario
-    response = requests.post("http://flask_server:8000/api/add_scenario", json=data, headers={'Content-Type': 'application/json'})
-
-    # Assertions
-    assert response.status_code == 201
-    res_json=response.json()
-    assert res_json["message"] == "Scenario added successfully"
-    
-    # Unpack body
-    user_data=res_json["data"]
-    new_object_id=user_data['scenarios'][-1]
-
+def test_add_scenario(scenario_data):
+    new_object_id=scenario_data['object_id']
+    user= USER_COLLECTION.find_one({"email": scenario_data['user_email']})
+    print(f'user: {user}')
     # Verify scenario exists in the mock DB
     saved_scenario = SCENARIO_COLLECTION.find_one({"_id": ObjectId(new_object_id)})
     assert saved_scenario is not None
     assert saved_scenario["maritalStatus"] == "individual"
-    cleanup(new_object_id, user_email)
+    # cleanup(new_object_id, user_email)
     
 
-def test_get_scenario():
-    new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
+def test_get_scenario(scenario_data):
+    # new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
+    new_obj_id=scenario_data['object_id']
+    # Send GET request to retrieve the scenario    
+    response=requests.post('http://flask_server:8000/api/get_scenario', json={"_id": new_obj_id}, headers={'Content-Type': 'application/json'})
     
-    response=requests.get('http://flask_server:8000/api/get_scenario', json={"_id": new_obj_id}, headers={'Content-Type': 'application/json'})
     assert response.status_code==200
     res_json=response.json()
-    
+    user= USER_COLLECTION.find_one({"email": scenario_data['user_email']})
+    print(f'user: {user}')
     # Verify that the scenario is equal to the object id we are requesting for
     assert res_json['data']["_id"]==new_obj_id
     
-    cleanup(new_obj_id, user_email)
     
-def test_get_user():
-    # Add a scenario to the mock DB
-    new_obj_id, user_email=add_scenario('imports/scenario_individual.yaml')
-    # Send GET request to retrieve the user
-    response=requests.get('http://flask_server:8000/api/get_user', json={"user_email": user_email}, headers={'Content-Type': 'application/json'})
-    assert response.status_code==200
-    res_json=response.json()
+def test_get_user(scenario_data):
     with open('utils/user_data.json', 'r') as f:
         user_data=json.load(f)
+    # Add a scenario to the mock DB
+    new_obj_id=scenario_data['object_id']
+    user_name=scenario_data['user_name']
+    user_email=scenario_data['user_email']
+    print(f"user email: {scenario_data['user_email']}")
+    user= USER_COLLECTION.find_one({"email": scenario_data['user_email']}) 
+    # Send GET request to retrieve the user
+    response=requests.get('http://flask_server:8000/api/get_user', params={"user_name": user_name, "user_email": user_email}, headers={'Content-Type': 'application/json'})
+    assert response.status_code==200
+    res_json=response.json()
     
+    scenarios=SCENARIO_COLLECTION.find({})
+    
+    print(res_json['data'])
     # Verify that the user information is correct
-    assert res_json['data']['user_email']==user_email
-    assert res_json['data']['user_name']==user_data['user_name']
+    assert res_json['data']['email']==user['email']
+    assert res_json['data']['_id']==str(user['_id'])
+    assert res_json['data']['name']==user['name']
     scenarios=res_json['data']['scenarios']
     assert len(scenarios)==1
     assert scenarios[0]==new_obj_id
-    
-    cleanup(new_obj_id, user_email)
-
     
