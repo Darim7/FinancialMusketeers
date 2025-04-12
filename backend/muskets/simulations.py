@@ -1,6 +1,7 @@
 import numpy as np
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
+from models.event_series import EventSeries
 
 def calculate_inflation_rate(inflation_assumption):
     inflation_rate = -1
@@ -19,7 +20,7 @@ def calculate_inflation_rate(inflation_assumption):
             
     return inflation_rate
 
-def update_inflation(tax_obj: FederalTax | StateTax, inflation_assumption: dict) -> float:
+def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
     """
@@ -31,6 +32,11 @@ def update_inflation(tax_obj: FederalTax | StateTax, inflation_assumption: dict)
         new_bracket = bracket * (1 + inflation_rate)
         res[new_bracket] = percentage
     tax_obj.bracket = res
+
+    # Update event series
+    for event in event_series:
+        if 'inflationAdjusted' in event.data and event.data['inflationAdjusted']:
+            event.data['initialValue'] *= (1 + inflation_rate)
 
     return inflation_rate
 
