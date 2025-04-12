@@ -63,6 +63,8 @@ def gross_income(event_series: list[EventSeries]) -> float:
                 
             gross_income += event.data['initialValue']
 
+        # Remember to account for social security.
+
     return gross_income
 
 def update_investments():
