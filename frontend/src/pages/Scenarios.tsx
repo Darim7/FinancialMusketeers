@@ -2,74 +2,64 @@
 import React from 'react';
 import './Overview.css';
 import './Scenario.css';
-import CreateScenario from '../components/CreateScenario';
+// import CreateScenario from '../components/CreateScenario';
 import NavBar from '../components/NavBar';
 import { useNavigate} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import CreateScenario from '../components/scenarioData';
 
 
 
 function Scenario() {
 
+    const userEmail = localStorage.getItem('userEmail');
+    
     const [show, setShow] = useState(false);
     const [scenarioSaved, setScenarioSaved] = useState(false);
     
-
-
     //Store Multiple Scenario Forms
-    const [saveForms, setSaveForms] = useState<{ id: number; name: string; }[]>([])
+    const [saveFormArray, setSaveFormArray] = useState<{ id: number; name: string; }[]>([])
 
     //Current Scenario Form
     const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string;} | null>(null);
     
 
-    const handleClose = () => setShow(false);
+    // const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
     const handleCreateNew = () => {
-        const newScenario = {id: Date.now(), name: ''};
-
-        setSaveForms((prev) => [...prev, newScenario]); // Store the form user just created 
-        
-        setScenarioForm(newScenario);  // New form 
-       
+        const newScenario = { id: Date.now(), name: '' };
+        setScenarioForm(newScenario);
+        setSaveFormArray((prev) => [...prev, newScenario]);
         handleShow();
     };
-  
-
     
-    const handleViewForm = (form) => {
-        
+    const handleClose = () => setShow(false);
+    
+    
+    const handleViewForm = (form: React.SetStateAction<{ id: number; name: string; } | null>) => {
         setScenarioForm(form);
         handleShow();
-        
     };
 
-    // console.log(scenarioForm);
+    const handleDeleteForm = (id: number) => {
+        setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
+    };
+
 
     // Export YAML File
     const exportYAML = async () =>{
-
-
-
     }
 
      // Import YAML File
      const importYAML = async () =>{
-
-
-
      }
 
-    
 
     return (
-        
         <div className='scenario'>
             <NavBar/>
        
@@ -87,26 +77,19 @@ function Scenario() {
                     + Create New
                 </Button>
 
-                {/* <Button variant="primary" onClick={handleShow}>
-                    + Create New
-                </Button> */}
             </div>
 
-            
-            {scenarioSaved && (
-                <div className='scenario-header'>
-                    <h3>Scenario Forms:</h3>
-                    {saveForms.map((form) => (
-                        <Button key={form.id} 
-                            variant="outline-primary" 
-                            onClick={() => handleViewForm(form)}>
-                            {form.name || "Untitled Form"}
+            <div className='scenario-header'>
+                <h3>Scenario Forms:</h3>
+                {saveFormArray.map((form) => (
+                    <Button key={form.id} 
+                        variant="outline-primary" 
+                        onClick={() => handleViewForm(form)}>
+                        {form.name || "Untitled Form"}
                         </Button>
                     ))}
-
-                </div>
-            )}  
-           
+            </div>
+            
             <Modal show={show} onHide={handleClose}>
 
                 <Modal.Header closeButton>
@@ -117,18 +100,32 @@ function Scenario() {
                 </Modal.Header>
 
             <Modal.Body>
-                {scenarioForm && (
-                    <CreateScenario
-                        formInfo={scenarioForm}
-                        saveForms={setSaveForms}/>
-                    )}         
+            {scenarioForm && (
+                <CreateScenario
+                formInfo={scenarioForm}
+                saveForms={setScenarioSaved}
+                userEmail={userEmail}
+            />
+        )}        
             </Modal.Body> 
 
-            <Modal.Footer>
-            <Button variant="secondary" onClick={() => {handleClose(); setScenarioSaved(true); }}>
-                 Save
+        <Modal.Footer>
+            <Button 
+                variant="success"
+                onClick={() => {handleClose(); 
+                setScenarioSaved(true); }}>
+                Save
             </Button>
-                
+            {scenarioForm && (
+
+            <Button
+                variant="danger"
+                onClick={() => {
+                handleDeleteForm(scenarioForm.id); 
+                handleClose();  }}>
+                Delete
+        </Button>
+    )}
             </Modal.Footer> 
 
             </Modal>
@@ -136,11 +133,6 @@ function Scenario() {
 
     );
 }
-
-
-
-
-
 
 
 
