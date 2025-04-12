@@ -76,10 +76,14 @@ function Scenario() {
             console.log("Query parameters:", queryParams.toString());
     
 
-            // Make a GET request with the scenario data in the query string
-            const response = await fetch(`/api/export_scenario?scenario=${encodeURIComponent(JSON.stringify(selectedScenario))}`, {
-                method: 'GET'
+            const response = await fetch('/api/export_scenario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({scenario: selectedScenario}),
             });
+            
     
             if (!response.ok) {
                 throw new Error(`Failed to export scenario: ${response.statusText}`);

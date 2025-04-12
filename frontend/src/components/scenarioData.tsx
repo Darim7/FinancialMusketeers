@@ -27,7 +27,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     lifeExpectancy: {type:""},
     lifeExpectancySpouse: {type:""},
     maritalStatus: '',
-    birthYear: [] as any[],
+    birthYears: [] as any[],
     birthYear1: '',
     birthYear2: '',
     distributionForm1: '',
@@ -61,7 +61,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       lifeExpectancy: formInfo.lifeExpectancy || {type:""},
       lifeExpectancySpouse: formInfo.lifeExpectancy || {type:""},
       maritalStatus: formInfo.maritalStatus || '',
-      birthYear: formInfo.birthYear || [],
+      birthYears: formInfo.birthYears || [],
       birthYear1: formInfo.birthYear1 || '',
       birthYear2: formInfo.birthYear2 || '',
       distributionForm1: formInfo.distributionForm1 || '',
@@ -175,11 +175,14 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
     console.log(name, value);
 
-    const spouseYear = [values.birthYear1, values.birthYear2];  
+    // const spouseYear = [values.birthYear1, values.birthYear2];  
+    const spouseYear = [values.birthYear1, values.birthYear2].filter(Boolean); 
+
+    
     setValues((prevValues) => ({  
         ...prevValues,
         [name]: value,
-        birthYear: spouseYear,
+        birthYears: spouseYear,
     }));
 
     //Loop through the form 
@@ -191,6 +194,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
       )
     );
+    
    };
 
   /******************* Handles Pagination ****************************************/

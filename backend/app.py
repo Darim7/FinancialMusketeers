@@ -132,11 +132,14 @@ def export_scenario():
     try:
         # Get the scenario object from the get request
         data = request.get_json()
+        app.logger.info(f'Exporting scenario: {data}')
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
 
         # Create objects
         scenario = Scenario.from_dict(data['scenario'])
+        app.logger.info(f'Exporting scenario: {scenario}')
+      
         fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.yaml"
         scenario.export_yaml(fname)
         
