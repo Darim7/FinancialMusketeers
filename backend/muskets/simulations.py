@@ -2,29 +2,32 @@ import numpy as np
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
 from models.event_series import EventSeries
+from models.investment import Investment, AssetType
 
-def calculate_inflation_rate(inflation_assumption):
-    inflation_rate = -1
+def sample_from_distribution(assumption: dict) -> float:
+    res = -1
 
     # Check to see if the inflation assumption is a distribution or a single value
-    if inflation_assumption['type'] == 'fixed':
-        inflation_rate = inflation_assumption['value']
-    elif inflation_assumption['type'] == 'uniform':
-        inflation_rate = np.random.uniform(
-            inflation_assumption['lower'],
-            inflation_assumption['upper'])
+    if assumption['type'] == 'fixed':
+        res = assumption['value']
+    elif assumption['type'] == 'uniform':
+        res = np.random.uniform(
+            assumption['lower'],
+            assumption['upper'])
+    elif assumption['type'] == 'normal':
+        res = np.random.normal(
+            assumption['mean'],
+            assumption['stdev'])
     else:
-        inflation_rate = np.random.normal(
-            inflation_assumption['mean'],
-            inflation_assumption['stdev'])
+        raise ValueError(f"Unknown change distribution type: {assumption['type']}")
             
-    return inflation_rate
+    return res
 
 def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
     """
-    inflation_rate = calculate_inflation_rate(inflation_assumption)
+    inflation_rate = sample_from_distribution(inflation_assumption)
 
     # Update the tax bracket
     res = {}
@@ -39,6 +42,28 @@ def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSer
             event.data['initialValue'] *= (1 + inflation_rate)
 
     return inflation_rate
+
+def gross_income(event_series: list[EventSeries]) -> float:
+    """
+    Calculate the gross income from the cash event and all other event series.
+    """
+    gross_income = 0
+    
+    for event in event_series:
+        if event.type == 'income':
+            change_dist = event.data['changeDistribution']
+            is_percent = event.data['changeAmtOrPct'] == 'percent'
+
+            # Change the amount in the event series according to the changeDistribution
+            change = sample_from_distribution(change_dist)
+            if is_percent:
+                event.data['initialValue'] *= (1 + change)
+            else:
+                event.data['initialValue'] += change
+                
+            gross_income += event.data['initialValue']
+
+    return gross_income
 
 def update_investments():
     """
