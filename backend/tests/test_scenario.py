@@ -1,15 +1,15 @@
 import pytest
-import sys
-import os
+# import sys
+# import os
 import requests
 import json
 import time
 from bson import ObjectId
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app import app  # Import your Flask app and DB function
 from dbconn import SCENARIO_COLLECTION, USER_COLLECTION
 from models.user import User
-from utils.yaml_utils import ScenarioYamlUtils
+from tests.utils.yaml_utils import ScenarioYamlUtils
 import uuid
 
 
