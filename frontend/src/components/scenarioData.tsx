@@ -157,8 +157,13 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   // When the user selects a new type of event, reset the inputs
   const handleEventChange = (e:React.ChangeEvent<any>) => {
     const eventType = e.target.value;
-    setSelectedEvent(eventType);
-    // setAnswers({});
+
+    if (e.target.name == 'typeOfEvents'){
+      setAnswers({});
+      setSelectedEvent(eventType);
+    }
+
+    // setSelectedEvent(eventType);
   };
 
   // Handles inputs from the event page
@@ -563,7 +568,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   
   const editEventModal = (event:any, index:number) => {
     // console.log("what is the event", event);
-    setSelectedEvent(event.eventType);
+    setSelectedEvent(event.type);
     setAnswers({...event});
     setCurrentEventIndex(index);
     setShowEventModal(true);
