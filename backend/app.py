@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.getLogger('models.scenario').setLevel(logging.DEBUG)
 
 @app.route('/api/test')
 def test():
@@ -56,19 +57,37 @@ def add_scenario():
     
     try:
         data = request.get_json()
+        app.logger.info(f'What THE FUCK IS DATA: {data}')
 
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
+
+        
+        app.logger.info("HELLLO")
         
         # Grab User info
         user_email = data['user_email']
         user_name = data['user_name'] 
+        
+        # if isinstance(data, list):
+        #     for form in data:
+        #         user_email = form['user_email']
+        #         user_name = form['user_name'] 
+             
+        app.logger.info("User_email: %s", user_email)
+        app.logger.info("User_name: %s", user_name)
+
 
         # Create objects
         user = User(user_name, user_email)
-        scenario = Scenario.from_dict(data['scenario'])
+        
+        scenarios = [Scenario.from_dict(s) for s in data['scenario']]
+
+        # scenario = Scenario.from_dict(data['scenario'])
+
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
+
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
     except Exception as e:

@@ -6,7 +6,7 @@ import DistributionForm from './DistributionForm';
 
  {/* Investment Modal */}
   
- function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}:any) {
+ function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, values,handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}:any) {
 
     return (
         <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
@@ -20,8 +20,8 @@ import DistributionForm from './DistributionForm';
                 <label htmlFor = "investment-name">Investment Name: </label>
                     <input
                     type = "text"
-                    name = "investmentName"
-                    value={investment.investmentName}
+                    name = "name"
+                    value={investment.name}
                     onChange={handleInvestmentChange}
                     />
 
@@ -89,14 +89,13 @@ import DistributionForm from './DistributionForm';
             {/*------------ Ask user the amount of their investment, and whether it is tax-exempt or not ---------*/}
                 <Button onClick={addInvestmentCase}>Set Investment</Button>
 
-                {investment.investmentCases.map((investmentCase:any, index:number) => (
-                    <div key={investmentCase.id}>
-
+                {values.investments.map((investments:any, index:number) => (
+                    <div key={investments.formid}>
                         <label htmlFor="value">Value: </label>
                         <input
                         type="text"
                         name="value"
-                        value={investmentCase.value ||''}
+                        value={investments.value ||''}
                         onChange={(e) => handleInvestmentCaseChange(index, e)}
                         />
 
@@ -106,7 +105,7 @@ import DistributionForm from './DistributionForm';
                                 id = "non-retirement"
                                 name = "taxStatus"
                                 value="non-retirement"
-                                checked={investmentCase.taxStatus === "non-retirement"}
+                                checked={investments.taxStatus === "non-retirement"}
                                 onChange={(e) => handleInvestmentCaseChange(index, e)}/> Non-Retirement
 
                             <input 
@@ -114,7 +113,7 @@ import DistributionForm from './DistributionForm';
                                 id = "pre-tax"
                                 name = "taxStatus"
                                 value="pre-tax"
-                                checked={investmentCase.taxStatus === "pre-tax"}
+                                checked={investments.taxStatus === "pre-tax"}
                                 onChange={(e) => handleInvestmentCaseChange(index, e)} /> Pre-Tax
                             
                             
@@ -123,10 +122,11 @@ import DistributionForm from './DistributionForm';
                                 id = "after-tax"
                                 name = "taxStatus"
                                 value="after-tax"
-                                checked={investmentCase.taxStatus === "after-tax"}
+                                checked={investments.taxStatus === "after-tax"}
                                 onChange={(e) => handleInvestmentCaseChange(index, e)} /> After-Tax
 
                     </div>
+                   
                 ))}
 
             </div>
