@@ -4,7 +4,7 @@ import yaml
 from typing import List, Dict
 import re
 import os
-from utils.scraper_utils import extract_value_from_dollar, extract_table, convert_to_num, save
+from muskets.utils.scraper_utils import extract_value_from_dollar, extract_table, convert_to_num, save
 
 FEDERAL_INCOME_URL='https://www.irs.gov/filing/federal-income-tax-rates-and-brackets'
 FEDERAL_CAP_GAINS_URL='https://www.irs.gov/taxtopics/tc409'

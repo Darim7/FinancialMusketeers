@@ -12,7 +12,7 @@ class FederalTax:
         """
         self.status = file_status
         self.bracket=self.get_bracket()
-        self.deduction = self.bracket['deduction']
+        self.deduction = self.bracket[self.status]['deduction']
 
     def get_bracket(self) -> Dict:
         return {}

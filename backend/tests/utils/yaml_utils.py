@@ -5,7 +5,7 @@ import yaml
 from models.scenario import Scenario
 from models.investment import AssetType, Investment
 from models.event_series import EventSeries
-from utils.compare_utils import compare_dict, compare_str_list
+from tests.utils.compare_utils import compare_dict, compare_str_list
 from typing import Dict, List
 
 # with open('imports/sample.yaml', 'r') as file: 
