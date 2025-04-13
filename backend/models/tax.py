@@ -23,4 +23,4 @@ class StateTax:
         self.bracket=self.get_bracket()
 
     def get_bracket(self):
-        pass
+        return {}

@@ -4,7 +4,7 @@ from bson import ObjectId
 
 from models.scenario import Scenario
 from models.exportable import Exportable
-from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document
+from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document, update_document
 
 class User(Exportable):
     def __init__(self, name: str, email:str, scenarios: List[ObjectId]=None):
@@ -42,8 +42,9 @@ class User(Exportable):
         # app.logger.info(f"User Init: {self.name} | {self.email} | ID: {self.savedId}")
         return self.savedId
     
-    # def remove(self):
-    #     pass
+    def update_to_db(self) -> bool:
+        res = update_document(USER_COLLECTION, self.savedId, self.to_dict())
+        return res.modified_count > 0
     
     # Utilities to update User information
     def update_name(self, name:str) -> str:
@@ -53,6 +54,7 @@ class User(Exportable):
     def add_scenario(self, scenario: Scenario) -> None:
         scenario_id = scenario.save_to_db()
         self.scenarios.append(scenario_id)
+        self.update_to_db()
         return
     
     def delete_scenario(self, scenario_id: ObjectId | str) -> bool:
