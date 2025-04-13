@@ -20,7 +20,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                     </option>
                 ))}
             </select>
-            {console.log(diffEvent[selectedEvent])}
+            {/* {console.log(diffEvent[selectedEvent])} */}
             {/* Render questions based on the selected event */}
             {selectedEvent && (
                 <div>

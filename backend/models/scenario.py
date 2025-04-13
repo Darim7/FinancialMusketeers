@@ -2,6 +2,9 @@ from typing import List, Dict, Self, Union, Optional
 from bson import ObjectId
 from datetime import date
 import yaml
+import logging
+
+logger = logging.getLogger(__name__)
 
 from models.exportable import Exportable
 from models.investment import Investment, AssetType
@@ -16,9 +19,7 @@ class Scenario(Exportable):
             self,
             name: str,
             marital_status: str,  # "couple" or "individual"
-            birth_year1: str,
-            # birth_years: List[int], # what if put birthyear into here? 
-            # birth_years: str, 
+            birth_years: List[int], # what if put birthyear into here? 
             life_expectancy: List[Dict],
             investment_types: List[AssetType],
             investments: List[Investment],
@@ -35,7 +36,6 @@ class Scenario(Exportable):
             financial_goal: int,
             residence_state: str,
             shared: List = [],
-            birth_years: Optional[List[int]] = None
         ):
 
         # Name
@@ -173,8 +173,7 @@ class Scenario(Exportable):
         base = {
             "name": self.name,
             "maritalStatus": "couple" if self.is_married else "individual",
-            # "birthYears": self._birth_years,
-            "birthYear1": self._birth_years,
+            "birthYears": self._birth_years,
             "lifeExpectancy": self._life_expectancy,
             "investmentTypes": [ivmt_type.to_dict() for ivmt_type in self.ivmt_types],
             "investments": [ivmt.to_dict() for ivmt in self.ivmts],
@@ -195,6 +194,7 @@ class Scenario(Exportable):
         # Add pretax contribution limit if exists
         # if hasattr(self, 'pretax_ann_contribution'):
         #     base["pretaxContributionLimit"] = self.pretax_ann_contribution
+
 
         return base
     
@@ -226,11 +226,11 @@ class Scenario(Exportable):
     @classmethod
     def from_dict(cls, data: Dict) -> Self:
         """Factory method for creating from dictionary"""
+        logger.info("what is Event Series: %s", data['eventSeries'])
         return cls(
             name=data['name'],
             marital_status=data['maritalStatus'],
-            # birth_years=data['birthYears'],
-            birth_years=data['birthYear1'],
+            birth_years=data['birthYears'],
             life_expectancy=data['lifeExpectancy'],
             investment_types=[
                 AssetType.from_dict(it)

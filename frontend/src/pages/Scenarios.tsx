@@ -16,6 +16,8 @@ import axios from 'axios';
 function Scenario() {
 
     const userEmail = localStorage.getItem('userEmail');
+    const userName = localStorage.getItem('userName');
+    console.log("userEmail", userEmail);
     
     const [show, setShow] = useState(false);
     const [scenarioSaved, setScenarioSaved] = useState(false);
@@ -36,9 +38,10 @@ function Scenario() {
     const handleExportModalShow = () => setExportModalShow(true);
 
     const handleCreateNew = () => {
-        const newScenario = { id: Date.now(), name: '' };
+        const newScenario = { id: Date.now(), name: '', };
         setScenarioForm(newScenario);
         setSaveFormArray((prev) => [...prev, newScenario]);
+        
         handleShow();
     };
     
@@ -54,6 +57,19 @@ function Scenario() {
         setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
     };
 
+    const addScenario = async () => {
+        try {
+            const response = await axios.post('/api/add_scenario', {
+                  user_name: userName,
+                  user_email: userEmail,
+                  scenario: saveFormArray
+              });
+              
+            console.log("Scenario added successfully:", response.data);
+        } catch (error) {
+            console.error("Error adding scenario:", error);
+        }
+    };
 
     // Export YAML File
     const exportYAML = async (scenarioId: number) => {
@@ -212,8 +228,9 @@ function Scenario() {
             {scenarioForm && (
                 <CreateScenario
                 formInfo={scenarioForm}
-                saveForms={setSaveFormArray}
                 userEmail={userEmail}
+                saveForms={setSaveFormArray}
+                
             />
         )}        
             </Modal.Body> 
@@ -222,7 +239,8 @@ function Scenario() {
             <Button 
                 variant="success"
                 onClick={() => {handleClose(); 
-                setScenarioSaved(true); }}>
+                setScenarioSaved(true); 
+                addScenario();}}>
                 Save
             </Button>
             {scenarioForm && (

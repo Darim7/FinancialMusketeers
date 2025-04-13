@@ -19,7 +19,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   {/* Update user input change */}
   const [values, setValues] = useState({
-    email: '',
+    user_email: '',
     scenarioName : '',
     residenceState: '',
     retirementAge : '',
@@ -27,7 +27,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     lifeExpectancy: {type:""},
     lifeExpectancySpouse: {type:""},
     maritalStatus: '',
-    birthYears: [] as any[],
+    birthYears: ['', ''] as string[], 
     birthYear1: '',
     birthYear2: '',
     distributionForm1: '',
@@ -43,8 +43,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     RothConversionEnd: '',
     RothConversionStrategy: [] as any,
     AssetAllocation: [] as any[],
+    investmentTypes: [] as any[],
     investments: [] as any[],
-    events: [] as any[],
+    eventSeries: [] as any[],
     discretionary: [] as any []
   })
 
@@ -53,7 +54,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   useEffect(() => {
     console.log('formData:', formInfo);
     setValues({
-      email: userEmail || formInfo.email || '',
+      user_email: userEmail || formInfo.email || '',
       scenarioName: formInfo.scenarioName || '',
       residenceState: formInfo.residenceState || '',
       retirementAge: formInfo.retirementAge || '',
@@ -77,15 +78,16 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       RothConversionEnd: formInfo.RothConversionEnd || '',
       RothConversionStrategy: formInfo.RothConversionStrategy || [],
       AssetAllocation: formInfo.AssetAllocation || [],
+      investmentTypes: formInfo.investmentTypes || [],
       investments: formInfo.investments || [],
-      events: formInfo.events || [],
+      eventSeries: formInfo.eventSeries || [],
       discretionary: formInfo.discretionary || []
     });
 }, [formInfo]);
 
   {/*Show current investment modal*/}
   const [investment, setInvestment] = useState({
-    investmentName: '',
+    name: '',
     description: '',
     returnAmtOrPct: '',
     returnDistribution: {type:""},
@@ -93,9 +95,11 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     incomeAmtOrPct: '',
     incomeDistribution: {type:""},
     taxability: '',
-    investmentCases: [] as any[]
+    // investmentValues: [] as any[]
   })
+  console.log("user email", values.user_email);
 
+  console.log("what is the investment", values.investmentTypes);
   // There are 4 different types of event
   const diffEvent = {
     Income: [
@@ -105,7 +109,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
       { question: "Change Amount or Percent: ", type: "select" , name:"changeAmountOrPercent"},
       { question: "Change Distribution: ", type: "distribution" , name:"chanegeDistribution"},
-      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjustted"},
+      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Social Security: ", type: "boolean", name:"socialSecurity"},
 
@@ -118,7 +122,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
       { question: "Change Amount or Percent: ", type: "text" , name:"changeAmountOrPercent"},
       { question: "Change Distribution: ", type: "distribution" , name:"chanegeDistribution"},
-      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjustted"},
+      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
       
@@ -154,47 +158,147 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   const handleEventChange = (e:React.ChangeEvent<any>) => {
     const eventType = e.target.value;
     setSelectedEvent(eventType);
-    setAnswers({});
+    // setAnswers({});
   };
 
   // Handles inputs from the event page
-  const handleAnswerChange = (question: string, value: any) => {
-    setAnswers((prev) => ({
-       ...prev, 
-       [question]: value }));
+  // const handleAnswerChange = (question: string, value: any) => {
+  //   setAnswers((prev) => ({
+  //      ...prev, 
+  //      [question]: value }));
        
-    console.log("Handle Answer Change: ", answers)
-  };
+  //   console.log("Handle Answer Change: ", answers)
+  
 
-   // Change handler for values
-   const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
-    // All the declared variable and its values
-    const { name, value } = e.target;
-
-    console.log(name, value);
-
-    // const spouseYear = [values.birthYear1, values.birthYear2];  
-    const spouseYear = [values.birthYear1, values.birthYear2].filter(Boolean); 
-
-    
-    setValues((prevValues) => ({  
-        ...prevValues,
-        [name]: value,
-        birthYears: spouseYear,
+  
+  // };
+  // const handleAnswerChange = (question: string, value: any) => {
+  //   // Update local state
+  //   setAnswers((prev) => ({
+  //     ...prev,
+  //     [question]: value,
+  //   }));
+  
+  //   // Update saved forms
+  //   saveForms((prevForms) =>
+  //     prevForms.map((form) =>
+  //       form.id === formInfo.id
+  //         ? { ...form, [question]: value }
+  //         : form
+  //     )
+  //   );
+  
+  // };
+  const handleAnswerChange = (question: string, value: any) => {
+    // Update local state
+    setAnswers((prev) => ({
+      ...prev,
+      [question]: value,
     }));
-
-    //Loop through the form 
-    saveForms((prevForms:any) =>
-      prevForms.map((form:any) =>
-      // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
-      // Finds the form by ID and set the name == Scenario Name so user can see
-      // form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
-      form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
+  
+    // Update saved forms
+    saveForms((prevForms) =>
+      prevForms.map((form) =>
+        form.id === formInfo.id
+          ? {
+              ...form,
+              // Prevent updating 'name' unless 'question' is 'scenarioName'
+              [question]: question === 'scenarioName' ? value : form[question],
+            }
+          : form
       )
     );
+  };
+  
+  
+
+   // Change handler for values
+  //  const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+
+  //   // All the declared variable and its values
+  //   const { name, value } = e.target;
+
+  //   console.log(name, value);
+
+  //   // const spouseYear = [values.birthYear1, values.birthYear2];  
+  //   // const spouseYear = [values.birthYear1, values.birthYear2].filter(Boolean); 
+
     
-   };
+  //   setValues((prevValues) => ({  
+  //       ...prevValues,
+  //       [name]: value,
+  //       // birthYears: spouseYear,
+  //   }));
+
+  //   //Loop through the form 
+  //   saveForms((prevForms:any) =>
+  //     prevForms.map((form:any) =>
+  //     // Asked Copilot how to reflected the name when the form is saved so users can click on the scenario they created.
+  //     // Finds the form by ID and set the name == Scenario Name so user can see
+  //     // form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
+  //     form.id === formInfo.id ? { ...form, [name]: value, name: name === 'scenarioName' ? value : form.name } : form
+     
+  //     )
+  //   );
+    
+  //  };
+  const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,birthYearIndex?: number) => {
+    const { name, value } = e.target;
+  
+    if (name === 'birthYear1' || name === 'birthYear2') {
+      // Ask ChatGPT how to correctly put the birth year into the birthYears array
+      setValues((prevValues) => {
+        const updatedBirthYears = [...prevValues.birthYears];
+        if (birthYearIndex !== undefined) {
+          updatedBirthYears[birthYearIndex] = value;
+        }
+  
+        return {
+          ...prevValues,
+          birthYears: updatedBirthYears,
+          [name]: value, 
+        };
+      });
+      saveForms((prevForms: any) =>
+        prevForms.map((form: any) =>
+          form.id === formInfo.id
+            ? {
+                ...form,
+                birthYears: (() => {
+                  const updated = [...form.birthYears || []];
+                  updated[birthYearIndex || 0] = value;
+                  return updated;
+                })(),
+                [name]: value,
+                name: name === 'scenarioName' ? value : form.name,
+              }
+            : form
+        )
+      );
+    } else {
+      
+      setValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+  
+      saveForms((prevForms: any) =>
+        prevForms.map((form: any) =>
+          form.id === formInfo.id
+            ? {
+                ...form,
+                [name]: value,
+                name: name === 'scenarioName' ? value : form.name,
+              }
+            : form
+        )
+      );
+    }
+   
+  };
+  
+
 
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
@@ -203,7 +307,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     if (formStep === 1){
       saveForms((prevForms:any) =>
         prevForms.map((form:any) =>
-          form.id === formInfo.id ? { ...form, ['lifeExpectancy']: values.lifeExpectancy, name: name === 'scenarioName' ? value : form.name } : form
+          // form.id === formInfo.id ? { ...form, ['lifeExpectancy']: values.lifeExpectancy, name: name === 'scenarioName' ? value : form.name } : form
+          form.id === formInfo.id ? { ...form, ['lifeExpectancy']: values.lifeExpectancy } : form
         )
       );
     }
@@ -230,27 +335,55 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   {/* ----- This is for investment case after declaring the investment type -----*/}
 
     const addInvestmentCase = () => {
-      setInvestment((prevInvestment) => ({
-        ...prevInvestment,
-        investmentCases: [
-          ...prevInvestment.investmentCases,
-          { id: Date.now(), value: '' },
+      // setInvestment((prevInvestment) => ({
+      //   ...prevInvestment,
+      //   // investmentValues: [
+      //   //   ...prevInvestment.investmentValues,
+      //   //   { formid: Date.now(), investmentTypes: investment.name, value: '', id: investment.name},
+      //   // ],
+      // }));
+
+      setValues((prevValues) => ({
+        ...prevValues,
+        investments: [
+          ...prevValues.investments,
+          // { formid: Date.now(), investmentTypes: investment.name, value: '', id: investment.name},
+          { investmentType: investment.name, value: '', id: investment.name},
         ],
       }));
+
+
+
+
     };
   
     const handleInvestmentCaseChange = (index: number, e: React.ChangeEvent<any>) => {
       const { name, value } = e.target;
-
-      const updatedInvestmentCases = investment.investmentCases.map((investmentCase, i) =>
-        i === index ? { ...investmentCase, [name]: value } : investmentCase
+    
+      // Update the investments array in the state
+      const updatedInvestmentCases = values.investments.map((investmentValues, i) =>
+        i === index ? { ...investmentValues, [name]: value } : investmentValues
       );
-
-      setInvestment((prevInvestment) => ({
-        ...prevInvestment,
-        investmentCases: updatedInvestmentCases,
+    
+      // Update the state with the new investments array
+      setValues((prevValues) => ({
+        ...prevValues,
+        investments: updatedInvestmentCases,
       }));
+    
+      // Update the investments in saveForms
+      saveForms((prevForms) =>
+        prevForms.map((form) =>
+          form.id === formInfo.id
+            ? {
+                ...form,
+                investments: updatedInvestmentCases, 
+              }
+            : form
+        )
+      );
     };
+    
 
   {/* ------ This is for investments case after declaring the investment type -----*/}
 
@@ -272,6 +405,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   const saveInvestment = (e:React.ChangeEvent<any>) => {
 
       let updatedInvestments;
+      // let updateValueInvestments;
       let updatedExpenseWithdrawalStrategy;
       let updateRMD: any;
       let updateRothConversionStrategy: any;
@@ -281,18 +415,23 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       const investmentToSave = {
         ...investment,
       };
+
+      
+      // console.log("what is the investment to SAVE", investment);
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
       console.log("investment index", currentInvestmentIndex)
 
       if (currentInvestmentIndex >= 0) {
-        updatedInvestments = [...values.investments];
+        updatedInvestments = [...values.investmentTypes];
+        
+
         updatedInvestments[currentInvestmentIndex] = investmentToSave;
 
-  
+      
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
         updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investmentToSave;
 
-        if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
+        if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
         // If the tax-status is "pre-tax" then added to the array 
             updateRMD = [...values.RMDStrategy];
             updateRMD[currentInvestmentIndex] = investment;
@@ -302,9 +441,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             
         } 
         // console.log("what is the investment Sattus", investment.investmentCases.some(investmentCase => investmentCase.taxStatus));
-        if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus !== "pre-tax")){
-              console.log("what is updateAssetAllocation", values.investments);
-              updateAssetAllocation = [...values.investments];
+        if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+              console.log("what is updateAssetAllocation", values.investmentTypes);
+              updateAssetAllocation = [...values.investmentTypes];
               updateAssetAllocation[currentInvestmentIndex] = investment;
               
           } 
@@ -312,26 +451,26 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         else {
           updateRMD = [...values.RMDStrategy];
           updateRothConversionStrategy = [...values.RothConversionStrategy];
-          updateAssetAllocation = [...values.investments];
+          updateAssetAllocation = [...values.investmentTypes];
         }
 
       } 
       else { /* then it is new */
-        updatedInvestments = [...values.investments, investment];
+        updatedInvestments = [...values.investmentTypes, investment];
         updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
         updateRMD = [...values.RMDStrategy];
 
         updateRothConversionStrategy = [...values.RothConversionStrategy];
 
-        updateAssetAllocation = [...values.investments];
+        updateAssetAllocation = [...values.investmentTypes];
         
-        if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus === "pre-tax")){
+        if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
                 updateRMD = [...values.RMDStrategy, investment];
                 updateRothConversionStrategy = [...values.RothConversionStrategy, investment];       
         }
 
-        else if (investment.investmentCases.some(investmentCase => investmentCase.taxStatus !== "pre-tax")){
-            updateAssetAllocation = [...values.investments, investment];
+        else if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+            updateAssetAllocation = [...values.investmentTypes, investment];
             // console.log("what is updateAssetAllocation", updateAssetAllocation);
         }
       }
@@ -339,7 +478,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     // Update the local state with the new investments array
     setValues(prevValues => ({
       ...prevValues,
-      investments: updatedInvestments,
+      investmentTypes: updatedInvestments,
       expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
       RMDStrategy : updateRMD,
       RothConversionStrategy: updateRothConversionStrategy,
@@ -350,7 +489,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       prevForms.map(form => 
         form.id === formInfo.id?{
           ...form,
-          investments: updatedInvestments,
+          investmentTypes: updatedInvestments,
           expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
           RMDStrategy: updateRMD,
           RothConversionStrategy: updateRothConversionStrategy,
@@ -359,10 +498,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         }:form
       )
     );
-    console.log('RETURN DISTRIBUTION', values.investments);
+    console.log('RETURN DISTRIBUTION', values.investmentTypes);
     //Reset the investment form fields
     setInvestment({
-      investmentName: '',
+      name: '',
       description: '',
       returnAmtOrPct: '',
       returnDistribution: { type: ''},
@@ -370,8 +509,20 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       incomeAmtOrPct: '',
       incomeDistribution: { type: ''},
       taxability: '',
-      investmentCases: [],
+      // investmentValues: [],
     });
+    setValues((prevValues) => ({
+      ...prevValues,
+      investments: prevValues.investments.map((investmentValues) =>
+        investmentValues.id === investment.name ? { ...investmentValues, value: '' } : investmentValues
+      ),
+      investmentTypes:
+        prevValues.investmentTypes.map((investmentValues) =>
+          investmentValues.id === investment.name ? { ...investmentValues, value: '' } : investmentValues
+        ),
+    }));
+    
+    
 
     setCurrentInvestmentIndex(-1);
     // Close the modal
@@ -380,6 +531,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
     setInvestment({...investment, [e.target.name]:e.target.value});
+    
   };
 
   // const addInvestment = (e:React.ChangeEvent<any>) => {
@@ -410,6 +562,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   }
   
   const editEventModal = (event:any, index:number) => {
+    // console.log("what is the event", event);
     setSelectedEvent(event.eventType);
     setAnswers({...event});
     setCurrentEventIndex(index);
@@ -427,19 +580,21 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   const saveEventModal = () => {
     const newEvent = {
-      eventType: selectedEvent,
-      // eventName: answers["Event Names: "] || "Unnamed Event",
+      type: selectedEvent,
+      name: answers["Event Names: "] || "Unnamed Event",
       // Add other properties based on the event type
       ...answers // Include all answers
     };
+    console.log("what is the NEW EVENT:", newEvent);
 
     let updatedEvents;
     let updatedDiscretionary;
 
 
     if (currentEventIndex >= 0){
+      console.log("DOES IT GOES IN HERE?")
       //Editing an existing event
-      updatedEvents = [...values.events];
+      updatedEvents = [...values.eventSeries];
       updatedEvents[currentEventIndex] = newEvent;  
     
      if(newEvent.eventType === "Expense" && newEvent["Discretionary : "] === "true"){
@@ -456,7 +611,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       
 
     } else {
-      updatedEvents = [...values.events, newEvent];
+      updatedEvents = [...values.eventSeries, newEvent];
+      console.log("what is the updated Event", updatedEvents);
 
       if (newEvent.eventType === "Expense" && newEvent["Discretionary : "] === "true") {
         updatedDiscretionary = [...values.discretionary, newEvent];
@@ -470,7 +626,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     }
     setValues(prevValues => ({
       ...prevValues,
-      events: updatedEvents,
+      eventSeries: updatedEvents,
       discretionary: updatedDiscretionary
     }));
 
@@ -480,7 +636,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         form.id === formInfo.id 
           ? { 
               ...form, 
-              events: updatedEvents,
+              eventSeries: updatedEvents,
               discretionary: updatedDiscretionary
             } 
           : form
@@ -495,23 +651,51 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   /******************** Distribution Functions ***********************************/
  
-  const handleMainDistributionChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
-    const { name, value } = e.target
-    console.log(name, value); // Debugging log
+  // const handleMainDistributionChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+  //   const { name, value } = e.target
+  //   console.log(name, value); // Debugging log
     
-    setValues(prev => {
-      let updatedValue;
-      if (name === 'type') {
-        updatedValue = { type: value }; // Initialize values
-      } else {
-        updatedValue = {
-          ...prev[field],
+  //   setValues(prev => {
+  //     let updatedValue;
+  //     if (name === 'type') {
+  //       updatedValue = { type: value }; // Initialize values
+  //     } else {
+  //       updatedValue = {
+  //         ...prev[field],
+  //         [name]: value,
+  //         }
+  //     };
+  //       return { ...prev, [field]: updatedValue };
+  //     });
+  //   };
+  const handleMainDistributionChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+    const { name, value } = e.target;
+    console.log(name, value); // Debugging log
+  
+    // Compute the updatedValue once so we can use it in both places
+    const updatedValue = name === 'type'
+      ? { type: value }
+      : {
+          ...values[field],
           [name]: value,
-          }
-      };
-        return { ...prev, [field]: updatedValue };
-      });
-    };
+        };
+  
+    // Update local state
+    setValues(prev => ({
+      ...prev,
+      [field]: updatedValue,
+    }));
+  
+    // Update saved forms
+    // saveForms(prevForms =>
+    //   prevForms.map(form =>
+    //     form.id === formInfo.id
+    //       ? { ...form, [field]: updatedValue }
+    //       : form
+    //   )
+    // );
+  };
+  
 
   const handleInvestmentDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
     const { name, value } = e.target
@@ -531,23 +715,51 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       });
   }
 
-  const handleEventDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
-    const { name, value } = e.target
-    console.log(name, value); // Debugging log
+  // const handleEventDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
+  //   const { name, value } = e.target
+  //   console.log(name, value); // Debugging log
     
-    setAnswers(prev => {
-      let updatedValue;
-      if (name === 'type') {
-        updatedValue = { type: value }; // Initialize values
-      } else {
-        updatedValue = {
-          ...prev[field],
+  //   setAnswers(prev => {
+  //     let updatedValue;
+  //     if (name === 'type') {
+  //       updatedValue = { type: value }; // Initialize values
+  //     } else {
+  //       updatedValue = {
+  //         ...prev[field],
+  //         [name]: value,
+  //         }
+  //     };
+  //       return { ...prev, [field]: updatedValue };
+  //     });
+  // }
+  const handleEventDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
+    const { name, value } = e.target;
+    console.log(name, value); // Debugging log
+  
+    // Compute updated value
+    const updatedValue = name === 'type'
+      ? { type: value }
+      : {
+          ...answers[field],
           [name]: value,
-          }
-      };
-        return { ...prev, [field]: updatedValue };
-      });
-  }
+        };
+  
+    // Update answers state
+    setAnswers(prev => ({
+      ...prev,
+      [field]: updatedValue,
+    }));
+  
+    // // Update saved forms
+    // saveForms(prevForms =>
+    //   prevForms.map(form =>
+    //     form.id === formInfo.id
+    //       ? { ...form, [field]: updatedValue }
+    //       : form
+    //   )
+    // );
+  };
+  
   /******************** Distribution Form ***********************************/
   const states = [
     { value: 'AL', label: 'Alabama' },
@@ -731,12 +943,12 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             + Add New Investment
           </Button>
           
-          {values.investments.length > 0 ? (
+          {values.investmentTypes.length > 0 ? (
             <div className='investmentLists'>
-                {values.investments.map((investment, index) => (
+                {values.investmentTypes.map((investment, index) => (
                   <Card key={index} className='investmentCards' onClick={() => editInvestmentModal(investment, index)}>
                     <Card.Body>
-                      <Card.Title>{investment.investmentName}</Card.Title>
+                      <Card.Title>{investment.name}</Card.Title>
                       <Card.Text>{investment.description}</Card.Text>
                     </Card.Body>
                   </Card>  
@@ -752,6 +964,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             showInvestmentModal={showInvestmentModal}
             closeInvestmentModal={closeInvestmentModal}
             saveInvestment={saveInvestment}
+            values={values}
             investment={investment}
             handleInvestmentChange={handleInvestmentChange}
             returnDistribution={investment.returnDistribution}
@@ -768,9 +981,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           <Button variant='primary' onClick={addNewEvent}>
             + Add New Event
           </Button>
-        {values.events.length > 0 ? (
+        {values.eventSeries.length > 0 ? (
           <div className='eventsList'>
-              {values.events.map((event, index) => (
+              {values.eventSeries.map((event, index) => (
                 <Card key={index} className='eventCards' onClick={() => editEventModal(event, index)}>
                   <Card.Body>
                     <Card.Title>{event.name}</Card.Title>
@@ -810,9 +1023,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForDiscretionary}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.eventName}
+                  {/* {item.eventName}  */}
+                  {item.name} 
                 
-                </div>
+                </div> // MIGHT HAVE TO FIX THIS
             ))
             ) : (
                 <b>No discretionary items to select</b>
@@ -831,7 +1045,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForWithdrawal}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.investmentName}
+                  {item.name}
                 
                 </div>
             ))
@@ -854,7 +1068,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForRMD}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.investmentName}
+                  {item.name}
                 
                 </div>
             ))
@@ -911,7 +1125,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForConversionStrategy}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.investmentName}
+                  {item.name}
                 
                 </div>
             ))
