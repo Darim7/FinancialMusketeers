@@ -1,14 +1,18 @@
 import pytest
 
-from muskets.simulations import calculate_inflation_rate, update_inflation, update_investments, perform_rmd, fed_income_tax, state_income_tax, income_calculation
+from muskets.simulations import sample_from_distribution, update_inflation, update_investments, perform_rmd, fed_income_tax, state_income_tax, income_calculation
 from muskets.tax_scraper import read_tax_to_dict,  read_rmd_to_dict
 from tests.utils.yaml_utils import ScenarioYamlUtils
 from tests.utils.compare_utils import assert_is_uniform, assert_within_range, assert_is_normal, compare_dict
 from models.scenario import Scenario 
+from models.investment import Investment
 from models.tax import StateTax, FederalTax
 from models.rmd import RMD
 from functools import reduce
-from itertools import chain 
+# from itertools import chain 
+from collections import defaultdict
+import copy
+
 
 
 @pytest.fixture(scope="function")
@@ -26,7 +30,7 @@ class TestInflation:
             "value": 0.03, 
         }
 
-        res = calculate_inflation_rate(inflation_assumption)
+        res = sample_from_distribution(inflation_assumption)
         assert res == 0.03
 
     
@@ -39,7 +43,7 @@ class TestInflation:
         }
 
         # Check if rate is within the normal distribution
-        assert_is_normal(lambda: calculate_inflation_rate(inflation_assumption), mean, stdev, label="inflation rate normal")
+        assert_is_normal(lambda: sample_from_distribution(inflation_assumption), mean, stdev, label="inflation rate normal")
 
     @pytest.mark.parametrize("inflation_assumption", [
         {"type": "fixed", "value": 0.03},
@@ -82,31 +86,28 @@ class TestRMD:
         scenario=create_scenario
         rmd_strat = scenario.get_rmd_strategy()
         investments = scenario.get_investments()
+        expected_investments = copy.deepcopy(investments)
+
+        expected_pretax_list = [ivmt for ivmt in expected_investments if ivmt.investment_id in rmd_strat and ivmt.tax_status == 'pre-tax']
         pretax_list = [ivmt for ivmt in investments if ivmt.investment_id in rmd_strat and ivmt.tax_status == 'pre-tax']
-        
-        def find_ivmt_by_type(comp):
-            return [ivmt for ivmt in investments if ivmt.asset_type == comp.asset_type and ivmt.tax_status == 'after-tax']
-        aftertax_list = list(map(find_ivmt_by_type, pretax_list))
-        aftertax_list = list(chain.from_iterable(aftertax_list))
-        print(f"After Tax: {aftertax_list}")
+
+        nonretire_by_type_dict = defaultdict(list)
+        for ivmt in expected_investments: 
+            if ivmt.tax_status == 'after-tax':
+                nonretire_by_type_dict[ivmt.asset_type].append(ivmt)
+        print(f"After Tax: {nonretire_by_type_dict}, Length: {len(nonretire_by_type_dict)}")
       
         
-        for ivmt in investments:
-            print(f"investment type: {ivmt.asset_type}, investment id: {ivmt.investment_id}, value: {ivmt.value}, tax status: {ivmt.tax_status}")
-        print("-----------------")
-        for ivmt in aftertax_list:
+        for ivmt in expected_investments:
             print(f"investment type: {ivmt.asset_type}, investment id: {ivmt.investment_id}, value: {ivmt.value}, tax status: {ivmt.tax_status}")
         
-        
-        
-        sum=reduce(lambda sum, curr: sum+curr.value, pretax_list, 0)
+        sum=reduce(lambda sum, curr: sum+curr.value, expected_pretax_list, 0)
         print(sum)
         # Create a RMD object 
         rmd_obj = RMD(pretax_list)
         expected_rmd_table = read_rmd_to_dict()
         assert rmd_obj.table is not None
         assert compare_dict(rmd_obj.table, expected_rmd_table) is True
-        
         
         if age < 73:
             expected_rmd = 0
@@ -116,8 +117,47 @@ class TestRMD:
                 expected_rmd = sum//expected_rmd_table[age]
             else: 
                 expected_rmd = sum//expected_rmd_table[120] # maximum rmd for age 120 and over
-        print(f"expected rmd: {expected_rmd}")
+        print(f"expected rmd: {expected_rmd}, age: {age}, sum: {sum}")
         
+        temp_rmd=expected_rmd
+        # Perform RMD 
+        if age >= 73: 
+            # Add the RMD to non-retirement account of the targeted asset type
+            for ivmt in expected_pretax_list: 
+                # Find the non-retirement account of the same asset type
+                if ivmt.asset_type in nonretire_by_type_dict and len(nonretire_by_type_dict[ivmt.asset_type]) > 0:
+                    target_account = nonretire_by_type_dict[ivmt.asset_type][0]
+                else:
+                    # Creates a new non-retirement account of the same asset type and add the new investment to the scenario
+                    target_account = Investment(ivmt.asset_type, ivmt.value, "after-tax", ivmt.investment_id)
+                    expected_investments.append(target_account)
+                if temp_rmd < 0: 
+                    break
+                if ivmt.value >= temp_rmd:
+                    # Move the value to nonretirement account
+                    target_account.value += temp_rmd
+                    ivmt.value -= temp_rmd
+                    break
+                elif ivmt.value < temp_rmd: 
+                    target_account.value += ivmt.value
+                    temp_rmd -= ivmt.value
+                    ivmt.value = 0
+            print(f"New After Tax: {nonretire_by_type_dict['S&P 500'][0].value}, Length: {len(nonretire_by_type_dict)}")
+            print(f'Expected RMD: {expected_rmd}')
+            # Call the perform_rmd function and verify the result with expected rmd and ensure the investments are updated correctly
+            res_rmd = perform_rmd(rmd_obj, age, investments)
+            
+            assert res_rmd == expected_rmd
+            # Check if the investments are updated correctly
+            for i, ivmt in enumerate(investments):
+                print(f'{ivmt} compare {expected_investments[i]}')
+                assert (ivmt.value == expected_investments[i].value and \
+                    ivmt.tax_status == expected_investments[i].tax_status and \
+                    ivmt.asset_type == expected_investments[i].asset_type and \
+                    ivmt.investment_id == expected_investments[i].investment_id)
+            
+            
+                        
         
         
         

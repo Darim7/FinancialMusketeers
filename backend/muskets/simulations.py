@@ -3,6 +3,9 @@ from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
 from models.event_series import EventSeries
 from models.investment import Investment, AssetType
+from models.rmd import RMD
+from functools import reduce
+from collections import defaultdict
 
 def sample_from_distribution(assumption: dict) -> float:
     res = -1
@@ -73,18 +76,60 @@ def update_investments(investments: list[Investment]) -> None:
     """
     pass
 
-def perform_rmd(rmd_obj, age: int)-> float:
+def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     """
     Performs the required minimum distribution (RMD) for previous year
 
     Args:
         rmd_obj (RMD): RMD object
         age (int): current age of user
+        investments (list[Investment]): list of investments
 
     Returns:
         float: RMD amount
     """
-    return -1
+    if age < 73: 
+        return 0
+    
+    pretax_list = rmd_obj.ord_tax_deferred_ivmts
+    nonretire_by_type_dict = defaultdict(list)
+    for ivmt in investments: 
+        if ivmt.tax_status == 'after-tax':
+            nonretire_by_type_dict[ivmt.asset_type].append(ivmt)
+    print(f"After Tax: {nonretire_by_type_dict}, Length: {len(nonretire_by_type_dict)}")
+    
+    print("Inside RMD: pretax list")
+    for ivmt in pretax_list:
+        print(f"investment type: {ivmt.asset_type}, investment id: {ivmt.investment_id}, value: {ivmt.value}, tax status: {ivmt.tax_status}")
+        
+    sum=reduce(lambda sum, curr: sum+curr.value, pretax_list, 0)
+    
+    # Calculate RMD 
+    rmd_distribution = rmd_obj.calculate_rmd(age)
+    rmd = sum // rmd_distribution
+    print(f"RMD inside: {rmd}, age: {age}, sum: {sum}, rmd_distribution: {rmd_distribution}")
+    temp_rmd = rmd
+    # Perform RMD 
+    # Add the RMD to non-retirement account of the targeted asset type
+    for ivmt in pretax_list: 
+        # Find the non-retirement account of the same asset type
+        if ivmt.asset_type in nonretire_by_type_dict and len(nonretire_by_type_dict[ivmt.asset_type]) > 0:
+            target_account = nonretire_by_type_dict[ivmt.asset_type][0]
+        else:
+            # Creates a new non-retirement account of the same asset type and add the new investment to the scenario
+            target_account = Investment(ivmt.asset_type, ivmt.value, "after-tax", ivmt.investment_id)
+            investments.append(target_account)
+        if temp_rmd < 0: 
+            break
+        if ivmt.value >= temp_rmd:
+            # Move the value to nonretirement account
+            target_account.value += temp_rmd
+            ivmt.value -= temp_rmd
+            break
+        target_account.value += ivmt.value
+        temp_rmd -= ivmt.value
+        ivmt.value = 0
+    return rmd
 
 def fed_income_tax(tax_obj, income: float) -> float:
     """
