@@ -67,7 +67,7 @@ def gross_income(event_series: list[EventSeries]) -> float:
 
     return gross_income
 
-def update_investments():
+def update_investments(investments: list[Investment]) -> None:
     """
     Update the values of investments, reflecting expected annual return, reinvestment of generated income, and subtraction of expenses.
     """
