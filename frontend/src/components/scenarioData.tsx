@@ -125,7 +125,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
-      
 
     ],
     Invest: [
@@ -519,7 +518,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       ),
       investmentTypes:
         prevValues.investmentTypes.map((investmentValues) =>
-          investmentValues.id === investment.name ? { ...investmentValues, value: '' } : investmentValues
+          investmentValues.id === investment.name ? { ...investmentValues, value: ''} : investmentValues
         ),
     }));
     
@@ -583,10 +582,11 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     const newEvent = {
       type: selectedEvent,
       name: answers["Event Names: "] || "Unnamed Event",
+      discretionary: answers["Discretionary : "] || "false",
       // Add other properties based on the event type
       ...answers // Include all answers
     };
-    console.log("what is the NEW EVENT:", newEvent);
+    console.log("what is the NEW EVENT:", newEvent.discretionary);
 
     let updatedEvents;
     let updatedDiscretionary;
@@ -598,14 +598,17 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       updatedEvents = [...values.eventSeries];
       updatedEvents[currentEventIndex] = newEvent;  
     
-     if(newEvent.eventType === "Expense" && newEvent["Discretionary : "] === "true"){
+     if(newEvent.type === "Expense" && newEvent.discretionary === "true"){
+        // console.log("what is the New Event", newEvent);
         updatedDiscretionary = [...values.discretionary];
         updatedDiscretionary[currentEventIndex] = newEvent;
 
      }
      else{
       updatedDiscretionary = values.discretionary;
-      updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
+      // updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
+      console.log("what is value's.discretionary WHEN IT IS FALSE", values.discretionary);
+      console.log("what is updatedDiscretionary", updatedDiscretionary);
 
 
      }
@@ -613,13 +616,20 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
     } else {
       updatedEvents = [...values.eventSeries, newEvent];
-      console.log("what is the updated Event", updatedEvents);
+      console.log("what is the UPDATED EVENT FITST ", updatedEvents);
+      console.log("what is new Event.type:", newEvent.type);
+      console.log("what is new Event.name:", newEvent.name);
+      
 
-      if (newEvent.eventType === "Expense" && newEvent["Discretionary : "] === "true") {
+      if (newEvent.type === "Expense" && newEvent.discretionary === "true") {
         updatedDiscretionary = [...values.discretionary, newEvent];
+        console.log("UPDATED DISCRETIONARY", updatedDiscretionary);
+        console.log("DOES IT GOES IN HERE?")
       } else {
         updatedDiscretionary = values.discretionary;
-        updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
+        console.log("what is VALUES.DISCRETIONARY", values.discretionary);
+        // updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
+        console.log("ELSE DISCRETIONARY:", updatedDiscretionary);
 
       }
       
@@ -686,15 +696,15 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       ...prev,
       [field]: updatedValue,
     }));
-  
+
     // Update saved forms
-    // saveForms(prevForms =>
-    //   prevForms.map(form =>
-    //     form.id === formInfo.id
-    //       ? { ...form, [field]: updatedValue }
-    //       : form
-    //   )
-    // );
+    saveForms(prevForms =>
+      prevForms.map(form =>
+        form.id === formInfo.id
+          ? { ...form, [field]: updatedValue }
+          : form
+      )
+    );
   };
   
 
