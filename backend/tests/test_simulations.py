@@ -171,8 +171,9 @@ class TestInvestments:
         # expected_investments = copy.deepcopy(asset_types, investments)
         
         total_income= update_investments(asset_types, investments)     
-         
-                        
+        print(total_income) 
+        
+        
         
         
         

@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.scenario import Scenario
 from models.investment import AssetType, Investment
 from models.event_series import Expense, EventSeries, Income
-from utils.yaml_utils import ScenarioYamlUtils
+from tests.utils.yaml_utils import ScenarioYamlUtils
 
 def initialize():
     individual="exports/result_individual.yaml"
@@ -70,7 +70,7 @@ def test_export_individual():
         "name": "S&P 500",
         "description": "S&P 500 index fund",
         "returnAmtOrPct": "percent",
-        "returnDistribution": {"type": "GBM", "mu": 0.06, "sigma": 0.02},
+        "returnDistribution": {"type": "normal", "mean": 0.06, "stdev": 0.02},
         "expenseRatio": 0.001,
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.01, "stdev": 0.005},
@@ -198,7 +198,7 @@ def test_export_couple():
         "name": "S&P 500",
         "description": "S&P 500 index fund",
         "returnAmtOrPct": "percent",
-        "returnDistribution": {"type": "GBM", "mu": 0.06, "sigma": 0.02},
+        "returnDistribution": {"type": "normal", "mean": 0.06, "stdev": 0.02},
         "expenseRatio": 0.001,
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.01, "stdev": 0.005},
@@ -323,7 +323,7 @@ def test_export_individual_no_rco():
         "name": "S&P 500",
         "description": "S&P 500 index fund",
         "returnAmtOrPct": "percent",
-        "returnDistribution": {"type": "GBM", "mu": 0.06, "sigma": 0.02},
+        "returnDistribution": {"type": "normal", "mean": 0.06, "stdev": 0.02},
         "expenseRatio": 0.001,
         "incomeAmtOrPct": "percent",
         "incomeDistribution": {"type": "normal", "mean": 0.01, "stdev": 0.005},
