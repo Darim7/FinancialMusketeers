@@ -147,7 +147,8 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     
     # Calculate RMD 
     rmd_distribution = rmd_obj.calculate_rmd(age)
-    rmd = sum // rmd_distribution
+    rmd = sum / rmd_distribution
+    rmd = round(rmd, 2)
     print(f"RMD inside: {rmd}, age: {age}, sum: {sum}, rmd_distribution: {rmd_distribution}")
     temp_rmd = rmd
     # Perform RMD 

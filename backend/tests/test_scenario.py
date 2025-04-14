@@ -59,11 +59,12 @@ def scenario_data(request):
     yield {
         "object_id": new_object_id,
         "user_email": user_email,
-        'user_name': user_name
+        'user_name': user_name,
+        'scenario': scenario_payload
     }
 
     # Teardown
-    assert SCENARIO_COLLECTION.delete_one({"_id": ObjectId(new_object_id)}) is not None
+    SCENARIO_COLLECTION.delete_one({"_id": ObjectId(new_object_id)})
     USER_COLLECTION.delete_one({"email": user_email})
 def test_add_scenario(scenario_data):
     new_object_id=scenario_data['object_id']
@@ -87,7 +88,25 @@ def test_get_scenario(scenario_data):
     print(f'user: {user}')
     # Verify that the scenario is equal to the object id we are requesting for
     assert res_json['data']["_id"]==new_obj_id
+
+def test_update_scenario(scenario_data):
+    new_obj_id = scenario_data['object_id']
+    scenario = scenario_data['scenario']
+    # Construct data for the update
+    scenario['_id'] = new_obj_id
+    scenario['name'] = 'Updated Scenario'
+    # Send POST request to update the scenario 
+    response=requests.post('http://flask_server:8000/api/update_scenario', json={"scenario": scenario}, headers={'Content-Type': 'application/json'})
+    # print(f"Response: {response.json()}")
+    assert response.status_code == 200
+    res_json = response.json()
+    assert res_json['message'] == 'Scenario updated successfully'
     
+    # Verify that the scenario is updated in the DB
+    updated_scenario = SCENARIO_COLLECTION.find_one({"_id": ObjectId(new_obj_id)})
+    assert updated_scenario is not None 
+    assert updated_scenario["name"] == "Updated Scenario"
+
     
 def test_get_user(scenario_data):
     with open('utils/user_data.json', 'r') as f:
@@ -113,4 +132,3 @@ def test_get_user(scenario_data):
     scenarios=res_json['data']['scenarios']
     assert len(scenarios)==1
     assert scenarios[0]==new_obj_id
-    

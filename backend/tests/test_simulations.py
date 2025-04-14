@@ -121,9 +121,10 @@ class TestRMD:
         else: 
             # calculate rmd
             if age in expected_rmd_table:
-                expected_rmd = sum//expected_rmd_table[age]
+                expected_rmd = sum/expected_rmd_table[age]
             else: 
-                expected_rmd = sum//expected_rmd_table[120] # maximum rmd for age 120 and over
+                expected_rmd = sum/expected_rmd_table[120] # maximum rmd for age 120 and over
+            expected_rmd = round(expected_rmd, 2)
         print(f"expected rmd: {expected_rmd}, age: {age}, sum: {sum}")
         
         temp_rmd=expected_rmd
@@ -161,19 +162,7 @@ class TestRMD:
                 assert (ivmt.value == expected_investments[i].value and \
                     ivmt.tax_status == expected_investments[i].tax_status and \
                     ivmt.asset_type == expected_investments[i].asset_type and \
-                    ivmt.investment_id == expected_investments[i].investment_id)
-            
-class TestInvestments: 
-    def test_update_investments(self, create_scenario):
-        scenario=create_scenario
-        investments = scenario.get_investments()
-        asset_types = scenario.get_investment_types()
-        # expected_investments = copy.deepcopy(asset_types, investments)
-        
-        total_income= update_investments(asset_types, investments)     
-        print(total_income) 
-        
-        
+                    ivmt.investment_id == expected_investments[i].investment_id)   
         
         
         
