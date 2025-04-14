@@ -10,7 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreateScenario from '../components/scenarioData';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 function Scenario() {
