@@ -52,29 +52,36 @@ class TestInflation:
     ])
     def test_update_inflation(self, create_scenario, inflation_assumption):
         scenario=create_scenario
-        # value = 0.03
-        # inflation_assumption = {
-        #     "type": "fixed",
-        #     "value": value, 
-        # }
         marital_status = scenario.get_marital_status()
-        tax_obj = FederalTax(marital_status)
-        inflation_rate=update_inflation(tax_obj, inflation_assumption)
+        tax_obj = FederalTax()
+        event_series = scenario.get_event_series()
+        expected_event_series = copy.deepcopy(event_series)
+        inflation_rate=update_inflation(tax_obj, event_series, inflation_assumption)
         
-        # assert inflation_rate == value
+        # For each event in income or expense event series, ensure that the inflation rate is applied correctly 
+        filtered_event_series = [event for event in event_series if event.type in ['income', 'expense']]
+        expected_filtered_event_series = [event for event in expected_event_series if event.type in ['income', 'expense']]
+        for i, event in enumerate(filtered_event_series):
+            if event.data['inflationAdjusted']:
+                # Check if inflation rate is applied correctly
+                assert event.data['initialAmount'] == expected_event_series[i].data['initialAmount'] * (1 + inflation_rate)
+                
         # Check if the tax brackets are updated correctly
         init_tax_brackets=read_tax_to_dict('federal')
         
-        init_income_bracket=init_tax_brackets[marital_status]['income']
+        # init_income_bracket=init_tax_brackets[marital_status]['income']
 
         expected_income_bracket = {}
         
-        for upper, percentage in init_tax_brackets.items():
-            if upper != float('inf'): 
+        for upper, percentage in init_tax_brackets[marital_status]['income'].items():
+            if upper != 'inf': 
                 # Calculate new bracket with inflation 
                 new_upper= upper * (1 + inflation_rate)
                 expected_income_bracket[new_upper] = percentage
+            else:
+                expected_income_bracket[upper] = percentage
         
+        print(f"What is income: {tax_obj.bracket}")
         # Compare the updated tax brackets with the expected ones 
         assert compare_dict(tax_obj.bracket[marital_status]['income'], expected_income_bracket) is True
 

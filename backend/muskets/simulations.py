@@ -26,23 +26,29 @@ def sample_from_distribution(assumption: dict) -> float:
             
     return res
 
+def update_bracket(bracket: dict, inflation_rate: float, marital_status: str) -> dict: 
+    res = {}
+    for bracket, percentage in bracket[marital_status]['income'].items():
+        print(f"Type: {type(bracket)}, bracket: {bracket}")
+        if bracket == 'inf': 
+            res[bracket] = percentage
+            break
+        new_bracket = bracket * (1 + inflation_rate)
+        res[new_bracket] = percentage
+    return res
 def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
     """
     inflation_rate = sample_from_distribution(inflation_assumption)
-
     # Update the tax bracket
-    res = {}
-    for bracket, percentage in tax_obj.bracket.items():
-        new_bracket = bracket * (1 + inflation_rate)
-        res[new_bracket] = percentage
-    tax_obj.bracket = res
+    tax_obj.bracket['individual']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual')
+    tax_obj.bracket['couple']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple')
 
     # Update event series
     for event in event_series:
         if 'inflationAdjusted' in event.data and event.data['inflationAdjusted']:
-            event.data['initialValue'] *= (1 + inflation_rate)
+            event.data['initialAmount'] *= (1 + inflation_rate)
 
     return inflation_rate
 
