@@ -60,9 +60,14 @@ class User(Exportable):
     def delete_scenario(self, scenario_id: ObjectId | str) -> bool:
         if scenario_id not in self.scenarios:
             return False
-        
-        if delete_document(SCENARIO_COLLECTION, scenario_id).deleted_count > 0:
-            return True
+        # Remove the scenario from the user's list of scenarios
+        self.scenarios.remove(scenario_id)
+        if self.update_to_db() > 0:
+            # Delete the scenario from the user collections
+            scenario_id = ObjectId(scenario_id) if isinstance(scenario_id, str) else scenario_id
+            # Delete the scenario from the database
+            if delete_document(SCENARIO_COLLECTION, scenario_id).deleted_count > 0:
+                return True
         else:
             return False
     

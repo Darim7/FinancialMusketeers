@@ -107,6 +107,27 @@ def test_update_scenario(scenario_data):
     assert updated_scenario is not None 
     assert updated_scenario["name"] == "Updated Scenario"
 
+def test_delete_scenario(scenario_data):
+    new_obj_id = scenario_data['object_id']
+    user_email = scenario_data['user_email']
+    user_name = scenario_data['user_name']
+    data= {
+        "user_email": user_email,
+        "user_name": user_name,
+        "scenario_id": new_obj_id
+    }
+    # Send POST request to delete the scenario
+    response=requests.post("http://flask_server:8000/api/delete_scenario", json=data, headers={'Content-Type': 'application/json'})
+    assert response.status_code == 200
+    res_json = response.json()
+    assert res_json['message'] == 'Scenario deleted successfully'
+    # Verify that the scenario is deleted from the DB
+    deleted_scenario = SCENARIO_COLLECTION.find_one({"_id": ObjectId(new_obj_id)})
+    assert deleted_scenario is None
+    # Verify that the scenario is removed from the user's list of scenarios
+    user = USER_COLLECTION.find_one({"email": user_email})
+    print(f'user: {user}')
+    assert new_obj_id not in user['scenarios']
     
 def test_get_user(scenario_data):
     with open('utils/user_data.json', 'r') as f:
