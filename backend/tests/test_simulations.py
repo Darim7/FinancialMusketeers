@@ -163,7 +163,15 @@ class TestRMD:
                     ivmt.asset_type == expected_investments[i].asset_type and \
                     ivmt.investment_id == expected_investments[i].investment_id)
             
-            
+class TestInvestments: 
+    def test_update_investments(self, create_scenario):
+        scenario=create_scenario
+        investments = scenario.get_investments()
+        asset_types = scenario.get_investment_types()
+        # expected_investments = copy.deepcopy(asset_types, investments)
+        
+        total_income= update_investments(asset_types, investments)     
+         
                         
         
         
