@@ -100,7 +100,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   })
 
   const [investmentCaseValues, setInvestmentCaseValues] = useState({
-    type: '',
+    investmentType: '',
     value: '',
     taxStatus: '',
   })

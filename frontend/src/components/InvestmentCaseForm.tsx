@@ -16,8 +16,8 @@ function InvestmentCaseForm({investmentTypes, investment, showInvestmentCase, cl
                         {/* Dropdown to select the scenarios */}
                         <Form.Select 
                             id="selectInvestmentType"
-                            name="type"
-                            value={investment.type ? investment.type: ''}   
+                            name="investmentType"
+                            value={investment.investmentType ? investment.investmentType: ''}   
                             onChange={handleInvestmentCaseChange}         
                         >
                         <option>Select an Investment Type</option>
