@@ -6,6 +6,9 @@ from models.investment import Investment, AssetType
 from models.rmd import RMD
 from functools import reduce
 from collections import defaultdict
+from models.rmd import RMD
+from functools import reduce
+from collections import defaultdict
 
 def sample_from_distribution(assumption: dict) -> float:
     res = -1
@@ -41,7 +44,6 @@ def update_bracket(bracket: dict, inflation_rate: float, marital_status: str, ta
         new_bracket = bracket * (1 + inflation_rate)
         res[new_bracket] = percentage
     return res
-
 def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
@@ -135,6 +137,7 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
         rmd_obj (RMD): RMD object
         age (int): current age of user
         investments (list[Investment]): list of investments
+        investments (list[Investment]): list of investments
 
     Returns:
         float: RMD amount
@@ -157,7 +160,8 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     
     # Calculate RMD 
     rmd_distribution = rmd_obj.calculate_rmd(age)
-    rmd = sum // rmd_distribution
+    rmd = sum / rmd_distribution
+    rmd = round(rmd, 2)
     print(f"RMD inside: {rmd}, age: {age}, sum: {sum}, rmd_distribution: {rmd_distribution}")
     temp_rmd = rmd
     # Perform RMD 
@@ -192,15 +196,14 @@ def calculate_tax(income: float, bracket: dict) -> float:
             break
         if income > brack:
             res += (brack - previous_bracket) * percentage
-            income -= brack
+            # income -= brack
         else:
             res += (income - previous_bracket) * percentage
             break
         previous_bracket = brack
     
     return res
-
-def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
+def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:    
     """
     Calculate the federal income tax based on the given income and filing status.
 
@@ -211,9 +214,10 @@ def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
     Returns:
         float: The calculated federal income tax.
     """
-    bracket = tax_obj.bracket[status]['income']
+    bracket = tax_obj.bracket[status]
     income = income - bracket['deduction']
-
+    if income < 0: 
+        return 0
     return calculate_tax(income, bracket)
 
 def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
@@ -252,4 +256,4 @@ similar way.
 """
 
 if __name__ == "__main__":
-    # 
+    pass
