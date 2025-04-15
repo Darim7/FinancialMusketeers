@@ -149,7 +149,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
-      { question: "Asset Allocation: ", type: "object", name: "assetAllocation", fields:[values.RothConversionStrategy] },
+      { question: "Asset Allocation: ", type: "object", name: "assetAllocation", fields:[values.AssetAllocation] },
     ],
   };
 
@@ -175,7 +175,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   };
 
   // Handles inputs from the event page
-  // const handleAnswerChange = (question: string, value: any) => {
+  // const 
+  // 
+  //  = (question: string, value: any) => {
   //   setAnswers((prev) => ({
   //      ...prev, 
   //      [question]: value }));
@@ -259,6 +261,11 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   //  };
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,birthYearIndex?: number) => {
     const { name, value } = e.target;
+
+    const parsedValue =
+      name === 'RothConversionStart' || name === 'RothConversionEnd'
+        ? Number(value)
+        : value;
   
     if (name === 'birthYear1' || name === 'birthYear2') {
       // Ask ChatGPT how to correctly put the birth year into the birthYears array
@@ -271,7 +278,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         return {
           ...prevValues,
           birthYears: updatedBirthYears,
-          [name]: value, 
+          [name]: parsedValue, 
         };
       });
       saveForms((prevForms: any) =>
@@ -417,35 +424,105 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     const saveInvestmentCase = (e:React.ChangeEvent<any>) => {
 
       let updatedInvestmentCases;
+      let updateAssetAllocation;
+      let updateValueInvestments;
+      let updatedExpenseWithdrawalStrategy;
+      let updateRMD: any;
+      let updateRothConversionStrategy: any;
+
+      const newId = `${investmentCaseValues.investmentType} ${investmentCaseValues.taxStatus}`;
 
       const investmentCaseToSave = {
         ...investmentCaseValues,
+        id: newId,
       };
 
-      if (currentInvestmentCaseIndex >= 0){
+      if (currentInvestmentCaseIndex >= 0) {
         updatedInvestmentCases = [...values.investments];
         updatedInvestmentCases[currentInvestmentCaseIndex] = investmentCaseToSave;
+
+        updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
+        updatedExpenseWithdrawalStrategy[currentInvestmentCaseIndex] = investmentCaseToSave.id;
+
+        if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
+          // If the tax-status is "pre-tax" then added to the array 
+              updateRMD = [...values.RMDStrategy];
+              updateRMD[currentInvestmentCaseIndex] = investmentCaseToSave.id;
+  
+              updateRothConversionStrategy = [...values.RothConversionStrategy];
+              updateRothConversionStrategy[currentInvestmentCaseIndex] = investmentCaseToSave.id;
+          } 
+        
+        if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+            console.log("WTFFFFFFFFFF")
+          
+            updateAssetAllocation = [...values.AssetAllocation];
+            updateAssetAllocation[currentInvestmentCaseIndex] = investmentCaseToSave.id;
+            console.log("what is updateAssetAllocation", values.AssetAllocation);    
+        } 
+        else {
+          updateRMD = [...values.RMDStrategy];
+          updateRothConversionStrategy = [...values.RothConversionStrategy];
+          console.log("I AM DEAD")
+          updateAssetAllocation = [...values.AssetAllocation];
+        }
       }
       else {
-        updatedInvestmentCases = [...values.investments, investmentCaseValues];
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        updatedInvestmentCases = [...values.investments, investmentCaseToSave];
+        updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investmentCaseToSave.id];
+        updateRMD = [...values.RMDStrategy];
+
+        updateRothConversionStrategy = [...values.RothConversionStrategy];
+
+        updateAssetAllocation = [...values.AssetAllocation];
+        console.log("AHHHH")
+
+        if (investmentCaseToSave.taxStatus === 'pre-tax') {
+          console.log("PREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+          updateRMD = [...values.RMDStrategy, investmentCaseToSave.id];
+          updateRothConversionStrategy = [...values.RothConversionStrategy, investmentCaseToSave.id];  
+        }
+        else {
+          updateAssetAllocation = [...values.AssetAllocation, investmentCaseToSave];
+          console.log("WHY IS THIS NOT PRINTING:", updateAssetAllocation);
+        }
+
+        // if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
+        //   updateRMD = [...values.RMDStrategy, investmentCaseToSave];
+        //   updateRothConversionStrategy = [...values.RothConversionStrategy, investmentCaseToSave];       
+        // }
+        // else if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+        //   updateAssetAllocation = [...values.AssetAllocation, investmentCaseToSave];
+        //   console.log("WHY IS THIS NOT PRINTING:", updateAssetAllocation);
+        // }
+
       }
 
       setValues(prevValues => ({
         ...prevValues,
-        investments: updatedInvestmentCases
+        investments: updatedInvestmentCases,
+        expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
+        RMDStrategy : updateRMD,
+        RothConversionStrategy: updateRothConversionStrategy,
+        AssetAllocation: updateAssetAllocation,
       }));
 
       saveForms((prevForms):any => 
         prevForms.map((form):any => 
           form.id === formInfo.id?{
             ...form,
-            investments: updatedInvestmentCases  
+            investments: updatedInvestmentCases,
+            expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
+            RMDStrategy : updateRMD,
+            RothConversionStrategy: updateRothConversionStrategy,
+            AssetAllocation: updateAssetAllocation,
           }:form
         )
       );
 
       setInvestmentCaseValues({    
-        type: '',
+        investmentType: '',
         value: '',
         taxStatus: '',
       })
@@ -519,7 +596,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         ...investment,
       };
 
-      
       // console.log("what is the investment to SAVE", investment);
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
       console.log("investment index", currentInvestmentIndex)
@@ -531,62 +607,64 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         updatedInvestments[currentInvestmentIndex] = investmentToSave;
 
       
-        updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
-        updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investmentToSave;
+        // updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy];
+        // updatedExpenseWithdrawalStrategy[currentInvestmentIndex] = investmentToSave;
 
-        if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
-        // If the tax-status is "pre-tax" then added to the array 
-            updateRMD = [...values.RMDStrategy];
-            updateRMD[currentInvestmentIndex] = investment;
+        // if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
+        // // If the tax-status is "pre-tax" then added to the array 
+        //     updateRMD = [...values.RMDStrategy];
+        //     updateRMD[currentInvestmentIndex] = investment;
 
-            updateRothConversionStrategy = [...values.RothConversionStrategy];
-            updateRothConversionStrategy[currentInvestmentIndex] = investment;
+        //     updateRothConversionStrategy = [...values.RothConversionStrategy];
+        //     updateRothConversionStrategy[currentInvestmentIndex] = investment;
             
-        } 
+        // } 
         // console.log("what is the investment Sattus", investment.investmentCases.some(investmentCase => investmentCase.taxStatus));
-        if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
-              console.log("WTFFFFFFFFFF")
-              console.log("what is updateAssetAllocation", values.investmentTypes);
-              updateAssetAllocation = [...values.investmentTypes];
-              updateAssetAllocation[currentInvestmentIndex] = investment;
+        // if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+        //       console.log("WTFFFFFFFFFF")
+            
+        //       updateAssetAllocation = [...values.AssetAllocation];
+        //       updateAssetAllocation[currentInvestmentIndex] = investment;
+        //       console.log("what is updateAssetAllocation", values.AssetAllocation);
               
-          } 
-        // Keep the same 
-        else {
-          updateRMD = [...values.RMDStrategy];
-          updateRothConversionStrategy = [...values.RothConversionStrategy];
-          updateAssetAllocation = [...values.investmentTypes];
-        }
-
       } 
+        // Keep the same 
+      // else {
+      //     // updateRMD = [...values.RMDStrategy];
+      //     updateRothConversionStrategy = [...values.RothConversionStrategy];
+      //     console.log("I AM DEAD")
+      //     updateAssetAllocation = [...values.AssetAllocation];
+      //   }
+
+      // } 
       else { /* then it is new */
         updatedInvestments = [...values.investmentTypes, investment];
-        updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
-        updateRMD = [...values.RMDStrategy];
+        // updatedExpenseWithdrawalStrategy = [...values.expenseWithdrawalStrategy, investment];
+        // updateRMD = [...values.RMDStrategy];
 
-        updateRothConversionStrategy = [...values.RothConversionStrategy];
+        // updateRothConversionStrategy = [...values.RothConversionStrategy];
 
-        updateAssetAllocation = [...values.investmentTypes];
+        // updateAssetAllocation = [...values.AssetAllocation];
+        // console.log("AHHHH")
         
-        if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
-                updateRMD = [...values.RMDStrategy, investment];
-                updateRothConversionStrategy = [...values.RothConversionStrategy, investment];       
-        }
-
-        else if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
-            updateAssetAllocation = [...values.investmentTypes, investment];
-            // console.log("what is updateAssetAllocation", updateAssetAllocation);
-        }
+        // if (values.investments.some(investmentValues => investmentValues.taxStatus === "pre-tax")){
+        //         updateRMD = [...values.RMDStrategy, investment];
+        //         updateRothConversionStrategy = [...values.RothConversionStrategy, investment];       
+        // }
+        // else if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+        //     updateAssetAllocation = [...values.AssetAllocation, investment];
+        //     console.log("WHY IS THIS NOT PRINTING:", updateAssetAllocation);
+        // }
       }
 
     // Update the local state with the new investments array
     setValues(prevValues => ({
       ...prevValues,
       investmentTypes: updatedInvestments,
-      expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
-      RMDStrategy : updateRMD,
-      RothConversionStrategy: updateRothConversionStrategy,
-      AssetAllocation: updateAssetAllocation,
+      // expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
+      // RMDStrategy : updateRMD,
+      // RothConversionStrategy: updateRothConversionStrategy,
+      // AssetAllocation: updateAssetAllocation,
     }));
 
     saveForms(prevForms => 
@@ -594,10 +672,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         form.id === formInfo.id?{
           ...form,
           investmentTypes: updatedInvestments,
-          expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
-          RMDStrategy: updateRMD,
-          RothConversionStrategy: updateRothConversionStrategy,
-          AssetAllocation: updateAssetAllocation
+          // expenseWithdrawalStrategy: updatedExpenseWithdrawalStrategy,
+          // RMDStrategy: updateRMD,
+          // RothConversionStrategy: updateRothConversionStrategy,
+          // AssetAllocation: updateAssetAllocation
 
         }:form
       )
@@ -1113,7 +1191,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 {values.investments.map((investment, index) => (
                   <Card key={index} className='investmentCards' onClick={() => editInvestmentCase(investment, index)}>
                     <Card.Body>
-                      <Card.Title>{investment.type}</Card.Title>
+                      <Card.Title>{investment.investmentType}</Card.Title>
                       <Card.Text>${investment.value}, {investment.taxStatus}</Card.Text>
                     </Card.Body>
                   </Card>  
@@ -1206,7 +1284,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForWithdrawal}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.name}
+                  {item}
+                  
+                  
                 
                 </div>
             ))
@@ -1229,7 +1309,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForRMD}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.name}
+                  {item}
                 
                 </div>
             ))
@@ -1286,7 +1366,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 onDragEnd={handleSortDragForConversionStrategy}
                 onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
-                  {item.name}
+                  {item}
                 
                 </div>
             ))
