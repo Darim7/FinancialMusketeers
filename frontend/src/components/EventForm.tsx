@@ -27,14 +27,14 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                     <h3>{selectedEvent} Questions</h3>
                     
                     {diffEvent[selectedEvent].map(({ question, type, fields, name }:any, index:any) => (
-                        (question === "Asset Allocation2:" && answers["Glide Path:"] !== "true") ? null : (
+                        (question === "Asset Allocation2:" && (answers["glidePath"] !== "true") ) ? null : ( 
                             <div key={index}>
                                 <label>{question}</label>
 
                                 {/* Handle object type questions with fields */}
+
                                 {type === "object" && fields && (
                                 <div>
-                                    {console.log("Fields:", fields)}
                                      {fields.every((outerArray:any) => outerArray.length === 0) ?  ( // Ask Copilot to check if fields are empty
                                         <p>No investments to select</p>
                                     ) : (
@@ -42,28 +42,38 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                             outerArray.map((innerField:any, nestedIndex:number) => (
                                                 <div key={nestedIndex}>
                                                     <label>
-                                                        {innerField.investmentName || "Unnamed Investment"} 
+                                                        {innerField.name || "Unnamed Investment"} 
                                                     </label>
                                                     <input
                                                         type = "number"
-                                                        value = {answers[name]?.[innerField.investmentName] || ""}
-                                                        onChange={(e) =>
+                                                        value = {answers[question]?.[innerField.name] || ""}
+                                                        onChange={(e) =>{
+                                                            console.log(`Field Target Value: ${e.target.value}, answers[question]: ${answers[question]}, innerfield.name: ${innerField.name}`)
+                                                            console.log("Answers: ", answers)
+                                                            console.log("Answer Question: ", answers[question])
+                                                            console.log(`Answer Name: ${name}, Question: ${question}`)
                                                             handleAnswerChange(question, {
-                                                                ...answers[name],
-                                                                [innerField.investmentName]: e.target.value, //Ask Copilot how to save the value under the investment name
+                                                                ...answers[question],
+                                                                [innerField.name]: e.target.value, //Ask Copilot how to save the value under the investment name
+                                                               
                                                             })
                                                         }
+                                                            
+                                                            
+                                                        }
+                                                        
                                                     
                                                     />
-                                                    
                                                 </div>
+                                        ))
                                     ))
-                                ))
                             )}    
                                 </div>
                                 )}
+                               
                                 {/* Handle boolean type questions */}
                                 {type === "boolean" ? (
+                                    
                                     <div>
                                         <label>
                                             <input
@@ -123,6 +133,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                             </div>
                             
                         )
+                    
                     ))}
                 </div>
             )}

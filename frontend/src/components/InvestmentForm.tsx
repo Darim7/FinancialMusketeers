@@ -72,17 +72,17 @@ import DistributionForm from './DistributionForm';
                 <input
                 type = "radio"
                 id = "Taxable"
-                value = "Taxable"
+                value = "True"
                 name = "taxability"
-                checked={investment.taxability === "Taxable"}
+                checked={investment.taxability === "True"}
                 onChange={handleInvestmentChange}
                 /> Taxable
                 <input 
                 type ="radio"
                 id = "Tax-Exempt"
                 name=  "taxability"     
-                value = "Tax-Exempt"
-                checked={investment.taxability === "Tax-Exempt"}
+                value = "False"
+                checked={investment.taxability === "False"}
                 onChange={handleInvestmentChange}
                 /> Tax-Exempt
 
@@ -93,7 +93,8 @@ import DistributionForm from './DistributionForm';
                     <div key={investments.formid}>
                         <label htmlFor="value">Value: </label>
                         <input
-                        type="text"
+                        type="number"
+                        min="0"
                         name="value"
                         value={investments.value ||''}
                         onChange={(e) => handleInvestmentCaseChange(index, e)}

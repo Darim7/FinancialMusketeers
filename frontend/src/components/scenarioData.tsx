@@ -108,7 +108,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Duration: ", type: "distribution", name:"duration" },
       { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
       { question: "Change Amount or Percent: ", type: "select" , name:"changeAmountOrPercent"},
-      { question: "Change Distribution: ", type: "distribution" , name:"chanegeDistribution"},
+      { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
       { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Social Security: ", type: "boolean", name:"socialSecurity"},
@@ -121,7 +121,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Duration: ", type: "distribution", name:"duration" },
       { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
       { question: "Change Amount or Percent: ", type: "text" , name:"changeAmountOrPercent"},
-      { question: "Change Distribution: ", type: "distribution" , name:"chanegeDistribution"},
+      { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
       { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
@@ -131,9 +131,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
-      { question: "Asset Allocation:",  type: "object", name: "assetAllocation", fields: [values.RothConversionStrategy]},
-      { question: "Glide Path:", type: "boolean" },
-      { question: "Asset Allocation2:", type: "object", name: "assetAllocation2",fields: [values.RothConversionStrategy]},
+      { question: "Asset Allocation:",  type: "object", name: "assetAllocation", fields: [values.AssetAllocation]},
+      { question: "Glide Path:", type: "boolean", name: "glidePath"},
+      { question: "Asset Allocation2:", type: "object", name: "assetAllocation2",fields: [values.AssetAllocation]},
 
     ],
 
@@ -196,6 +196,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   
   // };
   const handleAnswerChange = (question: string, value: any) => {
+    console.log(`Handle Answer Change: \n Question: ${question}, Value: ${value}`)
     // Update local state
     setAnswers((prev) => ({
       ...prev,
@@ -338,16 +339,13 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
 
   {/* ----- This is for investment case after declaring the investment type -----*/}
+    const [isInvestmentFormVisible, setIsInvestmentFormVisible] = useState(false);
+    const [investments, setInvestments] = useState([]);
+  
 
     const addInvestmentCase = () => {
-      // setInvestment((prevInvestment) => ({
-      //   ...prevInvestment,
-      //   // investmentValues: [
-      //   //   ...prevInvestment.investmentValues,
-      //   //   { formid: Date.now(), investmentTypes: investment.name, value: '', id: investment.name},
-      //   // ],
-      // }));
-
+      setIsInvestmentFormVisible(true);
+   
       setValues((prevValues) => ({
         ...prevValues,
         investments: [
@@ -356,9 +354,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           { investmentType: investment.name, value: '', id: investment.name},
         ],
       }));
-
-
-
 
     };
   
@@ -369,6 +364,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       const updatedInvestmentCases = values.investments.map((investmentValues, i) =>
         i === index ? { ...investmentValues, [name]: value } : investmentValues
       );
+      console.log("WHAT IS UPDATED INVESTMENT CASES", updatedInvestmentCases);
     
       // Update the state with the new investments array
       setValues((prevValues) => ({
@@ -393,14 +389,48 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   {/* ------ This is for investments case after declaring the investment type -----*/}
 
   const newInvestmentModal = () => {
+    setInvestment({
+      name: '',
+      description: '',
+      returnAmtOrPct: '',
+      returnDistribution: { type: ''},
+      expenseRatio: '',
+      incomeAmtOrPct: '',
+      incomeDistribution: { type: ''},
+      taxability: '',
+      // investmentValues: [],
+    });
+
+    setValues((prevValues) => ({
+      ...prevValues,
+      investments: prevValues.investments.map((investmentValues) =>
+        investmentValues.id === investment.name ? { ...investmentValues, value: '' } : investmentValues
+      ),
+      investmentTypes:
+        prevValues.investmentTypes.map((investmentValues) =>
+          investmentValues.id === investment.name ? { ...investmentValues, value: ''} : investmentValues
+        ),
+    }));
+
+    setIsInvestmentFormVisible(false);
     setShowInvestmentModal(true);
     setCurrentInvestmentIndex(-1);
+    
   }
 
+  useEffect(() => {
+    if (investments.length > 0) {
+      setIsInvestmentFormVisible(true);
+    }
+  }, [investments]); // This will run when investments state changes
+
+  
   const editInvestmentModal = (investment: any, index: number) => {
-    setInvestment({...investment});
-    setCurrentInvestmentIndex(index);
-    setShowInvestmentModal(true);
+  
+    setInvestment({ ...investment });  // Update investment state
+    console.log("What is the investment AHHH:", investment);
+    setCurrentInvestmentIndex(index);  // Set the current index
+    setShowInvestmentModal(true);  // Show the modal
   }
 
   const closeInvestmentModal = () => {
@@ -425,7 +455,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       // console.log("what is the investment to SAVE", investment);
       console.log("HELOOOOOOOOOOOOOOOOOOOO",investmentToSave);
       console.log("investment index", currentInvestmentIndex)
-
+     
       if (currentInvestmentIndex >= 0) {
         updatedInvestments = [...values.investmentTypes];
         
@@ -447,6 +477,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         } 
         // console.log("what is the investment Sattus", investment.investmentCases.some(investmentCase => investmentCase.taxStatus));
         if (values.investments.some(investmentValues => investmentValues.taxStatus !== "pre-tax")){
+              console.log("WTFFFFFFFFFF")
               console.log("what is updateAssetAllocation", values.investmentTypes);
               updateAssetAllocation = [...values.investmentTypes];
               updateAssetAllocation[currentInvestmentIndex] = investment;
@@ -505,27 +536,27 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     );
     console.log('RETURN DISTRIBUTION', values.investmentTypes);
     //Reset the investment form fields
-    setInvestment({
-      name: '',
-      description: '',
-      returnAmtOrPct: '',
-      returnDistribution: { type: ''},
-      expenseRatio: '',
-      incomeAmtOrPct: '',
-      incomeDistribution: { type: ''},
-      taxability: '',
-      // investmentValues: [],
-    });
-    setValues((prevValues) => ({
-      ...prevValues,
-      investments: prevValues.investments.map((investmentValues) =>
-        investmentValues.id === investment.name ? { ...investmentValues, value: '' } : investmentValues
-      ),
-      investmentTypes:
-        prevValues.investmentTypes.map((investmentValues) =>
-          investmentValues.id === investment.name ? { ...investmentValues, value: ''} : investmentValues
-        ),
-    }));
+    // setInvestment({
+    //   name: '',
+    //   description: '',
+    //   returnAmtOrPct: '',
+    //   returnDistribution: { type: ''},
+    //   expenseRatio: '',
+    //   incomeAmtOrPct: '',
+    //   incomeDistribution: { type: ''},
+    //   taxability: '',
+    //   // investmentValues: [],
+    // });
+    // setValues((prevValues) => ({
+    //   ...prevValues,
+    //   investments: prevValues.investments.map((investmentValues) =>
+    //     investmentValues.id === investment.name ? { ...investmentValues, value: '' } : investmentValues
+    //   ),
+    //   investmentTypes:
+    //     prevValues.investmentTypes.map((investmentValues) =>
+    //       investmentValues.id === investment.name ? { ...investmentValues, value: ''} : investmentValues
+    //     ),
+    // }));
     
     
 
@@ -595,6 +626,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
     let updatedEvents;
     let updatedDiscretionary;
+    let updateSpendingStrategy;
 
 
     if (currentEventIndex >= 0){
@@ -602,15 +634,20 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       //Editing an existing event
       updatedEvents = [...values.eventSeries];
       updatedEvents[currentEventIndex] = newEvent;  
+      
     
      if(newEvent.type === "Expense" && newEvent.discretionary === "true"){
         // console.log("what is the New Event", newEvent);
         updatedDiscretionary = [...values.discretionary];
+        updateSpendingStrategy=[...values.spendingStrategy]
+
         updatedDiscretionary[currentEventIndex] = newEvent;
+        updateSpendingStrategy = newEvent;
 
      }
      else{
       updatedDiscretionary = values.discretionary;
+      updateSpendingStrategy = values.spendingStrategy;
       // updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
       console.log("what is value's.discretionary WHEN IT IS FALSE", values.discretionary);
       console.log("what is updatedDiscretionary", updatedDiscretionary);
@@ -628,10 +665,13 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
       if (newEvent.type === "Expense" && newEvent.discretionary === "true") {
         updatedDiscretionary = [...values.discretionary, newEvent];
+        updateSpendingStrategy = [...values.spendingStrategy, newEvent];
         console.log("UPDATED DISCRETIONARY", updatedDiscretionary);
         console.log("DOES IT GOES IN HERE?")
       } else {
         updatedDiscretionary = values.discretionary;
+        updateSpendingStrategy = values.spendingStrategy;
+
         console.log("what is VALUES.DISCRETIONARY", values.discretionary);
         // updatedDiscretionary = values.discretionary.filter(event => event["Discretionary : "] === "true");
         console.log("ELSE DISCRETIONARY:", updatedDiscretionary);
@@ -643,7 +683,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     setValues(prevValues => ({
       ...prevValues,
       eventSeries: updatedEvents,
-      discretionary: updatedDiscretionary
+      discretionary: updatedDiscretionary,
+      spendingStrategy: updateSpendingStrategy,
     }));
 
 
@@ -653,7 +694,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           ? { 
               ...form, 
               eventSeries: updatedEvents,
-              discretionary: updatedDiscretionary
+              discretionary: updatedDiscretionary,
+              spendingStrategy: updateSpendingStrategy
             } 
           : form
       )

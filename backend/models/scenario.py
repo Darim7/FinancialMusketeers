@@ -46,7 +46,7 @@ class Scenario(Exportable):
 
         # Birth Years
         self._birth_years = birth_years
-        self._birth_years.append(int(birth_year1))
+        # self._birth_years.append(int(birth_year1))
         # Convert birth_years from a string to a list of integers
         # self._birth_years = list(map(int, birth_years.split(','))) if isinstance(birth_years, str) else birth_years
         # print("what is self.birth_years", self._birth_years)    
@@ -226,7 +226,7 @@ class Scenario(Exportable):
     @classmethod
     def from_dict(cls, data: Dict) -> Self:
         """Factory method for creating from dictionary"""
-        logger.info("what is Inflation Assumption: %s", data['inflationAssumption'])
+        logger.info("what is EVENT SERIES: %s", data['eventSeries'])
         return cls(
             name=data['name'],
             marital_status=data['maritalStatus'],

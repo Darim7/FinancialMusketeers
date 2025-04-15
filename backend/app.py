@@ -166,6 +166,8 @@ def export_scenario():
 
     except Exception as e:
         app.logger.error(f"Error adding scenario: {e}")
+    
+
         return jsonify({"error": "Failed to add scenario"}), 500
 
 # PT: Can you help me on implementing this? I am going to receive the yaml file?
