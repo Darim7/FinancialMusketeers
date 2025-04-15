@@ -24,18 +24,21 @@ const testScenarios = {
               probability: [100,100,100, 95, 93, 90, 85, 93, 95],
               totalInvestments: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
               totalIncome: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+              expenses: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
             },
   scenario2:{ name:"test2",
               years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035"], 
               probability: [100,100,100, 95, 93, 90, 85, 93, 95, 90, 97],
-              totalInvestments: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000]
+              totalInvestments: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000],
+              totalIncome: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000],
+              expenses:[3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000],
             },
   scenario3:{ name:"test3",
               years:["2025", "2026", "2027", "2028", "2029"], 
               probability: [100,83,85,95, 97],
-              totalInvestments: [3000, 4000, 5000, 6000, 2000]
-
-
+              totalInvestments: [3000, 4000, 5000, 6000, 2000],
+              totalIncome: [3000, 4000, 5000, 6000, 2000],
+              expenses: [3000, 4000, 5000, 6000, 2000],
   },
 }
 
@@ -101,7 +104,7 @@ function Overview() {
                 type="switch"
                 id="barGraph"
                 name="barChart"
-                label="Bar Graph"
+                label="Stacked Bar Graph"
                 checked={charts.barChart}
                 onChange={handleChartSelection}
               />
@@ -112,19 +115,35 @@ function Overview() {
         {/* Check if the bar chart is selectd */}
         {charts.barChart && (
           <div id="barGraph">
-            <Bar data={{
-            labels: ["A", "B", "C"],
+            <Bar 
+            data={{
+            labels: testScenarios[scenario].years,
             datasets: [
               {
-                label: "Revenue",
-                data: [100,200,300],
+                label: "Total Investments",
+                data: testScenarios[scenario].totalInvestments,
               },
               {
-                label:"Loss",
-                data: [90,80,70],
+                label:"Total Income",
+                data: testScenarios[scenario].totalIncome,
+              },
+              {
+                label:"Total Expense",
+                data: testScenarios[scenario].expenses,
               },
             ]
-            }}>
+            }}
+            options={{
+              scales: {
+                x: {
+                  stacked: true,
+                },
+                y: {
+                  stacked: true,
+                },
+              },
+            }}
+          >
           </Bar>
         </div>
         )}
