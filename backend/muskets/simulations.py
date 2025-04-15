@@ -36,6 +36,7 @@ def update_bracket(bracket: dict, inflation_rate: float, marital_status: str) ->
         new_bracket = bracket * (1 + inflation_rate)
         res[new_bracket] = percentage
     return res
+
 def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
@@ -217,6 +218,18 @@ def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
     """
     bracket = tax_obj.bracket[status]
     return calculate_tax(income, bracket)
+
+def non_discresionary_expenses(event_series: list[EventSeries]) -> float:
+    """
+    Calculate the non-discretionary expenses from the event series.
+    """
+    non_discresionary_expenses = 0
+    
+    for event in event_series:
+        if event.type == 'expense' and 'discretionary' in event.data and not event.data['discretionary']:
+            non_discresionary_expenses += event.data['initialAmount']
+
+    return non_discresionary_expenses
 
 def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
     return -1
