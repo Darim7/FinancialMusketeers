@@ -26,9 +26,14 @@ def sample_from_distribution(assumption: dict) -> float:
             
     return res
 
-def update_bracket(bracket: dict, inflation_rate: float, marital_status: str) -> dict: 
+def update_bracket(bracket: dict, inflation_rate: float, marital_status: str, tax_category: str) -> dict: 
     res = {}
-    for bracket, percentage in bracket[marital_status]['income'].items():
+    if tax_category == 'deduction':
+        res = bracket[marital_status][tax_category]
+        res *= (1 + inflation_rate)
+        return res
+
+    for bracket, percentage in bracket[marital_status][tax_category].items():
         print(f"Type: {type(bracket)}, bracket: {bracket}")
         if bracket == 'inf': 
             res[bracket] = percentage
@@ -43,8 +48,13 @@ def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSer
     """
     inflation_rate = sample_from_distribution(inflation_assumption)
     # Update the tax bracket
-    tax_obj.bracket['individual']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual')
-    tax_obj.bracket['couple']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple')
+    tax_obj.bracket['individual']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'income')
+    tax_obj.bracket['couple']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'income')
+    if isinstance(tax_obj, FederalTax):
+        tax_obj.bracket['individual']['deduction'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'deduction')
+        tax_obj.bracket['couple']['deduction'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'deduction')
+        tax_obj.bracket['individual']['cap_gains'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'cap_gains')
+        tax_obj.bracket['couple']['cap_gains'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'cap_gains')
 
     # Update event series
     for event in event_series:
@@ -116,7 +126,6 @@ def update_investments(asset_types: list[AssetType], investments: list[Investmen
         expense = avg_value * asset_type.expenseRatio
         ivmt.value -= expense
     return total_generated_income
-    # pass
 
 def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     """
