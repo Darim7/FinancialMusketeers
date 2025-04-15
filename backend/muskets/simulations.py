@@ -262,6 +262,29 @@ def discretionary_expenses(event_series: list[EventSeries], spending_strategy: l
 
     return [discretionary_expenses[spending] for spending in spending_strategy if spending in discretionary_expenses]
 
+def make_investments(invest_event: EventSeries, investments: list[Investment]) -> float:
+    """
+    Calculate the total investment events from the event series.
+    """
+    cash = None
+    for investment in investments:
+        if investment.asset_type == 'cash':
+            cash = investment.value
+
+    if cash <= 0:
+        return 0.0
+
+    allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments}
+    tot_invested = 0
+    for investment in investments:
+        if investment.asset_type == 'cash':
+            continue
+
+        investment.value += cash * allocation[investment.investment_id]
+        tot_invested += cash * allocation[investment.investment_id]
+
+    return tot_invested
+
 def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
     return -1
 
