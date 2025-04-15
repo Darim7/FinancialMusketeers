@@ -187,7 +187,7 @@ def calculate_tax(income: float, bracket: dict) -> float:
             break
         if income > brack:
             res += (brack - previous_bracket) * percentage
-            income -= brack
+            # income -= brack
         else:
             res += (income - previous_bracket) * percentage
             break
@@ -205,9 +205,10 @@ def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
     Returns:
         float: The calculated federal income tax.
     """
-    bracket = tax_obj.bracket[status]['income']
+    bracket = tax_obj.bracket[status]
     income = income - bracket['deduction']
-
+    if income < 0: 
+        return 0
     return calculate_tax(income, bracket)
 
 def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:

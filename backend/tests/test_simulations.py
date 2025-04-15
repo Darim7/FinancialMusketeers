@@ -165,22 +165,35 @@ class TestRMD:
                     ivmt.investment_id == expected_investments[i].investment_id)   
     
 class TestTax:
+    @pytest.mark.parametrize("income", [
+        58000, 120000, 12000
+    ])
     def test_fed_income_tax(self, income):
-        marital_status = 'single'
+        marital_status = 'individual'
         tax_obj = FederalTax()
         income_bracket = tax_obj.bracket[marital_status]['income']
         deduction = tax_obj.bracket[marital_status]['deduction']
+        
         deducted_income = income - deduction 
         tax = 0 
-        previous_upper = 0
-        # Calculate the tax amount
-        for upper, percentage in income_bracket.items():
-            if upper == 'inf': 
-                value = (deducted_income - previous_upper) * percentage
-                tax += round(value, 2) 
-                break
-            value = (upper - previous_upper) * percentage
-            tax += round(value, 2)
+
+        if deducted_income > 0:
+            previous_upper = 0
+            # Calculate the tax amount
+            for upper, percentage in income_bracket.items():
+                if upper == 'inf' or deducted_income < upper: 
+                    print(f"Upper: {upper}, Prev Upper: {previous_upper}, Deducted Income: {deducted_income}")
+                    value = (deducted_income - previous_upper) * percentage
+                    tax += round(value, 2) 
+                    break
+
+                value = (upper - previous_upper) * percentage
+                tax += round(value, 2)
+                previous_upper = upper
+
+        # Test with actual function
+        res = fed_income_tax(tax_obj, income, marital_status)
+        assert res == tax
         
         
         
