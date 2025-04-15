@@ -196,7 +196,6 @@ def calculate_tax(income: float, bracket: dict) -> float:
             break
         if income > brack:
             res += (brack - previous_bracket) * percentage
-            # income -= brack
         else:
             res += (income - previous_bracket) * percentage
             break
