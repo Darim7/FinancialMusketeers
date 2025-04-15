@@ -11,6 +11,7 @@ import DistributionForm from './DistributionForm';
 import Page1 from './page1';
 import EventForm from './EventForm';
 import InvestmentForm from './InvestmentForm';
+import InvestmentCaseForm from './InvestmentCaseForm';
 
 function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
@@ -97,6 +98,13 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     taxability: '',
     // investmentValues: [] as any[]
   })
+
+  const [investmentCaseValues, setInvestmentCaseValues] = useState({
+    type: '',
+    value: '',
+    taxStatus: '',
+  })
+
   console.log("user email", values.user_email);
 
   console.log("what is the investment", values.investmentTypes);
@@ -339,6 +347,25 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   {/* ----- This is for investment case after declaring the investment type -----*/}
 
+  
+    const [showInvestmentCase, setShowInvestmentCase] = useState(false);
+    const [currentInvestmentCaseIndex, setCurrentInvestmentCaseIndex] = useState(-1);
+
+    const newInvestmentCase = () => {
+      setShowInvestmentCase(true)
+      setCurrentInvestmentIndex(-1);
+    }
+
+    const editInvestmentCase = (investmentCase: any, index: number) => {
+      setInvestmentCaseValues({...investmentCase});
+      setCurrentInvestmentCaseIndex(index);
+      setShowInvestmentCase(true);
+    }
+  
+    const closeInvestmentCase = () => {
+      setShowInvestmentCase(false);
+    }
+  
     const addInvestmentCase = () => {
       // setInvestment((prevInvestment) => ({
       //   ...prevInvestment,
@@ -356,39 +383,78 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           { investmentType: investment.name, value: '', id: investment.name},
         ],
       }));
-
-
-
-
     };
   
-    const handleInvestmentCaseChange = (index: number, e: React.ChangeEvent<any>) => {
-      const { name, value } = e.target;
+    // const handleInvestmentCaseChange = (index: number, e: React.ChangeEvent<any>) => {
+    //   const { name, value } = e.target;
     
-      // Update the investments array in the state
-      const updatedInvestmentCases = values.investments.map((investmentValues, i) =>
-        i === index ? { ...investmentValues, [name]: value } : investmentValues
-      );
+    //   // Update the investments array in the state
+    //   const updatedInvestmentCases = values.investments.map((investmentValues, i) =>
+    //     i === index ? { ...investmentValues, [name]: value } : investmentValues
+    //   );
     
-      // Update the state with the new investments array
-      setValues((prevValues) => ({
+    //   // Update the state with the new investments array
+    //   setValues((prevValues) => ({
+    //     ...prevValues,
+    //     investments: updatedInvestmentCases,
+    //   }));
+    
+    //   // Update the investments in saveForms
+    //   saveForms((prevForms) =>
+    //     prevForms.map((form) =>
+    //       form.id === formInfo.id
+    //         ? {
+    //             ...form,
+    //             investments: updatedInvestmentCases, 
+    //           }
+    //         : form
+    //     )
+    //   );
+    // };
+    
+    const handleInvestmentCaseChange = (e:React.ChangeEvent<any>) => {
+      setInvestmentCaseValues({...investmentCaseValues, [e.target.name]:e.target.value});
+    }
+
+    const saveInvestmentCase = (e:React.ChangeEvent<any>) => {
+
+      let updatedInvestmentCases;
+
+      const investmentCaseToSave = {
+        ...investmentCaseValues,
+      };
+
+      if (currentInvestmentCaseIndex >= 0){
+        updatedInvestmentCases = [...values.investments];
+        updatedInvestmentCases[currentInvestmentCaseIndex] = investmentCaseToSave;
+      }
+      else {
+        updatedInvestmentCases = [...values.investments, investmentCaseValues];
+      }
+
+      setValues(prevValues => ({
         ...prevValues,
-        investments: updatedInvestmentCases,
+        investments: updatedInvestmentCases
       }));
-    
-      // Update the investments in saveForms
-      saveForms((prevForms) =>
-        prevForms.map((form) =>
-          form.id === formInfo.id
-            ? {
-                ...form,
-                investments: updatedInvestmentCases, 
-              }
-            : form
+
+      saveForms((prevForms):any => 
+        prevForms.map((form):any => 
+          form.id === formInfo.id?{
+            ...form,
+            investments: updatedInvestmentCases  
+          }:form
         )
       );
-    };
-    
+
+      setInvestmentCaseValues({    
+        type: '',
+        value: '',
+        taxStatus: '',
+      })
+
+      setCurrentInvestmentCaseIndex(-1);
+      closeInvestmentCase();
+    }
 
   {/* ------ This is for investments case after declaring the investment type -----*/}
 
@@ -536,7 +602,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   
   const handleInvestmentChange = (e:React.ChangeEvent<any>) => {
     setInvestment({...investment, [e.target.name]:e.target.value});
-    
   };
 
   // const addInvestment = (e:React.ChangeEvent<any>) => {
@@ -945,7 +1010,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         <div className='investment-container'>
           <h3>Investments</h3>
           <Button variant='primary' onClick={newInvestmentModal}>
-            + Add New Investment
+            + Add New Investment Types
           </Button>
           
           {values.investmentTypes.length > 0 ? (
@@ -960,7 +1025,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 ))}
             </div>
           ) : (
-            <p>No Events</p>
+            <p>No Investment Types</p>
           )}
           <Button variant='light' onClick={handleBack}>Back</Button>
           <Button variant='light' onClick={handleNext}>Next</Button> 
@@ -981,6 +1046,42 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         </div>
       )}
       {formStep === 3 && (
+        <div className='investment-values'>
+          <h3> Investments </h3>
+
+          <Button variant='primary' onClick={newInvestmentCase}>
+            + Add New Investment
+          </Button>
+
+          {values.investments.length > 0 ? (
+            <div className='investmentLists'>
+                {values.investments.map((investment, index) => (
+                  <Card key={index} className='investmentCards' onClick={() => editInvestmentCase(investment, index)}>
+                    <Card.Body>
+                      <Card.Title>{investment.type}</Card.Title>
+                      <Card.Text>${investment.value}, {investment.taxStatus}</Card.Text>
+                    </Card.Body>
+                  </Card>  
+                ))}
+            </div>
+          ) : (
+            <p>No Investment </p>
+          )}
+          <Button variant='light' onClick={handleBack}>Back</Button>
+          <Button variant='light' onClick={handleNext}>Next</Button> 
+          
+          <InvestmentCaseForm
+            investmentTypes={values.investmentTypes}
+            investment={investmentCaseValues}
+            showInvestmentCase={showInvestmentCase}
+            closeInvestmentCase={closeInvestmentCase}
+            handleInvestmentCaseChange={handleInvestmentCaseChange}
+            saveInvestmentCase={saveInvestmentCase}
+          />
+
+        </div>
+      )} 
+      {formStep === 4 && (
         <div className='events-container'>
           <h3>Events</h3>
           <Button variant='primary' onClick={addNewEvent}>
@@ -1004,7 +1105,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         </div>
       )}
 
-    {formStep === 4 && (
+    {formStep === 5 && (
         <div className='scenarioPart2-container'>
           <DistributionForm name={"inflationAssumption"} text={"Inflation Assumption:"} field={"inflationAssumption"} distribution={values.inflationAssumption} handleChange={handleMainDistributionChange}/>
 
