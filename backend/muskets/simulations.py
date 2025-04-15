@@ -29,9 +29,14 @@ def sample_from_distribution(assumption: dict) -> float:
             
     return res
 
-def update_bracket(bracket: dict, inflation_rate: float, marital_status: str) -> dict: 
+def update_bracket(bracket: dict, inflation_rate: float, marital_status: str, tax_category: str) -> dict: 
     res = {}
-    for bracket, percentage in bracket[marital_status]['income'].items():
+    if tax_category == 'deduction':
+        res = bracket[marital_status][tax_category]
+        res *= (1 + inflation_rate)
+        return res
+
+    for bracket, percentage in bracket[marital_status][tax_category].items():
         print(f"Type: {type(bracket)}, bracket: {bracket}")
         if bracket == 'inf': 
             res[bracket] = percentage
@@ -39,14 +44,20 @@ def update_bracket(bracket: dict, inflation_rate: float, marital_status: str) ->
         new_bracket = bracket * (1 + inflation_rate)
         res[new_bracket] = percentage
     return res
+
 def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
     """
     inflation_rate = sample_from_distribution(inflation_assumption)
     # Update the tax bracket
-    tax_obj.bracket['individual']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual')
-    tax_obj.bracket['couple']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple')
+    tax_obj.bracket['individual']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'income')
+    tax_obj.bracket['couple']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'income')
+    if isinstance(tax_obj, FederalTax):
+        tax_obj.bracket['individual']['deduction'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'deduction')
+        tax_obj.bracket['couple']['deduction'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'deduction')
+        tax_obj.bracket['individual']['cap_gains'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'cap_gains')
+        tax_obj.bracket['couple']['cap_gains'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'cap_gains')
 
     # Update event series
     for event in event_series:
@@ -118,7 +129,6 @@ def update_investments(asset_types: list[AssetType], investments: list[Investmen
         expense = avg_value * asset_type.expenseRatio
         ivmt.value -= expense
     return total_generated_income
-    # pass
 
 def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     """
@@ -233,6 +243,46 @@ def non_discresionary_expenses(event_series: list[EventSeries]) -> float:
             non_discresionary_expenses += event.data['initialAmount']
 
     return non_discresionary_expenses
+
+def discretionary_expenses(event_series: list[EventSeries], spending_strategy: list[str]) -> list[float]:
+    """
+    Calculate the discretionary expenses from the event series.
+    Args:
+        event_series (list[EventSeries]): List of event series.
+        spending_strategy (list[str]): List of spending strategies.
+    Returns:
+        list[float]: List of discretionary expenses sorted by the spending strategy.
+    """
+    discretionary_expenses = {}
+    
+    for event in event_series:
+        if event.type == 'expense' and 'discretionary' in event.data and event.data['discretionary']:
+            discretionary_expenses[event.name] = event.data['initialAmount']
+
+    return [discretionary_expenses[spending] for spending in spending_strategy if spending in discretionary_expenses]
+
+def make_investments(invest_event: EventSeries, investments: list[Investment]) -> float:
+    """
+    Calculate the total investment events from the event series.
+    """
+    cash = None
+    for investment in investments:
+        if investment.asset_type == 'cash':
+            cash = investment.value
+
+    if cash <= 0:
+        return 0.0
+
+    allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments}
+    tot_invested = 0
+    for investment in investments:
+        if investment.asset_type == 'cash':
+            continue
+
+        investment.value += cash * allocation[investment.investment_id]
+        tot_invested += cash * allocation[investment.investment_id]
+
+    return tot_invested
 
 def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
     return -1
