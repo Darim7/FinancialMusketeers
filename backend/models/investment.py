@@ -47,7 +47,7 @@ class Investment(Exportable):
     def __init__(
             self,
             investmentType: str,
-            value: str,
+            value: float,
             taxStatus: str,
             id: str
         ):
