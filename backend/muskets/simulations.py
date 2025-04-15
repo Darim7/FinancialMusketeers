@@ -6,6 +6,9 @@ from models.investment import Investment, AssetType
 from models.rmd import RMD
 from functools import reduce
 from collections import defaultdict
+from models.rmd import RMD
+from functools import reduce
+from collections import defaultdict
 
 def sample_from_distribution(assumption: dict) -> float:
     res = -1
@@ -125,6 +128,7 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
         rmd_obj (RMD): RMD object
         age (int): current age of user
         investments (list[Investment]): list of investments
+        investments (list[Investment]): list of investments
 
     Returns:
         float: RMD amount
@@ -173,7 +177,24 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
         ivmt.value = 0
     return rmd
 
-def fed_income_tax(tax_obj, income: float) -> float:
+def calculate_tax(income: float, bracket: dict) -> float:
+    res = 0
+
+    previous_bracket = 0
+    for brack, percentage in bracket['income'].items():
+        if brack == 'inf':
+            res += income * percentage
+            break
+        if income > brack:
+            res += (brack - previous_bracket) * percentage
+            income -= brack
+        else:
+            res += (income - previous_bracket) * percentage
+            break
+        previous_bracket = brack
+    
+    return res
+def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:    
     """
     Calculate the federal income tax based on the given income and filing status.
 
@@ -184,9 +205,12 @@ def fed_income_tax(tax_obj, income: float) -> float:
     Returns:
         float: The calculated federal income tax.
     """
-    return -1
+    bracket = tax_obj.bracket[status]['income']
+    income = income - bracket['deduction']
 
-def state_income_tax(income: int, status: str) -> float:
+    return calculate_tax(income, bracket)
+
+def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
     """
     Calculate the state income tax based on the given income and filing status.
     Args:
@@ -195,7 +219,20 @@ def state_income_tax(income: int, status: str) -> float:
     Returns:
         float: The calculated state income tax.
     """
-    return -1
+    bracket = tax_obj.bracket[status]
+    return calculate_tax(income, bracket)
+
+def non_discresionary_expenses(event_series: list[EventSeries]) -> float:
+    """
+    Calculate the non-discretionary expenses from the event series.
+    """
+    non_discresionary_expenses = 0
+    
+    for event in event_series:
+        if event.type == 'expense' and 'discretionary' in event.data and not event.data['discretionary']:
+            non_discresionary_expenses += event.data['initialAmount']
+
+    return non_discresionary_expenses
 
 def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
     return -1
@@ -207,3 +244,6 @@ def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
 Compute and store the inflation-adjusted annual limits on retirement account contributions, in a
 similar way.
 """
+
+if __name__ == "__main__":
+    #
