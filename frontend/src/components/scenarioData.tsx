@@ -103,6 +103,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     investmentType: '',
     value: '',
     taxStatus: '',
+    id: '',
   })
 
   console.log("user email", values.user_email);
@@ -417,9 +418,11 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     const saveInvestmentCase = (e:React.ChangeEvent<any>) => {
 
       let updatedInvestmentCases;
+      const newId = `${investmentCaseValues.investmentType} ${investmentCaseValues.taxStatus}`;
 
       const investmentCaseToSave = {
         ...investmentCaseValues,
+        id: newId,
       };
 
       if (currentInvestmentCaseIndex >= 0){
