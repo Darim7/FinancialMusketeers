@@ -91,7 +91,7 @@ def add_scenario():
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
     except Exception as e:
-        app.logger.error(f"Error adding scenario: {e}")
+        app.logger.error(f"Error adding scenario: {e}, type: {type(e)}")
         return jsonify({"error": "Failed to add scenario"}), 500
 
 @app.route('/api/update_scenario', methods=['POST'])
