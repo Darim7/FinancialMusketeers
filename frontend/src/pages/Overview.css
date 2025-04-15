@@ -1,0 +1,3 @@
+#overviewDiv {
+    display: flex; /* Use flexbox to arrange NavBar and content */
+}

@@ -6,7 +6,7 @@ import DistributionForm from './DistributionForm';
 
  {/* Investment Modal */}
   
- function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}:any) {
+ function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, values,handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}:any) {
 
     return (
         <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
@@ -20,8 +20,8 @@ import DistributionForm from './DistributionForm';
                 <label htmlFor = "investment-name">Investment Name: </label>
                     <input
                     type = "text"
-                    name = "investmentName"
-                    value={investment.investmentName}
+                    name = "name"
+                    value={investment.name}
                     onChange={handleInvestmentChange}
                     />
 
@@ -72,63 +72,19 @@ import DistributionForm from './DistributionForm';
                 <input
                 type = "radio"
                 id = "Taxable"
-                value = "Taxable"
+                value = "True"
                 name = "taxability"
-                checked={investment.taxability === "Taxable"}
+                checked={investment.taxability === "True"}
                 onChange={handleInvestmentChange}
                 /> Taxable
                 <input 
                 type ="radio"
                 id = "Tax-Exempt"
                 name=  "taxability"     
-                value = "Tax-Exempt"
-                checked={investment.taxability === "Tax-Exempt"}
+                value = "False"
+                checked={investment.taxability === "False"}
                 onChange={handleInvestmentChange}
                 /> Tax-Exempt
-
-            {/*------------ Ask user the amount of their investment, and whether it is tax-exempt or not ---------*/}
-                <Button onClick={addInvestmentCase}>Set Investment</Button>
-
-                {investment.investmentCases.map((investmentCase:any, index:number) => (
-                    <div key={investmentCase.id}>
-
-                        <label htmlFor="value">Value: </label>
-                        <input
-                        type="text"
-                        name="value"
-                        value={investmentCase.value ||''}
-                        onChange={(e) => handleInvestmentCaseChange(index, e)}
-                        />
-
-                        <label htmlFor="tax-status"> Tax Status:</label>
-                            <input
-                                type="radio"
-                                id = "non-retirement"
-                                name = "taxStatus"
-                                value="non-retirement"
-                                checked={investmentCase.taxStatus === "non-retirement"}
-                                onChange={(e) => handleInvestmentCaseChange(index, e)}/> Non-Retirement
-
-                            <input 
-                                type ="radio"
-                                id = "pre-tax"
-                                name = "taxStatus"
-                                value="pre-tax"
-                                checked={investmentCase.taxStatus === "pre-tax"}
-                                onChange={(e) => handleInvestmentCaseChange(index, e)} /> Pre-Tax
-                            
-                            
-                            <input 
-                                type ="radio"
-                                id = "after-tax"
-                                name = "taxStatus"
-                                value="after-tax"
-                                checked={investmentCase.taxStatus === "after-tax"}
-                                onChange={(e) => handleInvestmentCaseChange(index, e)} /> After-Tax
-
-                    </div>
-                ))}
-
             </div>
             </Modal.Body>
             <Modal.Footer>

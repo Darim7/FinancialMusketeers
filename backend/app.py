@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.getLogger('models.scenario').setLevel(logging.DEBUG)
 
 @app.route('/api/test')
 def test():
@@ -56,13 +57,26 @@ def add_scenario():
     
     try:
         data = request.get_json()
+        app.logger.info(f'What THE FUCK IS DATA: {data}')
 
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
+
+        
+        app.logger.info("HELLLO")
         
         # Grab User info
         user_email = data['user_email']
         user_name = data['user_name'] 
+        
+        # if isinstance(data, list):
+        #     for form in data:
+        #         user_email = form['user_email']
+        #         user_name = form['user_name'] 
+             
+        app.logger.info("User_email: %s", user_email)
+        app.logger.info("User_name: %s", user_name)
+
 
         # Create objects
         user = User(user_name, user_email)
@@ -71,10 +85,11 @@ def add_scenario():
         
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
+
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
     except Exception as e:
-        app.logger.error(f"Error adding scenario: {e}")
+        app.logger.error(f"Error adding scenario: {e}, type: {type(e)}")
         return jsonify({"error": "Failed to add scenario"}), 500
 
 @app.route('/api/update_scenario', methods=['POST'])
@@ -135,11 +150,14 @@ def export_scenario():
     try:
         # Get the scenario object from the get request
         data = request.get_json()
+        app.logger.info(f'Exporting scenario: {data}')
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
 
         # Create objects
         scenario = Scenario.from_dict(data['scenario'])
+        app.logger.info(f'Exporting scenario: {scenario}')
+      
         fname = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.yaml"
         scenario.export_yaml(fname)
         
@@ -147,6 +165,8 @@ def export_scenario():
 
     except Exception as e:
         app.logger.error(f"Error adding scenario: {e}")
+    
+
         return jsonify({"error": "Failed to add scenario"}), 500
 
 # PT: Can you help me on implementing this? I am going to receive the yaml file?
