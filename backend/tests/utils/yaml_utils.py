@@ -5,7 +5,7 @@ import yaml
 from models.scenario import Scenario
 from models.investment import AssetType, Investment
 from models.event_series import EventSeries
-from utils.compare_utils import compare_dict, compare_str_list
+from tests.utils.compare_utils import compare_dict, compare_str_list
 from typing import Dict, List
 
 # with open('imports/sample.yaml', 'r') as file: 
@@ -105,14 +105,14 @@ class ScenarioYamlUtils:
         
     # Compare individual investment types
     def compare_investment_type(self, ivmt_type: Dict, asset_type:AssetType):
-        return ivmt_type['name']==asset_type.get_name() and \
-            ivmt_type['description']==asset_type.get_description() and \
-            ivmt_type['returnAmtOrPct']==asset_type.get_return_amt_or_pct() and \
-            ivmt_type['returnDistribution']==asset_type.get_return_distribution() and \
-            ivmt_type['expenseRatio']==asset_type.get_expense_ratio() and \
-            ivmt_type['incomeAmtOrPct']==asset_type.get_income_amt_or_pct() and \
-            ivmt_type['incomeDistribution']==asset_type.get_income_distribution() and \
-            ivmt_type['taxability']==asset_type.get_taxable() 
+        return ivmt_type['name']==asset_type.name and \
+            ivmt_type['description']==asset_type.description and \
+            ivmt_type['returnAmtOrPct']==asset_type.returnAmtOrPct and \
+            ivmt_type['returnDistribution']==asset_type.returnDistribution and \
+            ivmt_type['expenseRatio']==asset_type.expenseRatio and \
+            ivmt_type['incomeAmtOrPct']==asset_type.incomeAmtOrPct and \
+            ivmt_type['incomeDistribution']==asset_type.incomeDistribution and \
+            ivmt_type['taxability']==asset_type.taxability
             
     # Compare a list of investment types
     def compare_investment_types(self, scenario:Scenario):
@@ -127,11 +127,11 @@ class ScenarioYamlUtils:
 
     # Compare individual investment
     def compare_investment(self, investment:Dict, scenario_ivmt:Investment):
-        asset_type=scenario_ivmt.get_asset_type()
+        asset_type=scenario_ivmt.asset_type
         return investment['investmentType']==asset_type and \
-            investment['value']==scenario_ivmt.get_value() and \
-            investment['taxStatus']==scenario_ivmt.get_tax_status() and \
-            investment['id']==scenario_ivmt.get_investment_id()
+            investment['value']==scenario_ivmt.value and \
+            investment['taxStatus']==scenario_ivmt.tax_status and \
+            investment['id']==scenario_ivmt.investment_id
     
     def compare_investments(self, scenario:Scenario):
         scenario_ivmts=scenario.get_investments()

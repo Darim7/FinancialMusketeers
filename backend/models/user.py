@@ -1,15 +1,16 @@
+from models.scenario import Scenario
 from typing import Self, List
 from bson import ObjectId
 
 from models.scenario import Scenario
 from models.exportable import Exportable
-from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document
+from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document, update_document
 
 class User(Exportable):
-    def __init__(self, name: str, email:str, scenarios: List[ObjectId]=[]):
+    def __init__(self, name: str, email:str, scenarios: List[ObjectId]=None):
         self.name=name
         self.email=email
-        self.scenarios=scenarios
+        self.scenarios=scenarios if scenarios else []
 
         # Check if the user already exists in the database
         if document_exists(USER_COLLECTION, {'email': email}):
@@ -36,11 +37,14 @@ class User(Exportable):
 
     # Utilities to Add & Remove from DB
     def save_to_db(self) -> ObjectId:
+        # import app
         self.savedId = insert_document(USER_COLLECTION, self.to_dict())
+        # app.logger.info(f"User Init: {self.name} | {self.email} | ID: {self.savedId}")
         return self.savedId
     
-    # def remove(self):
-    #     pass
+    def update_to_db(self) -> bool:
+        res = update_document(USER_COLLECTION, self.savedId, self.to_dict())
+        return res.modified_count > 0
     
     # Utilities to update User information
     def update_name(self, name:str) -> str:
@@ -50,14 +54,20 @@ class User(Exportable):
     def add_scenario(self, scenario: Scenario) -> None:
         scenario_id = scenario.save_to_db()
         self.scenarios.append(scenario_id)
+        self.update_to_db()
         return
     
     def delete_scenario(self, scenario_id: ObjectId | str) -> bool:
         if scenario_id not in self.scenarios:
             return False
-        
-        if delete_document(SCENARIO_COLLECTION, scenario_id).deleted_count > 0:
-            return True
+        # Remove the scenario from the user's list of scenarios
+        self.scenarios.remove(scenario_id)
+        if self.update_to_db() > 0:
+            # Delete the scenario from the user collections
+            scenario_id = ObjectId(scenario_id) if isinstance(scenario_id, str) else scenario_id
+            # Delete the scenario from the database
+            if delete_document(SCENARIO_COLLECTION, scenario_id).deleted_count > 0:
+                return True
         else:
             return False
     

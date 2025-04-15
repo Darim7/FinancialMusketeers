@@ -1,7 +1,10 @@
-from typing import List, Dict, Self, Union
+from typing import List, Dict, Self, Union, Optional
 from bson import ObjectId
 from datetime import date
 import yaml
+import logging
+
+logger = logging.getLogger(__name__)
 
 from models.exportable import Exportable
 from models.investment import Investment, AssetType
@@ -16,7 +19,7 @@ class Scenario(Exportable):
             self,
             name: str,
             marital_status: str,  # "couple" or "individual"
-            birth_years: List[int],
+            birth_years: List[int], # what if put birthyear into here? 
             life_expectancy: List[Dict],
             investment_types: List[AssetType],
             investments: List[Investment],
@@ -32,7 +35,7 @@ class Scenario(Exportable):
             roth_conversion_strategy: List[str],
             financial_goal: int,
             residence_state: str,
-            shared: List = []
+            shared: List = [],
         ):
 
         # Name
@@ -43,6 +46,10 @@ class Scenario(Exportable):
 
         # Birth Years
         self._birth_years = birth_years
+        # self._birth_years.append(int(birth_year1))
+        # Convert birth_years from a string to a list of integers
+        # self._birth_years = list(map(int, birth_years.split(','))) if isinstance(birth_years, str) else birth_years
+        # print("what is self.birth_years", self._birth_years)    
         self.birth_yr = birth_years[0]
         self.spouse_birth_yr = birth_years[1] if marital_status == 'couple' else -1
 
@@ -188,6 +195,7 @@ class Scenario(Exportable):
         # if hasattr(self, 'pretax_ann_contribution'):
         #     base["pretaxContributionLimit"] = self.pretax_ann_contribution
 
+
         return base
     
     def save_to_db(self) -> ObjectId:
@@ -218,6 +226,9 @@ class Scenario(Exportable):
     @classmethod
     def from_dict(cls, data: Dict) -> Self:
         """Factory method for creating from dictionary"""
+        logger.info("what is Roth Conversion Start : %s",data['RothConversionStart'])
+        logger.info("what is Roth Conversion End : %s",data['RothConversionEnd'])
+
         return cls(
             name=data['name'],
             marital_status=data['maritalStatus'],

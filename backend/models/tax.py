@@ -1,48 +1,21 @@
 from typing import Dict
-class Tax:
-    def __init__(self, file_status:str):
-        pass
-class FederalTax(Tax): 
-    def __init__(self, file_status:str):
-        super().__init__(file_status)
-        self.bracket=self.get_bracket()
-    def get_bracket(self):
-        pass
-    
-    def calculate_rate(self, income:int):
-        pass
-    
-    def calculate_income_tax(self, deduct_income:int)->int:
-        pass
-    
-    def calculate_cap_gain_tax(self, deduct_income:int)->int:
-        pass
-    
-    def calculate_deduction(self, income:int)->int:
-        pass
-    
-    def calculate_withdrawal_tax(self, withdrawal:int)->int:
-        pass
+import os
+import yaml
 
-class StateTax(Tax):
-    def __init__(self, file_status:str):
-        super().__init__(file_status)
-        self.bracket=self.get_bracket()
-    def get_bracket(self):
-        pass
+from muskets.tax_scraper import read_tax_to_dict
+
+class FederalTax: 
+    def __init__(self):
+        """
+        file_status: str
+            The filing status 'couple' or 'individual'
+        """
+        # self.status = file_status
+        self.bracket=read_tax_to_dict('federal')
+        # self.bracket=self.bracket
     
-    def calculate_rate(self, income:int):
-        pass
-    
-    def calculate_income_tax(self, deduct_income:int)->int:
-        pass
-    
-    def calculate_cap_gain_tax(self, deduct_income:int)->int:
-        pass
-    
-    def calculate_deduction(self, income:int)->int:
-        pass
-    
-    def calculate_withdrawal_tax(self, withdrawal:int)->int:
-        pass
-    
+class StateTax:
+    def __init__(self, state:str):
+        # self.status = file_status
+        self.bracket=read_tax_to_dict(state)
+

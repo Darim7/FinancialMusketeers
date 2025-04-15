@@ -1,16 +1,17 @@
-import { useState } from "react";
-
 /******************** Distribution Form ***********************************/
-const DistributionForm = ({ name, distributions, distributionValues, handleDistributionChange, index }) => {
-    return (
+const DistributionForm = ({name, text, field, distribution, handleChange}:any) => {
+
+  // console.log(distribution); // Debugging log
+
+  return (
       <>
       <div>
-         <label htmlFor='distribution-form'>{name}</label>
+         <label htmlFor={name}>{text}</label>
           <select 
-            name='distribution-form' 
-            id='distribution-form'
-            value={distributions[index].type}
-            onChange={(e) => handleDistributionChange(e, index)}
+            name={"type"} 
+            id={name}
+            value={distribution.type}
+            onChange={(e) => handleChange(e, field)}
           >
             <option disabled value=""> -- select an option -- </option>
             <option value="fixed">fixed</option>
@@ -18,48 +19,46 @@ const DistributionForm = ({ name, distributions, distributionValues, handleDistr
             <option value="uniform">uniform</option>
           </select>
       </div>
-      {/* {console.log(distributions)}
-      {console.log(distributions[index])} */}
-      { distributions[index].type == 'fixed' && (
+      { distribution.type === 'fixed' && (
         <div className='fixed-disribution'>
         <input 
-          type='number' 
+          type='text' 
           name='value'
-          value={distributions[index].values.value} 
+          value={distribution.value} 
           placeholder='Enter the fixed value'
-          onChange={(e) => handleDistributionChange(e, index)}
+          onChange={(e) => handleChange(e, field)}
          />
         </div>  
       )}
-      { distributions[index].type == 'normal' && (
+      { distribution.type === 'normal' && (
         <div className='normal-distribution'>
-           <input type='number'
+           <input type='text'
            name='mean' 
-           value={distributions[index].values.mean} 
+           value={distribution.mean} 
            placeholder='Enter the mean'  
-           onChange={(e) => handleDistributionChange(e, index)}/>
+           onChange={(e) => handleChange(e, field)}/>
            <input 
-          type='number' 
+          type='text' 
           name='std' 
-          value={distributions[index].values.std} 
+          value={distribution.std} 
           placeholder='Enter the standard deviation' 
-          onChange={(e) => handleDistributionChange(e, index)}/>
+          onChange={(e) => handleChange(e, field)}/>
         </div>
       )}
-      {distributions[index].type == 'uniform' && (
+      {distribution.type === 'uniform' && (
       <div className='uniform-distribution'>
          <input 
-          type='number'
+          type='text'
           name='lower'
-          value={distributions[index].values.lower} 
+          value={distribution.lower} 
           placeholder='Enter the lower value' 
-          onChange={(e) => handleDistributionChange(e, index)}/>
+          onChange={(e) => handleChange(e, field)}/>
          <input 
-          type='number' 
+          type='text' 
           name='upper' 
-          value={distributions[index].values.upper} 
+          value={distribution.upper} 
           placeholder='Enter the upper value' 
-          onChange={(e) => handleDistributionChange(e, index)}/>
+          onChange={(e) => handleChange(e, field)}/>
       </div>
       )}   
       </> 
