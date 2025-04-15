@@ -85,51 +85,6 @@ import DistributionForm from './DistributionForm';
                 checked={investment.taxability === "False"}
                 onChange={handleInvestmentChange}
                 /> Tax-Exempt
-
-            {/*------------ Ask user the amount of their investment, and whether it is tax-exempt or not ---------*/}
-                <Button onClick={addInvestmentCase}>Set Investment</Button>
-
-                {values.investments.map((investments:any, index:number) => (
-                    <div key={investments.formid}>
-                        <label htmlFor="value">Value: </label>
-                        <input
-                        type="number"
-                        min="0"
-                        name="value"
-                        value={investments.value ||''}
-                        onChange={(e) => handleInvestmentCaseChange(index, e)}
-                        />
-
-                        <label htmlFor="tax-status"> Tax Status:</label>
-                            <input
-                                type="radio"
-                                id = "non-retirement"
-                                name = "taxStatus"
-                                value="non-retirement"
-                                checked={investments.taxStatus === "non-retirement"}
-                                onChange={(e) => handleInvestmentCaseChange(index, e)}/> Non-Retirement
-
-                            <input 
-                                type ="radio"
-                                id = "pre-tax"
-                                name = "taxStatus"
-                                value="pre-tax"
-                                checked={investments.taxStatus === "pre-tax"}
-                                onChange={(e) => handleInvestmentCaseChange(index, e)} /> Pre-Tax
-                            
-                            
-                            <input 
-                                type ="radio"
-                                id = "after-tax"
-                                name = "taxStatus"
-                                value="after-tax"
-                                checked={investments.taxStatus === "after-tax"}
-                                onChange={(e) => handleInvestmentCaseChange(index, e)} /> After-Tax
-
-                    </div>
-                   
-                ))}
-
             </div>
             </Modal.Body>
             <Modal.Footer>
