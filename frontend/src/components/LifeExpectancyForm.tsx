@@ -8,11 +8,10 @@ const LifeExpectancyForm = ({text, distribution, handleChange, index}:any) => {
         <>
         <div>
             <Form.Label>{text}</Form.Label>
-            <Form.Select name={'type'} value={distribution.type} onChange={(e) => handleChange(e, index)}>
-                <option>Select a distribution</option>
+            <Form.Select name={'type'} value={distribution.type || ""} onChange={(e) => handleChange(e, index)}>
+                <option value="" disabled>Select a distribution</option>
                 <option value="fixed">fixed</option>
                 <option value="normal">normal</option>
-                <option value="uniform">uniform</option>
             </Form.Select>
             { distribution.type === 'fixed' && (
                 <div className='fixed-disribution'>
@@ -43,26 +42,6 @@ const LifeExpectancyForm = ({text, distribution, handleChange, index}:any) => {
                     />
                 </div>
             )}
-            {distribution.type === 'uniform' && (
-                <div className='uniform-distribution'>
-
-                    <Form.Control
-                        type='number'
-                        name='lower'
-                        value={distribution.lower}
-                        placeholder='Enter the lower value'
-                        onChange={(e) => handleChange(e,index)}
-                    />
-
-                    <Form.Control
-                        type='number'
-                        name='upper'
-                        value={distribution.upper}
-                        placeholder='Enter the upper value'
-                        onChange={(e) => handleChange(e,index)}
-                    />
-                </div>
-            )}   
         </div>
         </> 
       );  

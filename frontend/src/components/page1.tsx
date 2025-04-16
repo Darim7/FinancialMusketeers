@@ -35,16 +35,6 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
         ))}
       </select> 
       
-        
-      <label htmlFor="retirement-age">Retirement Age:</label>
-      <input
-        type="number"
-        min="0"
-        name="retirementAge"
-        value={values.retirementAge || ''}
-        onChange={(e) => handleChanges(e, index)}
-      />
-
       <label htmlFor="financial-goal">Financial Goal:</label>
       <input
         type="number"

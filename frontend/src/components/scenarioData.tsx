@@ -24,7 +24,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     user_email: '',
     scenarioName : '',
     residenceState: '',
-    retirementAge : '',
     financialGoal: '',
     lifeExpectancy: [{type:""}, {type: ""}] as any[],
     maritalStatus: '',
@@ -32,8 +31,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     birthYears: [0, 0] as number[], 
     birthYear1: '',
     birthYear2: '',
-    distributionForm1: '',
-    distributionForm2: '',
     inflationAssumption: {type:""},
     afterTaxContributionLimit: '',
     spendingStrategy: [] as any,
@@ -59,15 +56,12 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       user_email: userEmail || formInfo.email || '',
       scenarioName: formInfo.scenarioName || '',
       residenceState: formInfo.residenceState || '',
-      retirementAge: formInfo.retirementAge || '',
       financialGoal: formInfo.financialGoal || '',
       lifeExpectancy: formInfo.lifeExpectancy || [{type:""}, {type:""}],
       maritalStatus: formInfo.maritalStatus || '',
       birthYears: formInfo.birthYears || [],
       birthYear1: formInfo.birthYear1 || '',
       birthYear2: formInfo.birthYear2 || '',
-      distributionForm1: formInfo.distributionForm1 || '',
-      distributionForm2: formInfo.distributionForm2 || '',
       inflationAssumption: formInfo.inflationAssumption || {type:""},
       afterTaxContributionLimit: formInfo.afterTaxContributionLimit || '',
       spendingStrategy: formInfo.spendingStrategy || [],
@@ -208,12 +202,20 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   //   );
   
   // };
-  const handleAnswerChange = (question: string, value: any) => {
+  const handleAnswerChange = (e:React.ChangeEvent<any>,question: string, value: any) => {
     console.log(`Handle Answer Change: \n Question: ${question}, Value: ${value}`)
+    const {name, type} = e.target;
     // Update local state
+
+    let parsedValue = value;
+
+    if (type === "number") {
+      parsedValue = Number(value);
+    }
+
     setAnswers((prev) => ({
       ...prev,
-      [question]: value,
+      [question]: parsedValue,
     }));
   
     // Update saved forms
@@ -223,7 +225,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           ? {
               ...form,
               // Prevent updating 'name' unless 'question' is 'scenarioName'
-              [question]: question === 'scenarioName' ? value : form[question],
+              [question]: question === 'scenarioName' ? parsedValue : form[question],
             }
           : form
       )
@@ -266,7 +268,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     const { name, value } = e.target;
 
     const parsedValue =
-      name === 'RothConversionStart' || name === 'RothConversionEnd'
+      name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal'
         ? Number(value)
         : value;
   
@@ -299,7 +301,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                   updated[birthYearIndex || 0] = Number(value);
                   return updated;
                 })(),
-                [name]: value,
+                [name]: parsedValue,
                 name: name === 'scenarioName' ? value : form.name,
               }
             : form
@@ -309,7 +311,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       
       setValues((prevValues) => ({
         ...prevValues,
-        [name]: value,
+        [name]: parsedValue,
       }));
   
       saveForms((prevForms: any) =>
@@ -317,7 +319,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           form.id === formInfo.id
             ? {
                 ...form,
-                [name]: value,
+                [name]: parsedValue,
                 name: name === 'scenarioName' ? value : form.name,
               }
             : form
@@ -426,7 +428,16 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     // };
     
     const handleInvestmentCaseChange = (e:React.ChangeEvent<any>) => {
-      setInvestmentCaseValues({...investmentCaseValues, [e.target.name]:e.target.value});
+
+      const {name, value, type} = e.target;
+
+      let parsedValue = value;
+
+      if (type==="number"){
+        parsedValue = Number(value);
+      }
+
+      setInvestmentCaseValues({...investmentCaseValues, [e.target.name]:parsedValue});
     }
 
     const saveInvestmentCase = (e:React.ChangeEvent<any>) => {
@@ -888,7 +899,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       ? { type: value }
       : {
           ...values[field],
-          [name]: value,
+          [name]: Number(value),
         };
   
     // Update local state
@@ -943,7 +954,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       } else {
         updatedValue = {
           ...prev[field],
-          [name]: value,
+          [name]: Number(value),
           }
       };
         return { ...prev, [field]: updatedValue };
@@ -976,7 +987,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       ? { type: value }
       : {
           ...answers[field],
-          [name]: value,
+          [name]: Number(value),
         };
   
     // Update answers state

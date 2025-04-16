@@ -84,7 +84,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                 name={question}
                                                 value="true"
                                                 checked={answers[name] === "true"}
-                                                onChange={(e) => handleAnswerChange(name, e.target.value)}
+                                                onChange={(e) => handleAnswerChange(e, name, e.target.value)}
                                             /> True
                                         </label>
 
@@ -94,7 +94,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                 name={question}
                                                 value="false"
                                                 checked={answers[name] === "false"}
-                                                onChange={(e) => handleAnswerChange(name, e.target.value)}
+                                                onChange={(e) => handleAnswerChange(e, name, e.target.value)}
                                             /> False
                                         </label>
                                     </div>
@@ -105,7 +105,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                         <select 
                                             name={question}
                                             value={answers[name] || ""}
-                                            onChange={(e) => handleAnswerChange(name, e.target.value)}
+                                            onChange={(e) => handleAnswerChange(e, name, e.target.value)}
                                             >
                                             <option disabled value=""> -- select an option -- </option>
                                             <option value="amount">amount</option>
@@ -120,7 +120,7 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                         type={type}
                                         name={question}
                                         value={answers[name] || ""}
-                                        onChange={(e) => handleAnswerChange(name, e.target.value)}
+                                        onChange={(e) => handleAnswerChange(e, name, e.target.value)}
                                     />
                                 ) : null}
                                 {/* Handle distribution questions */}
