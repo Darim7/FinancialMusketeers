@@ -6,9 +6,6 @@ from models.investment import Investment, AssetType
 from models.rmd import RMD
 from functools import reduce
 from collections import defaultdict
-from models.rmd import RMD
-from functools import reduce
-from collections import defaultdict
 
 def sample_from_distribution(assumption: dict) -> float:
     res = -1
