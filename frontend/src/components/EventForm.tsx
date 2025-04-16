@@ -46,16 +46,18 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                                     </label>
                                                     <input
                                                         type = "number"
-                                                        value = {answers[question]?.[innerField.name] || ""}
+                                                        value = {answers[question]?.[innerField.id] || ""}
                                                         onChange={(e) =>{
-                                                            console.log(`Field Target Value: ${e.target.value}, answers[question]: ${answers[question]}, innerfield.name: ${innerField.name}`)
+                                                            console.log(`Field Target Value: ${e.target.value}, answers[question]: ${answers[question]}, innerfield.name: ${innerField.id}`)
                                                             console.log("Answers: ", answers)
                                                             console.log("Answer Question: ", answers[question])
                                                             console.log("TEST:", answers['assetAllocation'])
                                                             console.log(`Answer Name: ${name}, Question: ${question}`)
                                                             handleAnswerChange(question, {
-                                                                // ...answers[question],
-                                                                [innerField.name]: e.target.value, //Ask Copilot how to save the value under the investment name
+                                                                ...answers[question],
+                                                                // [innerField.name]: e.target.value, //Ask Copilot how to save the value under the investment name
+                                                                [innerField.id]: e.target.value, //Ask Copilot how to save the value under the investment name
+
                                                                
                                                             })
                                                         }

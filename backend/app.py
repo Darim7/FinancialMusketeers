@@ -5,6 +5,7 @@ import os
 import logging
 from datetime import datetime
 import yaml
+import traceback
 
 from models.user import User
 from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
@@ -92,6 +93,7 @@ def add_scenario():
 
     except Exception as e:
         app.logger.error(f"Error adding scenario: {e}, type: {type(e)}")
+        traceback.print_exc()
         return jsonify({"error": "Failed to add scenario"}), 500
 
 @app.route('/api/update_scenario', methods=['POST'])
