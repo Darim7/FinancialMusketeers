@@ -25,7 +25,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     residenceState: '',
     retirementAge : '',
     financialGoal: '',
-    lifeExpectancy: {type:""},
+    lifeExpectancy: [{type:""}],
     lifeExpectancySpouse: {type:""},
     maritalStatus: '',
     birthYears: ['', ''] as string[], 
@@ -150,7 +150,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
-      { question: "Asset Allocation: ", type: "object", name: "assetAllocation", fields:[values.AssetAllocation] },
+      { question: "Asset Allocation:", type: "object", name: "assetAllocation", fields:[values.AssetAllocation] },
     ],
   };
 
