@@ -12,6 +12,7 @@ import Page1 from './page1';
 import EventForm from './EventForm';
 import InvestmentForm from './InvestmentForm';
 import InvestmentCaseForm from './InvestmentCaseForm';
+import LifeExpectancyForm from './LifeExpectancyForm';
 
 function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
@@ -25,8 +26,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     residenceState: '',
     retirementAge : '',
     financialGoal: '',
-    lifeExpectancy: {type:""},
-    lifeExpectancySpouse: {type:""},
+    lifeExpectancy: [{type:""}, {type: ""}] as any[],
     maritalStatus: '',
     // birthYears: ['', ''] as string[], 
     birthYears: [0, 0] as number[], 
@@ -61,11 +61,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       residenceState: formInfo.residenceState || '',
       retirementAge: formInfo.retirementAge || '',
       financialGoal: formInfo.financialGoal || '',
-      lifeExpectancy: formInfo.lifeExpectancy || {type:""},
-      // lifeExpectancy: Array.isArray(formInfo.lifeExpectancy)
-      // ? formInfo.lifeExpectancy
-      // : [formInfo.lifeExpectancy || { type: "" }],
-      lifeExpectancySpouse: formInfo.lifeExpectancy || {type:""},
+      lifeExpectancy: formInfo.lifeExpectancy || [{type:""}, {type:""}],
       maritalStatus: formInfo.maritalStatus || '',
       birthYears: formInfo.birthYears || [],
       birthYear1: formInfo.birthYear1 || '',
@@ -109,6 +105,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     investmentType: '',
     value: '',
     taxStatus: '',
+    id: '',
   })
 
   console.log("user email", values.user_email);
@@ -909,36 +906,29 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       )
     );
   };
-//   const handleMainDistributionChange = (
-//   e: React.ChangeEvent<HTMLInputElement>,
-//   field: string,
-//   index: number
-// ) => {
-//   const { name, value } = e.target;
-//   console.log(name, value); // Debugging log
 
-//   // Create a new array with the updated item at the specified index
-//   const updatedArray = values[field].map((item: any, i: number) =>
-//     i === index
-//       ? { ...item, [name]: value }
-//       : item
-//   );
+  const handleLifeExpectancyChange = (e:React.ChangeEvent<any>, index: number) => {
+    const {name, value} = e.target;
 
-//   // Update local state
-//   setValues(prev => ({
-//     ...prev,
-//     [field]: updatedArray,
-//   }));
+    console.log(name, value);
 
-//   // Update saved forms
-//   saveForms(prevForms =>
-//     prevForms.map(form =>
-//       form.id === formInfo.id
-//         ? { ...form, [field]: updatedArray }
-//         : form
-//     )
-//   );
-// };
+    //user is selecting a new type
+    setValues(prev => {
+      const updatedLifeExpectancy = [...prev.lifeExpectancy];
+      if (!updatedLifeExpectancy[index]) {
+        updatedLifeExpectancy[index] = { type: '' }; // Initialize if it doesn't exist
+      }
+      if (name === 'type') {
+        updatedLifeExpectancy[index] = { type: value }; // Clear other fields when type changes
+      } else {
+        updatedLifeExpectancy[index] = {
+          ...updatedLifeExpectancy[index],
+          [name]: parseInt(value), // Handle empty input
+        };
+      }
+      return { ...prev, lifeExpectancy: updatedLifeExpectancy };
+    })
+  }
 
   
 
@@ -1157,11 +1147,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       RothConversionStrategy: conversionItems
     }));
   }
-
+  {console.log(values.lifeExpectancy[0])}
   return (
     <div className="create-scenario"> 
       <h1>Scenario</h1> 
-
       <form>
 
       {formStep === 1 && (
@@ -1169,10 +1158,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         <Page1 values={values} setValues={setValues} states={states} handleChanges={handleChanges} index={0} />
      
        {/* TODO: Life Expectancy is optional, if user no input, default is 80 */}
-       <DistributionForm name={'lifeExpectancy'} field={'lifeExpectancy'} text="Life Expectancy:" distribution={values.lifeExpectancy} handleChange={handleMainDistributionChange} />
-        
+       {/* <DistributionForm name={'lifeExpectancy'} field={'lifeExpectancy'} text="Life Expectancy:" distribution={values.lifeExpectancy[0]} handleChange={handleLifeExpectancyChange} index={0} /> */}
+       <LifeExpectancyForm text={"Life Expectancy:"} distribution={values.lifeExpectancy[0]} handleChange={handleLifeExpectancyChange} index={0}/>
        {values.maritalStatus === "couple" ? (
-        <DistributionForm name={'lifeExpectancySpouse'} field={'lifeExpectancySpouse'} text="Life Expectancy of Spouse:" distribution={values.lifeExpectancySpouse} handleChange={handleMainDistributionChange} />
+        <LifeExpectancyForm text={"Life Expectancy of Spouse: "} distribution={values.lifeExpectancy[1]} handleChange={handleLifeExpectancyChange} index={1} />
        ): null}
 
        <Button variant='light' onClick={handleNext}>Next</Button>

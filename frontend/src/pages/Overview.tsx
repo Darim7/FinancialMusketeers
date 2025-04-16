@@ -19,16 +19,40 @@ Chart.register(CategoryScale);
 const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
 const testScenarios = {
-  scenario1: {name:"test1"},
-  scenario2: {name:"test2"},
-  scenario3: {name:"test3"},
+  scenario1:{ name:"test1", 
+              years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033"], 
+              probability: [100,100,100, 95, 93, 90, 85, 93, 95],
+              totalInvestments: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+              totalIncome: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+              expenses: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+            },
+  scenario2:{ name:"test2",
+              years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035"], 
+              probability: [100,100,100, 95, 93, 90, 85, 93, 95, 90, 97],
+              totalInvestments: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000],
+              totalIncome: [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000],
+              expenses:[3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 10000, 9000],
+            },
+  scenario3:{ name:"test3",
+              years:["2025", "2026", "2027", "2028", "2029"], 
+              probability: [100,83,85,95, 97],
+              totalInvestments: [3000, 4000, 5000, 6000, 2000],
+              totalIncome: [3000, 4000, 5000, 6000, 2000],
+              expenses: [3000, 4000, 5000, 6000, 2000],
+  },
 }
+
 function Overview() {
   const [scenario, setScenario] = useState("");
   const [charts, setCharts] = useState({
     lineChart: false,
     barChart: false,
   })
+
+  const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    setScenario(e.target.value);
+    console.log("Selected Scenario:", e.target.value);
+  }
 
   const handleChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
@@ -50,12 +74,12 @@ function Overview() {
           id="selectScenarioForm"
           name="selectScenarioForm"            
           value={scenario}
-          onChange={(e)=>setScenario(e.target.value)}
+          onChange={(e)=>handleScenarioSelection(e)}
         >
           <option>Select a scenario</option>
-          {Object.values(testScenarios).map((scenario) => (
-            <option key={scenario.name} value={scenario.name}>
-              {scenario.name}
+          {Object.keys(testScenarios).map((scenario) => (
+            <option key={scenario} value={scenario}>
+              {scenario}
             </option>
           ))}
         </Form.Select>
@@ -72,7 +96,7 @@ function Overview() {
                 type="switch"
                 id="lineGraph"
                 name="lineChart"
-                label="Line Graph"
+                label="Line Graph for Probability of Success"
                 checked={charts.lineChart}
                 onChange={handleChartSelection}
               />
@@ -80,7 +104,7 @@ function Overview() {
                 type="switch"
                 id="barGraph"
                 name="barChart"
-                label="Bar Graph"
+                label="Stacked Bar Graph"
                 checked={charts.barChart}
                 onChange={handleChartSelection}
               />
@@ -91,19 +115,35 @@ function Overview() {
         {/* Check if the bar chart is selectd */}
         {charts.barChart && (
           <div id="barGraph">
-            <Bar data={{
-            labels: ["A", "B", "C"],
+            <Bar 
+            data={{
+            labels: testScenarios[scenario].years,
             datasets: [
               {
-                label: "Revenue",
-                data: [100,200,300],
+                label: "Total Investments",
+                data: testScenarios[scenario].totalInvestments,
               },
               {
-                label:"Loss",
-                data: [90,80,70],
+                label:"Total Income",
+                data: testScenarios[scenario].totalIncome,
+              },
+              {
+                label:"Total Expense",
+                data: testScenarios[scenario].expenses,
               },
             ]
-            }}>
+            }}
+            options={{
+              scales: {
+                x: {
+                  stacked: true,
+                },
+                y: {
+                  stacked: true,
+                },
+              },
+            }}
+          >
           </Bar>
         </div>
         )}
@@ -112,15 +152,11 @@ function Overview() {
         {charts.lineChart && (
           <div id="lineGraph">
             <Line data={{
-              labels: ["A", "B", "C"],
+              labels: testScenarios[scenario].years,
               datasets: [
                 {
-                  label: "Revenue",
-                  data: [100,200,300],
-                },
-                {
-                  label:"Loss",
-                  data: [90,80,70],
+                  label: "Probability",
+                  data: testScenarios[scenario].probability,
                 },
               ]
               }}>
