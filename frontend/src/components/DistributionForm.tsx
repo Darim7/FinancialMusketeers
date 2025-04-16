@@ -1,10 +1,11 @@
 /******************** Distribution Form ***********************************/
 const DistributionForm = ({name, text, field, distribution, handleChange}:any) => {
 
-  // console.log(distribution); // Debugging log
+  console.log("What is Distribution:", distribution); // Debugging log
 
   return (
       <>
+      
       <div>
          <label htmlFor={name}>{text}</label>
           <select 
@@ -64,5 +65,6 @@ const DistributionForm = ({name, text, field, distribution, handleChange}:any) =
       </> 
     );  
 }
+
 
 export default DistributionForm;

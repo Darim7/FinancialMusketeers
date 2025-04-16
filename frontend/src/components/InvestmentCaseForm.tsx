@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 function InvestmentCaseForm({investmentTypes, investment, showInvestmentCase, closeInvestmentCase, handleInvestmentCaseChange, saveInvestmentCase}:any){
+    
 
     return (
         <Modal show={showInvestmentCase} onHide={closeInvestmentCase}>

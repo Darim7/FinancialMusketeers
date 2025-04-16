@@ -25,10 +25,11 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     residenceState: '',
     retirementAge : '',
     financialGoal: '',
-    lifeExpectancy: [{type:""}],
+    lifeExpectancy: {type:""},
     lifeExpectancySpouse: {type:""},
     maritalStatus: '',
-    birthYears: ['', ''] as string[], 
+    // birthYears: ['', ''] as string[], 
+    birthYears: [0, 0] as number[], 
     birthYear1: '',
     birthYear2: '',
     distributionForm1: '',
@@ -61,6 +62,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       retirementAge: formInfo.retirementAge || '',
       financialGoal: formInfo.financialGoal || '',
       lifeExpectancy: formInfo.lifeExpectancy || {type:""},
+      // lifeExpectancy: Array.isArray(formInfo.lifeExpectancy)
+      // ? formInfo.lifeExpectancy
+      // : [formInfo.lifeExpectancy || { type: "" }],
       lifeExpectancySpouse: formInfo.lifeExpectancy || {type:""},
       maritalStatus: formInfo.maritalStatus || '',
       birthYears: formInfo.birthYears || [],
@@ -99,6 +103,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     // investmentValues: [] as any[]
   })
 
+  console.log('LIFE EXPECTANCY:', values.lifeExpectancy)
+  
   const [investmentCaseValues, setInvestmentCaseValues] = useState({
     investmentType: '',
     value: '',
@@ -269,10 +275,15 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   
     if (name === 'birthYear1' || name === 'birthYear2') {
       // Ask ChatGPT how to correctly put the birth year into the birthYears array
+      // setValues((prevValues) => {
+      //   const updatedBirthYears = [...prevValues.birthYears];
+      //   if (birthYearIndex !== undefined) {
+      //     updatedBirthYears[birthYearIndex] = value;
+      //   }
       setValues((prevValues) => {
         const updatedBirthYears = [...prevValues.birthYears];
         if (birthYearIndex !== undefined) {
-          updatedBirthYears[birthYearIndex] = value;
+          updatedBirthYears[birthYearIndex] = Number(value); // Ensure this is a number
         }
   
         return {
@@ -288,7 +299,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 ...form,
                 birthYears: (() => {
                   const updated = [...form.birthYears || []];
-                  updated[birthYearIndex || 0] = value;
+                  updated[birthYearIndex || 0] = Number(value);
                   return updated;
                 })(),
                 [name]: value,
@@ -898,6 +909,37 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       )
     );
   };
+//   const handleMainDistributionChange = (
+//   e: React.ChangeEvent<HTMLInputElement>,
+//   field: string,
+//   index: number
+// ) => {
+//   const { name, value } = e.target;
+//   console.log(name, value); // Debugging log
+
+//   // Create a new array with the updated item at the specified index
+//   const updatedArray = values[field].map((item: any, i: number) =>
+//     i === index
+//       ? { ...item, [name]: value }
+//       : item
+//   );
+
+//   // Update local state
+//   setValues(prev => ({
+//     ...prev,
+//     [field]: updatedArray,
+//   }));
+
+//   // Update saved forms
+//   saveForms(prevForms =>
+//     prevForms.map(form =>
+//       form.id === formInfo.id
+//         ? { ...form, [field]: updatedArray }
+//         : form
+//     )
+//   );
+// };
+
   
 
   const handleInvestmentDistributionChange = (e: React.ChangeEvent<any>, field: string) => {

@@ -85,7 +85,7 @@ import DistributionForm from './DistributionForm';
                 checked={investment.taxability === "False"}
                 onChange={handleInvestmentChange}
                 /> Tax-Exempt
-            </div>
+a            </div>
             </Modal.Body>
             <Modal.Footer>
             <Button variant='danger' onClick={closeInvestmentModal}>

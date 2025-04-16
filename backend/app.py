@@ -69,11 +69,6 @@ def add_scenario():
         # Grab User info
         user_email = data['user_email']
         user_name = data['user_name'] 
-        
-        # if isinstance(data, list):
-        #     for form in data:
-        #         user_email = form['user_email']
-        #         user_name = form['user_name'] 
              
         app.logger.info("User_email: %s", user_email)
         app.logger.info("User_name: %s", user_name)
