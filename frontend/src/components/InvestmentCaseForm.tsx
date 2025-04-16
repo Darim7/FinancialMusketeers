@@ -32,7 +32,7 @@ function InvestmentCaseForm({investmentTypes, investment, showInvestmentCase, cl
 
                     <label htmlFor = "investment-name">Investment Value: </label>
                         <input
-                            type = "text"
+                            type = "number"
                             id = "value"
                             name = "value"
                             value={investment.value ? investment.value : ""}
