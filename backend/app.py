@@ -79,7 +79,7 @@ def add_scenario():
         
         scenarios = [Scenario.from_dict(s) for s in data['scenario']]
 
-        # scenario = Scenario.from_dict(data['scenario'])
+        scenario = Scenario.from_dict(data['scenario'])
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)

@@ -25,10 +25,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     scenarioName : '',
     residenceState: '',
     retirementAge : '',
-    financialGoal: '',
+    financialGoal: 0,
     lifeExpectancy: [{type:""}, {type: ""}] as any[],
     maritalStatus: '',
-    // birthYears: ['', ''] as string[], 
     birthYears: [0, 0] as number[], 
     birthYear1: '',
     birthYear2: '',
@@ -39,7 +38,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     spendingStrategy: [] as any,
     expenseWithdrawalStrategy: [] as any [],
     RMDStrategy: [] as any [],
-    RothConversionOpt: '',
+    RothConversionOpt: false,
     RothConversionOptInfo: [] as any [],
     RothConversionStart: '',
     RothConversionEnd: '',
@@ -60,7 +59,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       scenarioName: formInfo.scenarioName || '',
       residenceState: formInfo.residenceState || '',
       retirementAge: formInfo.retirementAge || '',
-      financialGoal: formInfo.financialGoal || '',
+      financialGoal: formInfo.financialGoal || 0,
       lifeExpectancy: formInfo.lifeExpectancy || [{type:""}, {type:""}],
       maritalStatus: formInfo.maritalStatus || '',
       birthYears: formInfo.birthYears || [],
@@ -73,7 +72,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       spendingStrategy: formInfo.spendingStrategy || [],
       expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
       RMDStrategy: formInfo.RMDStrategy || [],
-      RothConversionOpt: formInfo.RothConversionOpt || '',
+      // RothConversionOpt: formInfo.RothConversionOpt || '',
+      RothConversionOpt: formInfo.RothConversionOpt === 'True',
       RothConversionOptInfo: formInfo.RothConversionOptInfo || [],
       RothConversionStart: formInfo.RothConversionStart || '',
       RothConversionEnd: formInfo.RothConversionEnd || '',
@@ -266,9 +266,17 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     const { name, value } = e.target;
 
     const parsedValue =
-      name === 'RothConversionStart' || name === 'RothConversionEnd'
+      name === 'RothConversionStart' || name === 'RothConversionEnd' 
         ? Number(value)
         : value;
+    
+    if (name === 'RothConversionOpt') {
+          setValues((prev) => ({
+            ...prev,
+            [name]: value === 'true', 
+          }));
+          return;
+        }
   
     if (name === 'birthYear1' || name === 'birthYear2') {
       // Ask ChatGPT how to correctly put the birth year into the birthYears array
@@ -1355,17 +1363,17 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             <input
               type = "radio" 
               name = "RothConversionOpt"
-              value = "True"
-              checked = {values.RothConversionOpt === "True"}
+              value = "true"
+              checked = {values.RothConversionOpt === true}
               onChange={handleChanges}/>True
             <input 
               type ="radio"
               name = "RothConversionOpt" 
-              value = "False"
-              checked={values.RothConversionOpt === "False"} 
+              value = "false"
+              checked={values.RothConversionOpt === false} 
               onChange={(e)=> handleChanges(e)} /> False 
 
-        {values.RothConversionOpt === "True" && (
+        {values.RothConversionOpt === true && (
           <>
           <label htmlFor="RothConversionStart"> Roth Conversion Start:</label>
             <input
