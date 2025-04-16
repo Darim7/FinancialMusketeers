@@ -272,6 +272,9 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
         return 0.0
 
     allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments}
+    allocation_2 = {}
+    if invest_event.data['glidePath']:
+        allocation_2 = {invest.investment_id : invest_event.data['assetAllocation2'][invest.investment_id] for invest in investments}
     tot_invested = 0
     for investment in investments:
         if investment.asset_type == 'cash':
