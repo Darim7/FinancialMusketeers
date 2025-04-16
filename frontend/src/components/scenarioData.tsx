@@ -204,14 +204,14 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   // };
   const handleAnswerChange = (e:React.ChangeEvent<any>,question: string, value: any) => {
     console.log(`Handle Answer Change: \n Question: ${question}, Value: ${value}`)
-    const {name, type} = e.target;
+    // const {type} = e.target;
     // Update local state
 
     let parsedValue = value;
 
-    if (type === "number") {
-      parsedValue = Number(value);
-    }
+    // if (type === "number") {
+    //   parsedValue = Number(value);
+    // }
 
     setAnswers((prev) => ({
       ...prev,
