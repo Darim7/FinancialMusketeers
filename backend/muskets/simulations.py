@@ -272,16 +272,35 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
         return 0.0
 
     allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments}
-    allocation_2 = {}
-    if invest_event.data['glidePath']:
-        allocation_2 = {invest.investment_id : invest_event.data['assetAllocation2'][invest.investment_id] for invest in investments}
+
+    # Check if already has a glide path if yes and if the gliding allocation is not empty
+    # then update the gliding rates
+    if invest_event.data['glidePath'] and 'glidingAllocation' in invest_event.data:
+        # Update the gliding rates
+        for alloc in invest_event.data['asssetAllocation']:
+            invest_event.data['glidingAllocation'][alloc] = invest_event.data['glidingAllocation'][alloc] + invest_event.data['glidingIncrements'][alloc]
+        allocation = invest_event.data['glidingAllocation']
+
+    # If not, start with the first allocation and set up the current allocation.
+    elif invest_event.data['glidePath'] and 'glidingAllocation' not in invest_event.data:
+        allocation = invest_event.data['assetAllocation']
+        invest_event.data['glidingAllocation'] = allocation
+        
+        # Calculate how much to glide for each year for each allocation.
+        for alloc in invest_event.data['asssetAllocation']:
+            invest_event.data['glidingIncrements'][alloc] = (invest_event.data['assetAllocation2'][alloc] - invest_event.data['assetAllocation'][alloc]) / (invest_event.data['duration'])
+    
+    # Choose the amount to invest.
+    cash = max(cash, invest_event.data['maxCash'])
+
+    # Start investing.
     tot_invested = 0
     for investment in investments:
         if investment.asset_type == 'cash':
             continue
-
-        investment.value += cash * allocation[investment.investment_id]
-        tot_invested += cash * allocation[investment.investment_id]
+        invest_amount = cash * allocation[investment.investment_id]
+        investment.value += invest_amount
+        tot_invested += invest_amount
 
     return tot_invested
 
