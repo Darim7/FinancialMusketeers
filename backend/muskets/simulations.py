@@ -87,46 +87,6 @@ def gross_income(event_series: list[EventSeries]) -> float:
 
     return gross_income
 
-def update_investments(asset_types: list[AssetType], investments: list[Investment])-> float:
-    """ Update the values of investments, reflecting expected annual return, reinvestment of generated income, and subtraction of expenses.
-
-    Args:
-        asset_types (list[AssetType]): List of Investment types
-        investments (list[Investment]): List of Investments
-
-    Returns:
-        float: total generated income
-    """
-    
-    # Map the investment types to its respective investments
-    type_map = {atype.name : atype for atype in asset_types}
-    mapped_investments = list(map(lambda ivmt: (ivmt, type_map[ivmt.asset_type]), investments))
-    
-    print(mapped_investments)
-    total_generated_income = 0
-    # TODO Check if cash is needed to update return
-    for ivmt, asset_type in mapped_investments:
-        if asset_type.name == "cash":
-            continue
-        init_value = ivmt.value
-        # Calculate the generated income, using the given fixed amount or percentage, or sampling from the specified probability distribution.
-        income_rate = sample_from_distribution(asset_type.incomeDistribution)
-        income = (ivmt.value * income_rate)
-        # Add to total generated income if the tax status is non-retirement and taxability is true
-        if ivmt.tax_status == 'non-retirement' and asset_type.taxability:
-            total_generated_income += income
-        # Calculate the change in value, using the given fixed amount or percentage, or sampling from the specified probability distribution.
-        ann_return_rate = sample_from_distribution(asset_type.returnDistribution)
-        ann_return = ivmt.value * ann_return_rate
-        ivmt.value += ann_return 
-        # Add the income to the value of the investment.
-        ivmt.value += income
-        # Calculate this year’s expenses, by multiplying the expense ratio and the average value of the investment
-        avg_value = (ivmt.value + init_value) / 2
-        expense = avg_value * asset_type.expenseRatio
-        ivmt.value -= expense
-    return total_generated_income
-
 def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     """
     Performs the required minimum distribution (RMD) for previous year
@@ -183,6 +143,46 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
         temp_rmd -= ivmt.value
         ivmt.value = 0
     return rmd
+
+def update_investments(asset_types: list[AssetType], investments: list[Investment])-> float:
+    """ Update the values of investments, reflecting expected annual return, reinvestment of generated income, and subtraction of expenses.
+
+    Args:
+        asset_types (list[AssetType]): List of Investment types
+        investments (list[Investment]): List of Investments
+
+    Returns:
+        float: total generated income
+    """
+    
+    # Map the investment types to its respective investments
+    type_map = {atype.name : atype for atype in asset_types}
+    mapped_investments = list(map(lambda ivmt: (ivmt, type_map[ivmt.asset_type]), investments))
+    
+    print(mapped_investments)
+    total_generated_income = 0
+    # TODO Check if cash is needed to update return
+    for ivmt, asset_type in mapped_investments:
+        if asset_type.name == "cash":
+            continue
+        init_value = ivmt.value
+        # Calculate the generated income, using the given fixed amount or percentage, or sampling from the specified probability distribution.
+        income_rate = sample_from_distribution(asset_type.incomeDistribution)
+        income = (ivmt.value * income_rate)
+        # Add to total generated income if the tax status is non-retirement and taxability is true
+        if ivmt.tax_status == 'non-retirement' and asset_type.taxability:
+            total_generated_income += income
+        # Calculate the change in value, using the given fixed amount or percentage, or sampling from the specified probability distribution.
+        ann_return_rate = sample_from_distribution(asset_type.returnDistribution)
+        ann_return = ivmt.value * ann_return_rate
+        ivmt.value += ann_return 
+        # Add the income to the value of the investment.
+        ivmt.value += income
+        # Calculate this year’s expenses, by multiplying the expense ratio and the average value of the investment
+        avg_value = (ivmt.value + init_value) / 2
+        expense = avg_value * asset_type.expenseRatio
+        ivmt.value -= expense
+    return total_generated_income
 
 def calculate_tax(income: float, bracket: dict) -> float:
     res = 0
