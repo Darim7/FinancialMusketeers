@@ -184,6 +184,28 @@ def update_investments(asset_types: list[AssetType], investments: list[Investmen
         ivmt.value -= expense
     return total_generated_income
 
+def create_after_tax_retirement_investment(name: str, investments: list[Investment]) -> Investment:
+    new_investment = {
+        'invstmentType': name,
+        'value': 0,
+        'taxStatus': 'after-tax retirement',
+        'id': f'{name} after-tax retirement'
+    }
+    investment_obj = Investment.from_dict(new_investment)
+    return investment_obj
+
+def roth_conversion(upper_limit: float, federal_taxable_income: float, standard_deduction: float, roth_conversion_strategy: list) -> float:
+    # Calculation amount of roth conversion.
+    rc = upper_limit - (federal_taxable_income - standard_deduction)
+
+    # Iterate over the investments in the Roth conversion strategy in the given order, transferring each of
+    # them in-kind to an investment with the same investment type and with tax status = “after-tax
+    # retirement”, until the total amount transferred equals rc. The last investment to be transferred
+    # might be partially transferred.
+    
+
+    return rc
+
 def calculate_tax(income: float, bracket: dict) -> float:
     res = 0
 
