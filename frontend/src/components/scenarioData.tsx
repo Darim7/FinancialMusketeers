@@ -1376,7 +1376,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
               name = "RothConversionOpt"
               value = "true"
               checked = {values.RothConversionOpt === true}
-              onChange={handleChanges}/>True
+              onChange={(e)=> handleChanges(e)}/>True
             <input 
               type ="radio"
               name = "RothConversionOpt" 
