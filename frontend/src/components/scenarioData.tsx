@@ -67,7 +67,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
       RMDStrategy: formInfo.RMDStrategy || [],
       // RothConversionOpt: formInfo.RothConversionOpt || '',
-      RothConversionOpt: formInfo.RothConversionOpt === 'True',
+      RothConversionOpt: formInfo.RothConversionOpt === true,
       RothConversionOptInfo: formInfo.RothConversionOptInfo || [],
       RothConversionStart: formInfo.RothConversionStart || '',
       RothConversionEnd: formInfo.RothConversionEnd || '',
@@ -267,18 +267,27 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,birthYearIndex?: number) => {
     const { name, value } = e.target;
 
-    const parsedValue =
-      name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal'
-        ? Number(value)
-        : value;
+    let parsedValue:any;
+    // const parsedValue =
+    //   name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal'
+    //     ? Number(value)
+    //     : value;
+
+    if (name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal') {
+      parsedValue = Number(value);
+    } 
+    else if (name === 'RothConversionOpt') {
+      parsedValue = (value === "true")
+    }
     
-    if (name === 'RothConversionOpt') {
-          setValues((prev) => ({
-            ...prev,
-            [name]: value === 'true', 
-          }));
-          return;
-        }
+
+    // if (name === 'RothConversionOpt') {
+    //       setValues((prev) => ({
+    //         ...prev,
+    //         [name]: value === 'true', 
+    //       }));
+    //       return;
+    //     }
   
     if (name === 'birthYear1' || name === 'birthYear2') {
       // Ask ChatGPT how to correctly put the birth year into the birthYears array
