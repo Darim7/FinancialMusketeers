@@ -79,8 +79,11 @@ def add_scenario():
         
         scenarios = [Scenario.from_dict(s) for s in data['scenario']]
 
+        app.logger.info("SCENARIO")
+        for i in scenarios:
+            app.logger.info(i.to_dict())
 
-        scenario = Scenario.from_dict(data['scenario'])
+        scenario = Scenario.from_dict(data['scenario'][0])
 
        
         # Add the scenario ID to the user's list of scenarios
@@ -217,7 +220,6 @@ def get_user():
     # Get the user email from the query parameters
     user_email = request.args.get('user_email')
     user_name = request.args.get('user_name')
-    
     if not user_email:
         return jsonify({"error": "User email is required"}), 400
     

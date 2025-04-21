@@ -51,6 +51,7 @@ function Scenario() {
     const handleViewForm = (form: React.SetStateAction<{ id: number; name: string; } | null>) => {
         setScenarioForm(form);
         handleShow();
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", scenarioForm);
     };
 
     const handleDeleteForm = (id: number) => {
@@ -62,7 +63,8 @@ function Scenario() {
             const response = await axios.post('/api/add_scenario', {
                   user_name: userName,
                   user_email: userEmail,
-                  scenario: saveFormArray
+                //   scenario: saveFormArray
+                scenario: scenarioForm
               });
               
             console.log("Scenario added successfully:", response.data);

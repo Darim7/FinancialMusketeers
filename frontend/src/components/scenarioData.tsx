@@ -279,6 +279,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     else if (name === 'RothConversionOpt') {
       parsedValue = (value === "true")
     }
+    else {
+      parsedValue = value;
+    }
     
 
     // if (name === 'RothConversionOpt') {
