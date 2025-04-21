@@ -6,6 +6,7 @@ import Scenario from '../pages/Scenarios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
 import { Prev } from 'react-bootstrap/esm/PageItem';
 import DistributionForm from './DistributionForm';
 import Page1 from './page1';
@@ -264,7 +265,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   //   );
     
   //  };
-  const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,birthYearIndex?: number) => {
+  const handleChanges = (e: React.ChangeEvent<any>,birthYearIndex?: number) => {
     const { name, value } = e.target;
 
     let parsedValue:any;
@@ -1314,8 +1315,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         <div className='scenarioPart2-container'>
           <DistributionForm name={"inflationAssumption"} text={"Inflation Assumption:"} field={"inflationAssumption"} distribution={values.inflationAssumption} handleChange={handleMainDistributionChange}/>
 
-          <label htmlFor="afterTaxContributionLimit"> After Tax Contribution Limit:</label>
-            <input
+          <Form.Label htmlFor="afterTaxContributionLimit"> After Tax Contribution Limit:</Form.Label>
+            <Form.Control
               type = "number" 
               name = "afterTaxContributionLimit"
               value = {values.afterTaxContributionLimit}
@@ -1323,16 +1324,16 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           />
 
           {/* Select the order of spending  */}
-          <label htmlFor="spendingStrategy"> Spending Strategy:</label>
+          <Form.Label htmlFor="spendingStrategy"> Spending Strategy:</Form.Label>
             <div className='spending-list'>
             {values.discretionary.length > 0 ? (
               values.discretionary.map((item, index) => (
                 <div key={index} className='spending-item'
-                draggable
-                onDragStart={(e)=> dragItem.current = index}
-                onDragEnter={(e)=> dragOver.current = index}
-                onDragEnd={handleSortDragForDiscretionary}
-                onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
+                  draggable
+                  onDragStart={(e)=> dragItem.current = index}
+                  onDragEnter={(e)=> dragOver.current = index}
+                  onDragEnd={handleSortDragForDiscretionary}
+                  onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
                   {/* {item.eventName}  */}
                   {item.name} 
@@ -1345,7 +1346,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             </div>
 
           {/* Select the order for withdraw strategy */}
-          <label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</label>
+          <Form.Label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</Form.Label>
           <div className='spending-list'>
             {values.expenseWithdrawalStrategy.length > 0 ? (
               values.expenseWithdrawalStrategy.map((item, index) => (
@@ -1370,7 +1371,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           
 
            {/* Select the order for RMD strategy  */}
-           <label htmlFor="RMDStrategy"> RMD Strategy:</label>
+           <Form.Label htmlFor="RMDStrategy"> RMD Strategy:</Form.Label>
             <div className='spending-list'>
               {values.RMDStrategy.length > 0 ? (
                 values.RMDStrategy.map((item, index) => (
@@ -1392,24 +1393,28 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             </div>
          
           {/* If it is true, then display the start and end year */}
-           <label htmlFor="RothConversionOpt"> Roth Conversion Opt:</label>
-            <input
-              type = "radio" 
+           <Form.Label htmlFor="RothConversionOpt"> Roth Conversion Opt:</Form.Label>
+            <Form.Check
+              type = "checkbox" 
               name = "RothConversionOpt"
               value = "true"
               checked = {values.RothConversionOpt === true}
-              onChange={(e)=> handleChanges(e)}/>True
-            <input 
-              type ="radio"
+              onChange={(e)=> handleChanges(e)}
+              label="True"
+            />
+            <Form.Check 
+              type ="checkbox"
               name = "RothConversionOpt" 
               value = "false"
               checked={values.RothConversionOpt === false} 
-              onChange={(e)=> handleChanges(e)} /> False 
+              onChange={(e)=> handleChanges(e)} 
+              label="False"
+            />  
 
         {values.RothConversionOpt === true && (
           <>
-          <label htmlFor="RothConversionStart"> Roth Conversion Start:</label>
-            <input
+          <Form.Label htmlFor="RothConversionStart"> Roth Conversion Start:</Form.Label>
+            <Form.Control
               type = "number" 
               name = "RothConversionStart"
               value = {values.RothConversionStart}
@@ -1417,8 +1422,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           />
 
           
-          <label htmlFor="RothConversionEnd"> Roth Conversion End:</label>
-            <input
+          <Form.Label htmlFor="RothConversionEnd"> Roth Conversion End:</Form.Label>
+            <Form.Control
               type = "number" 
               name = "RothConversionEnd"
               value = {values.RothConversionEnd}
@@ -1427,7 +1432,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           </>
          )}
 
-        <label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</label>
+        <Form.Label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</Form.Label>
           <div className='spending-list'>
             {values.RothConversionStrategy.length > 0 ? (
               values.RothConversionStrategy.map((item:any, index:number) => (
