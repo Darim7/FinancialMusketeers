@@ -6,9 +6,6 @@ from models.investment import Investment, AssetType
 from models.rmd import RMD
 from functools import reduce
 from collections import defaultdict
-from models.rmd import RMD
-from functools import reduce
-from collections import defaultdict
 
 def sample_from_distribution(assumption: dict) -> float:
     res = -1
@@ -90,46 +87,6 @@ def gross_income(event_series: list[EventSeries]) -> float:
 
     return gross_income
 
-def update_investments(asset_types: list[AssetType], investments: list[Investment])-> float:
-    """ Update the values of investments, reflecting expected annual return, reinvestment of generated income, and subtraction of expenses.
-
-    Args:
-        asset_types (list[AssetType]): List of Investment types
-        investments (list[Investment]): List of Investments
-
-    Returns:
-        float: total generated income
-    """
-    
-    # Map the investment types to its respective investments
-    type_map = {atype.name : atype for atype in asset_types}
-    mapped_investments = list(map(lambda ivmt: (ivmt, type_map[ivmt.asset_type]), investments))
-    
-    print(mapped_investments)
-    total_generated_income = 0
-    # TODO Check if cash is needed to update return
-    for ivmt, asset_type in mapped_investments:
-        if asset_type.name == "cash":
-            continue
-        init_value = ivmt.value
-        # Calculate the generated income, using the given fixed amount or percentage, or sampling from the specified probability distribution.
-        income_rate = sample_from_distribution(asset_type.incomeDistribution)
-        income = (ivmt.value * income_rate)
-        # Add to total generated income if the tax status is non-retirement and taxability is true
-        if ivmt.tax_status == 'non-retirement' and asset_type.taxability:
-            total_generated_income += income
-        # Calculate the change in value, using the given fixed amount or percentage, or sampling from the specified probability distribution.
-        ann_return_rate = sample_from_distribution(asset_type.returnDistribution)
-        ann_return = ivmt.value * ann_return_rate
-        ivmt.value += ann_return 
-        # Add the income to the value of the investment.
-        ivmt.value += income
-        # Calculate this year’s expenses, by multiplying the expense ratio and the average value of the investment
-        avg_value = (ivmt.value + init_value) / 2
-        expense = avg_value * asset_type.expenseRatio
-        ivmt.value -= expense
-    return total_generated_income
-
 def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     """
     Performs the required minimum distribution (RMD) for previous year
@@ -186,6 +143,68 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
         temp_rmd -= ivmt.value
         ivmt.value = 0
     return rmd
+
+def update_investments(asset_types: list[AssetType], investments: list[Investment])-> float:
+    """ Update the values of investments, reflecting expected annual return, reinvestment of generated income, and subtraction of expenses.
+
+    Args:
+        asset_types (list[AssetType]): List of Investment types
+        investments (list[Investment]): List of Investments
+
+    Returns:
+        float: total generated income
+    """
+    
+    # Map the investment types to its respective investments
+    type_map = {atype.name : atype for atype in asset_types}
+    mapped_investments = list(map(lambda ivmt: (ivmt, type_map[ivmt.asset_type]), investments))
+    
+    print(mapped_investments)
+    total_generated_income = 0
+    # TODO Check if cash is needed to update return
+    for ivmt, asset_type in mapped_investments:
+        if asset_type.name == "cash":
+            continue
+        init_value = ivmt.value
+        # Calculate the generated income, using the given fixed amount or percentage, or sampling from the specified probability distribution.
+        income_rate = sample_from_distribution(asset_type.incomeDistribution)
+        income = (ivmt.value * income_rate)
+        # Add to total generated income if the tax status is non-retirement and taxability is true
+        if ivmt.tax_status == 'non-retirement' and asset_type.taxability:
+            total_generated_income += income
+        # Calculate the change in value, using the given fixed amount or percentage, or sampling from the specified probability distribution.
+        ann_return_rate = sample_from_distribution(asset_type.returnDistribution)
+        ann_return = ivmt.value * ann_return_rate
+        ivmt.value += ann_return 
+        # Add the income to the value of the investment.
+        ivmt.value += income
+        # Calculate this year’s expenses, by multiplying the expense ratio and the average value of the investment
+        avg_value = (ivmt.value + init_value) / 2
+        expense = avg_value * asset_type.expenseRatio
+        ivmt.value -= expense
+    return total_generated_income
+
+def create_after_tax_retirement_investment(name: str, investments: list[Investment]) -> Investment:
+    new_investment = {
+        'invstmentType': name,
+        'value': 0,
+        'taxStatus': 'after-tax retirement',
+        'id': f'{name} after-tax retirement'
+    }
+    investment_obj = Investment.from_dict(new_investment)
+    return investment_obj
+
+def roth_conversion(upper_limit: float, federal_taxable_income: float, standard_deduction: float, roth_conversion_strategy: list) -> float:
+    # Calculation amount of roth conversion.
+    rc = upper_limit - (federal_taxable_income - standard_deduction)
+
+    # Iterate over the investments in the Roth conversion strategy in the given order, transferring each of
+    # them in-kind to an investment with the same investment type and with tax status = “after-tax
+    # retirement”, until the total amount transferred equals rc. The last investment to be transferred
+    # might be partially transferred.
+    
+
+    return rc
 
 def calculate_tax(income: float, bracket: dict) -> float:
     res = 0
@@ -274,13 +293,35 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
         return 0.0
 
     allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments}
+
+    # Check if already has a glide path if yes and if the gliding allocation is not empty
+    # then update the gliding rates
+    if invest_event.data['glidePath'] and 'glidingAllocation' in invest_event.data:
+        # Update the gliding rates
+        for alloc in invest_event.data['asssetAllocation']:
+            invest_event.data['glidingAllocation'][alloc] = invest_event.data['glidingAllocation'][alloc] + invest_event.data['glidingIncrements'][alloc]
+        allocation = invest_event.data['glidingAllocation']
+
+    # If not, start with the first allocation and set up the current allocation.
+    elif invest_event.data['glidePath'] and 'glidingAllocation' not in invest_event.data:
+        allocation = invest_event.data['assetAllocation']
+        invest_event.data['glidingAllocation'] = allocation
+        
+        # Calculate how much to glide for each year for each allocation.
+        for alloc in invest_event.data['asssetAllocation']:
+            invest_event.data['glidingIncrements'][alloc] = (invest_event.data['assetAllocation2'][alloc] - invest_event.data['assetAllocation'][alloc]) / (invest_event.data['duration'])
+    
+    # Choose the amount to invest.
+    cash = max(cash, invest_event.data['maxCash'])
+
+    # Start investing.
     tot_invested = 0
     for investment in investments:
         if investment.asset_type == 'cash':
             continue
-
-        investment.value += cash * allocation[investment.investment_id]
-        tot_invested += cash * allocation[investment.investment_id]
+        invest_amount = cash * allocation[investment.investment_id]
+        investment.value += invest_amount
+        tot_invested += invest_amount
 
     return tot_invested
 
