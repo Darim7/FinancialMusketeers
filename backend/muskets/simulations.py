@@ -365,7 +365,9 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
             invest_event.data['glidingIncrements'][alloc] = (invest_event.data['assetAllocation2'][alloc] - invest_event.data['assetAllocation'][alloc]) / (invest_event.data['duration'])
     
     # Choose the amount to invest.
-    cash = max(cash, invest_event.data['maxCash'])
+    cash = max(0, cash - invest_event.data['maxCash'])
+    if cash <= 0:
+        return 0.0
 
     # Start investing.
     tot_invested = 0
