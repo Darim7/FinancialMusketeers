@@ -67,7 +67,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
       RMDStrategy: formInfo.RMDStrategy || [],
       // RothConversionOpt: formInfo.RothConversionOpt || '',
-      RothConversionOpt: formInfo.RothConversionOpt === true,
+      RothConversionOpt: formInfo.RothConversionOpt || false,
       RothConversionOptInfo: formInfo.RothConversionOptInfo || [],
       RothConversionStart: formInfo.RothConversionStart || '',
       RothConversionEnd: formInfo.RothConversionEnd || '',
@@ -280,7 +280,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       parsedValue = (value === "true")
     }
     else {
-      parsedValue = value;
+      parsedValue = value
     }
     
 
@@ -363,9 +363,19 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         )
       );
     }
-    setformStep(formStep + 1);
-  };
 
+    if (formStep === 4) {
+      console.log("PAGE5555555555555555")
+      saveForms((prevForms:any) =>
+        prevForms.map((form:any) =>
+          form.id === formInfo.id ? { ...form, ['RothConversionOpt']: values.RothConversionOpt, ['RothConversionStart']: 0, ['RothConversionEnd']: 0   } : form
+        )
+      )
+    }
+    setformStep(formStep + 1);
+    
+  };
+4
   const handleBack = (e:React.ChangeEvent<any>) => {
     e.preventDefault();
     setformStep(formStep - 1);

@@ -51,20 +51,32 @@ function Scenario() {
     const handleViewForm = (form: React.SetStateAction<{ id: number; name: string; } | null>) => {
         setScenarioForm(form);
         handleShow();
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", scenarioForm);
     };
 
     const handleDeleteForm = (id: number) => {
         setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
     };
 
+    // If there are existing user scenario, grab it and display it on the scenario page
+    // Check if user is logged in 
+    const getUserScenario = async () => {
+
+
+
+    }
+
+
+    // Adding user scenarios to the backend
+    // TODO: If user is not logged in, then their information will not sent to the backend
     const addScenario = async () => {
+        const array_len = saveFormArray.length
+        const array = saveFormArray[array_len-1]
+      
         try {
             const response = await axios.post('/api/add_scenario', {
                   user_name: userName,
                   user_email: userEmail,
-                //   scenario: saveFormArray
-                scenario: scenarioForm
+                  scenario: array
               });
               
             console.log("Scenario added successfully:", response.data);
