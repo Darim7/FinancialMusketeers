@@ -87,6 +87,15 @@ def gross_income(event_series: list[EventSeries]) -> float:
 
     return gross_income
 
+def find_investment(investments: list[Investment], investment_id: str) -> Investment:
+    """
+    Find an investment in the list of investments by its ID.
+    """
+    for investment in investments:
+        if investment.investment_id == investment_id:
+            return investment
+    return None
+
 def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     """
     Performs the required minimum distribution (RMD) for previous year
@@ -184,7 +193,16 @@ def update_investments(asset_types: list[AssetType], investments: list[Investmen
         ivmt.value -= expense
     return total_generated_income
 
-def create_after_tax_retirement_investment(name: str, investments: list[Investment]) -> Investment:
+def after_tax_retirement_name(investment: Investment) -> str:
+    """
+    Create a name for the after-tax retirement investment based on the investment type.
+    """
+    if investment.tax_status == 'after-tax retirement':
+        return f"{investment.asset_type} after-tax retirement"
+    else:
+        return f"{investment.asset_type} after-tax"
+
+def create_after_tax_retirement_investment(name: str) -> Investment:
     new_investment = {
         'invstmentType': name,
         'value': 0,
@@ -194,17 +212,51 @@ def create_after_tax_retirement_investment(name: str, investments: list[Investme
     investment_obj = Investment.from_dict(new_investment)
     return investment_obj
 
-def roth_conversion(upper_limit: float, federal_taxable_income: float, standard_deduction: float, roth_conversion_strategy: list) -> float:
+def roth_conversion(upper_limit: float, federal_taxable_income: float, standard_deduction: float, investments: list[Investment], roth_conversion_strategy: list) -> float:
     # Calculation amount of roth conversion.
     rc = upper_limit - (federal_taxable_income - standard_deduction)
 
-    # Iterate over the investments in the Roth conversion strategy in the given order, transferring each of
-    # them in-kind to an investment with the same investment type and with tax status = “after-tax
-    # retirement”, until the total amount transferred equals rc. The last investment to be transferred
-    # might be partially transferred.
-    
+    converted_value = rc
+    # Iterate over the investments in the Roth conversion strategy in the given order
+    for investment_id in roth_conversion_strategy:
+        if rc <= 0:
+            break
+        # transferring each of them in-kind to an investment with the
+        # same investment type and with tax status = “after-tax retirement”
+        # until the total amount transferred equals rc. The last investment to be transferred
+        # might be partially transferred.
+        inv = find_investment(investments, investment_id)
+        if inv is None:
+            raise ValueError(f"Investment {investment_id} not found in investments list. But it is in the strategy list.")
+        
+        after_tax = find_investment(investments, after_tax_retirement_name(inv))
+        if after_tax:
+            if inv.value >= rc:
+                after_tax.value += rc
+                inv.value -= rc
+                rc = 0
+            else:
+                after_tax.value += inv.value
+                rc -= inv.value
+                inv.value = 0
+                # Remove the investment from the list of investments
+                investments.remove(inv)
+        else:
+            # Create a new investment with the same type and tax status = "after-tax retirement"
+            new_investment = create_after_tax_retirement_investment(inv.asset_type)
+            if inv.value >= rc:
+                new_investment.value += rc
+                inv.value -= rc
+                rc = 0
+            else:
+                new_investment.value += inv.value
+                rc -= inv.value
+                inv.value = 0
+                # Remove the investment from the list of investments
+                investments.remove(inv)
+            investments.append(new_investment)
 
-    return rc
+    return converted_value
 
 def calculate_tax(income: float, bracket: dict) -> float:
     res = 0
