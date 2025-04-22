@@ -380,16 +380,13 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
 
     return tot_invested
 
-def income_calculation(tax_obj, inflation_assumption, income: float) -> float:
-    return -1
+def rebalance():
+    pass
 
-# Main algorithm for the simulation
 
-# TODO
-"""
-Compute and store the inflation-adjusted annual limits on retirement account contributions, in a
-similar way.
-"""
+#####################################
+# Main algorithm for the simulation #
+#####################################
 
 if __name__ == "__main__":
     pass
