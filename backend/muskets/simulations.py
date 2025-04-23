@@ -380,9 +380,13 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
 
     return tot_invested
 
-def rebalance():
-    pass
+def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> float:
+    # Get the set of investments to rebalance, make it a dict.
 
+    # Caculate the total value of the listed investments for rebalancing
+
+    # Go through the specified investments and rebalance them to the target allocation.
+    return 0.0
 
 #####################################
 # Main algorithm for the simulation #
