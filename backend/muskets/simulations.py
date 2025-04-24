@@ -404,5 +404,37 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> fl
 # Main algorithm for the simulation #
 #####################################
 
+def run_year(scenario: Scenario, year: int, investments: list[Investment], event_series: list[EventSeries], tax_obj: FederalTax | StateTax, rmd_obj: RMD) -> None:
+    """
+    Run a single year of the simulation.
+    """
+    # Update inflation
+    inflation_assumption = scenario.inflation_rate
+    update_inflation(tax_obj, event_series, inflation_assumption)
+
+    # Calculate gross income
+    gross_income_value = gross_income(event_series)
+
+    # Calculate federal and state income tax
+    federal_tax = fed_income_tax(tax_obj, gross_income_value, scenario.user.marital_status)
+    state_tax = state_income_tax(tax_obj, gross_income_value, scenario.user.marital_status)
+
+    # Calculate non-discretionary and discretionary expenses
+    non_discresionary_expenses_value = non_discresionary_expenses(event_series)
+    discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strategy)
+
+    # Calculate total expenses
+    total_expenses = non_discresionary_expenses_value + sum(discretionary_expenses_value)
+
+    # Perform RMD if applicable
+    age = scenario.user.age + year
+    rmd_amount = perform_rmd(rmd_obj, age, investments)
+
+    # Update investments
+    total_generated_income = update_investments(scenario.asset_types, investments)
+
+    # Calculate net income after taxes and expenses
+    net_income = gross_income_value - (federal_tax + state_tax) - total_expenses - rmd_amount
+
 if __name__ == "__main__":
     pass
