@@ -382,11 +382,23 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
 
 def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> float:
     # Get the set of investments to rebalance, make it a dict.
-
+    rebalancing_set = {invest.investment_id : invest for invest in investments if invest.investment_id in rebalance_event.data['assetAllocation']}
+    
     # Caculate the total value of the listed investments for rebalancing
-
+    total_value = sum(invest.value for invest in rebalancing_set.values())
+    
     # Go through the specified investments and rebalance them to the target allocation.
-    return 0.0
+    changed_amount = 0
+    for invest_id, target_allocation in rebalance_event.data['assetAllocation'].items():
+        if invest_id in rebalancing_set:
+            invest = rebalancing_set[invest_id]
+            target_value = total_value * target_allocation
+            diff = target_value - invest.value
+            invest.value += diff
+            total_value += diff
+            changed_amount += abs(diff)
+
+    return changed_amount
 
 #####################################
 # Main algorithm for the simulation #
