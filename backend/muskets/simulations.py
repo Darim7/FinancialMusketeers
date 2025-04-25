@@ -42,7 +42,7 @@ def update_bracket(bracket: dict, inflation_rate: float, marital_status: str, ta
         res[new_bracket] = percentage
     return res
 
-def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
+def update_inflation(scenario: Scenario, tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
     """
@@ -60,6 +60,9 @@ def update_inflation(tax_obj: FederalTax | StateTax, event_series: list[EventSer
     for event in event_series:
         if 'inflationAdjusted' in event.data and event.data['inflationAdjusted']:
             event.data['initialAmount'] *= (1 + inflation_rate)
+
+    # Update the after tax contribution limit in the scenario
+    scenario.aftertax_ann_contribution = scenario.aftertax_ann_contribution * (1 + inflation_rate)
 
     return inflation_rate
 
