@@ -66,14 +66,14 @@ def update_inflation(scenario: Scenario, tax_obj: FederalTax | StateTax, event_s
 
     return inflation_rate
 
-def gross_income(event_series: list[EventSeries]) -> float:
+def gross_income(event_series: list[EventSeries], spouse_alive: bool) -> float:
     """
     Calculate the gross income from the cash event and all other event series.
     """
     gross_income = 0
     
     for event in event_series:
-        if event.type == 'income':
+        if event.type == 'income' and not event.data['socialSecurity']:
             change_dist = event.data['changeDistribution']
             is_percent = event.data['changeAmtOrPct'] == 'percent'
 
@@ -83,12 +83,37 @@ def gross_income(event_series: list[EventSeries]) -> float:
                 event.data['initialAmount'] *= (1 + change)
             else:
                 event.data['initialAmount'] += change
-                
-            gross_income += event.data['initialAmount']
 
-        # Remember to account for social security.
+            amount_gained = event.data['initialAmount']
+            if spouse_alive:
+                gross_income += amount_gained
+            else:
+                gross_income += amount_gained * event.data['userFraction']
 
     return gross_income
+
+def get_social_security(event_series: list[EventSeries], spouse_alive: bool) -> float:
+    social_security = 0
+
+    for event in event_series:
+        if event.type == 'income' and event.data['socialSecurity']:
+            change_dist = event.data['changeDistribution']
+            is_percent = event.data['changeAmtOrPct'] == 'percent'
+
+            # Change the amount in the event series according to the changeDistribution
+            change = sample_from_distribution(change_dist)
+            if is_percent:
+                event.data['initialAmount'] *= (1 + change)
+            else:
+                event.data['initialAmount'] += change
+
+            amount_gained = event.data['initialAmount']
+            if spouse_alive:
+                social_security += amount_gained
+            else:
+                social_security += amount_gained * event.data['userFraction']
+
+    return social_security
 
 def find_investment(investments: list[Investment], investment_id: str) -> Investment:
     """
@@ -407,20 +432,24 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> fl
 # Main algorithm for the simulation #
 #####################################
 
-def run_year(scenario: Scenario, year: int, investments: list[Investment], event_series: list[EventSeries], tax_obj: FederalTax | StateTax, rmd_obj: RMD) -> dict:
+def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: FederalTax) -> dict:
     """
     Run a single year of the simulation.
     """
+    investments = scenario.get_investments()
+    event_series = scenario.get_event_series()
+    rmd = scenario.get_rmd_strategy()
+
     # Update inflation
     inflation_assumption = scenario.inflation_rate
-    update_inflation(tax_obj, event_series, inflation_assumption)
+    update_inflation(scenario, tax_obj, event_series, inflation_assumption)
 
     # Calculate gross income
     gross_income_value = gross_income(event_series)
 
     # Calculate federal and state income tax
-    federal_tax = fed_income_tax(tax_obj, gross_income_value, "couple" if scenario.is_married else "individual")
-    state_tax = state_income_tax(tax_obj, gross_income_value, "couple" if scenario.is_married else "individual")
+    federal_tax = fed_income_tax(fed_tax, gross_income_value, "couple" if scenario.is_married else "individual")
+    state_tax = state_income_tax(state_tax, gross_income_value, "couple" if scenario.is_married else "individual")
 
     # Calculate non-discretionary and discretionary expenses
     non_discresionary_expenses_value = non_discresionary_expenses(event_series)
