@@ -42,19 +42,25 @@ def update_bracket(bracket: dict, inflation_rate: float, marital_status: str, ta
         res[new_bracket] = percentage
     return res
 
-def update_inflation(scenario: Scenario, tax_obj: FederalTax | StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
+def update_inflation(scenario: Scenario, fed_tax: FederalTax, state_tax: StateTax, event_series: list[EventSeries], inflation_assumption: dict) -> float:
     """
     Update the inflation rate and all of the inflation-related values
     """
     inflation_rate = sample_from_distribution(inflation_assumption)
-    # Update the tax bracket
-    tax_obj.bracket['individual']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'income')
-    tax_obj.bracket['couple']['income'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'income')
-    if isinstance(tax_obj, FederalTax):
-        tax_obj.bracket['individual']['deduction'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'deduction')
-        tax_obj.bracket['couple']['deduction'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'deduction')
-        tax_obj.bracket['individual']['cap_gains'] = update_bracket(tax_obj.bracket, inflation_rate, 'individual', 'cap_gains')
-        tax_obj.bracket['couple']['cap_gains'] = update_bracket(tax_obj.bracket, inflation_rate, 'couple', 'cap_gains')
+
+    # Update the federal tax bracket
+    fed_tax.bracket['individual']['income'] = update_bracket(fed_tax.bracket, inflation_rate, 'individual', 'income')
+    fed_tax.bracket['couple']['income'] = update_bracket(fed_tax.bracket, inflation_rate, 'couple', 'income')
+
+    # Update the state tax bracket
+    state_tax.bracket['individual']['income'] = update_bracket(state_tax.bracket, inflation_rate, 'individual', 'income')
+    state_tax.bracket['couple']['income'] = update_bracket(state_tax.bracket, inflation_rate, 'couple', 'income')
+    
+    # Update the standard deduction
+    fed_tax.bracket['individual']['deduction'] = update_bracket(fed_tax.bracket, inflation_rate, 'individual', 'deduction')
+    fed_tax.bracket['couple']['deduction'] = update_bracket(fed_tax.bracket, inflation_rate, 'couple', 'deduction')
+    fed_tax.bracket['individual']['cap_gains'] = update_bracket(fed_tax.bracket, inflation_rate, 'individual', 'cap_gains')
+    fed_tax.bracket['couple']['cap_gains'] = update_bracket(fed_tax.bracket, inflation_rate, 'couple', 'cap_gains')
 
     # Update event series
     for event in event_series:
@@ -442,7 +448,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
 
     # Update inflation
     inflation_assumption = scenario.inflation_rate
-    update_inflation(scenario, tax_obj, event_series, inflation_assumption)
+    update_inflation(scenario, fed_tax, state_tax, event_series, inflation_assumption)
 
     # Calculate gross income
     gross_income_value = gross_income(event_series)

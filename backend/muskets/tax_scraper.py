@@ -260,6 +260,8 @@ def read_tax_to_dict(state: str) -> dict:
     If the YAML file does not exist, it triggers the appropriate scrape function.
     Returns the parsed dictionary.
     """
+    # Define the mapping of state to file name and scrape function
+    state = state.lower()
     tax_file_map = {
         "federal": ("/app/tax_brackets/federal_tax.yaml", scrape_federal_tax),
         "ny": ("/app/tax_brackets/ny_income_tax.yaml", scrape_ny_income_tax),
