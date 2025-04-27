@@ -72,7 +72,7 @@ def update_inflation(scenario: Scenario, fed_tax: FederalTax, state_tax: StateTa
 
     return inflation_rate
 
-def gross_income(event_series: list[EventSeries], spouse_alive: bool) -> float:
+def gross_income(event_series: list[EventSeries], spouse_alive: bool, user_alive: bool) -> float:
     """
     Calculate the gross income from the cash event and all other event series.
     """
@@ -98,7 +98,7 @@ def gross_income(event_series: list[EventSeries], spouse_alive: bool) -> float:
 
     return gross_income
 
-def get_social_security(event_series: list[EventSeries], spouse_alive: bool) -> float:
+def get_social_security(event_series: list[EventSeries], spouse_alive: bool, user_alive: bool) -> float:
     social_security = 0
 
     for event in event_series:
@@ -120,6 +120,15 @@ def get_social_security(event_series: list[EventSeries], spouse_alive: bool) -> 
                 social_security += amount_gained * event.data['userFraction']
 
     return social_security
+
+def find_event(event_series: list[EventSeries], name: str) -> EventSeries:
+    """
+    Find an event in the list of event series by its ID.
+    """
+    for event in event_series:
+        if event.name == name:
+            return event
+    return None
 
 def find_investment(investments: list[Investment], investment_id: str) -> Investment:
     """
@@ -292,10 +301,11 @@ def roth_conversion(upper_limit: float, federal_taxable_income: float, standard_
 
     return converted_value
 
-def calculate_tax(income: float, bracket: dict) -> float:
+def calculate_tax(income: float, bracket: dict) -> tuple[float, float]:
     res = 0
 
     previous_bracket = 0
+    upper_bracket = 0
     for brack, percentage in bracket['income'].items():
         if brack == 'inf':
             res += income * percentage
@@ -304,10 +314,11 @@ def calculate_tax(income: float, bracket: dict) -> float:
             res += (brack - previous_bracket) * percentage
         else:
             res += (income - previous_bracket) * percentage
+            upper_bracket = brack
             break
         previous_bracket = brack
     
-    return res
+    return res, upper_bracket
 
 def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:    
     """
@@ -324,7 +335,7 @@ def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
     income = income - bracket['deduction']
     if income < 0: 
         return 0
-    return calculate_tax(income, bracket)
+    return calculate_tax(income, bracket)[0]
 
 def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
     """
@@ -336,7 +347,7 @@ def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
         float: The calculated state income tax.
     """
     bracket = tax_obj.bracket[status]
-    return calculate_tax(income, bracket)
+    return calculate_tax(income, bracket)[0]
 
 def non_discresionary_expenses(event_series: list[EventSeries]) -> float:
     """
@@ -442,34 +453,57 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     """
     Run a single year of the simulation.
     """
+    # User info
+    user_age = scenario.birth_yr + year
+    marital_status = "couple" if scenario.is_married else "individual"
+    spouse_age = scenario.spouse_birth_yr + year if scenario.is_married else None
+
+    # Check if the user/spouse is alive
+    spouse_alive = True
+    user_alive = True
+
+    # Get the investments, event series, and RMD strategy
     investments = scenario.get_investments()
     event_series = scenario.get_event_series()
     rmd = scenario.get_rmd_strategy()
 
-    # Update inflation
+    # STEP 1: Update inflation
     inflation_assumption = scenario.inflation_rate
     update_inflation(scenario, fed_tax, state_tax, event_series, inflation_assumption)
 
-    # Calculate gross income
-    gross_income_value = gross_income(event_series)
+    # STEP 2: Calculate gross income
+    gross_income_value = gross_income(event_series, spouse_alive, user_alive)
+    social_security_income = get_social_security(event_series, spouse_alive, user_alive)
 
-    # Calculate federal and state income tax
-    federal_tax = fed_income_tax(fed_tax, gross_income_value, "couple" if scenario.is_married else "individual")
-    state_tax = state_income_tax(state_tax, gross_income_value, "couple" if scenario.is_married else "individual")
+    # STEP 3: RMD
+    rmd_amount = perform_rmd(rmd, user_age, investments)
 
-    # Calculate non-discretionary and discretionary expenses
-    non_discresionary_expenses_value = non_discresionary_expenses(event_series)
+    # STEP 4: Update investments
+    total_generated_income = update_investments(scenario.ivmt_types, investments)
+
+    # STEP 5: Calculate federal and state income tax and discretionary expenses
+    federal_tax = fed_income_tax(fed_tax, gross_income_value, marital_status)
+    state_tax = state_income_tax(state_tax, gross_income_value, marital_status)
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
-    # Calculate total expenses
+    # TODO: STEP 6: Roth conversion
+    # fed_taxable_income = gross_income_value - fed_tax.bracket[marital_status]['deduction']
+    # upper_limit = calculate_tax(fed_taxable_income, fed_tax.bracket[marital_status])[1]
+    # roth_conversion(upper_limit, fed_taxable_income, fed_tax.bracket[marital_status]['deduction'], investments, scenario.roth_conversion_strategy)
+
+    # STEP 7: Calculate non-discretionary
+    non_discresionary_expenses_value = non_discresionary_expenses(event_series)
+
+    # Calculate non-discresionary expenses
     total_expenses = non_discresionary_expenses_value + sum(discretionary_expenses_value)
 
-    # Perform RMD if applicable
-    age = scenario.birth_yr + year
-    rmd_amount = perform_rmd(rmd_obj, age, investments)
+    # STEP 8: invest in the investments
+    invest_event = find_event(event_series, "my investments")
+    amount_invested = make_investments(invest_event, investments)
 
-    # Update investments
-    total_generated_income = update_investments(scenario.ivmt_types, investments)
+    # STEP 9: Rebalance the investments
+    rebalance_event = find_event(event_series, "rebalance")
+    amount_rebalanced = rebalance(rebalance_event, investments)
 
     # Calculate net income after taxes and expenses
     net_income = gross_income_value - (federal_tax + state_tax) - total_expenses - rmd_amount
