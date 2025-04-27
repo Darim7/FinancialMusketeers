@@ -7,6 +7,7 @@ import { Bar, Line } from "react-chartjs-2"
 import Chart from 'chart.js/auto';
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
+import { Button } from 'react-bootstrap';
 
 // user: {email, scenarios}
 // pass in user
@@ -44,10 +45,26 @@ const testScenarios = {
 
 function Overview() {
   const [scenario, setScenario] = useState("");
+  const [simulationAmount, setSimulationAmount] = useState(0);
+  const [simulationData, setSimulationData] = useState<any>();
   const [charts, setCharts] = useState({
     lineChart: false,
     barChart: false,
   })
+  const [lineChart, setLineChart] = useState({
+    probabilityofSuccess: false,
+  });
+
+  const [shadedLineChart, setShadedLineChart] = useState({
+    totalInvestments: false,
+    totalIncome: false,
+    totalExpenses: false,
+    earlyWithdrawalTax: false,
+    percentageOfTotalDiscretionaryExpenses: false,
+  });
+
+  const [stackedBarGraph, setStackedBarGraph] = useState<"average" | "median" | "">("");
+  const [numberOfCharts, setNumberOfCharts] = useState(0);
 
   const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
     setScenario(e.target.value);
@@ -64,6 +81,26 @@ function Overview() {
     console.log(charts);
   }
 
+  const handleLineChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setLineChart(prevCharts => ({
+      ...prevCharts,
+      [name]: checked,
+    }));
+
+    console.log(lineChart);
+  }
+
+  const handleShadedLineChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setShadedLineChart(prevCharts => ({
+      ...prevCharts,
+      [name]: checked,
+    }));
+
+    console.log(shadedLineChart);
+  }
+
   return (
     <div id="overviewDiv">
       <NavBar/>
@@ -76,7 +113,7 @@ function Overview() {
           value={scenario}
           onChange={(e)=>handleScenarioSelection(e)}
         >
-          <option>Select a scenario</option>
+          <option value="" disabled>Select a scenario</option>
           {Object.keys(testScenarios).map((scenario) => (
             <option key={scenario} value={scenario}>
               {scenario}
@@ -86,6 +123,128 @@ function Overview() {
       </div>
         {/* If user selcts a scenario, allow them to checkbox the charts they want to see*/}
 
+        {scenario && (
+          <div id="simulationAmount">
+          <Form.Label htmlFor="simulationAmount">
+            How many times do you want to simulate?
+          </Form.Label>
+            <Form.Control
+            id="simulationAmount"
+            name="simulationAmount"
+            type="number"
+            placeholder="Enter how many times you want to simulate"
+            value={simulationAmount}
+            onChange={(e) => setSimulationAmount(parseInt(e.target.value))}
+          />
+          
+          <Button
+            id="simulateButton"
+            name="simulateButton"
+            variant="primary"
+            onClick={(e) => {
+              console.log("Simulating", simulationAmount, "times")
+              setSimulationData(true);}
+            }
+          >
+            Submit
+          </Button>
+          </div>
+        )}
+
+        {simulationData &&(
+
+         <>
+            <div id='charts'>
+              <Form.Label id="chartsLabel">
+                Available Charts
+              </Form.Label>
+            </div>
+
+            <div id="lineChart">
+              <Form.Label id="lineChartLabel">
+                Line Graph 
+              </Form.Label>
+              <Form.Check
+                type="checkbox"
+                id="lineChart"
+                name="probabilityofSuccess"
+                label="Line Graph for Probability of Success"
+                checked={lineChart.probabilityofSuccess}
+                onChange={(e) => handleLineChartSelection(e)}  
+              />
+            </div>
+
+            <div id="shadedLineGraph">
+              <Form.Label id="shadedLineGraphLabel">
+                Shaded Line Graph
+              </Form.Label>
+              <Form.Check
+                type="checkbox"
+                id="shadedLineGraph"
+                name="totalInvestments"
+                label="Total Investments"
+                checked={shadedLineChart.totalInvestments} 
+                onChange={(e) => handleShadedLineChartSelection(e)}
+              /> 
+              <Form.Check
+                type="checkbox"
+                id="shadedLineGraph"
+                name="totalIncome"
+                label="Total Income"
+                checked={shadedLineChart.totalIncome} 
+                onChange={(e) => handleShadedLineChartSelection(e)}
+              /> 
+              <Form.Check
+                type="checkbox"
+                id="shadedLineGraph"
+                name="totalExpenses"
+                label="Total Expenses"
+                checked={shadedLineChart.totalExpenses} 
+                onChange={(e) => handleShadedLineChartSelection(e)}
+              /> 
+              <Form.Check
+                type="checkbox"
+                id="shadedLineGraph"
+                name="earlyWithdrawalTax"
+                label="Early Withrdrawl Tax"
+                checked={shadedLineChart.earlyWithdrawalTax} 
+                onChange={(e) => handleShadedLineChartSelection(e)}
+              /> 
+              <Form.Check
+                type="checkbox"
+                id="shadedLineGraph"
+                name="percentageOfTotalDiscretionaryExpenses"
+                label="Percentage of Total Discretionary Expenses"
+                checked={shadedLineChart.percentageOfTotalDiscretionaryExpenses} 
+                onChange={(e) => handleShadedLineChartSelection(e)}
+              /> 
+            </div>
+
+            <div id="stackedBarGraph">
+              <Form.Label id="stackedBarGraphLabel">
+                Stacked Bar Graph of Quantity Over Time
+              </Form.Label>
+              <Form.Check
+                type="radio"
+                id="stackedBarGraph"
+                name="average"
+                label="Average Values"
+                checked={stackedBarGraph === "average"}
+                onChange={() => setStackedBarGraph("average")}
+              />
+              <Form.Check
+                type="radio"
+                id="stackedBarGraph"
+                name="median"
+                label="Median Values"
+                checked={stackedBarGraph === "median"}
+                onChange={() => setStackedBarGraph("median")}
+              />
+            </div>
+          </>
+        )}
+
+{/* 
         {scenario && (
           <div id="selectCharts">
             <Form 
@@ -110,8 +269,9 @@ function Overview() {
               />
             </Form>
           </div>
-        )}
+        )} */}
 
+        
         {/* Check if the bar chart is selectd */}
         {charts.barChart && (
           <div id="barGraph">
@@ -149,7 +309,7 @@ function Overview() {
         )}
 
         {/* Check if Line Graph is selected */}
-        {charts.lineChart && (
+        {lineChart.probabilityofSuccess && (
           <div id="lineGraph">
             <Line data={{
               labels: testScenarios[scenario].years,
