@@ -20,6 +20,7 @@ Chart.register(CategoryScale);
 const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
 
+
 const testScenarios = {
   scenario1:{ name:"test1", 
               years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033"], 
@@ -153,45 +154,44 @@ function Overview() {
       </div>
         {/* If user selcts a scenario, allow them to checkbox the charts they want to see*/}
 
-        {scenario && (
+        {scenario && !simulationData && (
           <div id="simulationAmount">
-          <Form.Label htmlFor="simulationAmount">
-            How many times do you want to simulate?
-          </Form.Label>
-            <Form.Control
-            id="simulationAmount"
-            name="simulationAmount"
-            type="number"
-            placeholder="Enter how many times you want to simulate"
-            value={simulationAmount}
-            onChange={(e) => setSimulationAmount(parseInt(e.target.value))}
-          />
-          
-          <Button
-            id="simulateButton"
-            name="simulateButton"
-            variant="primary"
-            onClick={(e) => {
-              console.log("Simulating", simulationAmount, "times")
-              setSimulationData(true);}
-            }
-          >
-            Submit
-          </Button>
+            <Form.Label htmlFor="simulationAmount">
+              How many times do you want to simulate?
+            </Form.Label>
+              <Form.Control
+              id="simulationAmount"
+              name="simulationAmount"
+              type="number"
+              placeholder="Enter how many times you want to simulate"
+              value={simulationAmount}
+              onChange={(e) => setSimulationAmount(parseInt(e.target.value))}
+            />
+            
+            <Button
+              id="simulateButton"
+              name="simulateButton"
+              variant="primary"
+              onClick={(e) => {
+                console.log("Simulating", simulationAmount, "times")
+                setSimulationData(true);}
+              }
+            >
+              Submit
+            </Button>
           </div>
         )}
 
         {simulationData &&(
-
-         <>
+         <div id="chartSelections">
             <div id='charts'>
-              <Form.Label id="chartsLabel">
+              <Form.Label className="availableChartHeaders" id="chartsLabel">
                 Available Charts
               </Form.Label>
             </div>
 
             <div id="lineChart">
-              <Form.Label id="lineChartLabel">
+              <Form.Label class="availableChartHeaders" id="lineChartLabel">
                 Line Graph 
               </Form.Label>
               <Form.Check
@@ -206,7 +206,7 @@ function Overview() {
             </div>
 
             <div id="shadedLineGraph">
-              <Form.Label id="shadedLineGraphLabel">
+              <Form.Label class="availableChartHeaders" id="shadedLineGraphLabel">
                 Shaded Line Graph
               </Form.Label>
               <Form.Check
@@ -257,7 +257,7 @@ function Overview() {
             </div>
 
             <div id="stackedBarGraph">
-              <Form.Label id="stackedBarGraphLabel">
+              <Form.Label class="availableChartHeaders" id="stackedBarGraphLabel">
                 Stacked Bar Graph of Quantity Over Time
               </Form.Label>
               <Form.Check
@@ -279,7 +279,7 @@ function Overview() {
                 onChange={(e) => handleStackedBarGraphSelection(e)}
               />
             </div>
-          </>
+          </div>
         )}
 
 {/* 
