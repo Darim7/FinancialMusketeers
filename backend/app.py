@@ -78,13 +78,6 @@ def add_scenario():
 
         # Create objects
         user = User(user_name, user_email)
-        
-        # scenarios = [Scenario.from_dict(s) for s in data['scenario']]
-
-        # app.logger.info("SCENARIO")
-        # for i in scenarios:
-        #     app.logger.info(i.to_dict())
-
         scenario = Scenario.from_dict(data['scenario'])
         app.logger.info(f"User: {user_email} | Scenarios before add: {len(user.scenarios)}")
         

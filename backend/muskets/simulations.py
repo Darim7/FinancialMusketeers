@@ -308,7 +308,7 @@ def calculate_tax(income: float, bracket: dict) -> tuple[float, float]:
     upper_bracket = 0
     for brack, percentage in bracket['income'].items():
         if brack == 'inf':
-            res += income * percentage
+            res += (income-previous_bracket) * percentage
             break
         if income > brack:
             res += (brack - previous_bracket) * percentage
