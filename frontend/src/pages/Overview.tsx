@@ -19,6 +19,7 @@ Chart.register(CategoryScale);
 
 const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
+
 const testScenarios = {
   scenario1:{ name:"test1", 
               years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033"], 
@@ -47,10 +48,8 @@ function Overview() {
   const [scenario, setScenario] = useState("");
   const [simulationAmount, setSimulationAmount] = useState(0);
   const [simulationData, setSimulationData] = useState<any>();
-  const [charts, setCharts] = useState({
-    lineChart: false,
-    barChart: false,
-  })
+  const MAX_NUMBER_OF_CHARTS = 3;
+
   const [lineChart, setLineChart] = useState({
     probabilityofSuccess: false,
   });
@@ -63,23 +62,44 @@ function Overview() {
     percentageOfTotalDiscretionaryExpenses: false,
   });
 
-  const [stackedBarGraph, setStackedBarGraph] = useState<"average" | "median" | "">("");
-  const [numberOfCharts, setNumberOfCharts] = useState(0);
+  const [stackedBarGraph, setStackedBarGraph] = useState({
+    average: false,
+    median: false,
+  });
+
+  const countSelectedCharts = () => {
+    const lineSelected = Object.values(lineChart).filter(Boolean).length;
+    const shadedLineSelected = Object.values(shadedLineChart).filter(Boolean).length;
+    const stackedSelected = Object.values(stackedBarGraph).filter(Boolean).length
+    return lineSelected + shadedLineSelected + stackedSelected;
+  };
+  
+  const totalSelectedCharts = countSelectedCharts();
 
   const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
     setScenario(e.target.value);
+
+    // Reset the charts and simulation data when a new scenario is selected
+    setLineChart({
+      probabilityofSuccess: false,
+    });
+    setShadedLineChart({
+      totalInvestments: false,
+      totalIncome: false,
+      totalExpenses: false,
+      earlyWithdrawalTax: false,
+      percentageOfTotalDiscretionaryExpenses: false,
+    });
+    setStackedBarGraph({
+      average: false,
+      median: false,
+    });
+    setSimulationData(false);
+    setSimulationAmount(0);
+
     console.log("Selected Scenario:", e.target.value);
   }
 
-  const handleChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
-    const {name, checked} = e.target;
-    setCharts(prevCharts => ({
-      ...prevCharts,
-      [name]: checked,
-    }));
-
-    console.log(charts);
-  }
 
   const handleLineChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
@@ -99,6 +119,16 @@ function Overview() {
     }));
 
     console.log(shadedLineChart);
+  }
+
+  const handleStackedBarGraphSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setStackedBarGraph(prevCharts => ({
+      ...prevCharts,
+      [name]: checked,
+    }));
+
+    console.log(stackedBarGraph);
   }
 
   return (
@@ -170,6 +200,7 @@ function Overview() {
                 name="probabilityofSuccess"
                 label="Line Graph for Probability of Success"
                 checked={lineChart.probabilityofSuccess}
+                disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !lineChart.probabilityofSuccess}
                 onChange={(e) => handleLineChartSelection(e)}  
               />
             </div>
@@ -184,6 +215,7 @@ function Overview() {
                 name="totalInvestments"
                 label="Total Investments"
                 checked={shadedLineChart.totalInvestments} 
+                disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !shadedLineChart.totalInvestments}
                 onChange={(e) => handleShadedLineChartSelection(e)}
               /> 
               <Form.Check
@@ -192,6 +224,7 @@ function Overview() {
                 name="totalIncome"
                 label="Total Income"
                 checked={shadedLineChart.totalIncome} 
+                disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !shadedLineChart.totalIncome}
                 onChange={(e) => handleShadedLineChartSelection(e)}
               /> 
               <Form.Check
@@ -200,6 +233,7 @@ function Overview() {
                 name="totalExpenses"
                 label="Total Expenses"
                 checked={shadedLineChart.totalExpenses} 
+                disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !shadedLineChart.totalExpenses}
                 onChange={(e) => handleShadedLineChartSelection(e)}
               /> 
               <Form.Check
@@ -208,6 +242,7 @@ function Overview() {
                 name="earlyWithdrawalTax"
                 label="Early Withrdrawl Tax"
                 checked={shadedLineChart.earlyWithdrawalTax} 
+                disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !shadedLineChart.earlyWithdrawalTax}
                 onChange={(e) => handleShadedLineChartSelection(e)}
               /> 
               <Form.Check
@@ -215,6 +250,7 @@ function Overview() {
                 id="shadedLineGraph"
                 name="percentageOfTotalDiscretionaryExpenses"
                 label="Percentage of Total Discretionary Expenses"
+                disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !shadedLineChart.percentageOfTotalDiscretionaryExpenses}
                 checked={shadedLineChart.percentageOfTotalDiscretionaryExpenses} 
                 onChange={(e) => handleShadedLineChartSelection(e)}
               /> 
@@ -225,20 +261,22 @@ function Overview() {
                 Stacked Bar Graph of Quantity Over Time
               </Form.Label>
               <Form.Check
-                type="radio"
+                type="checkbox"
                 id="stackedBarGraph"
                 name="average"
                 label="Average Values"
-                checked={stackedBarGraph === "average"}
-                onChange={() => setStackedBarGraph("average")}
+                checked={stackedBarGraph.average}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS || stackedBarGraph.median) && !stackedBarGraph.average}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
               />
               <Form.Check
-                type="radio"
+                type="checkbox"
                 id="stackedBarGraph"
                 name="median"
                 label="Median Values"
-                checked={stackedBarGraph === "median"}
-                onChange={() => setStackedBarGraph("median")}
+                checked={stackedBarGraph.median}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS || stackedBarGraph.average) && !stackedBarGraph.median}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
               />
             </div>
           </>
@@ -273,7 +311,7 @@ function Overview() {
 
         
         {/* Check if the bar chart is selectd */}
-        {charts.barChart && (
+        {stackedBarGraph.average && (
           <div id="barGraph">
             <Bar 
             data={{
