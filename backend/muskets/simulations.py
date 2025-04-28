@@ -255,9 +255,9 @@ def create_after_tax_retirement_investment(name: str) -> Investment:
     investment_obj = Investment.from_dict(new_investment)
     return investment_obj
 
-def roth_conversion(upper_limit: float, federal_taxable_income: float, standard_deduction: float, investments: list[Investment], roth_conversion_strategy: list) -> float:
+def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: float, investments: list[Investment], roth_conversion_strategy: list) -> float:
     # Calculation amount of roth conversion.
-    rc = upper_limit - (federal_taxable_income - standard_deduction)
+    rc = upper_limit - (federal_taxable_income_after_deduction)
 
     converted_value = rc
     # Iterate over the investments in the Roth conversion strategy in the given order
@@ -474,6 +474,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 2: Calculate gross income
     gross_income_value = gross_income(event_series, spouse_alive, user_alive)
     social_security_income = get_social_security(event_series, spouse_alive, user_alive)
+    currYearIncome = gross_income_value + 0.15 * social_security_income
 
     # STEP 3: RMD
     rmd_amount = perform_rmd(rmd, user_age, investments)
@@ -481,18 +482,18 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 4: Update investments
     total_generated_income = update_investments(scenario.ivmt_types, investments)
 
-    # STEP 5: Calculate federal and state income tax and discretionary expenses
-    federal_tax = fed_income_tax(fed_tax, gross_income_value, marital_status)
-    state_tax = state_income_tax(state_tax, gross_income_value, marital_status)
-    discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
+    # STEP 5: Calculate federal and state income tax
+    federal_tax = fed_income_tax(fed_tax, currYearIncome, marital_status)
+    state_tax = state_income_tax(state_tax, currYearIncome, marital_status)
 
     # TODO: STEP 6: Roth conversion
-    # fed_taxable_income = gross_income_value - fed_tax.bracket[marital_status]['deduction']
-    # upper_limit = calculate_tax(fed_taxable_income, fed_tax.bracket[marital_status])[1]
-    # roth_conversion(upper_limit, fed_taxable_income, fed_tax.bracket[marital_status]['deduction'], investments, scenario.roth_conversion_strategy)
+    fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
+    upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status])[1]
+    roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
 
     # STEP 7: Calculate non-discretionary
     non_discresionary_expenses_value = non_discresionary_expenses(event_series)
+    discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
     # Calculate non-discresionary expenses
     total_expenses = non_discresionary_expenses_value + sum(discretionary_expenses_value)
