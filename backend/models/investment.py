@@ -47,7 +47,7 @@ class Investment(Exportable):
     def __init__(
             self,
             investmentType: str,
-            value: str,
+            value: float,
             taxStatus: str,
             id: str
         ):
@@ -80,3 +80,6 @@ class Investment(Exportable):
         pass
     def calculate_total_value(investments:List[Self]):
         pass
+    
+    def __str__(self):
+        return f"Investment(type={self.asset_type}, value={self.value}, tax_status={self.tax_status}, id={self.investment_id})"

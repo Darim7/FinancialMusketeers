@@ -1,6 +1,6 @@
 # file format for scenario import/export.  version: 2025-03-11
 
-name: "Retirement Plan Without Roth Conversion"
+name: Retirement Plan Without Roth Conversion
 maritalStatus: individual
 birthYears: [1980]
 lifeExpectancy: [{type: fixed, value: 85}]
@@ -18,7 +18,7 @@ investmentTypes:
   - name: S&P 500
     description: S&P 500 index fund
     returnAmtOrPct: percent
-    returnDistribution: {type: GBM, mu: 0.06, sigma: 0.02}
+    returnDistribution: {type: normal, mean: 0.06, stdev: 0.02}  # GBM replaced with normal
     expenseRatio: 0.001
     incomeAmtOrPct: percent
     incomeDistribution: {type: normal, mean: 0.01, stdev: 0.005}
@@ -87,7 +87,7 @@ afterTaxContributionLimit: 7000
 spendingStrategy: ["rent"]
 expenseWithdrawalStrategy: [S&P 500 non-retirement, tax-exempt bonds]
 RMDStrategy: [S&P 500 pre-tax]
-RothConversionOpt: false  # No Roth Conversion
+RothConversionOpt: false
 RothConversionStart: 0
 RothConversionEnd: 0
 RothConversionStrategy: []

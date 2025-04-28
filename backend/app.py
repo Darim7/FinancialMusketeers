@@ -33,6 +33,7 @@ def get_scenario():
     try:
         # Get the scenario ID from the query parameters
         scenario_id = request.get_json().get('_id')
+        app.logger.info("what is scenario_id", scenario_id)
         
         if not scenario_id:
             app.logger.error(f'Scenario ID is required received {scenario_id}')
@@ -77,18 +78,12 @@ def add_scenario():
 
         # Create objects
         user = User(user_name, user_email)
-        
-        # scenarios = [Scenario.from_dict(s) for s in data['scenario']]
-
-        # app.logger.info("SCENARIO")
-        # for i in scenarios:
-        #     app.logger.info(i.to_dict())
-
         scenario = Scenario.from_dict(data['scenario'])
-
-       
+        app.logger.info(f"User: {user_email} | Scenarios before add: {len(user.scenarios)}")
+        
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
+        app.logger.info("what is user", user.scenarios)
 
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
@@ -103,6 +98,8 @@ def update_scenario():
 
     # Get the updated scenario data
     data = request.get_json()
+    app.logger.info(f'Update scenario data: {data}')
+    
     if not data:
         return jsonify({"error": "Invalid JSON data"}), 400
     
@@ -114,12 +111,13 @@ def update_scenario():
     new_scenario = Scenario.from_dict(data['scenario'])
 
     # Find the scenario by ID
-    scenario = find_document(SCENARIO_COLLECTION, {"_id": scenario_id})
+    scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
     if not scenario:
         return jsonify({"error": "Scenario not found"}), 404
     
     # Update the scenario data
-    cnt = update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True).matched_count
+    cnt = update_document(SCENARIO_COLLECTION, scenario_id, new_scenario.to_dict(), upsert=True).matched_count
+    logging.info(f"Updated scenario: {scenario_id} | Count: {cnt}")
 
     return jsonify({"message": "Scenario updated successfully"}), 200 if cnt > 0 else 500
 

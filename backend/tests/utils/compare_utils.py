@@ -1,4 +1,8 @@
 from typing import Dict, List
+from scipy.stats import kstest
+import numpy as np
+import random
+
 def compare_dict(dict1: Dict, dict2: Dict) -> bool:
         """
         Compare two dictionaries and return True if they are identical, otherwise False.
@@ -36,3 +40,48 @@ def compare_str_list(list1:List[str], list2:List[str]):
         if elmt!=list2[i]:
             return False
     return True
+
+def assert_within_range(value, expected_min, expected_max, label="value"):
+    assert expected_min <= value <= expected_max, (
+        f"{label} {value} not in expected range [{expected_min}, {expected_max}]"
+    )
+
+def assert_is_uniform(valuef, lower, upper, label="value", num_samples=2000):
+    random.seed(42)
+    np.random.seed(42)
+    # Check if value is uniformly distributed
+    samples = [valuef() for _ in range(num_samples)]
+    
+    # Normalize to [0, 1]
+    normalized_samples = [(x - lower) / (upper - lower) for x in samples]
+    
+    stat, p_value = kstest(normalized_samples, 'uniform')
+    assert p_value > 0.05, f"KS test failed: p={p_value}, {label} not uniform"
+
+def assert_is_normal(value_fn, expected_mean, expected_std, label="value", num_samples=2000):
+    """
+    value_fn: function that returns a random sample
+    expected_mean: mean of the expected normal distribution
+    expected_std: std dev of the expected normal distribution
+    """
+    random.seed(42)
+    np.random.seed(42)
+    
+    samples = np.array([value_fn() for _ in range(num_samples)])
+
+    # Sanity check: basic bounds (3-sigma rule)
+    for i, sample in enumerate(samples):
+        lower = expected_mean - 4 * expected_std
+        upper = expected_mean + 4 * expected_std
+        assert lower <= sample <= upper, (
+            f"{label} sample {i} = {sample} is outside expected normal bounds"
+        )
+
+    # Standardize samples
+    standardized_samples = (samples - expected_mean) / expected_std
+
+    # KS test against standard normal
+    stat, p_value = kstest(standardized_samples, 'norm')
+    assert p_value > 0.05, (
+        f"KS test failed: p={p_value:.4f}, {label} is not normally distributed"
+    )
