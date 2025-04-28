@@ -42,7 +42,17 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     RothConversionEnd: '',
     RothConversionStrategy: [] as any,
     AssetAllocation: [] as any[],
-    investmentTypes: [] as any[],
+    investmentTypes: [
+      {name: 'Cash',
+      description: 'Cash',
+      returnAmtOrPct: '',
+      returnDistribution: {type:""},
+      expenseRatio: '',
+      incomeAmtOrPct: '',
+      incomeDistribution: {type:""},
+      taxability: '',
+      }
+    ] as any[],
     investments: [] as any[],
     eventSeries: [] as any[],
     discretionary: [] as any []
@@ -74,7 +84,18 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       RothConversionEnd: formInfo.RothConversionEnd || '',
       RothConversionStrategy: formInfo.RothConversionStrategy || [],
       AssetAllocation: formInfo.AssetAllocation || [],
-      investmentTypes: formInfo.investmentTypes || [],
+      // investmentTypes: formInfo.investmentTypes || [],
+      investmentTypes: formInfo.investmentTypes || [
+        {name: 'Cash',
+        description: 'Cash',
+        returnAmtOrPct: '',
+        returnDistribution: {type:""},
+        expenseRatio: '',
+        incomeAmtOrPct: '',
+        incomeDistribution: {type:""},
+        taxability: '',
+        }
+      ],
       investments: formInfo.investments || [],
       eventSeries: formInfo.eventSeries || [],
       discretionary: formInfo.discretionary || []
@@ -126,7 +147,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
       { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
-      { question: "Change Amount or Percent: ", type: "text" , name:"changeAmountOrPercent"},
+      { question: "Change Amount or Percent: ", type: "select" , name:"changeAmountOrPercent"},
       { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
       { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},

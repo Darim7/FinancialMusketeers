@@ -6,18 +6,30 @@ from models.scenario import Scenario
 from models.exportable import Exportable
 from dbconn import SCENARIO_COLLECTION, USER_COLLECTION, document_exists, insert_document, find_document, delete_document
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class User(Exportable):
     def __init__(self, name: str, email:str, scenarios: List[ObjectId]=[]):
         self.name=name
         self.email=email
         self.scenarios=scenarios
 
+        logger.info("HELLO FROM USER.PY")
+
+        # logger.info(f"User {self.name} with email {self.email} created.")
+
         # Check if the user already exists in the database
         if document_exists(USER_COLLECTION, {'email': email}):
             res = find_document(USER_COLLECTION, {'email': email})
+            # logger.info(f"User {email} already exists in the database.")
+            logger.info("what is res", res)
             self.savedId = res['_id'] if res else None
+            # logger.info("what is savedId", self.savedId)
             self.scenarios = res['scenarios'] if res else []
         else:
+            logger.info(f"User {email} does not exist in the database. Creating a new user.")
             self.save_to_db()
         
     def to_dict(self) -> dict:

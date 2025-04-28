@@ -33,6 +33,7 @@ def get_scenario():
     try:
         # Get the scenario ID from the query parameters
         scenario_id = request.get_json().get('_id')
+        app.logger.info("what is scenario_id", scenario_id)
         
         if not scenario_id:
             app.logger.error(f'Scenario ID is required received {scenario_id}')
@@ -89,6 +90,7 @@ def add_scenario():
        
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
+        app.logger.info("what is user", user.scenarios)
 
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
@@ -103,6 +105,8 @@ def update_scenario():
 
     # Get the updated scenario data
     data = request.get_json()
+    app.logger.info(f'Update scenario data: {data}')
+    
     if not data:
         return jsonify({"error": "Invalid JSON data"}), 400
     
