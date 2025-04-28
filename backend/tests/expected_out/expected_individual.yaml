@@ -18,7 +18,7 @@ investmentTypes:
   - name: S&P 500
     description: S&P 500 index fund
     returnAmtOrPct: percent
-    returnDistribution: {type: GBM, mu: 0.06, sigma: 0.02}
+    returnDistribution: {type: normal, mean: 0.06, stdev: 0.02}
     expenseRatio: 0.001
     incomeAmtOrPct: percent
     incomeDistribution: {type: normal, mean: 0.01, stdev: 0.005}

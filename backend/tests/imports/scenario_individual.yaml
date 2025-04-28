@@ -1,10 +1,10 @@
 # file format for scenario import/export.  version: 2025-03-11
 # CSE416, Software Engineering, Scott D. Stoller.
 
-name: "Retirement Planning Scenario - Individual"
-maritalStatus: individual # changed from "couple"
-birthYears: [1985] # changed to a single birth year
-lifeExpectancy: [{type: fixed, value: 80}] # changed to a single value
+name: Retirement Planning Scenario - Individual
+maritalStatus: individual
+birthYears: [1985]
+lifeExpectancy: [{type: fixed, value: 80}]
 
 investmentTypes:
   - name: cash
@@ -19,7 +19,7 @@ investmentTypes:
   - name: S&P 500
     description: S&P 500 index fund
     returnAmtOrPct: percent
-    returnDistribution: {type: GBM, mu: 0.06, sigma: 0.02}
+    returnDistribution: {type: normal, mean: 0.06, stdev: 0.02}  # changed from GBM to normal
     expenseRatio: 0.001
     incomeAmtOrPct: percent
     incomeDistribution: {type: normal, mean: 0.01, stdev: 0.005}
@@ -78,9 +78,9 @@ eventSeries:
     type: expense
     initialAmount: 5000
     changeAmtOrPct: percent
-    changeDistribution: {type: normal, mean: 0.02, stdev: 0.01} 
+    changeDistribution: {type: normal, mean: 0.02, stdev: 0.01}
     inflationAdjusted: true
-    userFraction: 1.0 # changed to 1.0 as there's no spouse
+    userFraction: 1.0
     discretionary: false
 
   - name: vacation
@@ -111,7 +111,7 @@ eventSeries:
     type: invest
     assetAllocation: {S&P 500 non-retirement: 0.6, S&P 500 after-tax: 0.4}
     glidePath: true
-    assetAllocation2: {S&P 500 non-retirement: 0.8, S&P 500 after-tax: 0.2} 
+    assetAllocation2: {S&P 500 non-retirement: 0.8, S&P 500 after-tax: 0.2}
     maxCash: 1000
 
   - name: rebalance

@@ -86,8 +86,8 @@ def add_scenario():
         #     app.logger.info(i.to_dict())
 
         scenario = Scenario.from_dict(data['scenario'])
-
-       
+        app.logger.info(f"User: {user_email} | Scenarios before add: {len(user.scenarios)}")
+        
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
         app.logger.info("what is user", user.scenarios)
@@ -118,12 +118,13 @@ def update_scenario():
     new_scenario = Scenario.from_dict(data['scenario'])
 
     # Find the scenario by ID
-    scenario = find_document(SCENARIO_COLLECTION, {"_id": scenario_id})
+    scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
     if not scenario:
         return jsonify({"error": "Scenario not found"}), 404
     
     # Update the scenario data
-    cnt = update_document(SCENARIO_COLLECTION, scenario_id, new_scenario, upsert=True).matched_count
+    cnt = update_document(SCENARIO_COLLECTION, scenario_id, new_scenario.to_dict(), upsert=True).matched_count
+    logging.info(f"Updated scenario: {scenario_id} | Count: {cnt}")
 
     return jsonify({"message": "Scenario updated successfully"}), 200 if cnt > 0 else 500
 
