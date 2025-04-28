@@ -251,17 +251,17 @@ def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
     bracket = tax_obj.bracket[status]
     return calculate_tax(income, bracket)
 
-def non_discresionary_expenses(event_series: list[EventSeries]) -> float:
+def non_discretionary_expenses(event_series: list[EventSeries]) -> float:
     """
     Calculate the non-discretionary expenses from the event series.
     """
-    non_discresionary_expenses = 0
+    non_discretionary_expenses = 0
     
     for event in event_series:
         if event.type == 'expense' and 'discretionary' in event.data and not event.data['discretionary']:
-            non_discresionary_expenses += event.data['initialAmount']
+            non_discretionary_expenses += event.data['initialAmount']
 
-    return non_discresionary_expenses
+    return non_discretionary_expenses
 
 def discretionary_expenses(event_series: list[EventSeries], spending_strategy: list[str]) -> list[float]:
     """
@@ -298,7 +298,8 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
     # then update the gliding rates
     if invest_event.data['glidePath'] and 'glidingAllocation' in invest_event.data:
         # Update the gliding rates
-        for alloc in invest_event.data['asssetAllocation']:
+        for alloc in invest_event.data['assetAllocation']:
+            # Allocation used to invest
             invest_event.data['glidingAllocation'][alloc] = invest_event.data['glidingAllocation'][alloc] + invest_event.data['glidingIncrements'][alloc]
         allocation = invest_event.data['glidingAllocation']
 
@@ -308,7 +309,8 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
         invest_event.data['glidingAllocation'] = allocation
         
         # Calculate how much to glide for each year for each allocation.
-        for alloc in invest_event.data['asssetAllocation']:
+        for alloc in invest_event.data['assetAllocation']:
+            # Gliding rate difference for each year
             invest_event.data['glidingIncrements'][alloc] = (invest_event.data['assetAllocation2'][alloc] - invest_event.data['assetAllocation'][alloc]) / (invest_event.data['duration'])
     
     # Choose the amount to invest.

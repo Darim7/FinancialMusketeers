@@ -202,7 +202,14 @@ class TestTax:
         else: 
             res = state_income_tax(tax_obj, income, marital_status)
         assert res == tax
-    
+
+class TestInvestment:
+    def test_make_investments(self, create_scenario):
+        scenario = create_scenario
+        investments = scenario.get_investments()
+        event_series = scenario.get_event_series()
+        invest_series = [event for event in event_series if event.type=='invest']
+        
         
         
         
