@@ -134,8 +134,12 @@ function Overview() {
 
   return (
     <div id="overviewDiv">
-      <NavBar/>
+
+      <div id="navBar">
+        <NavBar/>
+      </div>
       
+      <div id="main-content">
       <div id="selectScenario">
         {/* Dropdown to select the scenarios */}
         <Form.Select 
@@ -156,11 +160,12 @@ function Overview() {
 
         {scenario && !simulationData && (
           <div id="simulationAmount">
+            
             <Form.Label htmlFor="simulationAmount">
               How many times do you want to simulate?
             </Form.Label>
               <Form.Control
-              id="simulationAmount"
+              id="simulationAmountInput"
               name="simulationAmount"
               type="number"
               placeholder="Enter how many times you want to simulate"
@@ -183,12 +188,13 @@ function Overview() {
         )}
 
         {simulationData &&(
-         <div id="chartSelections">
-            <div id='charts'>
+         <div id="charts">
+            <div>
               <Form.Label className="availableChartHeaders" id="chartsLabel">
                 Available Charts
               </Form.Label>
             </div>
+            <div id="chartSelections">
 
             <div id="lineChart">
               <Form.Label class="availableChartHeaders" id="lineChartLabel">
@@ -198,7 +204,7 @@ function Overview() {
                 type="checkbox"
                 id="lineChart"
                 name="probabilityofSuccess"
-                label="Line Graph for Probability of Success"
+                label="Probability of Success"
                 checked={lineChart.probabilityofSuccess}
                 disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !lineChart.probabilityofSuccess}
                 onChange={(e) => handleLineChartSelection(e)}  
@@ -279,89 +285,66 @@ function Overview() {
                 onChange={(e) => handleStackedBarGraphSelection(e)}
               />
             </div>
+            </div>
           </div>
         )}
-
-{/* 
-        {scenario && (
-          <div id="selectCharts">
-            <Form 
-              id="selectCharts"
-              name="selectCharts"
-            >
-              <Form.Check 
-                type="switch"
-                id="lineGraph"
-                name="lineChart"
-                label="Line Graph for Probability of Success"
-                checked={charts.lineChart}
-                onChange={handleChartSelection}
-              />
-              <Form.Check 
-                type="switch"
-                id="barGraph"
-                name="barChart"
-                label="Stacked Bar Graph"
-                checked={charts.barChart}
-                onChange={handleChartSelection}
-              />
-            </Form>
-          </div>
-        )} */}
-
-        
+          
         {/* Check if the bar chart is selectd */}
-        {stackedBarGraph.average && (
-          <div id="barGraph">
-            <Bar 
-            data={{
-            labels: testScenarios[scenario].years,
-            datasets: [
-              {
-                label: "Total Investments",
-                data: testScenarios[scenario].totalInvestments,
-              },
-              {
-                label:"Total Income",
-                data: testScenarios[scenario].totalIncome,
-              },
-              {
-                label:"Total Expense",
-                data: testScenarios[scenario].expenses,
-              },
-            ]
-            }}
-            options={{
-              scales: {
-                x: {
-                  stacked: true,
-                },
-                y: {
-                  stacked: true,
-                },
-              },
-            }}
-          >
-          </Bar>
-        </div>
-        )}
-
-        {/* Check if Line Graph is selected */}
-        {lineChart.probabilityofSuccess && (
-          <div id="lineGraph">
-            <Line data={{
+        <div id="graphContainer">
+          {stackedBarGraph.average && (
+            <div id="barGraph">
+              <Bar 
+              data={{
               labels: testScenarios[scenario].years,
               datasets: [
                 {
-                  label: "Probability",
-                  data: testScenarios[scenario].probability,
+                  label: "Total Investments",
+                  data: testScenarios[scenario].totalInvestments,
+                },
+                {
+                  label:"Total Income",
+                  data: testScenarios[scenario].totalIncome,
+                },
+                {
+                  label:"Total Expense",
+                  data: testScenarios[scenario].expenses,
                 },
               ]
-              }}>
-            </Line>
-          </div>
-        )}
-        
+              }}
+              options={{
+                scales: {
+                  x: {
+                    stacked: true,
+                  },
+                  y: {
+                    stacked: true,
+                  },
+                },
+                maintainAspectRatio: false,
+              }}
+            >
+            </Bar>
+            </div>
+          )}
+
+          {/* Check if Line Graph is selected */}
+          {lineChart.probabilityofSuccess && (
+            <div id="lineGraph">
+              <Line data={{
+                labels: testScenarios[scenario].years,
+                datasets: [
+                  {
+                    label: "Probability",
+                    data: testScenarios[scenario].probability,
+                  },
+                ]
+                }}
+                options={{maintainAspectRatio: false}}>
+              </Line>
+            </div>
+          )}
+        </div>
+        </div>
       </div>
   );
 }
