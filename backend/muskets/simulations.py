@@ -457,6 +457,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     user_age = scenario.birth_yr + year
     marital_status = "couple" if scenario.is_married else "individual"
     spouse_age = scenario.spouse_birth_yr + year if scenario.is_married else None
+    cash_event = find_event(scenario.event_series, "cash")
 
     # Check if the user/spouse is alive
     spouse_alive = True
@@ -474,13 +475,16 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 2: Calculate gross income
     gross_income_value = gross_income(event_series, spouse_alive, user_alive)
     social_security_income = get_social_security(event_series, spouse_alive, user_alive)
+
+    # Calculate the current year income and add it to the cash event
     currYearIncome = gross_income_value + 0.15 * social_security_income
+    cash_event.data['initialAmount'] += currYearIncome
 
     # STEP 3: RMD
     rmd_amount = perform_rmd(rmd, user_age, investments)
 
     # STEP 4: Update investments
-    total_generated_income = update_investments(scenario.ivmt_types, investments)
+    capital_gains = update_investments(scenario.ivmt_types, investments)
 
     # STEP 5: Calculate federal and state income tax
     federal_tax = fed_income_tax(fed_tax, currYearIncome, marital_status)
@@ -489,14 +493,21 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # TODO: STEP 6: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
     upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status])[1]
-    roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
+    roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
 
     # STEP 7: Calculate non-discretionary
     non_discresionary_expenses_value = non_discresionary_expenses(event_series)
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
     # Subtract previous year's tax and expenses.
-    
+    currYearIncome -= (federal_tax + state_tax + non_discresionary_expenses_value)
+    if currYearIncome < 0:
+        # If what's left is negative, get money from the investments.
+        pass
+
+    # Pay discretionary expenses
+    if currYearIncome > 0:
+        pass
 
     # STEP 8: invest in the investments
     invest_event = find_event(event_series, "my investments")
