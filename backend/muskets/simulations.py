@@ -495,8 +495,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     non_discresionary_expenses_value = non_discresionary_expenses(event_series)
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
-    # Calculate non-discresionary expenses
-    total_expenses = non_discresionary_expenses_value + sum(discretionary_expenses_value)
+    # Subtract previous year's tax and expenses.
+    
 
     # STEP 8: invest in the investments
     invest_event = find_event(event_series, "my investments")
@@ -505,9 +505,6 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 9: Rebalance the investments
     rebalance_event = find_event(event_series, "rebalance")
     amount_rebalanced = rebalance(rebalance_event, investments)
-
-    # Calculate net income after taxes and expenses
-    net_income = gross_income_value - (federal_tax + state_tax) - total_expenses - rmd_amount
 
 if __name__ == "__main__":
     pass
