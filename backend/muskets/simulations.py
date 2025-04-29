@@ -564,5 +564,41 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     rebalance_event = find_event(event_series, "rebalance")
     amount_rebalanced = rebalance(rebalance_event, investments)
 
+    return {
+        'federal_tax': federal_tax_value,
+        'state_tax': state_tax_value,
+        'rmd': rmd_amount,
+        'capital_gains': capital_gains,
+        'roth_converted': roth_converted,
+        'amount_invested': amount_invested,
+        'amount_rebalanced': amount_rebalanced
+    }
+
+def run_simulation(scenario: Scenario) -> dict:
+    """
+    Run the simulation for the given scenario.
+    """
+    # Initialize the state and federal tax objects
+    state_tax = StateTax(scenario.state_tax)
+    fed_tax = FederalTax(scenario.federal_tax)
+
+    # Initialize the random variables for the simulation
+    user_age = scenario.birth_yr
+    spouse_age = scenario.spouse_birth_yr if scenario.is_married else None
+    user_live_expectancy = None
+    spouse_live_expectancy = None
+    
+    # Initialize the previous year tax values
+    prev_state_tax = 0
+    prev_fed_tax = 0
+
+    # Run the simulation for each year
+    for year in range(scenario.simulation_years):
+        result = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax)
+        prev_state_tax = result['state_tax']
+        prev_fed_tax = result['federal_tax']
+
+    return result
+
 if __name__ == "__main__":
     pass
