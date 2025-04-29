@@ -1,4 +1,6 @@
 import numpy as np
+from collections import deque
+
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
 from models.event_series import EventSeries
@@ -480,6 +482,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     currYearIncome = gross_income_value + 0.15 * social_security_income
     cash_event.data['initialAmount'] += currYearIncome
 
+    currYearCash = cash_event.data['initialAmount']
+
     # STEP 3: RMD
     rmd_amount = perform_rmd(rmd, user_age, investments)
 
@@ -489,6 +493,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 5: Calculate federal and state income tax
     federal_tax = fed_income_tax(fed_tax, currYearIncome, marital_status)
     state_tax = state_income_tax(state_tax, currYearIncome, marital_status)
+
+    # Calculate capital gains tax
 
     # TODO: STEP 6: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
@@ -500,14 +506,34 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
     # Subtract previous year's tax and expenses.
-    currYearIncome -= (federal_tax + state_tax + non_discresionary_expenses_value)
-    if currYearIncome < 0:
+    currYearCash -= (federal_tax + state_tax + non_discresionary_expenses_value)
+    if currYearCash < 0:
         # If what's left is negative, get money from the investments.
-        pass
+        for invest in scenario.expense_withdrawal_strat:
+            invest_obj = find_investment(investments, invest)
+            if invest_obj is None:
+                raise ValueError(f"Investment {invest} not found in investments list. But it is in the strategy list.")
+            if invest_obj.value >= abs(currYearCash):
+                invest_obj.value += currYearCash
+                currYearCash = 0
+                break
+            else:
+                currYearCash += invest_obj.value
+                invest_obj.value = 0
 
     # Pay discretionary expenses
-    if currYearIncome > 0:
-        pass
+    q = deque(discretionary_expenses_value)
+    while currYearCash > 0 and q:
+        expense = q.popleft()
+        if currYearCash >= expense:
+            currYearCash -= expense
+        else:
+            # If the current year income is less than the expense, pay partial.
+            currYearCash = 0
+            break
+    
+    # Update the cash event with the remaining cash
+    cash_event.data['initialAmount'] = currYearCash
 
     # STEP 8: invest in the investments
     invest_event = find_event(event_series, "my investments")
