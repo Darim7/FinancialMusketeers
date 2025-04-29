@@ -328,7 +328,7 @@ def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
 
     Args:
         income (int): The taxable income.
-        status (str): The filing status ('single', 'married', 'head_of_household').
+        status (str): The filing status ('individual', 'couple').
 
     Returns:
         float: The calculated federal income tax.
@@ -339,12 +339,32 @@ def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
         return 0
     return calculate_tax(income, bracket)[0]
 
+def capital_gains_tax(tax_obj: FederalTax, income: float, cap_gains: float, status: str) -> float:
+    """
+    Calculate the capital gains tax based on the given income and filing status.
+    Args:
+        income (int): The taxable income.
+        status (str): The filing status ('individual', 'couple').
+    Returns:
+        float: The calculated capital gains tax.
+    """
+    if cap_gains <= 0:
+        return 0
+    
+    bracket = tax_obj.bracket[status]
+    taxable_income = income + cap_gains - bracket['deduction']
+
+    # Find the right bracket for the capital gains tax.
+    upper_bracket = calculate_tax(taxable_income, bracket)[1]
+
+    return cap_gains * bracket['cap_gains'][upper_bracket] if upper_bracket else 0
+
 def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
     """
     Calculate the state income tax based on the given income and filing status.
     Args:
         income (int): The taxable income.
-        status (str): The filing status ('single', 'married', 'head_of_household').
+        status (str): The filing status ('individual', 'couple').
     Returns:
         float: The calculated state income tax.
     """
@@ -491,10 +511,11 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     capital_gains = update_investments(scenario.ivmt_types, investments)
 
     # STEP 5: Calculate federal and state income tax
-    federal_tax = fed_income_tax(fed_tax, currYearIncome, marital_status)
-    state_tax = state_income_tax(state_tax, currYearIncome, marital_status)
+    federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
+    state_tax_value = state_income_tax(state_tax, currYearIncome, marital_status)
 
     # Calculate capital gains tax
+    capital_gains_tax_value = capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
 
     # TODO: STEP 6: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
@@ -506,7 +527,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
     # Subtract previous year's tax and expenses.
-    currYearCash -= (federal_tax + state_tax + non_discresionary_expenses_value)
+    currYearCash -= (federal_tax_value + state_tax_value + capital_gains_tax_value + non_discresionary_expenses_value)
     if currYearCash < 0:
         # If what's left is negative, get money from the investments.
         for invest in scenario.expense_withdrawal_strat:
