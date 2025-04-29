@@ -471,7 +471,7 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> fl
 # Main algorithm for the simulation #
 #####################################
 
-def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: FederalTax) -> dict:
+def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: FederalTax, prev_state_tax: float=0, prev_fed_tax: float=0) -> dict:
     """
     Run a single year of the simulation.
     """
@@ -515,7 +515,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     state_tax_value = state_income_tax(state_tax, currYearIncome, marital_status)
 
     # Calculate capital gains tax
-    capital_gains_tax_value = capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
+    federal_tax_value += capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
 
     # TODO: STEP 6: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
@@ -527,7 +527,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
 
     # Subtract previous year's tax and expenses.
-    currYearCash -= (federal_tax_value + state_tax_value + capital_gains_tax_value + non_discresionary_expenses_value)
+    currYearCash -= (prev_fed_tax + prev_state_tax + non_discresionary_expenses_value)
     if currYearCash < 0:
         # If what's left is negative, get money from the investments.
         for invest in scenario.expense_withdrawal_strat:
