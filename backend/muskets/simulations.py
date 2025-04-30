@@ -75,14 +75,14 @@ def update_inflation(scenario: Scenario, fed_tax: FederalTax, state_tax: StateTa
 
     return inflation_rate
 
-def gross_income(event_series: list[EventSeries], spouse_alive: bool, user_alive: bool) -> float:
+def gross_income(event_series: list[EventSeries], year: int, spouse_alive: bool, user_alive: bool) -> float:
     """
     Calculate the gross income from the cash event and all other event series.
     """
     gross_income = 0
     
     for event in event_series:
-        if event.type == 'income' and not event.data['socialSecurity']:
+        if event.type == 'income' and not event.data['socialSecurity'] and check_event_start(event, year):
             change_dist = event.data['changeDistribution']
             is_percent = event.data['changeAmtOrPct'] == 'percent'
 
@@ -103,11 +103,11 @@ def gross_income(event_series: list[EventSeries], spouse_alive: bool, user_alive
 
     return gross_income
 
-def get_social_security(event_series: list[EventSeries], spouse_alive: bool, user_alive: bool) -> float:
+def get_social_security(event_series: list[EventSeries], year: int, spouse_alive: bool, user_alive: bool) -> float:
     social_security = 0
 
     for event in event_series:
-        if event.type == 'income' and event.data['socialSecurity']:
+        if event.type == 'income' and event.data['socialSecurity'] and check_event_start(event, year):
             change_dist = event.data['changeDistribution']
             is_percent = event.data['changeAmtOrPct'] == 'percent'
 
@@ -136,6 +136,34 @@ def find_event(event_series: list[EventSeries], name: str) -> EventSeries:
         if event.name == name:
             return event
     return None
+
+def check_event_start(event: EventSeries, year: int) -> bool:
+    """
+    Check if the event is starting in the current year.
+    """
+    return year >= event.data['start'] and year <= event.data['end']
+
+def initialize_event(events: list[EventSeries]) -> None:
+
+    for event in events:
+        if isinstance(event.data['start'], int):
+            continue
+        elif isinstance(event.data['start'], dict):
+            duration = sample_from_distribution(event.data['duration'])
+
+            if event.data['start']['type'] == 'fixed':
+                event.data['start'] = event.data['start']['value']
+            elif event.data['start']['type'] == 'uniform' or event.data['start']['type'] == 'normal':
+                event.data['start'] = sample_from_distribution(event.data['start'])
+            elif event.data['start']['type'] == 'startWith':
+                dependent_event = find_event(events, event.data['start']['eventSeries'])
+                event.data['start'] = dependent_event.data['start']
+            else:
+                raise ValueError(f"Unknown event start type: {event.data['start']['type']}")
+            
+            event.data['end'] = event.data['start'] + duration
+        else:
+            raise ValueError(f"Unknown event start type: {event.data['start']['type']}")
 
 def find_investment(investments: list[Investment], investment_id: str) -> Investment:
     """
@@ -376,19 +404,19 @@ def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
     bracket = tax_obj.bracket[status]
     return calculate_tax(income, bracket)[0]
 
-def non_discresionary_expenses(event_series: list[EventSeries]) -> float:
+def non_discresionary_expenses(event_series: list[EventSeries], year: int) -> float:
     """
     Calculate the non-discretionary expenses from the event series.
     """
     non_discresionary_expenses = 0
     
     for event in event_series:
-        if event.type == 'expense' and 'discretionary' in event.data and not event.data['discretionary']:
+        if event.type == 'expense' and 'discretionary' in event.data and not event.data['discretionary'] and check_event_start(event, year):
             non_discresionary_expenses += event.data['initialAmount']
 
     return non_discresionary_expenses
 
-def discretionary_expenses(event_series: list[EventSeries], spending_strategy: list[str]) -> list[float]:
+def discretionary_expenses(event_series: list[EventSeries], spending_strategy: list[str], year: int) -> list[float]:
     """
     Calculate the discretionary expenses from the event series.
     Args:
@@ -400,15 +428,18 @@ def discretionary_expenses(event_series: list[EventSeries], spending_strategy: l
     discretionary_expenses = {}
     
     for event in event_series:
-        if event.type == 'expense' and 'discretionary' in event.data and event.data['discretionary']:
+        if event.type == 'expense' and 'discretionary' in event.data and event.data['discretionary'] and check_event_start(event, year):
             discretionary_expenses[event.name] = event.data['initialAmount']
 
     return [discretionary_expenses[spending] for spending in spending_strategy if spending in discretionary_expenses]
 
-def make_investments(invest_event: EventSeries, investments: list[Investment]) -> float:
+def make_investments(invest_event: EventSeries, investments: list[Investment], year: int) -> float:
     """
     Calculate the total investment events from the event series.
     """
+    if not check_event_start(invest_event, year):
+        return 0.0
+    
     cash = None
     for investment in investments:
         if investment.asset_type == 'cash':
@@ -452,7 +483,10 @@ def make_investments(invest_event: EventSeries, investments: list[Investment]) -
 
     return tot_invested
 
-def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> float:
+def rebalance(rebalance_event: EventSeries, investments: list[Investment], year: int) -> float:
+    if not check_event_start(rebalance_event, year):
+        return 0.0
+
     # Get the set of investments to rebalance, make it a dict.
     rebalancing_set = {invest.investment_id : invest for invest in investments if invest.investment_id in rebalance_event.data['assetAllocation']}
     
@@ -482,7 +516,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     """
     # User info
     marital_status = "individual" if not scenario.is_married or not spouse_alive else "couple"
-    cash_event = find_event(scenario.event_series, "cash")
+    cash_investment = find_investment(scenario.ivmts, "cash")
 
     # Get the investments, event series, and RMD strategy
     investments = scenario.get_investments()
@@ -494,14 +528,14 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     update_inflation(scenario, fed_tax, state_tax, event_series, inflation_assumption)
 
     # STEP 2: Calculate gross income
-    gross_income_value = gross_income(event_series, spouse_alive, user_alive)
-    social_security_income = get_social_security(event_series, spouse_alive, user_alive)
+    gross_income_value = gross_income(event_series, year, spouse_alive, user_alive)
+    social_security_income = get_social_security(event_series, year, spouse_alive, user_alive)
 
     # Calculate the current year income and add it to the cash event
     currYearIncome = gross_income_value + 0.15 * social_security_income
-    cash_event.data['initialAmount'] += currYearIncome
+    cash_investment.value += currYearIncome
 
-    currYearCash = cash_event.data['initialAmount']
+    currYearCash = cash_investment.value
 
     # STEP 3: RMD
     rmd_amount = perform_rmd(rmd, user_age, investments)
@@ -522,8 +556,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
 
     # STEP 7: Calculate non-discretionary
-    non_discresionary_expenses_value = non_discresionary_expenses(event_series)
-    discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat)
+    non_discresionary_expenses_value = non_discresionary_expenses(event_series, year)
+    discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat, year)
 
     # Subtract previous year's tax and expenses.
     currYearCash -= (prev_fed_tax + prev_state_tax + non_discresionary_expenses_value)
@@ -553,15 +587,15 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
             break
     
     # Update the cash event with the remaining cash
-    cash_event.data['initialAmount'] = currYearCash
+    cash_investment.value = currYearCash
 
     # STEP 8: invest in the investments
     invest_event = find_event(event_series, "my investments")
-    amount_invested = make_investments(invest_event, investments)
+    amount_invested = make_investments(invest_event, investments, year)
 
     # STEP 9: Rebalance the investments
     rebalance_event = find_event(event_series, "rebalance")
-    amount_rebalanced = rebalance(rebalance_event, investments)
+    amount_rebalanced = rebalance(rebalance_event, investments, year)
 
     return {
         'federal_tax': federal_tax_value,
@@ -602,8 +636,11 @@ def run_simulation(scenario: Scenario) -> dict:
     prev_state_tax = 0
     prev_fed_tax = 0
 
+    # Initialize the event series
+    initialize_event(scenario.event_series)
+
     # Run the simulation for each year
-    for year in range(years_to_run):
+    for year in range(start_year, start_year+years_to_run+1):
         # Check if the user or spouse is alive
         user_alive = user_curr_age + year <= user_death_age
         spouse_alive = spouse_curr_age + year <= spouse_death_age if scenario.is_married else False
