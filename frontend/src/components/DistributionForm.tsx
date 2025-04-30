@@ -1,7 +1,7 @@
 /******************** Distribution Form ***********************************/
 const DistributionForm = ({name, text, field, distribution, handleChange}:any) => {
 
-  console.log(distribution); // Debugging log
+  // console.log(distribution); // Debugging log
 
   return (
       <>

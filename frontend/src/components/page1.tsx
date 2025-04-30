@@ -3,6 +3,15 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
   return (
     
     <div className="label-container">
+
+      {/* <label htmlFor="user_email">Email:</label>
+      <input
+        type="text"
+        name="user_email"
+        value={values.user_email || ''}
+        onChange={(e) => handleChanges(e, index)}
+      /> */}
+
       <label htmlFor="scenario-name">Scenario Name:</label>
       <input
         type="text"
@@ -10,7 +19,6 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
         value={values.scenarioName || ''}
         onChange={(e) => handleChanges(e, index)}
       />
-
       <label htmlFor="state-of-residence">State of Residence:</label>
 
       <select
@@ -72,7 +80,7 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
         min="1900"
         max={new Date().getFullYear()}
         name="birthYear1"
-        value={values.birthYear1 || ''}
+        value={values.birthYears[0] || ''}
         onChange={(e) => handleChanges(e, 0)}
         maxLength={4}
        
@@ -86,7 +94,7 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
             min="1900"
             max={new Date().getFullYear()}
             name="birthYear2"
-            value={values.birthYear2 || ''}
+            value={values.birthYears[1] || ''}
             onChange={(e) => handleChanges(e, 1)}
             maxLength={4}
           />

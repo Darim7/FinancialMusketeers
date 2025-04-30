@@ -1,6 +1,7 @@
 #profile{
     height: auto;
     width: auto;
+    display: flex;
 }
 
 

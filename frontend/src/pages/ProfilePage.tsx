@@ -36,7 +36,7 @@ function ProfilePage() {
     }
     
     return (
-        <div className='profile'>
+        <div id='profile'>
             <NavBar/>
             <div id='user-details'>
                 <div id='profile-heading'> 

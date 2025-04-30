@@ -166,16 +166,21 @@ class TestRMD:
                     ivmt.investment_id == expected_investments[i].investment_id)   
     
 class TestTax:
-    @pytest.mark.parametrize("income", [
-        58000, 120000, 12000
+    @pytest.mark.parametrize("income, status, tax_type", [
+        (58000, "individual", "federal"), (700000, "individual", "federal"), (12000, "individual", "federal"), 
+        (58000, "couple", "federal"), (700000, "couple", "federal"), (12000, "couple", "federal"),
+        (58000, "individual", "ny"), (700000, "individual", "ny"), (12000, "individual", "ny"),
+        (58000, "couple", "ny"), (700000, "couple", "ny"), (12000, "couple", "ny"),
     ])
-    def test_fed_income_tax(self, income):
-        marital_status = 'individual'
-        tax_obj = FederalTax()
+    def test_income_tax(self, income, status, tax_type):
+        marital_status = status
+        tax_obj = FederalTax() if tax_type == 'federal' else StateTax(tax_type)
         income_bracket = tax_obj.bracket[marital_status]['income']
-        deduction = tax_obj.bracket[marital_status]['deduction']
-        
-        deducted_income = income - deduction 
+        # Set the deduction amount to 0 for state tax
+        deducted_income = income
+        if tax_type == 'federal':
+            deduction = tax_obj.bracket[marital_status]['deduction']
+            deducted_income = income - deduction 
         tax = 0 
 
         if deducted_income > 0:
@@ -193,8 +198,18 @@ class TestTax:
                 previous_upper = upper
 
         # Test with actual function
-        res = fed_income_tax(tax_obj, income, marital_status)
+        if tax_type == 'federal':
+            res = fed_income_tax(tax_obj, income, marital_status)
+        else: 
+            res = state_income_tax(tax_obj, income, marital_status)
         assert res == tax
+
+class TestInvestment:
+    def test_make_investments(self, create_scenario):
+        scenario = create_scenario
+        investments = scenario.get_investments()
+        event_series = scenario.get_event_series()
+        invest_series = [event for event in event_series if event.type=='invest']
         
         
         

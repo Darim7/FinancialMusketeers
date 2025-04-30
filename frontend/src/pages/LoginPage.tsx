@@ -59,7 +59,13 @@ import {getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, browse
         // The signed-in user info.
         const user = result.user;
 
-        localStorage.setItem('userEmail', JSON.stringify(user.email));
+        // localStorage.setItem('userEmail', JSON.stringify(user.email));
+        localStorage.setItem('userEmail', user.email ?? '');
+        localStorage.setItem('userName', user.displayName ?? '');
+
+
+       
+
         
         navigate('./overview')
      
