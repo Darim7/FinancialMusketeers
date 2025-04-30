@@ -151,7 +151,7 @@ def export_scenario():
     try:
         # Get the scenario object from the get request
         data = request.get_json()
-        app.logger.info(f'Exporting scenario: {data}')
+        app.logger.info(f'Exporting is scenario: {data}')
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
 
@@ -175,20 +175,29 @@ def export_scenario():
 def import_scenario():
     app.logger.info('Reached import_scenario route.')
 
-    data = request.get_json()
-    if not data:
+    # data = request.get_json()
+    app.logger.info(f'Importing scenario: {request.form}')
+    app.logger.info("HELOOOOOOOOOO")
+
+    if not request.form:
         return jsonify({"error": "Invalid JSON data"}), 400
     
+    app.logger.info("REQUEST FORM email:", request.form.get('user_email'))
     # Get user email and create a user object
-    user_email = data['user_email']
-    user_name = data['user_name']
+    # user_email = data['user_email']
+    # user_name = data['user_name']
+    user_email = request.form.get('user_email')
+    user_name = request.form.get('user_name')
     user = User(user_name, user_email)
+
+    app.logger.info("WHAT IS REQUEST FILE", request.files)
 
     # Ensure a file is provided
     if 'file' not in request.files:
         return jsonify({"error": "No file provided"}), 400
 
     file = request.files['file']
+    app.logger.info(f'File received: {file}')
     # Ensure it's a YAML file
     if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
         return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
@@ -199,6 +208,7 @@ def import_scenario():
     try:
         # Parse YAML content
         scenario = Scenario.from_yaml(fname)
+        app.logger.info(f'Parsed scenario: {scenario}')
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
