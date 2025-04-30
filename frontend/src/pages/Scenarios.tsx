@@ -27,7 +27,7 @@ function Scenario() {
     const [show, setShow] = useState(false);
     const [scenarioSaved, setScenarioSaved] = useState(false);
     const [exportModalShow, setExportModalShow] = useState(false); 
-    const [selectedScenarioId, setSelectedScenarioId] = useState<number | null>(null); 
+    const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null); 
     
     //Store Multiple Scenario Forms
     const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
@@ -65,7 +65,11 @@ function Scenario() {
     const handleExportModalClose = () => setExportModalShow(false);
     
     const handleViewForm = (form: React.SetStateAction<{ id: number; _id: string | null; name: string; } | null>) => {
+        console.log("what is form", form);
+        console.log("what is the name", form?.name);
         setScenarioForm(form);
+        console.log("what is the scenario form", scenarioForm);
+        console.log("what is saveFormArray", saveFormArray);
         handleShow();
     };
 
@@ -83,7 +87,8 @@ function Scenario() {
           });
       
             const userData = response.data;
-            const userDataArray = userData.data.scenarios;
+            // const userDataArray = userData.data.scenarios;
+            const userDataArray = userData.data.scenarios || [];
             console.log("User Data Array:", userDataArray);
             setUserData(userDataArray);
         } catch (error) {
@@ -107,30 +112,16 @@ function Scenario() {
         }
     
         try {
-;
+            // Asked ChatGPT: How do I loop through user scenario IDs and fetch data from the backend?
             const scenarioPromises = userData.map(async (scenario) => {
-                // console.log("Making request for scenario ID:", scenario);
-                const response = await axios.post('/api/get_scenario', { _id: scenario });
-                return response.data.data;
+            const response = await axios.post('/api/get_scenario', { _id: scenario });
+            return response.data.data;
             });
     
             const scenarios = await Promise.all(scenarioPromises);
             setFetchUserScenarios(scenarios);
           
-    
-            // Wait for all promises to resolve
-          
-            // const responses = await Promise.all(scenarioPromises);
-            // console.log("Responses:", responses);
 
-    
-            // Extract the scenario data from each response
-            // const scenarios = response.map((res) => res.data.data);
-    
-            // Update the state with the fetched scenarios
-            // setFetchUserScenarios(scenarios);
-    
-            // console.log("Fetched Scenarios:", scenarios);
         } catch (err) {
             console.error("Error fetching scenarios:", err);
         }
@@ -141,6 +132,10 @@ function Scenario() {
             getScenario();
         }
     }, [userData]);
+
+    useEffect(() => {
+        console.log("Fetch User Scenarios:", fetchUserScenarios);
+    }, [fetchUserScenarios]);
     
     console.log("Fetch Scenarios:", fetchUserScenarios);
       
@@ -199,8 +194,12 @@ function Scenario() {
         console.log("Updated Save Form Array:", saveFormArray);
     }, [saveFormArray]);
 
+    console.log("SAVE FORM ARRAY", saveFormArray)
+
     const updateScenario = async () => {
-        if (userEmail != null) {
+        if (userEmail != null && scenarioForm) {
+            // If user log back in and their data come from fetchUserScenarios, then the saveFormArray will be empty
+            // and the scenarioForm will be the last form that was saved
             const array_len = saveFormArray.length;
             const array = saveFormArray[array_len - 1];
             // console.log("what is _id", scenarioForm?._id);
@@ -209,6 +208,9 @@ function Scenario() {
                     'scenario': array,
                 });
                 console.log("Scenario updated successfully:", response.data);
+                
+
+
             } catch (error) {
                 console.error("Error updating scenario:", error);
             }
@@ -216,10 +218,15 @@ function Scenario() {
     };
     
     // Export YAML File
-    const exportYAML = async (scenarioId: number) => {
-       
+    const exportYAML = async (scenarioId: number) => {       
         // Find the selected scenario in saveFormArray
-        const selectedScenario = saveFormArray.find((form) => form.id === scenarioId);
+        const selectedScenario =
+            saveFormArray.find((form) => form.id === scenarioId) ||
+            fetchUserScenarios.find((form) => form._id === scenarioId);
+
+        console.log("WHAT IS SELECTED SCENARIO", fetchUserScenarios);
+        console.log("WHAT IS SAVE FORM ID", saveFormArray);
+
         if (!selectedScenario) {
             alert("Selected scenario not found!");
             return;
@@ -249,6 +256,7 @@ function Scenario() {
                 throw new Error(`Failed to export scenario: ${response.statusText}`);
             }
     
+            // Ask ChatGPT for help for this: 
             // Get the YAML file as a blob
             const blob = await response.blob();
     
@@ -268,7 +276,55 @@ function Scenario() {
     };
 
     // Import YAML File
-     const importYAML = async () =>{
+    const importYAML = async () =>{
+        // Ask ChatGPT for help for this:
+        // Create a file input element 
+        const input = document.createElement('input');
+        // Only allow YAML files
+        input.type = 'file';
+        input.accept = '.yaml, .yml';
+
+        // Take the first file from user
+        input.onchange = async (event) => {
+            const file = (event.target as HTMLInputElement).files?.[0];
+            console.log("what is the file", file);
+    
+            if (file) {
+                // Read the file content
+                // const fileRead = new FileReader();
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('user_email', userEmail || "");
+                formData.append('user_name', userName || "");
+                console.log("what is the form data", formData);
+                for (let [key, value] of formData.entries()) {
+                    console.log(key, value);
+                  }
+                // fileRead.onload = async (e) => {
+                //     const content = e.target?.result;
+                    try {
+                        const response = await axios.post('/api/import_scenario', 
+                        formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+
+                        );
+                            console.log("Imported scenario:", response.data);
+
+                            alert("Scenario imported successfully!");
+
+                        } catch (error) {
+                            console.error("Error importing scenario:", error);
+                            alert("Failed to import scenario.");
+                        }
+                    
+                };
+            }
+        
+        input.click();
+    
         
 
      }
@@ -293,16 +349,26 @@ function Scenario() {
                         </Modal.Header>
 
                         <Modal.Body>
-                            {saveFormArray.length > 0 ? (
+                            {fetchUserScenarios.length > 0 || saveFormArray.length > 0 ? (
                             <div>
                                 <select
                                 className="form-select"
                                 value={selectedScenarioId || ''} // Set the selected value
-                                onChange={(e) => setSelectedScenarioId(Number(e.target.value))} // Update the selected scenario ID
+                                onChange={(e) => {
+                                    console.log("Selected Scenario ID:", e.target.value)
+                                    setSelectedScenarioId(e.target.value)
+                                }} // Will know which scenario to export, base on num
                                 >
                                 <option value="" disabled>
                                     Select a Scenario
                                 </option>
+                                
+                                {fetchUserScenarios.map((form) => (
+                                    <option key={form._id} value={form._id}>
+                                        {form.name || "Untitled Form"}
+                                    </option>
+                                ))}
+
                                 {saveFormArray.map((form) => (
                                     <option key={form.id} value={form.id}>
                                         {form.name || "Untitled Form"}
@@ -322,7 +388,7 @@ function Scenario() {
                                 variant="primary"
                                 onClick={() => {
                                     if(selectedScenarioId){
-                                        exportYAML(selectedScenarioId);
+                                        exportYAML(Number(selectedScenarioId));
                                         // Handle export logic here using selectedScenarioId
                                         console.log("Exporting scenario with ID:", selectedScenarioId);
                                         handleExportModalClose();
@@ -346,13 +412,25 @@ function Scenario() {
             
             <div id='scenario-header-content'>
                 <h3>Scenario Forms:</h3>
+                {fetchUserScenarios && fetchUserScenarios.length > 0 && (
+                    fetchUserScenarios.map((form) => (
+                    <Button
+                        key={form._id}
+                        variant="outline-primary"
+                        onClick={() => handleViewForm(form)}>
+                        {form.name || "Untitled Form"}
+                    </Button>
+                    ))
+                )}
+
                 {saveFormArray.map((form) => (
-                    <Button key={form.id} 
+                    <Button 
+                        key={form.id} 
                         variant="outline-primary" 
                         onClick={() => handleViewForm(form)}>
                         {form.name || "Untitled Form"}
-                        </Button>
-                    ))}
+                    </Button>
+                ))}
            
             </div>
 
