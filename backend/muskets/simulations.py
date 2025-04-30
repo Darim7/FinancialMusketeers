@@ -484,10 +484,6 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     marital_status = "individual" if not scenario.is_married or not spouse_alive else "couple"
     cash_event = find_event(scenario.event_series, "cash")
 
-    # Check if the user/spouse is alive
-    spouse_alive = True
-    user_alive = True
-
     # Get the investments, event series, and RMD strategy
     investments = scenario.get_investments()
     event_series = scenario.get_event_series()
