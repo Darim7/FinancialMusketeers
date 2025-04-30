@@ -41,6 +41,7 @@ def get_scenario():
         
         # Find the scenario by ID
         scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
+        app.logger.info("what is scenario", scenario)
         
         if scenario:
             # Convert ObjectId to string for JSON serialization
@@ -73,8 +74,6 @@ def add_scenario():
              
         app.logger.info("User_email: %s", user_email)
         app.logger.info("User_name: %s", user_name)
-
-
 
         # Create objects
         user = User(user_name, user_email)
