@@ -1,5 +1,6 @@
 import numpy as np
 from collections import deque
+from datetime import datetime
 
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
@@ -93,10 +94,12 @@ def gross_income(event_series: list[EventSeries], spouse_alive: bool, user_alive
                 event.data['initialAmount'] += change
 
             amount_gained = event.data['initialAmount']
-            if spouse_alive:
+            if spouse_alive and user_alive:
                 gross_income += amount_gained
-            else:
+            elif user_alive:
                 gross_income += amount_gained * event.data['userFraction']
+            elif spouse_alive:
+                gross_income += amount_gained * (1 - event.data['userFraction'])
 
     return gross_income
 
@@ -116,10 +119,12 @@ def get_social_security(event_series: list[EventSeries], spouse_alive: bool, use
                 event.data['initialAmount'] += change
 
             amount_gained = event.data['initialAmount']
-            if spouse_alive:
-                social_security += amount_gained
-            else:
-                social_security += amount_gained * event.data['userFraction']
+            if spouse_alive and user_alive:
+                gross_income += amount_gained
+            elif user_alive:
+                gross_income += amount_gained * event.data['userFraction']
+            elif spouse_alive:
+                gross_income += amount_gained * (1 - event.data['userFraction'])
 
     return social_security
 
@@ -471,14 +476,12 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment]) -> fl
 # Main algorithm for the simulation #
 #####################################
 
-def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: FederalTax, prev_state_tax: float=0, prev_fed_tax: float=0) -> dict:
+def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: FederalTax, prev_state_tax: float, prev_fed_tax: float, user_age: int, user_alive: bool, spouse_age: int, spouse_alive: bool) -> dict:
     """
     Run a single year of the simulation.
     """
     # User info
-    user_age = scenario.birth_yr + year
-    marital_status = "couple" if scenario.is_married else "individual"
-    spouse_age = scenario.spouse_birth_yr + year if scenario.is_married else None
+    marital_status = "individual" if not scenario.is_married or not spouse_alive else "couple"
     cash_event = find_event(scenario.event_series, "cash")
 
     # Check if the user/spouse is alive
@@ -579,22 +582,38 @@ def run_simulation(scenario: Scenario) -> dict:
     Run the simulation for the given scenario.
     """
     # Initialize the state and federal tax objects
-    state_tax = StateTax(scenario.state_tax)
-    fed_tax = FederalTax(scenario.federal_tax)
+    state_tax = StateTax(scenario.state)
+    fed_tax = FederalTax()
 
     # Initialize the random variables for the simulation
-    user_age = scenario.birth_yr
-    spouse_age = scenario.spouse_birth_yr if scenario.is_married else None
-    user_live_expectancy = None
-    spouse_live_expectancy = None
+    start_year = datetime.now().year
+
+    user_birth_year = scenario.birth_yr
+    user_curr_age = start_year - user_birth_year
+    user_death_age = sample_from_distribution(scenario.life_exp)
+
+    spouse_curr_age = 0
+    spouse_death_age = 0
+    if scenario.is_married:
+        spouse_birth_year = scenario.spouse_birth_yr
+        spouse_curr_age = start_year - spouse_birth_year
+        spouse_death_age = sample_from_distribution(scenario.spouse_life_exp)
     
+    # Start the year counter
+    years_to_run = int(max((user_death_age - user_curr_age), (spouse_death_age - spouse_curr_age) if scenario.is_married else 0))
+
     # Initialize the previous year tax values
     prev_state_tax = 0
     prev_fed_tax = 0
 
     # Run the simulation for each year
-    for year in range(scenario.simulation_years):
-        result = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax)
+    for year in range(years_to_run):
+        # Check if the user or spouse is alive
+        user_alive = user_curr_age + year <= user_death_age
+        spouse_alive = spouse_curr_age + year <= spouse_death_age if scenario.is_married else False
+
+        # Run the year simulation.
+        result = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
         prev_state_tax = result['state_tax']
         prev_fed_tax = result['federal_tax']
 
