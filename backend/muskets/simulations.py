@@ -597,6 +597,11 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     rebalance_event = find_event(event_series, "rebalance")
     amount_rebalanced = rebalance(rebalance_event, investments, year)
 
+    # Check if the financial goal is met
+    currYearSum = 0
+    for invest in investments:
+        currYearSum += invest.value
+
     return {
         'federal_tax': federal_tax_value,
         'state_tax': state_tax_value,
@@ -604,7 +609,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'capital_gains': capital_gains,
         'roth_converted': roth_converted,
         'amount_invested': amount_invested,
-        'amount_rebalanced': amount_rebalanced
+        'amount_rebalanced': amount_rebalanced,
+        'financial_goal': currYearSum >= scenario.financial_goal
     }
 
 def run_simulation(scenario: Scenario) -> dict:
