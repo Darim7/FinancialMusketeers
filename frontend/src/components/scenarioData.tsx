@@ -823,6 +823,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   const addNewEvent = (e:React.ChangeEvent<any>) => {
     setIsEditingEvent(false);
+    setCurrentEventIndex(-1);
+    setAnswers({});
+    setSelectedEvent("");
     setShowEventModal(true);
   }
 

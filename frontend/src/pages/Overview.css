@@ -1,3 +1,46 @@
 #overviewDiv {
-    display: flex; /* Use flexbox to arrange NavBar and content */
+    display: grid;
+    grid-template-columns: 20% 80%; /* One column, full width */
+    padding: 0px;
+}
+
+#navbar {
+    display: grid; /* THIS makes the sidebar a grid! */
+    grid-template-rows: repeat(4, auto); /* 4 rows, each fits content size */
+    gap: 20px;
+    padding: 0px;
+}
+
+#main-content {
+    height: 100%;
+}
+
+#selectScenario {
+    max-width: 175px;
+}
+
+#simulateButton {
+    margin-top: 10px;
+}
+
+#charts {
+    display: grid;
+    gap: 5px;
+}
+
+#chartSelections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns, each takes equal space */
+    gap: 5px;
+}
+
+.availableChartHeaders {
+    font-weight: bold;
+}
+
+#graphContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns, each takes equal space */
+    gap: 5px;
+    height: 50vh;
 }
