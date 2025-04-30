@@ -1,5 +1,5 @@
 // Overview
-import React, { ReactEventHandler } from 'react';
+import React, { ReactEventHandler, useEffect } from 'react';
 import './Overview.css';
 import NavBar from '../components/NavBar';
 import {CategoryScale} from 'chart.js'; 
@@ -10,6 +10,8 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import LineGraph from '../components/LineGraph';
 import StackedBarGraph from '../components/StackedBarGraph';
+import ShadedLineChart from '../components/ShadedLineChart';
+import axios from 'axios';
 
 // user: {email, scenarios}
 // pass in user
@@ -33,6 +35,15 @@ const testScenarios = {
               totalInvestmentsMedian: [2900, 3900, 4900, 5900, 6800, 7700, 8800, 9900, 10800],
               totalIncomeMedian: [2950, 3950, 4950, 5950, 6900, 7850, 8950, 9950, 10900],  
               expensesMedian: [2850, 3850, 4800, 5800, 6700, 7650, 8700, 9800, 10700],
+              median: [100000, 107000, 114490, 122504, 131080, 140256, 150074, 160578, 171810],
+              range4060Upper: [103000, 110210, 117624, 125553, 134001, 143064, 152779, 163174, 174293],
+              range4060Lower: [97000, 103790, 111356, 119455, 128159, 137448, 147369, 157982, 169327],
+              range3070Upper: [105000, 112490, 120309, 128629, 137472, 146872, 156862, 167479, 178764],
+              range3070Lower: [95000, 101510, 108671, 116379, 124688, 133640, 143286, 153677, 164857],
+              range2080Upper: [108000, 115990, 124234, 132975, 142234, 152048, 162450, 173488, 185205],
+              range2080Lower: [92000, 99010, 104746, 111240, 118442, 126465, 135316, 145026, 155652],
+              range1090Upper: [111000, 119570, 128159, 137179, 146654, 156624, 167122, 178184, 189849],
+              range1090Lower: [89000, 97030, 100821, 107829, 115506, 123888, 132994, 142868, 153552],
             },
   scenario2:{ name:"test2",
               years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035"], 
@@ -61,6 +72,78 @@ function Overview() {
   const [simulationAmount, setSimulationAmount] = useState(0);
   const [simulationData, setSimulationData] = useState<any>();
   const MAX_NUMBER_OF_CHARTS = 3;
+  let user;
+  const [userData, setUserData] = useState<string[] | null>(null);
+  const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
+  const selectedScenarioData = fetchUserScenarios[parseInt(scenario)];
+
+  const getUser = async () => {
+    try {
+      const response = await axios.get('/api/get_user', {
+        params: {
+        user_email: userEmail,
+        user_name: userName
+        }
+      });
+      
+      const userData = response.data;
+      const userDataArray = userData.data.scenarios;
+      console.log("User Data:", userData);
+      console.log("User Data Array:", userDataArray);
+      setUserData(userDataArray);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    
+    useEffect(() => {
+      if (userEmail && userName) {
+        getUser();
+      }
+    }, [userEmail, userName]);
+
+    const getScenario = async () => {
+      if (!userData || userData.length === 0) {
+        console.error("No scenario IDs found in userData.");
+        return;
+      }
+      try {
+        const scenarioPromises = userData.map(async (scenario) => {
+          // console.log("Making request for scenario ID:", scenario);
+          const response = await axios.post('/api/get_scenario', { _id: scenario });
+          return response.data.data;
+      });
+    
+      const scenarios = await Promise.all(scenarioPromises);
+      setFetchUserScenarios(scenarios);
+          
+    
+            // Wait for all promises to resolve
+          
+            // const responses = await Promise.all(scenarioPromises);
+            // console.log("Responses:", responses);
+
+    
+            // Extract the scenario data from each response
+            // const scenarios = response.map((res) => res.data.data);
+    
+            // Update the state with the fetched scenarios
+            // setFetchUserScenarios(scenarios);
+    
+            // console.log("Fetched Scenarios:", scenarios);
+        } catch (err) {
+            console.error("Error fetching scenarios:", err);
+        }
+    };
+    useEffect(() => {
+        console.log("what the heck is userdata.scenario", userData?.length);
+        if (userData && userData.length > 0) {
+            getScenario();
+        }
+    }, [userData]);
+    
+    console.log("Fetch Scenarios:", fetchUserScenarios);
+
 
   const [lineChart, setLineChart] = useState({
     probabilityofSuccess: false,
@@ -160,10 +243,16 @@ function Overview() {
           onChange={(e)=>handleScenarioSelection(e)}
         >
           <option value="" disabled>Select a scenario</option>
-          {Object.keys(testScenarios).map((scenario) => (
+          {Object.keys(testScenarios).map((scenario, index) => (
             <option key={scenario} value={scenario}>
               {scenario}
             </option>
+
+          // {fetchUserScenarios.map((scenario, index) => (
+          //   <option key={scenario._id} value={index}>
+          //     {scenario.name}
+          //   </option>
+          // ))}
           ))}
         </Form.Select>
         </div>
@@ -361,8 +450,7 @@ function Overview() {
                   }
                 ]}
               />
-            </div>              
-
+            </div>           
             //  {/* <div id="lineGraph">
             //   <Line data={{
             //     labels: testScenarios[scenario].years,
@@ -376,6 +464,15 @@ function Overview() {
             //     options={{maintainAspectRatio: false}}>
             //   </Line>
             // </div> */}
+          )}
+
+          {/* Check if Shaded Line Graph is selected */}
+          {shadedLineChart.totalInvestments && (
+            <div id="shadedLineGraph">
+              <ShadedLineChart
+                labels = {testScenarios[scenario].years}
+              />
+            </div>
           )}
         </div>
         </div>

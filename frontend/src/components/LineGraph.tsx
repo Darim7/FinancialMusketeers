@@ -23,7 +23,6 @@ const LineGraph = ({labels, datasets, options}:any) => {
         datasets,
       };
     
-
     return (
         <>
             <Line 
