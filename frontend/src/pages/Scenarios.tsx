@@ -17,6 +17,7 @@ import CreateScenario from '../components/scenarioData';
 import axios from 'axios';
 
 
+
 function Scenario() {
 
     const userEmail = localStorage.getItem('userEmail');
@@ -29,25 +30,31 @@ function Scenario() {
     const [selectedScenarioId, setSelectedScenarioId] = useState<number | null>(null); 
     
     //Store Multiple Scenario Forms
-    const [saveFormArray, setSaveFormArray] = useState<{ id: number; name: string; }[]>([])
+    const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
     console.log("what is saveFormArray", saveFormArray);
   
 
     //Current Scenario Form
-    const [scenarioForm, setScenarioForm] = useState<{ id: number; name: string;} | null>(null);
+    const [scenarioForm, setScenarioForm] = useState<{ id: number; _id: string | null ; name: string;} | null>(null);
     
     //User Data
-    const [userData, setUserData] = useState(null); 
+    const [userData, setUserData] = useState<string[] | null>(null);
 
     //Get User Scenario 
     const [usrScenario, setUsrScenario] = useState(null);
+
+    //Fetch User Scenarios
+    const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
 
     // const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleExportModalShow = () => setExportModalShow(true);
 
     const handleCreateNew = () => {
-        const newScenario = { id: Date.now(), name: '', };
+        const newScenario = { 
+            id: Date.now(), 
+            _id : null,
+            name: '', };
         setScenarioForm(newScenario);
         setSaveFormArray((prev) => [...prev, newScenario]);
         
@@ -57,7 +64,7 @@ function Scenario() {
     const handleClose = () => setShow(false);
     const handleExportModalClose = () => setExportModalShow(false);
     
-    const handleViewForm = (form: React.SetStateAction<{ id: number; name: string; } | null>) => {
+    const handleViewForm = (form: React.SetStateAction<{ id: number; _id: string | null; name: string; } | null>) => {
         setScenarioForm(form);
         handleShow();
     };
@@ -66,107 +73,78 @@ function Scenario() {
         setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
     };
 
-    // const getUser = async () => {
-    //     if(userEmail != null){
-    //         try {
-    //             const response = await fetch(`/api/get_user?user_email=${userEmail}&user_name=${userName}`, {
-    //                 method: 'GET', 
-    //             });
-        
-    //             const data = await response.json();
-    //             setUserData(data.data._id)
-    //             }
-    //         catch (error) {
-    //                 console.error("Error getting user:", error);
-    //         }
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getUser();  // Call getUser function
-    // }, []); 
-
-    // console.log("what is user data", userData)
-   
-    // // If there are existing user scenario, grab it and display it on the scenario page
-    // // Check if user is logged in 
-    // const getUserScenario = async () => {
-    //     if(userEmail != null){
-    //         try {
-    //             console.log("GET USER SCENARIO", userData)
-    //             const response = await fetch(`/api/get_scenario?_id=${userData}`, {
-    //                 method: 'GET',
-    //             });
-    //             const data = await response.json();
-    //             setUsrScenario(data)
-    //         }
-    //         catch (error) {
-    //             console.error("Error getting user scenario:", error);
-    //         }
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getUserScenario();  // Call getUser function
-    // }, []); 
     const getUser = async () => {
-        if (userEmail != null) {
-            try {
-                const response = await fetch(`/api/get_user?user_email=${userEmail}&user_name=${userName}`, {
-                    method: 'GET',
-                });
-    
-                const data = await response.json();
-                // Store the full user data (not just the _id)
-                setUserData(data.data); 
-            } catch (error) {
-                console.error("Error getting user:", error);
+        try {
+          const response = await axios.get('/api/get_user', {
+            params: {
+              user_email: userEmail,
+              user_name: userName
             }
+          });
+      
+            const userData = response.data;
+            const userDataArray = userData.data.scenarios;
+            console.log("User Data Array:", userDataArray);
+            setUserData(userDataArray);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
         }
-    }
+      };
     
-    // const getUserScenario = async () => {
-    //     if (userEmail != null) {
-    //         try {
-    //             console.log("GET USER SCENARIO", userData);  // Debugging: Check what userData is
-    
-    //             // Send the userData (_id) in the body of the POST request
-    //             const response = await fetch('/api/get_scenario', {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Content-Type': 'application/json', // Ensure you're sending JSON
-    //                 },
-    //                 body: JSON.stringify({
-    //                     _id: userData,  // Sending _id as part of the JSON body
-    //                 })
-    //             });
-    
-    //             // Parse the response JSON
-    //             const data = await response.json();
-    
-    //             // Handle the data (you might want to set it to your state)
-    //             setUsrScenario(data);
-    //         } catch (error) {
-    //             console.error("Error getting user scenario:", error);
-    //         }
-    //     }
-    // };
-    
-    
-    // useEffect(() => {
-    //     getUser();  // Call getUser function to set userData when the component mounts
-    // }, []);  // Only run once when the component is first mounted
-    
-    // useEffect(() => {
-    //     if (userData) {
-    //         getUserScenario();  // Call getUserScenario only if userData is set
-    //     }
-    // }, [userData]);  // This effect runs whenever userData changes
-    
-    console.log("what is user data", userData);
-    
+    useEffect(() => {
+        if (userEmail && userName) {
+          getUser();
+        }
+      }, [userEmail, userName]);
+
+    console.log("User Data:", userData);
 
 
+    const getScenario = async () => {
+        if (!userData || userData.length === 0) {
+            console.error("No scenario IDs found in userData.");
+            return;
+        }
+    
+        try {
+;
+            const scenarioPromises = userData.map(async (scenario) => {
+                // console.log("Making request for scenario ID:", scenario);
+                const response = await axios.post('/api/get_scenario', { _id: scenario });
+                return response.data.data;
+            });
+    
+            const scenarios = await Promise.all(scenarioPromises);
+            setFetchUserScenarios(scenarios);
+          
+    
+            // Wait for all promises to resolve
+          
+            // const responses = await Promise.all(scenarioPromises);
+            // console.log("Responses:", responses);
+
+    
+            // Extract the scenario data from each response
+            // const scenarios = response.map((res) => res.data.data);
+    
+            // Update the state with the fetched scenarios
+            // setFetchUserScenarios(scenarios);
+    
+            // console.log("Fetched Scenarios:", scenarios);
+        } catch (err) {
+            console.error("Error fetching scenarios:", err);
+        }
+    };
+    useEffect(() => {
+        console.log("what the heck is userdata.scenario", userData?.length);
+        if (userData && userData.length > 0) {
+            getScenario();
+        }
+    }, [userData]);
+    
+    console.log("Fetch Scenarios:", fetchUserScenarios);
+      
+    
     // Adding user scenarios to the backend
     // If user is not logged in, then their information will not sent to the backend
     const addScenario = async () => {
@@ -180,23 +158,55 @@ function Scenario() {
                     user_email: userEmail,
                     scenario: array
                 });
-                  
+                
+                const data = response.data;
+                const userScenarios = data.data.scenarios;
+                const userScenarioArray = userScenarios.length === 1 ? userScenarios[0] : userScenarios[userScenarios.length - 1];
+            
+
+                console.log("User Data:", data); 
+
+                setUsrScenario(userScenarios);
+
+                setScenarioForm((prevForm) =>
+                    prevForm ? { ...prevForm, _id: userScenarioArray } : prevForm
+                );
+                
+                // Update the object_id in saveFormArray
+                setSaveFormArray((prevForms) =>
+                    prevForms.map((form, index) =>
+                        index === array_len - 1
+                            ? { ...form, _id: userScenarioArray}
+                            : form
+                    )
+                );
                 console.log("Scenario added successfully:", response.data);
             } catch (error) {
                 console.error("Error adding scenario:", error);
             }
         }
     };
+    
+    useEffect(() => {
+        console.log("User Scenario:", usrScenario);
+    }, [usrScenario]);
+
+    useEffect(() => {
+        console.log("Updated Scenario Form:", scenarioForm);
+    }, [scenarioForm]);
+    
+    useEffect(() => {
+        console.log("Updated Save Form Array:", saveFormArray);
+    }, [saveFormArray]);
 
     const updateScenario = async () => {
         if (userEmail != null) {
             const array_len = saveFormArray.length;
             const array = saveFormArray[array_len - 1];
+            // console.log("what is _id", scenarioForm?._id);
             try {
                 const response = await axios.post('/api/update_scenario', {
-                    user_name: userName,
-                    user_email: userEmail,
-                    scenario: array
+                    'scenario': array,
                 });
                 console.log("Scenario updated successfully:", response.data);
             } catch (error) {
@@ -205,7 +215,6 @@ function Scenario() {
         }
     };
     
-
     // Export YAML File
     const exportYAML = async (scenarioId: number) => {
        
@@ -367,7 +376,6 @@ function Scenario() {
                 formInfo={scenarioForm}
                 userEmail={userEmail}
                 saveForms={setSaveFormArray}
-                
             />
         )}        
             </Modal.Body> 
@@ -378,16 +386,13 @@ function Scenario() {
                 onClick={() => {
                 handleClose(); 
                 setScenarioSaved(true); 
-                console.log("Scenario Form ID:", scenarioForm?.id);
-                console.log("Scenario Form Name:", scenarioForm?.name);
-                if (scenarioForm?.id) {
-                    // console.log("Scenario Form ID:", scenarioForm.id);
-                    // console.log("Scenario Form Name:", scenarioForm.name);
+                if (scenarioForm?._id) {
+                    // Update the scenario if it has an object_id
                     updateScenario();
                 } else {
+                    // Add a new scenario if it does not have an object_id
                     addScenario();
                 }
-                addScenario();
             }}>
                 Save
             </Button>
