@@ -62,6 +62,8 @@ def update_inflation(scenario: Scenario, fed_tax: FederalTax, state_tax: StateTa
     # Update the standard deduction
     fed_tax.bracket['individual']['deduction'] = update_bracket(fed_tax.bracket, inflation_rate, 'individual', 'deduction')
     fed_tax.bracket['couple']['deduction'] = update_bracket(fed_tax.bracket, inflation_rate, 'couple', 'deduction')
+
+    # Upate 
     fed_tax.bracket['individual']['cap_gains'] = update_bracket(fed_tax.bracket, inflation_rate, 'individual', 'cap_gains')
     fed_tax.bracket['couple']['cap_gains'] = update_bracket(fed_tax.bracket, inflation_rate, 'couple', 'cap_gains')
 
@@ -533,7 +535,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     social_security_income = get_social_security(event_series, year, spouse_alive, user_alive)
 
     # Calculate the current year income and add it to the cash event
-    currYearIncome = gross_income_value + 0.15 * social_security_income
+    currYearIncome = gross_income_value + 0.85 * social_security_income
     cash_investment.value += currYearIncome
 
     currYearCash = cash_investment.value
@@ -557,7 +559,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
 
     # STEP 7: Calculate non-discretionary
-    non_discresionary_expenses_value = non_discresionary_expenses(event_series, year)
+    non_discresionary_expenses_value = non_discretionary_expenses(event_series, year)
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat, year)
 
     # Subtract previous year's tax and expenses.
