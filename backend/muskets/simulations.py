@@ -614,7 +614,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'financial_goal': currYearSum >= scenario.financial_goal
     }
 
-def run_simulation(scenario: Scenario) -> dict:
+def run_simulation(scenario: Scenario) -> tuple[list[dict], tuple[int, int]]:
     """
     Run the simulation for the given scenario.
     """
@@ -645,19 +645,57 @@ def run_simulation(scenario: Scenario) -> dict:
 
     # Initialize the event series
     initialize_event(scenario.event_series)
+    result = []
 
     # Run the simulation for each year
-    for year in range(start_year, start_year+years_to_run+1):
+    end_year = start_year + years_to_run + 1
+    for year in range(start_year, end_year):
         # Check if the user or spouse is alive
         user_alive = user_curr_age + year <= user_death_age
         spouse_alive = spouse_curr_age + year <= spouse_death_age if scenario.is_married else False
 
         # Run the year simulation.
-        result = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
-        prev_state_tax = result['state_tax']
-        prev_fed_tax = result['federal_tax']
+        year_res = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
+        
+        # Update the user and spouse ages and the previous year tax values
+        user_curr_age += 1
+        spouse_curr_age += 1 if scenario.is_married else 0
+        prev_state_tax = year_res['state_tax']
+        prev_fed_tax = year_res['federal_tax']
 
-    return result
+        result.append({year: year_res})
+
+    return result, (start_year, end_year)
+
+def simulates(scenario: Scenario, num_simulations: int) -> list[dict]:
+    """
+    Run the simulation for the given scenario multiple times.
+    """
+    results = []
+    for _ in range(num_simulations):
+        result = run_simulation(scenario)
+        results.append(result)
+    
+    return results
+
+def organize_simulations(simulations_result: list[dict]) -> dict:
+    """
+    Organize the simulation results into a dictionary.
+    """
+    organized_result = {}
+    for simulation in simulations_result:
+        for year, year_data in simulation.items():
+            if year not in organized_result:
+                organized_result[year] = []
+            organized_result[year].append(year_data)
+    
+    return organized_result
+
+def probability_of_success(simulations_result: list[dict], num_simulations: int) -> float:
+    """
+    Calculate the probability of success for the given scenario.
+    """
+    return 0.0
 
 if __name__ == "__main__":
     pass
