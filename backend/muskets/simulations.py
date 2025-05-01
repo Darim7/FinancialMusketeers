@@ -667,7 +667,7 @@ def run_simulation(scenario: Scenario) -> tuple[list[dict], tuple[int, int]]:
 
         result.append({year: year_res})
 
-    return result, (start_year, end_year)
+    return result
 
 def simulates(scenario: Scenario, num_simulations: int) -> list[dict]:
     """
@@ -675,6 +675,7 @@ def simulates(scenario: Scenario, num_simulations: int) -> list[dict]:
     """
     results = []
     for _ in range(num_simulations):
+        # Run one life time of the user.
         result = run_simulation(scenario)
         results.append(result)
     
@@ -693,15 +694,49 @@ def organize_simulations(simulations_result: list[dict]) -> dict[int, list]:
     
     return organized_result
 
-def probability_of_success(simulations: list) -> float:
+def probability_of_success(year_simulation: list) -> float:
     """
     Calculate the probability of success for the given scenario.
     """
     cnt = 0
-    for sim in simulations:
+    for sim in year_simulation:
         if sim['financial_goal']:
             cnt += 1
-    return cnt / len(simulations)
+    return cnt / len(year_simulation)
+
+def gather_probability_of_success(organized_results: dict[int, list]) -> dict:
+    """
+    Gather the probability of success for each year.
+    """
+    prob_success = {}
+    for year, year_simulation in organized_results.items():
+        prob_success[year] = probability_of_success(year_simulation)
+    
+    return prob_success
+
+def calculate_statistics(simulations: list[dict]) -> dict:
+    return {}
+
+def run_financial_planner(scenario: Scenario, num_simulations: int) -> dict:
+    """
+    Run the financial planner for the given scenario.
+    """
+    # Run the simulations
+    simulations_result = simulates(scenario, num_simulations)
+
+    # Organize the results
+    organized_result = organize_simulations(simulations_result)
+
+    # Calculate the probability of success
+    prob_success = gather_probability_of_success(organized_result)
+
+    # Calculate statistics
+    statistics = calculate_statistics(simulations_result)
+
+    return {
+        'probability_of_success': prob_success,
+        'statistics': statistics
+    }
 
 if __name__ == "__main__":
     pass
