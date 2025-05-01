@@ -680,11 +680,11 @@ def simulates(scenario: Scenario, num_simulations: int) -> list[dict]:
     
     return results
 
-def organize_simulations(simulations_result: list[dict]) -> dict:
+def organize_simulations(simulations_result: list[dict]) -> dict[int, list]:
     """
     Organize the simulation results into a dictionary.
     """
-    organized_result = {}
+    organized_result: dict[int, list] = {}
     for simulation in simulations_result:
         for year, year_data in simulation.items():
             if year not in organized_result:
@@ -693,11 +693,15 @@ def organize_simulations(simulations_result: list[dict]) -> dict:
     
     return organized_result
 
-def probability_of_success(simulations_result: list[dict], num_simulations: int) -> float:
+def probability_of_success(simulations: list) -> float:
     """
     Calculate the probability of success for the given scenario.
     """
-    return 0.0
+    cnt = 0
+    for sim in simulations:
+        if sim['financial_goal']:
+            cnt += 1
+    return cnt / len(simulations)
 
 if __name__ == "__main__":
     pass
