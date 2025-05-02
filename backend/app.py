@@ -239,9 +239,8 @@ def get_user():
 
 if __name__ == "__main__":
     # Test simulations
-    scenario = Scenario.from_yaml("test.yaml")
-    print(scenario.to_dict())
-    # Run the financial planner simulation
+    scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
+    # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
     run_financial_planner(scenario, 5)
 
     app.logger.info('Starting Flask application')

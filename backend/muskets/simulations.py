@@ -1,6 +1,7 @@
 import numpy as np
 from collections import deque
 from datetime import datetime
+import logging
 
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
@@ -9,6 +10,8 @@ from models.investment import Investment, AssetType
 from models.rmd import RMD
 from functools import reduce
 from collections import defaultdict
+
+logger = logging.getLogger('models.scenario')
 
 def sample_from_distribution(assumption: dict) -> float:
     res = -1
@@ -172,6 +175,7 @@ def find_investment(investments: list[Investment], investment_id: str) -> Invest
     Find an investment in the list of investments by its ID.
     """
     for investment in investments:
+        logger.debug(f"Investment ID: {investment.investment_id}, Type: {type(investment.investment_id)}")
         if investment.investment_id == investment_id:
             return investment
     return None
@@ -248,7 +252,7 @@ def update_investments(asset_types: list[AssetType], investments: list[Investmen
     type_map = {atype.name : atype for atype in asset_types}
     mapped_investments = list(map(lambda ivmt: (ivmt, type_map[ivmt.asset_type]), investments))
     
-    print(mapped_investments)
+    # print(mapped_investments)
     total_generated_income = 0
     # TODO Check if cash is needed to update return
     for ivmt, asset_type in mapped_investments:
