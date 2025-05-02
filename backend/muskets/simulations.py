@@ -37,11 +37,11 @@ def update_bracket(bracket: dict, inflation_rate: float, marital_status: str, ta
         return res
 
     for bracket, percentage in bracket[marital_status][tax_category].items():
-        print(f"Type: {type(bracket)}, bracket: {bracket}")
+        # print(f"Type: {type(bracket)}, bracket: {bracket}")
         if bracket == 'inf': 
             res[bracket] = percentage
             break
-        new_bracket = bracket * (1 + inflation_rate)
+        new_bracket = round(bracket * (1 + inflation_rate), 2)
         res[new_bracket] = percentage
     return res
 
@@ -338,12 +338,12 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
 
     return converted_value
 
-def calculate_tax(income: float, bracket: dict) -> tuple[float, float]:
+def calculate_tax(income: float, bracket: dict, type_of_tax: str) -> tuple[float, float]:
     res = 0
 
     previous_bracket = 0
     upper_bracket = 0
-    for brack, percentage in bracket['income'].items():
+    for brack, percentage in bracket[type_of_tax].items():
         if brack == 'inf':
             res += (income-previous_bracket) * percentage
             break
@@ -371,7 +371,7 @@ def fed_income_tax(tax_obj: FederalTax, income: float, status: str) -> float:
     income = income - bracket['deduction']
     if income < 0: 
         return 0
-    return calculate_tax(income, bracket)[0]
+    return calculate_tax(income, bracket, 'income')[0]
 
 def capital_gains_tax(tax_obj: FederalTax, income: float, cap_gains: float, status: str) -> float:
     """
@@ -389,7 +389,9 @@ def capital_gains_tax(tax_obj: FederalTax, income: float, cap_gains: float, stat
     taxable_income = income + cap_gains - bracket['deduction']
 
     # Find the right bracket for the capital gains tax.
-    upper_bracket = calculate_tax(taxable_income, bracket)[1]
+    upper_bracket = round(calculate_tax(taxable_income, bracket, 'cap_gains')[1], 2)
+
+    # print(f"Income: {income}, Cap Gains: {cap_gains}, Taxable Income: {taxable_income}, Upper Bracket: {upper_bracket}, Bracket: {bracket}")
 
     return cap_gains * bracket['cap_gains'][upper_bracket] if upper_bracket else 0
 
@@ -403,7 +405,7 @@ def state_income_tax(tax_obj: StateTax, income: float, status: str) -> float:
         float: The calculated state income tax.
     """
     bracket = tax_obj.bracket[status]
-    return calculate_tax(income, bracket)[0]
+    return calculate_tax(income, bracket, 'income')[0]
 
 def non_discretionary_expenses(event_series: list[EventSeries], year: int) -> float:
     """
@@ -555,7 +557,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
 
     # TODO: STEP 6: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
-    upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status])[1]
+    upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status], 'income')[1]
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
 
     # STEP 7: Calculate non-discretionary
