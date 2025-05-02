@@ -175,7 +175,7 @@ def find_investment(investments: list[Investment], investment_id: str) -> Invest
     Find an investment in the list of investments by its ID.
     """
     for investment in investments:
-        logger.debug(f"Investment ID: {investment.investment_id}, Type: {type(investment.investment_id)}")
+        # logger.debug(f"Investment ID: {investment.investment_id}, Type: {type(investment.investment_id)}")
         if investment.investment_id == investment_id:
             return investment
     return None
@@ -324,7 +324,7 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
                 rc -= inv.value
                 inv.value = 0
                 # Remove the investment from the list of investments
-                investments.remove(inv)
+                # investments.remove(inv)
         else:
             # Create a new investment with the same type and tax status = "after-tax retirement"
             new_investment = create_after_tax_retirement_investment(inv.asset_type)
@@ -547,7 +547,9 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     currYearCash = cash_investment.value
 
     # STEP 3: RMD
-    rmd_amount = perform_rmd(rmd, user_age, investments)
+    pretax_list = [ivmt for ivmt in investments if ivmt.investment_id in rmd and ivmt.tax_status == 'pre-tax']
+    rmd_obj = RMD(pretax_list)
+    rmd_amount = perform_rmd(rmd_obj, user_age, investments)
 
     # STEP 4: Update investments
     capital_gains = update_investments(scenario.ivmt_types, investments)
