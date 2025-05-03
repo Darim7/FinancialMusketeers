@@ -12,6 +12,8 @@ import LineGraph from '../components/LineGraph';
 import StackedBarGraph from '../components/StackedBarGraph';
 import ShadedLineChart from '../components/ShadedLineChart';
 import axios from 'axios';
+import SurfacePlot from '../components/SurfacePlot';
+import ContourPlot from '../components/ContourPlot';
 
 // user: {email, scenarios}
 // pass in user
@@ -162,6 +164,17 @@ function Overview() {
     median: false,
   });
 
+  const [surfacePlot, setSurfacePlot] = useState({ 
+    finalValueOfProbabilityOfSuccess: false,
+    finalValueOfMedianTotalInvestments: false,
+  })
+
+  const [contourPlot, setContourPlot] = useState({ 
+    finalValueOfProbabilityOfSuccess: false,
+    finalValueOfMedianTotalInvestments: false,
+  })
+
+
   const countSelectedCharts = () => {
     const lineSelected = Object.values(lineChart).filter(Boolean).length;
     const shadedLineSelected = Object.values(shadedLineChart).filter(Boolean).length;
@@ -189,6 +202,10 @@ function Overview() {
       average: false,
       median: false,
     });
+    setSurfacePlot({
+      finalValueOfProbabilityOfSuccess: false,
+      finalValueOfMedianTotalInvestments: false,
+    })
     setSimulationData(false);
     setSimulationAmount(0);
 
@@ -225,6 +242,26 @@ function Overview() {
 
     console.log(stackedBarGraph);
   }
+
+  const handleSurfacePlotSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setSurfacePlot(prevCharts => ({
+      ...prevCharts,
+      [name]: checked,
+    }));
+
+    console.log(surfacePlot);
+  }
+
+  const handleContourPlotSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setContourPlot(prevCharts => ({
+      ...prevCharts,
+      [name]: checked,
+    }));
+
+    console.log(contourPlot);
+  } 
 
   return (
     <div id="overviewDiv">
@@ -385,6 +422,50 @@ function Overview() {
                 onChange={(e) => handleStackedBarGraphSelection(e)}
               />
             </div>
+
+            <div id='surfacePlot'>
+              <Form.Label class="availableChartHeaders" id="surfacePlotLabel">
+                Surface Plot
+              </Form.Label>
+              <Form.Check
+                type="checkbox"
+                id="surfacePlot"
+                name="finalValueOfProbabilityOfSuccess"
+                label="Final Value of Probability of Success"
+                checked={surfacePlot.finalValueOfProbabilityOfSuccess}
+                onChange={(e) => handleSurfacePlotSelection(e)}
+              />
+              <Form.Check
+                type="checkbox"
+                id="surfacePlot"
+                name="finalValueOfMedianTotalInvestments"
+                label="Final Value of Median Total Investments"
+                checked={surfacePlot.finalValueOfMedianTotalInvestments}
+                onChange={(e) => handleSurfacePlotSelection(e)}
+              />
+              </div>
+
+              <div id='contourPlot'>
+              <Form.Label class="availableChartHeaders" id="contourPlotLabel">
+                Contour Plot
+              </Form.Label> 
+              <Form.Check
+                type="checkbox"
+                id="contourPlot"
+                name="finalValueOfProbabilityOfSuccess"
+                label="Final Value of Probability of Success"
+                checked={contourPlot.finalValueOfProbabilityOfSuccess}
+                onChange={(e) => handleContourPlotSelection(e)}
+              />
+              <Form.Check
+                type="checkbox"
+                id="contourPlot"
+                name="finalValueOfMedianTotalInvestments"
+                label="Final Value of Median Total Investments"
+                checked={contourPlot.finalValueOfMedianTotalInvestments}
+                onChange={(e) => handleContourPlotSelection(e)}
+              />
+              </div>
             </div>
           </div>
         )}
@@ -474,6 +555,21 @@ function Overview() {
               />
             </div>
           )}
+
+          {surfacePlot.finalValueOfProbabilityOfSuccess && (
+            <div id="surfacePlot">
+              <SurfacePlot/>
+            </div>
+          )}
+
+          {contourPlot.finalValueOfProbabilityOfSuccess && (
+            <div id="contourPlot">
+              <ContourPlot/>
+            </div>
+          )}
+
+
+
         </div>
         </div>
       </div>
