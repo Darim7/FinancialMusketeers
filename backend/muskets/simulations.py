@@ -525,13 +525,16 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     Run a single year of the simulation.
     """
     # User info
-    marital_status = "individual" if not scenario.is_married or not spouse_alive else "couple"
+    marital_status = "individual" if not scenario.is_married or (not spouse_alive or not user_alive) else "couple"
     cash_investment = find_investment(scenario.ivmts, "cash")
 
     # Get the investments, event series, and RMD strategy
     investments = scenario.get_investments()
     event_series = scenario.get_event_series()
     rmd = scenario.get_rmd_strategy()
+
+    logger.info(f"Marital status: {marital_status}.")
+    logger.info(f"prev_fed_tax: {prev_fed_tax}. prev_state_tax: {prev_state_tax}.")
 
     # STEP 1: Update inflation
     inflation_assumption = scenario.inflation_rate
@@ -542,10 +545,10 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     social_security_income = get_social_security(event_series, year, spouse_alive, user_alive)
 
     # Calculate the current year income and add it to the cash event
-    currYearIncome = gross_income_value + 0.85 * social_security_income
+    currYearIncome = round(gross_income_value + 0.85 * social_security_income, 2) 
     cash_investment.value += currYearIncome
 
-    currYearCash = cash_investment.value
+    logger.info(f"Gross income: {gross_income_value}, Social Security: {social_security_income}, Current Year Income: {currYearIncome}")
 
     # STEP 3: RMD
     pretax_list = [ivmt for ivmt in investments if ivmt.investment_id in rmd and ivmt.tax_status == 'pre-tax']
@@ -567,43 +570,49 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status], 'income')[1]
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
 
+    logger.info(f"Roth conversion: {roth_converted}")
+
     # STEP 7: Calculate non-discretionary
     non_discresionary_expenses_value = non_discretionary_expenses(event_series, year)
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat, year)
 
+    logger.info(f"Non-discretionary expenses: {non_discresionary_expenses_value}, Discretionary expenses: {discretionary_expenses_value}")
+
     # Subtract previous year's tax and expenses.
-    currYearCash -= (prev_fed_tax + prev_state_tax + non_discresionary_expenses_value)
-    if currYearCash < 0:
+    cash_investment.value -= (prev_fed_tax + prev_state_tax + non_discresionary_expenses_value)
+    if cash_investment.value < 0:
         # If what's left is negative, get money from the investments.
         for invest in scenario.expense_withdrawal_strat:
             invest_obj = find_investment(investments, invest)
             if invest_obj is None:
                 raise ValueError(f"Investment {invest} not found in investments list. But it is in the strategy list.")
-            if invest_obj.value >= abs(currYearCash):
-                invest_obj.value += currYearCash
-                currYearCash = 0
+            if invest_obj.value >= abs(cash_investment.value):
+                invest_obj.value += cash_investment.value
+                cash_investment.value = 0
                 break
             else:
-                currYearCash += invest_obj.value
+                cash_investment.value += invest_obj.value
                 invest_obj.value = 0
 
     # Pay discretionary expenses
     q = deque(discretionary_expenses_value)
-    while currYearCash > 0 and q:
+    while cash_investment.value > 0 and q:
         expense = q.popleft()
-        if currYearCash >= expense:
-            currYearCash -= expense
+        if cash_investment.value >= expense:
+            cash_investment.value -= expense
         else:
             # If the current year income is less than the expense, pay partial.
-            currYearCash = 0
+            cash_investment.value = 0
             break
-    
-    # Update the cash event with the remaining cash
-    cash_investment.value = currYearCash
+
+    logger.info(f"Cash investment value: {cash_investment.value}")
 
     # STEP 8: invest in the investments
     invest_event = find_event(event_series, "my investments")
     amount_invested = make_investments(invest_event, investments, year)
+    cash_investment.value -= amount_invested
+    
+    logger.info(f"Invested amount: {amount_invested}, Cash investment value: {cash_investment.value}")
 
     # STEP 9: Rebalance the investments
     rebalance_event = find_event(event_series, "rebalance")
@@ -613,6 +622,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     currYearSum = 0
     for invest in investments:
         currYearSum += invest.value
+
+    logger.info(f"Current year net worth: {currYearSum}, Financial goal: {scenario.financial_goal}")
 
     return {
         'federal_tax': federal_tax_value,
@@ -673,6 +684,7 @@ def run_simulation(scenario: Scenario) -> list[dict]:
         spouse_alive = spouse_curr_age <= spouse_death_age if scenario.is_married else False
 
         # Run the year simulation.
+        logger.info("---------------------------------------------------------------------------")
         logger.info(f"Running year {year}.")
         logger.info(f"User age/alive: {user_curr_age}/{user_alive} and spouse age/alive: {spouse_curr_age}/{spouse_alive}")
         year_res = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
@@ -694,7 +706,8 @@ def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
     results = []
     for _ in range(num_simulations):
         # Run one life time of the user.
-        logger.info(f"Running simulation {_ + 1} of {num_simulations}")
+        logger.info("#####################################################################################")
+        logger.info(f"Running simulation {_ + 1} of {num_simulations}.")
         running_scenario = copy.deepcopy(scenario_dict)
         scenario = Scenario.from_dict(running_scenario)
         result = run_simulation(scenario)
