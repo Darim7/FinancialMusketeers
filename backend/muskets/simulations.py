@@ -625,7 +625,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'financial_goal': currYearSum >= scenario.financial_goal
     }
 
-def run_simulation(scenario: Scenario) -> tuple[list[dict], tuple[int, int]]:
+def run_simulation(scenario: Scenario) -> list[dict]:
     """
     Run the simulation for the given scenario.
     """
@@ -699,10 +699,11 @@ def organize_simulations(simulations_result: list[dict]) -> dict[int, list]:
     """
     organized_result: dict[int, list] = {}
     for simulation in simulations_result:
-        for year, year_data in simulation.items():
-            if year not in organized_result:
-                organized_result[year] = []
-            organized_result[year].append(year_data)
+        for year_simulation in simulation:
+            for year, year_data in year_simulation.items():
+                if year not in organized_result:
+                    organized_result[year] = []
+                organized_result[year].append(year_data)
     
     return organized_result
 
@@ -747,7 +748,8 @@ def run_financial_planner(scenario_dict: dict, num_simulations: int) -> dict:
 
     return {
         'probability_of_success': prob_success,
-        'statistics': statistics
+        'statistics': statistics,
+        'organized_results': organized_result
     }
 
 if __name__ == "__main__":
