@@ -73,9 +73,10 @@ import Form from 'react-bootstrap/Form';
                 <Form.Check 
                     type='checkbox'
                     id = "Taxable"
-                    value = "True"
+                    value = "true"
                     name = "taxability"
                     checked={investment.taxability === "True" || investment.taxability === true}
+                    checked={investment.taxability === true}
                     onChange={handleInvestmentChange}
                     label="Taxable"
                 />

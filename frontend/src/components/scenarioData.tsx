@@ -16,6 +16,7 @@ import InvestmentCaseForm from './InvestmentCaseForm';
 import LifeExpectancyForm from './LifeExpectancyForm';
 
 function CreateScenario({formInfo, saveForms, userEmail}: any) {
+  console.log("CreateScenario Props:", { formInfo, userEmail, saveForms });
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
@@ -23,7 +24,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   {/* Update user input change */}
   const [values, setValues] = useState({
     user_email: '',
-    scenarioName : '',
+    name : '',
     residenceState: '',
     financialGoal: '',
     lifeExpectancy: [{type:""}, {type: ""}] as any[],
@@ -64,7 +65,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     console.log('formData:', formInfo);
     setValues({
       user_email: userEmail || formInfo.email || '',
-      scenarioName: formInfo.name || '',
+      name: formInfo.name || '',
       residenceState: formInfo.residenceState || '',
       financialGoal: formInfo.financialGoal || '',
       lifeExpectancy: formInfo.lifeExpectancy || [{type:""}, {type:""}],
@@ -93,7 +94,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         expenseRatio: '',
         incomeAmtOrPct: '',
         incomeDistribution: {type:""},
-        taxability: '',
+        taxability: false,
         }
       ],
       investments: formInfo.investments || [],
@@ -247,7 +248,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           ? {
               ...form,
               // Prevent updating 'name' unless 'question' is 'scenarioName'
-              [question]: question === 'scenarioName' ? parsedValue : form[question],
+              [question]: question === 'name' ? parsedValue : form[question],
             }
           : form
       )
@@ -288,6 +289,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   //  };
   const handleChanges = (e: React.ChangeEvent<any>,birthYearIndex?: number) => {
     const { name, value } = e.target;
+
+    console.log("What is the name and value", name, value);
+
 
     let parsedValue:any;
     // const parsedValue =
@@ -344,12 +348,56 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                   return updated;
                 })(),
                 [name]: parsedValue,
-                name: name === 'scenarioName' ? value : form.name,
+                name: name === 'name' ? value : form.name,
               }
             : form
         )
       );
-    } else {
+    } 
+    // else {
+    //   // Log the current state of values before updating
+    //   console.log("Before updating values:", values);
+    
+    //   // Log the field being updated and its new value
+    //   console.log("Updating field:", name, "with value:", parsedValue);
+    
+    //   setValues((prevValues) => {
+    //     const updatedValues = {
+    //       ...prevValues,
+    //       [name]: parsedValue,
+    //     };
+    //     // Log the updated values
+    //     console.log("Updated values:", updatedValues);
+    //     return updatedValues;
+    //   });
+    
+    //   saveForms((prevForms: any) =>
+    //     prevForms.map((form: any) => {
+    //       // Log each form being processed
+    //       console.log("DOES IT GOES IN HEREERERRRRRRRRRRRRRRRRRR");
+    //       console.log("Processing form:", { id: form.id, name: form.name });
+    
+    //       if (form.id === formInfo.id) {
+    //         // Log the form being updated
+    //         console.log("Updating form:", { id: form.id, name: form.name });
+    //         const updatedForm = {
+    //           ...form,
+    //           [name]: parsedValue,
+    //           name: name === 'name' ? value : form.name,
+    //         };
+    //         // Log the updated form
+    //         console.log("Updated form:", updatedForm);
+    //         return updatedForm;
+    //       }
+    
+    //       // Log forms that are not updated
+    //       console.log("Form not updated:", { id: form.id, name: form.name });
+    //       return form;
+    //     })
+    //   );
+    // }
+    // 
+    else {
       
       setValues((prevValues) => ({
         ...prevValues,
@@ -362,7 +410,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             ? {
                 ...form,
                 [name]: parsedValue,
-                name: name === 'scenarioName' ? value : form.name,
+                name: name === 'name' ? value : form.name,
               }
             : form
         )

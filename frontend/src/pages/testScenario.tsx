@@ -18,6 +18,7 @@ import axios from 'axios';
 
 
 
+
 function Scenario() {
 
     const userEmail = localStorage.getItem('userEmail');
@@ -28,55 +29,120 @@ function Scenario() {
     const [scenarioSaved, setScenarioSaved] = useState(false);
     const [exportModalShow, setExportModalShow] = useState(false); 
     const [selectedScenarioId, setSelectedScenarioId] = useState<string | null>(null); 
-    
-    //Store Multiple Scenario Forms
-    const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
-    console.log("what is saveFormArray", saveFormArray);
-  
 
-    //Current Scenario Form
-    const [scenarioForm, setScenarioForm] = useState<{ id: number; _id: string | null ; name: string;} | null>(null);
+    const [formExist, setFormExist] = useState(false);
     
-    //User Data
+    
+    //Grab user info from the backend for logged in users
     const [userData, setUserData] = useState<string[] | null>(null);
 
     //Get User Scenario 
     const [usrScenario, setUsrScenario] = useState(null);
 
-    //Fetch User Scenarios
-    const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
+//---------------- For guest user, the scenario will be saved in the local storage --------------------------//
 
-    // const handleClose = () => setShow(false);
+    // Current Scenario Form
+    const [scenarioForm, setScenarioForm] = useState<{ id: number; _id: string | null ; name: string;} | null>(null);
+
+    //Store Multiple Scenario Forms
+    const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
+   
+//---------------- For guest user, the scenario will be saved in the local storage ------------------------//
+
+
+//---------------- For loggined user, the scenario will be saved in the local storage -----------------------//
+
+    // Current Scenario Form
+    const [UserScenarioForm, setUserScenarioForm] = useState<{ id: number; _id: string | null ; name: string;} | null>(null);
+
+    //Store Multiple Scenario Forms
+    const [UserSaveFormArray, setUserSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
+
+    //Fetch User Scenarios From The Backend
+    // const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
+
+    console.log("WHAT IS USER SAVE FORM ARRAY", UserSaveFormArray);
+   
+
+//--------------- For loggined user, the scenario will be saved in the local storage -----------------------//
+
+
+
+    
     const handleShow = () => setShow(true);
     const handleExportModalShow = () => setExportModalShow(true);
 
+    // If user is not logged in, then their information will not sent to the backend
     const handleCreateNew = () => {
-        const newScenario = { 
+
+        if (userEmail && userName) {
+            const newScenario = { 
             id: Date.now(), 
             _id : null,
             name: '', };
-        setScenarioForm(newScenario);
-        setSaveFormArray((prev) => [...prev, newScenario]);
-        
-        handleShow();
+            setUserScenarioForm(newScenario);
+            setUserSaveFormArray((prev) => [...prev, newScenario]);
+            
+            handleShow();
+        }
+        else {
+            const newScenario = { 
+                id: Date.now(), 
+                _id : null,
+                name: '', };
+            setScenarioForm(newScenario);
+            setSaveFormArray((prev) => [...prev, newScenario]);
+            
+            handleShow();
+        }
     };
     
     const handleClose = () => setShow(false);
     const handleExportModalClose = () => setExportModalShow(false);
     
     const handleViewForm = (form: React.SetStateAction<{ id: number; _id: string | null; name: string; } | null>) => {
-        // console.log("what is form", form);
-        // console.log("what is the name", form?.name);
+      
+     
         setScenarioForm(form);
+        // setUserScenarioForm(form);
+        setUserScenarioForm({ ...form }); // shallow copy to break reference
+        // setUserSaveFormArray((prev) => {
+        //     const exists = prev.some((existingForm) => existingForm.id === form.id);
+        //     if (!exists) {
+        //         return [...prev, form];
+        //     } else {
+        //         return prev;
+        //     }
+        // });
+        
+        
+        console.log("After updating UserScenarioForm:", UserScenarioForm);
+       
         // console.log("what is the scenario form", scenarioForm);
         // console.log("what is saveFormArray", saveFormArray);
         handleShow();
     };
 
+    // If user not logged in, can simply call this
+    // If user logged in, call this, and also call remove_scenario from the backend 
     const handleDeleteForm = (id: number) => {
-        setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
+        if (userEmail && userName) {
+            setUserSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
+            // Call the backend to remove the scenario  
+            axios.post('/api/delete_scenario', {
+                user_email: userEmail,
+                user_name: userName,
+                scenario_id: id
+            })
+
+        }
+
+        else {
+            setSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
+        }
     };
 
+    // Grab loggined users' info 
     const getUser = async () => {
         try {
           const response = await axios.get('/api/get_user', {
@@ -105,6 +171,7 @@ function Scenario() {
     console.log("User Data:", userData);
 
 
+    // Get the scenarios from that user 
     const getScenario = async () => {
         if (!userData || userData.length === 0) {
             console.error("No scenario IDs found in userData.");
@@ -119,13 +186,16 @@ function Scenario() {
             });
     
             const scenarios = await Promise.all(scenarioPromises);
-            setFetchUserScenarios(scenarios);
+            console.log("WHAT IS SCNEARIO", scenarios);
+            setUserSaveFormArray(scenarios);
+            
           
 
         } catch (err) {
             console.error("Error fetching scenarios:", err);
         }
     };
+
     useEffect(() => {
         console.log("what the heck is userdata.scenario", userData?.length);
         if (userData && userData.length > 0) {
@@ -133,19 +203,21 @@ function Scenario() {
         }
     }, [userData]);
 
-    useEffect(() => {
-        console.log("Fetch User Scenarios:", fetchUserScenarios);
-    }, [fetchUserScenarios]);
+    // useEffect(() => {
+    //     console.log("Fetch User Scenarios:", fetchUserScenarios);
+    // }, [fetchUserScenarios]);
     
-    console.log("Fetch Scenarios:", fetchUserScenarios);
+    // console.log("Fetch Scenarios:", fetchUserScenarios);
       
     
     // Adding user scenarios to the backend
     // If user is not logged in, then their information will not sent to the backend
     const addScenario = async () => {
         if (userEmail != null) {  
-            const array_len = saveFormArray.length;
-            const array = saveFormArray[array_len - 1];
+            // const array_len = saveFormArray.length;
+            // const array = saveFormArray[array_len - 1];
+            const array_len = UserSaveFormArray.length;
+            const array = UserSaveFormArray[array_len - 1];
           
             try {
                 const response = await axios.post('/api/add_scenario', {
@@ -156,26 +228,25 @@ function Scenario() {
                 
                 const data = response.data;
                 const userScenarios = data.data.scenarios;
+
+                //Grab the last scenario id from the userScenarios array
                 const userScenarioArray = userScenarios.length === 1 ? userScenarios[0] : userScenarios[userScenarios.length - 1];
-            
 
-                console.log("User Data:", data); 
-
-                setUsrScenario(userScenarios);
-
-                setScenarioForm((prevForm) =>
+                // Update the _id with the Object ID
+                setUserScenarioForm((prevForm) =>
                     prevForm ? { ...prevForm, _id: userScenarioArray } : prevForm
                 );
-                
-                // Update the object_id in saveFormArray
-                setSaveFormArray((prevForms) =>
+            
+                setUserSaveFormArray((prevForms) =>
                     prevForms.map((form, index) =>
                         index === array_len - 1
-                            ? { ...form, _id: userScenarioArray}
+                            ? { ...form, _id: userScenarioArray }
                             : form
                     )
                 );
+
                 console.log("Scenario added successfully:", response.data);
+
             } catch (error) {
                 console.error("Error adding scenario:", error);
             }
@@ -187,46 +258,59 @@ function Scenario() {
     }, [usrScenario]);
 
     useEffect(() => {
-        console.log("Updated Scenario Form:", scenarioForm);
-    }, [scenarioForm]);
+        console.log("Updated Scenario Form:", UserScenarioForm);
+    }, [UserScenarioForm]);
     
     useEffect(() => {
-        console.log("Updated Save Form Array:", saveFormArray);
-    }, [saveFormArray]);
+        console.log("Updated Save Form Array:", UserSaveFormArray);
+    }, [UserSaveFormArray]);
 
-    console.log("SAVE FORM ARRAY", saveFormArray)
+    console.log("SAVE FORM ARRAY", UserSaveFormArray)
 
-    const updateScenario = async () => {
-        if (userEmail != null && scenarioForm) {
-            // If user log back in and their data come from fetchUserScenarios, then the saveFormArray will be empty
-            // and the scenarioForm will be the last form that was saved
-            const array_len = saveFormArray.length;
-            const array = saveFormArray[array_len - 1];
-            // console.log("what is _id", scenarioForm?._id);
+    const updateScenario = async (formId: number | string) => {
+        if (userEmail != null && UserScenarioForm) {
+            console.log("User Scenario Form HUH:", UserScenarioForm);
             try {
                 const response = await axios.post('/api/update_scenario', {
-                    'scenario': array,
+                    'scenario': UserScenarioForm,
                 });
-                console.log("Scenario updated successfully:", response.data);
-                
 
+               
+                console.log("SENT TO UPDATEEEE")
+                console.log("Scenario updated successfully:", response.data);
+
+                //Update the UserSaveFormArray with the new scenario data
+                setUserSaveFormArray((prevForms) =>
+                    prevForms.map((form) =>
+                        form._id === formId
+                            ? { ...form, ...UserScenarioForm } // Update the form with new data
+                            : form
+                    )
+                );
+               
+                  
+
+             
 
             } catch (error) {
                 console.error("Error updating scenario:", error);
             }
         }
     };
+ 
+    
     
     // Export YAML File
-    const exportYAML = async (scenarioId: number) => {       
+    const exportYAML = async (scenarioId: number|string) => {       
         // Find the selected scenario in saveFormArray
+        console.log("Scenario ID WTF:", scenarioId);
         const selectedScenario =
-            saveFormArray.find((form) => form.id === scenarioId) ||
-            fetchUserScenarios.find((form) => form._id === scenarioId);
-
-        console.log("WHAT IS SELECTED SCENARIO", fetchUserScenarios);
-        console.log("WHAT IS SAVE FORM ID", saveFormArray);
-
+        (!userEmail || !userName
+            ? saveFormArray.find((form) => form._id === scenarioId)
+            : null) || // If not logged in, check saveFormArray
+        UserSaveFormArray.find((form) => form._id === scenarioId) 
+        console.log("Selected Scenario:", selectedScenario);
+    
         if (!selectedScenario) {
             alert("Selected scenario not found!");
             return;
@@ -297,9 +381,9 @@ function Scenario() {
                 formData.append('user_email', userEmail || "");
                 formData.append('user_name', userName || "");
                 console.log("what is the form data", formData);
-                for (let [key, value] of formData.entries()) {
-                    console.log(key, value);
-                  }
+                // for (let [key, value] of formData.entries()) {
+                //     console.log(key, value);
+                //   }
                 // fileRead.onload = async (e) => {
                 //     const content = e.target?.result;
                     try {
@@ -311,9 +395,12 @@ function Scenario() {
                         }
 
                         );
-                            console.log("Imported scenario:", response.data);
-
-                            alert("Scenario imported successfully!");
+                        
+                       
+                        const data = response.data;
+                        const userScenarios = data.data.scenarios;
+                         
+                        alert("Scenario imported successfully!");
 
                         } catch (error) {
                             console.error("Error importing scenario:", error);
@@ -325,9 +412,17 @@ function Scenario() {
         
         input.click();
     
-        
-
      }
+
+    //  useEffect(() => {
+    //     console.log("formExist changed:", formExist);
+    //     if (UserScenarioForm?._id) {
+    //         console.log("Calling updateScenario with ID:", UserScenarioForm._id);
+    //         updateScenario(UserScenarioForm._id);
+    //     }
+    // }, [formExist, UserScenarioForm]);
+
+
 
 
     return ( 
@@ -349,7 +444,7 @@ function Scenario() {
                         </Modal.Header>
 
                         <Modal.Body>
-                            {fetchUserScenarios.length > 0 || saveFormArray.length > 0 ? (
+                            {UserSaveFormArray.length > 0 || saveFormArray.length > 0 ? (
                             <div>
                                 <select
                                 className="form-select"
@@ -362,18 +457,25 @@ function Scenario() {
                                 <option value="" disabled>
                                     Select a Scenario
                                 </option>
-                                
-                                {fetchUserScenarios.map((form) => (
-                                    <option key={form._id} value={form._id}>
-                                        {form.name || "Untitled Form"}
-                                    </option>
-                                ))}
 
-                                {saveFormArray.map((form) => (
+                                {userEmail && userName ? (
+                                <>
+                                  
+                                    {UserSaveFormArray.map((form) => (
+                                        <option key={form._id} value={form._id}>
+                                            {form.name || "Untitled Form"}
+                                        </option>
+                                    ))}
+                                </>
+                            ) : (
+                                // If not logged in, render options for saveFormArray
+                                saveFormArray.map((form) => (
                                     <option key={form.id} value={form.id}>
                                         {form.name || "Untitled Form"}
                                     </option>
-                                ))}
+                                ))
+                            )}
+
                             </select>
                             </div>
                             ) : (
@@ -388,7 +490,8 @@ function Scenario() {
                                 variant="primary"
                                 onClick={() => {
                                     if(selectedScenarioId){
-                                        exportYAML(Number(selectedScenarioId));
+                                        console.log("Selected Scenario ID:", selectedScenarioId);
+                                        exportYAML((selectedScenarioId));
                                         // Handle export logic here using selectedScenarioId
                                         console.log("Exporting scenario with ID:", selectedScenarioId);
                                         handleExportModalClose();
@@ -402,7 +505,7 @@ function Scenario() {
 
                     </Modal>
                     <Button onClick={importYAML} variant = "primary">
-                    + Import
+                        + Import
                     </Button>
                     <Button variant="primary" onClick={handleCreateNew}>
                         + Create New
@@ -412,32 +515,39 @@ function Scenario() {
             
             <div id='scenario-header-content'>
                 <h3>Scenario Forms:</h3>
-                {fetchUserScenarios && fetchUserScenarios.length > 0 && (
-                    fetchUserScenarios.map((form) => (
-                    <Button
-                        key={form._id}
-                        variant="outline-primary"
-                        onClick={() => handleViewForm(form)}>
-                        {form.name || "Untitled Form"}
-                    </Button>
-                    ))
-                )}
+                {userEmail && userName ? (
+       
+                <>
+               
 
-                {saveFormArray.map((form) => (
-                    <Button 
-                        key={form.id} 
-                        variant="outline-primary" 
-                        onClick={() => handleViewForm(form)}>
-                        {form.name || "Untitled Form"}
-                    </Button>
-                ))}
+                {UserSaveFormArray.map((form) => (
+                    <Button
+                        key={form.id}
+                        variant="outline-primary"
+                        onClick={() => handleViewForm(form)}
+                    
+                        >
+                    {form.name || "Untitled Form"}
+                </Button>
+            ))}
+        </>
+    ) : (
+        // If not logged in, render buttons for saveFormArray
+        saveFormArray.map((form) => (
+            <Button
+                key={form.id}
+                variant="outline-primary"
+                onClick={() => handleViewForm(form)}
+            >
+                {form.name || "Untitled Form"}
+            </Button>
+        ))
+    )}
            
             </div>
 
             </div>
             {/* </div> */}
-            
-            
             
             <Modal show={show} onHide={handleClose}>
 
@@ -449,14 +559,25 @@ function Scenario() {
                 </Modal.Header>
 
             <Modal.Body>
-            {scenarioForm && (
-                <CreateScenario
-                formInfo={scenarioForm}
+            {userEmail && userName ? (
+            <CreateScenario
+                formInfo={UserScenarioForm}
                 userEmail={userEmail}
-                saveForms={setSaveFormArray}
+                saveForms={setUserSaveFormArray}
             />
-        )}        
+            ) : (
+            scenarioForm && (
+                <CreateScenario
+                    formInfo={scenarioForm}
+                    userEmail={userEmail}
+                    saveForms={setSaveFormArray}
+                />
+                )
+            )}
             </Modal.Body> 
+        
+        
+        
 
         <Modal.Footer>
             <Button 
@@ -464,23 +585,35 @@ function Scenario() {
                 onClick={() => {
                 handleClose(); 
                 setScenarioSaved(true); 
-                if (scenarioForm?._id) {
-                    // Update the scenario if it has an object_id
-                    updateScenario();
-                } else {
-                    // Add a new scenario if it does not have an object_id
-                    addScenario();
+                if (userName && userEmail) {
+                    console.log("User Scenario Form:", UserScenarioForm);
+                    if (UserScenarioForm?._id) {
+                        // console.log("User Scenario Form ID:", UserScenarioForm._id);
+                        updateScenario(UserScenarioForm._id);
+                    } else {
+                        console.log("IT SHOULD NOT GO IN HERE NO?");
+                        addScenario();
+                    }
                 }
             }}>
                 Save
             </Button>
+            
+
             {scenarioForm && (
 
             <Button
                 variant="danger"
                 onClick={() => {
-                handleDeleteForm(scenarioForm.id); 
-                handleClose();  }}>
+                if (userEmail && userName) {
+                    if (UserScenarioForm) {
+                        handleDeleteForm(UserScenarioForm.id);
+                    }
+                } else {
+                    handleDeleteForm(scenarioForm.id); 
+                }
+                handleClose(); 
+                }}>
                 Delete
         </Button>
     )}
