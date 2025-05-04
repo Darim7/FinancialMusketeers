@@ -21,11 +21,15 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                     </option>
                 ))}
             </Form.Select>
-            {/* {console.log(diffEvent[selectedEvent])} */}
+           
             {/* Render questions based on the selected event */}
+            
             {selectedEvent && (
+                console.log("Selected Event: HEREE ", selectedEvent),
                 <div>
                     <h3>{selectedEvent} Questions</h3>
+                    {console.log("diff event: WTTTT", diffEvent[selectedEvent])}
+                    {/* {console.log("UGGGGG:", diffEvent['Event'])}  */}
                     
                     {diffEvent[selectedEvent].map(({ question, type, fields, name }:any, index:any) => (
                         (question === "Asset Allocation2:" && (answers["glidePath"] !== "true") ) ? null : ( 

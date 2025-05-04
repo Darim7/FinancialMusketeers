@@ -7,8 +7,8 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
       <Form.Label htmlFor='scenario-name'>Scenario Name:</Form.Label>
       <Form.Control
         type="text"
-        name="scenarioName"
-        value={values.scenarioName || ''}
+        name="name"
+        value={values.name || ''}
         onChange={(e) => handleChanges(e, index)}
       />
 
