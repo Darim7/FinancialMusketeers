@@ -241,7 +241,7 @@ if __name__ == "__main__":
     # Test simulations
     scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    run_financial_planner(scenario, 5)
+    run_financial_planner(scenario.to_dict(), 5)
 
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)

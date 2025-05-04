@@ -1,7 +1,8 @@
 import numpy as np
+import logging
+import copy
 from collections import deque
 from datetime import datetime
-import logging
 
 from models.scenario import Scenario
 from models.tax import FederalTax, StateTax
@@ -201,11 +202,11 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     for ivmt in investments: 
         if ivmt.tax_status == 'after-tax':
             nonretire_by_type_dict[ivmt.asset_type].append(ivmt)
-    print(f"After Tax: {nonretire_by_type_dict}, Length: {len(nonretire_by_type_dict)}")
+    # print(f"After Tax: {nonretire_by_type_dict}, Length: {len(nonretire_by_type_dict)}")
     
-    print("Inside RMD: pretax list")
-    for ivmt in pretax_list:
-        print(f"investment type: {ivmt.asset_type}, investment id: {ivmt.investment_id}, value: {ivmt.value}, tax status: {ivmt.tax_status}")
+    # print("Inside RMD: pretax list")
+    # for ivmt in pretax_list:
+        # print(f"investment type: {ivmt.asset_type}, investment id: {ivmt.investment_id}, value: {ivmt.value}, tax status: {ivmt.tax_status}")
         
     sum=reduce(lambda sum, curr: sum+curr.value, pretax_list, 0)
     
@@ -213,7 +214,7 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     rmd_distribution = rmd_obj.calculate_rmd(age)
     rmd = sum / rmd_distribution
     rmd = round(rmd, 2)
-    print(f"RMD inside: {rmd}, age: {age}, sum: {sum}, rmd_distribution: {rmd_distribution}")
+    # print(f"RMD inside: {rmd}, age: {age}, sum: {sum}, rmd_distribution: {rmd_distribution}")
     temp_rmd = rmd
     # Perform RMD 
     # Add the RMD to non-retirement account of the targeted asset type
@@ -677,13 +678,16 @@ def run_simulation(scenario: Scenario) -> tuple[list[dict], tuple[int, int]]:
 
     return result
 
-def simulates(scenario: Scenario, num_simulations: int) -> list[dict]:
+def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
     """
     Run the simulation for the given scenario multiple times.
     """
     results = []
     for _ in range(num_simulations):
         # Run one life time of the user.
+        logger.debug(f"Running simulation {_ + 1} of {num_simulations}")
+        running_scenario = copy.deepcopy(scenario_dict)
+        scenario = Scenario.from_dict(running_scenario)
         result = run_simulation(scenario)
         results.append(result)
     
@@ -725,12 +729,12 @@ def gather_probability_of_success(organized_results: dict[int, list]) -> dict:
 def calculate_statistics(simulations: list[dict]) -> dict:
     return {}
 
-def run_financial_planner(scenario: Scenario, num_simulations: int) -> dict:
+def run_financial_planner(scenario_dict: dict, num_simulations: int) -> dict:
     """
     Run the financial planner for the given scenario.
     """
     # Run the simulations
-    simulations_result = simulates(scenario, num_simulations)
+    simulations_result = simulates(scenario_dict, num_simulations)
 
     # Organize the results
     organized_result = organize_simulations(simulations_result)
