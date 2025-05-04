@@ -579,7 +579,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     logger.info(f"Non-discretionary expenses: {non_discresionary_expenses_value}, Discretionary expenses: {discretionary_expenses_value}")
 
     # Subtract previous year's tax and expenses.
-    cash_investment.value -= (prev_fed_tax + prev_state_tax + non_discresionary_expenses_value)
+    cash_investment.value -= round((prev_fed_tax + prev_state_tax + non_discresionary_expenses_value), 2)
     if cash_investment.value < 0:
         # If what's left is negative, get money from the investments.
         for invest in scenario.expense_withdrawal_strat:
@@ -597,7 +597,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # Pay discretionary expenses
     q = deque(discretionary_expenses_value)
     while cash_investment.value > 0 and q:
-        expense = q.popleft()
+        expense = round(q.popleft(), 2)
         if cash_investment.value >= expense:
             cash_investment.value -= expense
         else:
