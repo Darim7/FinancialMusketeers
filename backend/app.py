@@ -242,7 +242,6 @@ if __name__ == "__main__":
     scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
     scenario_res = run_financial_planner(scenario.to_dict(), 5)
-    logging.info(f"Simulation result: {scenario_res}")
 
     exit(0)
 

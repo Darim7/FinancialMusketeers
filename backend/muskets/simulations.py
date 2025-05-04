@@ -660,12 +660,21 @@ def run_simulation(scenario: Scenario) -> list[dict]:
 
     # Run the simulation for each year
     end_year = start_year + years_to_run + 1
+
+    # Logging simulation details
+    logger.debug(f"Running simulation for {years_to_run} years.")
+    logger.debug(f"User current age: {user_curr_age}, User death age: {user_death_age}")
+    logger.debug(f"Spouse current age: {spouse_curr_age}, Spouse death age: {spouse_death_age}")
+    logger.debug(f"Start year: {start_year}, End year: {end_year}")
+
     for year in range(start_year, end_year):
         # Check if the user or spouse is alive
-        user_alive = user_curr_age + year <= user_death_age
-        spouse_alive = spouse_curr_age + year <= spouse_death_age if scenario.is_married else False
+        user_alive = user_curr_age <= user_death_age
+        spouse_alive = spouse_curr_age <= spouse_death_age if scenario.is_married else False
 
         # Run the year simulation.
+        logger.debug(f"Running year {year}.")
+        logger.debug(f"User age/alive: {user_curr_age}/{user_alive} and spouse age/alive: {spouse_curr_age}/{spouse_alive}")
         year_res = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
         
         # Update the user and spouse ages and the previous year tax values
