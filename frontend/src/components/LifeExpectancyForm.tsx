@@ -35,8 +35,8 @@ const LifeExpectancyForm = ({text, distribution, handleChange, index}:any) => {
                     />
                     <Form.Control
                         type='number'
-                        name='std'
-                        value={distribution.std}
+                        name='stdev'
+                        value={distribution.stdev}
                         placeholder='Enter the standard deviation'
                         onChange={(e) => handleChange(e,index)}
                     />

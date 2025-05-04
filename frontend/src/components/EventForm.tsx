@@ -82,16 +82,16 @@ const EventForm = ({ handleEventChange, handleAnswerChange, handleDistributionCh
                                        <Form.Check
                                             type="checkbox"
                                             name={question}
-                                            value="true"
-                                            checked={answers[name] === "true"}
+                                            value="True"
+                                            checked={answers[name] === "True" || answers[name] === true}
                                             onChange={(e) => handleAnswerChange(e, name, e.target.value)}
                                             label="True"
                                         />
                                         <Form.Check
                                             type="checkbox"
                                             name={question}
-                                            value="false"
-                                            checked={answers[name] === "false"}
+                                            value="False"
+                                            checked={answers[name] === "False" || answers[name] === false}
                                             onChange={(e) => handleAnswerChange(e, name, e.target.value)}
                                             label="False"
                                         /> 

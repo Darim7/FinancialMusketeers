@@ -64,7 +64,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     console.log('formData:', formInfo);
     setValues({
       user_email: userEmail || formInfo.email || '',
-      scenarioName: formInfo.scenarioName || '',
+      scenarioName: formInfo.name || '',
       residenceState: formInfo.residenceState || '',
       financialGoal: formInfo.financialGoal || '',
       lifeExpectancy: formInfo.lifeExpectancy || [{type:""}, {type:""}],
@@ -129,12 +129,12 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   console.log("what is the investment", values.investmentTypes);
   // There are 4 different types of event
   const diffEvent = {
-    Income: [
+    income: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
       { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
-      { question: "Change Amount or Percent: ", type: "select" , name:"changeAmountOrPercent"},
+      { question: "Change Amount or Percent: ", type: "select" , name:"changeAmtOrPct"},
       { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
       { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
@@ -142,7 +142,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
     ],
 
-    Expense: [
+    expense: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
@@ -154,7 +154,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
       
     ],
-    Invest: [
+    invest: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
@@ -164,7 +164,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
     ],
 
-    Rebalance: [
+    rebalance: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
@@ -295,7 +295,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     //     ? Number(value)
     //     : value;
 
-    if (name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal') {
+    if (name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal' || name === 'afterTaxContributionLimit') {
       parsedValue = Number(value);
     } 
     else if (name === 'RothConversionOpt') {
@@ -814,7 +814,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   }
   
   const editEventModal = (event:any, index:number) => {
-    // console.log("what is the event", event);
+    console.log("what is the event", event);
     setSelectedEvent(event.type);
     setAnswers({...event});
     setCurrentEventIndex(index);

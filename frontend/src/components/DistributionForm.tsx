@@ -37,8 +37,8 @@ const DistributionForm = ({name, text, field, distribution, handleChange}:any) =
                     />
                     <Form.Control
                         type='number'
-                        name='std'
-                        value={distribution.std}
+                        name='stdev'
+                        value={distribution.stdev}
                         placeholder='Enter the standard deviation'
                         onChange={(e) => handleChange(e,field)}
                     />
