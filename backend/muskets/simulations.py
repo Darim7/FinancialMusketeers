@@ -152,10 +152,10 @@ def check_event_start(event: EventSeries, year: int) -> bool:
 def initialize_event(events: list[EventSeries]) -> None:
 
     for event in events:
+        duration = sample_from_distribution(event.data['duration'])
         if isinstance(event.data['start'], int):
             continue
-        elif isinstance(event.data['start'], dict):
-            duration = sample_from_distribution(event.data['duration'])
+        if isinstance(event.data['start'], dict):
 
             if event.data['start']['type'] == 'fixed':
                 event.data['start'] = event.data['start']['value']
@@ -167,9 +167,10 @@ def initialize_event(events: list[EventSeries]) -> None:
             else:
                 raise ValueError(f"Unknown event start type: {event.data['start']['type']}")
             
-            event.data['end'] = event.data['start'] + duration
         else:
             raise ValueError(f"Unknown event start type: {event.data['start']['type']}")
+        event.data['duration'] = duration
+        event.data['end'] = event.data['start'] + duration
 
 def find_investment(investments: list[Investment], investment_id: str) -> Investment:
     """
@@ -324,8 +325,6 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
                 after_tax.value += inv.value
                 rc -= inv.value
                 inv.value = 0
-                # Remove the investment from the list of investments
-                # investments.remove(inv)
         else:
             # Create a new investment with the same type and tax status = "after-tax retirement"
             new_investment = create_after_tax_retirement_investment(inv.asset_type)
@@ -337,8 +336,6 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
                 new_investment.value += inv.value
                 rc -= inv.value
                 inv.value = 0
-                # Remove the investment from the list of investments
-                investments.remove(inv)
             investments.append(new_investment)
 
     return converted_value
@@ -456,7 +453,7 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
     if cash <= 0:
         return 0.0
 
-    allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments}
+    allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments if invest.investment_id in invest_event.data['assetAllocation']}
 
     # Check if already has a glide path if yes and if the gliding allocation is not empty
     # then update the gliding rates
@@ -471,10 +468,12 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
     elif invest_event.data['glidePath'] and 'glidingAllocation' not in invest_event.data:
         allocation = invest_event.data['assetAllocation']
         invest_event.data['glidingAllocation'] = allocation
+        invest_event.data['glidingIncrements'] = {}
         
         # Calculate how much to glide for each year for each allocation.
         for alloc in invest_event.data['assetAllocation']:
             # Gliding rate difference for each year
+            # logger.debug(f"Allocation: {alloc}, Asset Allocation: {invest_event.data['assetAllocation'][alloc]}, Asset Allocation 2: {invest_event.data['assetAllocation2'][alloc]}, Duration: {invest_event.data['duration']}")
             invest_event.data['glidingIncrements'][alloc] = (invest_event.data['assetAllocation2'][alloc] - invest_event.data['assetAllocation'][alloc]) / (invest_event.data['duration'])
     
     # Choose the amount to invest.
@@ -484,7 +483,8 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
 
     # Start investing.
     tot_invested = 0
-    for investment in investments:
+    for invest_id in invest_event.data['assetAllocation']:
+        investment = find_investment(investments, invest_id)
         if investment.asset_type == 'cash':
             continue
         invest_amount = cash * allocation[investment.investment_id]
@@ -638,14 +638,14 @@ def run_simulation(scenario: Scenario) -> list[dict]:
 
     user_birth_year = scenario.birth_yr
     user_curr_age = start_year - user_birth_year
-    user_death_age = sample_from_distribution(scenario.life_exp)
+    user_death_age = round(sample_from_distribution(scenario.life_exp))
 
     spouse_curr_age = 0
     spouse_death_age = 0
     if scenario.is_married:
         spouse_birth_year = scenario.spouse_birth_yr
         spouse_curr_age = start_year - spouse_birth_year
-        spouse_death_age = sample_from_distribution(scenario.spouse_life_exp)
+        spouse_death_age = round(sample_from_distribution(scenario.spouse_life_exp))
     
     # Start the year counter
     years_to_run = int(max((user_death_age - user_curr_age), (spouse_death_age - spouse_curr_age) if scenario.is_married else 0))
@@ -662,10 +662,10 @@ def run_simulation(scenario: Scenario) -> list[dict]:
     end_year = start_year + years_to_run + 1
 
     # Logging simulation details
-    logger.debug(f"Running simulation for {years_to_run} years.")
-    logger.debug(f"User current age: {user_curr_age}, User death age: {user_death_age}")
-    logger.debug(f"Spouse current age: {spouse_curr_age}, Spouse death age: {spouse_death_age}")
-    logger.debug(f"Start year: {start_year}, End year: {end_year}")
+    logger.info(f"Running simulation for {years_to_run} years.")
+    logger.info(f"User current age: {user_curr_age}, User death age: {user_death_age}")
+    logger.info(f"Spouse current age: {spouse_curr_age}, Spouse death age: {spouse_death_age}")
+    logger.info(f"Start year: {start_year}, End year: {end_year}")
 
     for year in range(start_year, end_year):
         # Check if the user or spouse is alive
@@ -673,8 +673,8 @@ def run_simulation(scenario: Scenario) -> list[dict]:
         spouse_alive = spouse_curr_age <= spouse_death_age if scenario.is_married else False
 
         # Run the year simulation.
-        logger.debug(f"Running year {year}.")
-        logger.debug(f"User age/alive: {user_curr_age}/{user_alive} and spouse age/alive: {spouse_curr_age}/{spouse_alive}")
+        logger.info(f"Running year {year}.")
+        logger.info(f"User age/alive: {user_curr_age}/{user_alive} and spouse age/alive: {spouse_curr_age}/{spouse_alive}")
         year_res = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
         
         # Update the user and spouse ages and the previous year tax values
@@ -694,7 +694,7 @@ def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
     results = []
     for _ in range(num_simulations):
         # Run one life time of the user.
-        logger.debug(f"Running simulation {_ + 1} of {num_simulations}")
+        logger.info(f"Running simulation {_ + 1} of {num_simulations}")
         running_scenario = copy.deepcopy(scenario_dict)
         scenario = Scenario.from_dict(running_scenario)
         result = run_simulation(scenario)
