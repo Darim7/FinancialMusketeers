@@ -557,6 +557,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
 
     # STEP 4: Update investments
     capital_gains = update_investments(scenario.ivmt_types, investments)
+    cash_investment.value += capital_gains
 
     # STEP 5: Calculate federal and state income tax
     federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
