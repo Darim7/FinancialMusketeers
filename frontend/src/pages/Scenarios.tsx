@@ -7,10 +7,6 @@ import NavBar from '../components/NavBar';
 import { useNavigate} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreateScenario from '../components/scenarioData';
@@ -473,40 +469,38 @@ function Scenario() {
                 </div>
         
             
-            <div id='scenario-header-content'>
-                <h3>Scenario Forms:</h3>
-                {userEmail && userName ? (
-       
-                <>
-               
-
-                {UserSaveFormArray.map((form) => (
-                    <Button
-                        key={form.id}
-                        variant="outline-primary"
-                        onClick={() => handleViewForm(form)}
-                    
-                        >
+                <div id='scenario-header-content'>
+    <h3>Scenario Forms:</h3>
+    {userEmail && userName ? (
+        <div className='scenario-button-contents'>
+            {UserSaveFormArray.map((form) => (
+                <Button
+                    key={form.id}
+                    variant="outline-primary"
+                    onClick={() => handleViewForm(form)}
+                >
                     {form.name || "Untitled Form"}
                 </Button>
             ))}
-        </>
+        </div>
     ) : (
-        // If not logged in, render buttons for saveFormArray
-        saveFormArray.map((form) => (
-            <Button
-                key={form.id}
-                variant="outline-primary"
-                onClick={() => handleViewForm(form)}
-            >
-                {form.name || "Untitled Form"}
-            </Button>
-        ))
+        <div className='scenario-button-contents'>
+            {/* If not logged in, render buttons for saveFormArray */}
+            {saveFormArray.map((form) => (
+                <Button
+                    key={form.id}
+                    variant="outline-primary"
+                    onClick={() => handleViewForm(form)}
+                >
+                    {form.name || "Untitled Form"}
+                </Button>
+            ))}
+        </div>
     )}
-           
-            </div>
+ 
+     </div>
 
-            </div>
+     </div>
             {/* </div> */}
             
             
