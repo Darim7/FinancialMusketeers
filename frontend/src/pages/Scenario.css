@@ -19,7 +19,7 @@
 
 #scenario-header {
     display: grid;
-    grid-template-columns: 13% 80%; /
+    grid-template-columns: 13% 80%; 
     padding: 0px;
   }
   
