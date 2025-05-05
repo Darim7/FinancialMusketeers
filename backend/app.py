@@ -42,7 +42,7 @@ def get_scenario():
         
         # Find the scenario by ID
         scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
-        app.logger.info("what is scenario", scenario)
+        app.logger.info(f"what is scenario: {scenario}")
         
         if scenario:
             # Convert ObjectId to string for JSON serialization
@@ -214,7 +214,10 @@ def import_scenario():
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
-        app.logger.info("USER SCENARIOS", user.to_dict())
+        # app.logger.info("WTF:", scenario)
+        # user_data=user.to_dict()
+        # app.logger.info(f"USER SCENARIOS: {user_data}")
+
         return jsonify({"message": "Scenario imported successfully", "data": user.to_dict()}), 201
 
     except yaml.YAMLError as e:

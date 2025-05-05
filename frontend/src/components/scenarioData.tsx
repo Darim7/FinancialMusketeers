@@ -134,6 +134,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     // investmentValues: [] as any[]
   })
 
+ 
+
+
   console.log('LIFE EXPECTANCY:', values.lifeExpectancy)
   
   const [investmentCaseValues, setInvestmentCaseValues] = useState({
@@ -453,6 +456,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       );
     }
 
+
     if (formStep === 4) {
       console.log("PAGE5555555555555555")
       saveForms((prevForms:any) =>
@@ -460,11 +464,12 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           form.id === formInfo.id ? { ...form, ['RothConversionOpt']: values.RothConversionOpt, ['RothConversionStart']: 0, ['RothConversionEnd']: 0   } : form
         )
       )
+
     }
     setformStep(formStep + 1);
     
   };
-4
+
   const handleBack = (e:React.ChangeEvent<any>) => {
     e.preventDefault();
     setformStep(formStep - 1);
@@ -545,6 +550,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     //     )
     //   );
     // };
+
     
     const handleInvestmentCaseChange = (e:React.ChangeEvent<any>) => {
 
@@ -1488,17 +1494,19 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             <Form.Check
               type = "checkbox" 
               name = "RothConversionOpt"
-              value = "true"
+              // value = "true"
               checked = {values.RothConversionOpt === true}
-              onChange={(e)=> handleChanges(e)}
+              // onChange={(e)=> handleChanges(e)}
+              onChange={(e) => handleChanges({ target: { name: e.target.name, value: e.target.checked } })}
               label="True"
             />
             <Form.Check 
               type ="checkbox"
               name = "RothConversionOpt" 
-              value = "false"
+              // value = "false"
               checked={values.RothConversionOpt === false} 
-              onChange={(e)=> handleChanges(e)} 
+              // onChange={(e)=> handleChanges(e)} 
+              onChange={(e) => handleChanges({ target: { name: e.target.name, value: e.target.checked } })}
               label="False"
             />  
 
