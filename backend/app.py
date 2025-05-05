@@ -213,7 +213,7 @@ def import_scenario():
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
-
+        app.logger.info("USER SCENARIOS", user.to_dict())
         return jsonify({"message": "Scenario imported successfully", "data": user.to_dict()}), 201
 
     except yaml.YAMLError as e:

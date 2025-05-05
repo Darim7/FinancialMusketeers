@@ -44,15 +44,15 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     RothConversionStrategy: [] as any,
     AssetAllocation: [] as any[],
     investmentTypes: [
-      {name: 'Cash',
-      description: 'Cash',
-      returnAmtOrPct: 'amount',
-      returnDistribution: {type:"fixed", value: 0},
-      expenseRatio: '0.00',
-      incomeAmtOrPct: 'amount',
-      incomeDistribution: {type:"fixed", value: 0},
-      taxability: false,
-      }
+      // {name: 'Cash',
+      // description: 'Cash',
+      // returnAmtOrPct: 'amount',
+      // returnDistribution: {type:"fixed", value: 0},
+      // expenseRatio: '0.00',
+      // incomeAmtOrPct: 'amount',
+      // incomeDistribution: {type:"fixed", value: 0},
+      // taxability: false,
+      // }
     ] as any[],
     investments: [
       // {
