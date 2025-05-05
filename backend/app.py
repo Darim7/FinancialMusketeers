@@ -300,10 +300,12 @@ def run_simulation():
     if not scenario:
         return jsonify({"error": "Scenario is required"}), 400
     
-    scenario = Scenario.from_dict(scenario)
-
+    num_simulations = data['num_simulations']
+    if not num_simulations:
+        return jsonify({"error": "Number of simulations is required"}), 400
+    
     # Run the simulation
-    result = run_financial_planner(scenario)
+    result = run_financial_planner(scenario, num_simulations)
     
     return jsonify({"message": "Simulation completed successfully", "result": result}), 200
 
