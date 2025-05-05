@@ -19,6 +19,11 @@ function Scenario() {
     const userName = localStorage.getItem('userName');
     console.log("userEmail", userEmail);
     
+
+    const savedData = localStorage.getItem('saveFormArray');
+    console.log("Saved Data To LocalStorage For Overview:", savedData);
+
+
     const [show, setShow] = useState(false);
     const [scenarioSaved, setScenarioSaved] = useState(false);
     const [exportModalShow, setExportModalShow] = useState(false); 
@@ -241,6 +246,10 @@ function Scenario() {
     }, [UserSaveFormArray]);
 
     useEffect(() => {
+      
+        localStorage.setItem('saveFormArray', JSON.stringify(saveFormArray));
+        // const savedData = localStorage.getItem('saveFormArray');
+        // console.log("Saved Data:", savedData);
         console.log("Updated Guest Save Form Array:", saveFormArray);
     }, [saveFormArray]);
 

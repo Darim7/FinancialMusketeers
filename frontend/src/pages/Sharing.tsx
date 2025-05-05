@@ -104,7 +104,10 @@ useEffect(() => {
                         Select a Scenario to Share
                     </Modal.Title>
                 </Modal.Header>
+                
+            
                 <Modal.Body>
+                {userName && userEmail ? (
                     <select
                         className="form-select"
                         value={selectedScenarioId || ''} // Set the selected value
@@ -129,6 +132,11 @@ useEffect(() => {
                             </option>
                                 )}
                             </select>
+                ) : (
+                    <p>Please log in to share your scenarios.</p>
+                )}
+            
+           
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleSharingModalClose}>
