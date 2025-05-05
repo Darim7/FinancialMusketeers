@@ -6,14 +6,17 @@ import Scenario from '../pages/Scenarios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
 import { Prev } from 'react-bootstrap/esm/PageItem';
 import DistributionForm from './DistributionForm';
 import Page1 from './page1';
 import EventForm from './EventForm';
 import InvestmentForm from './InvestmentForm';
 import InvestmentCaseForm from './InvestmentCaseForm';
+import LifeExpectancyForm from './LifeExpectancyForm';
 
 function CreateScenario({formInfo, saveForms, userEmail}: any) {
+  console.log("CreateScenario Props:", { formInfo, userEmail, saveForms });
 
   {/* Go to the next page */}
   const [formStep, setformStep] = useState(1);
@@ -21,31 +24,44 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   {/* Update user input change */}
   const [values, setValues] = useState({
     user_email: '',
-    scenarioName : '',
+    name : '',
     residenceState: '',
-    retirementAge : '',
     financialGoal: '',
-    lifeExpectancy: {type:""},
-    lifeExpectancySpouse: {type:""},
+    lifeExpectancy: [{type:""}, {type: ""}] as any[],
     maritalStatus: '',
-    birthYears: ['', ''] as string[], 
+    birthYears: [0, 0] as number[], 
     birthYear1: '',
     birthYear2: '',
-    distributionForm1: '',
-    distributionForm2: '',
     inflationAssumption: {type:""},
     afterTaxContributionLimit: '',
     spendingStrategy: [] as any,
     expenseWithdrawalStrategy: [] as any [],
     RMDStrategy: [] as any [],
-    RothConversionOpt: '',
+    RothConversionOpt: false,
     RothConversionOptInfo: [] as any [],
     RothConversionStart: '',
     RothConversionEnd: '',
     RothConversionStrategy: [] as any,
     AssetAllocation: [] as any[],
-    investmentTypes: [] as any[],
-    investments: [] as any[],
+    investmentTypes: [
+      // {name: 'Cash',
+      // description: 'Cash',
+      // returnAmtOrPct: 'amount',
+      // returnDistribution: {type:"fixed", value: 0},
+      // expenseRatio: '0.00',
+      // incomeAmtOrPct: 'amount',
+      // incomeDistribution: {type:"fixed", value: 0},
+      // taxability: false,
+      // }
+    ] as any[],
+    investments: [
+      // {
+      //   investmentType: 'Cash',
+      //   value: '0',
+      //   taxStatus: 'non-retirement',
+      //   id: 'Cash',
+      // },
+    ] as any[],
     eventSeries: [] as any[],
     discretionary: [] as any []
   })
@@ -56,31 +72,50 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     console.log('formData:', formInfo);
     setValues({
       user_email: userEmail || formInfo.email || '',
-      scenarioName: formInfo.scenarioName || '',
+      name: formInfo.name || '',
       residenceState: formInfo.residenceState || '',
-      retirementAge: formInfo.retirementAge || '',
       financialGoal: formInfo.financialGoal || '',
-      lifeExpectancy: formInfo.lifeExpectancy || {type:""},
-      lifeExpectancySpouse: formInfo.lifeExpectancy || {type:""},
+      lifeExpectancy: formInfo.lifeExpectancy || [{type:""}, {type:""}],
       maritalStatus: formInfo.maritalStatus || '',
       birthYears: formInfo.birthYears || [],
       birthYear1: formInfo.birthYear1 || '',
       birthYear2: formInfo.birthYear2 || '',
-      distributionForm1: formInfo.distributionForm1 || '',
-      distributionForm2: formInfo.distributionForm2 || '',
       inflationAssumption: formInfo.inflationAssumption || {type:""},
       afterTaxContributionLimit: formInfo.afterTaxContributionLimit || '',
       spendingStrategy: formInfo.spendingStrategy || [],
       expenseWithdrawalStrategy: formInfo.expenseWithdrawalStrategy || [],
       RMDStrategy: formInfo.RMDStrategy || [],
-      RothConversionOpt: formInfo.RothConversionOpt || '',
+      // RothConversionOpt: formInfo.RothConversionOpt || '',
+      RothConversionOpt: formInfo.RothConversionOpt || false,
       RothConversionOptInfo: formInfo.RothConversionOptInfo || [],
       RothConversionStart: formInfo.RothConversionStart || '',
       RothConversionEnd: formInfo.RothConversionEnd || '',
       RothConversionStrategy: formInfo.RothConversionStrategy || [],
       AssetAllocation: formInfo.AssetAllocation || [],
-      investmentTypes: formInfo.investmentTypes || [],
-      investments: formInfo.investments || [],
+      // investmentTypes: formInfo.investmentTypes || [],
+      investmentTypes: formInfo.investmentTypes || [
+        {name: 'Cash',
+        description: 'Cash',
+        returnAmtOrPct: 'amount',
+        returnDistribution: {type:"fixed", value: 0},
+        expenseRatio: '0.00',
+        incomeAmtOrPct: 'amount',
+        incomeDistribution: {type:"fixed", value: 0},
+        taxability: false,
+        }
+      ],
+      // investments: formInfo.investments || [],
+      investments: formInfo.investments?.length > 0
+      ? formInfo.investments
+      : [
+          {
+            investmentType: 'Cash',
+            value: '0',
+            taxStatus: 'non-retirement',
+            id: 'Cash',
+          },
+        ],
+      
       eventSeries: formInfo.eventSeries || [],
       discretionary: formInfo.discretionary || []
     });
@@ -95,10 +130,12 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     expenseRatio: '',
     incomeAmtOrPct: '',
     incomeDistribution: {type:""},
-    taxability: '',
+    taxability: false,
     // investmentValues: [] as any[]
   })
 
+  console.log('LIFE EXPECTANCY:', values.lifeExpectancy)
+  
   const [investmentCaseValues, setInvestmentCaseValues] = useState({
     investmentType: '',
     value: '',
@@ -111,7 +148,20 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   console.log("what is the investment", values.investmentTypes);
   // There are 4 different types of event
   const diffEvent = {
-    Income: [
+    income: [
+      { question: "Event Names: ", type: "text", name:"name"},
+      { question: "Start: ", type: "distribution", name:"start"  },
+      { question: "Duration: ", type: "distribution", name:"duration" },
+      { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
+      { question: "Change Amount or Percent: ", type: "select" , name:"changeAmtOrPct"},
+      { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
+      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
+      { question: "User Fraction: ", type: "number", name:"userFraction"},
+      { question: "Social Security: ", type: "boolean", name:"socialSecurity"},
+
+    ],
+
+    expense: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
@@ -120,23 +170,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
       { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
       { question: "User Fraction: ", type: "number", name:"userFraction"},
-      { question: "Social Security: ", type: "boolean", name:"socialSecurity"},
-
-    ],
-
-    Expense: [
-      { question: "Event Names: ", type: "text", name:"name"},
-      { question: "Start: ", type: "distribution", name:"start"  },
-      { question: "Duration: ", type: "distribution", name:"duration" },
-      { question: "Initial Amount: ", type: "number" , name:"initialAmount"},
-      { question: "Change Amount or Percent: ", type: "text" , name:"changeAmountOrPercent"},
-      { question: "Change Distribution: ", type: "distribution" , name:"changeDistribution"},
-      { question: "Inflation Adjusted: ", type: "boolean", name:"inflationAdjusted"},
-      { question: "User Fraction: ", type: "number", name:"userFraction"},
       { question: "Discretionary : ", type: "boolean", name: "discretionary"}, // This should be Boolean
       
     ],
-    Invest: [
+    invest: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
@@ -146,11 +183,11 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
     ],
 
-    Rebalance: [
+    rebalance: [
       { question: "Event Names: ", type: "text", name:"name"},
       { question: "Start: ", type: "distribution", name:"start"  },
       { question: "Duration: ", type: "distribution", name:"duration" },
-      { question: "Asset Allocation: ", type: "object", name: "assetAllocation", fields:[values.AssetAllocation] },
+      { question: "Asset Allocation:", type: "object", name: "assetAllocation", fields:[values.AssetAllocation] },
     ],
   };
 
@@ -206,12 +243,20 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   //   );
   
   // };
-  const handleAnswerChange = (question: string, value: any) => {
+  const handleAnswerChange = (e:React.ChangeEvent<any>,question: string, value: any) => {
     console.log(`Handle Answer Change: \n Question: ${question}, Value: ${value}`)
+    // const {type} = e.target;
     // Update local state
+
+    let parsedValue = value;
+
+    // if (type === "number") {
+    //   parsedValue = Number(value);
+    // }
+
     setAnswers((prev) => ({
       ...prev,
-      [question]: value,
+      [question]: parsedValue,
     }));
   
     // Update saved forms
@@ -221,7 +266,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           ? {
               ...form,
               // Prevent updating 'name' unless 'question' is 'scenarioName'
-              [question]: question === 'scenarioName' ? value : form[question],
+              [question]: question === 'name' ? parsedValue : form[question],
             }
           : form
       )
@@ -260,20 +305,48 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   //   );
     
   //  };
-  const handleChanges = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,birthYearIndex?: number) => {
+  const handleChanges = (e: React.ChangeEvent<any>,birthYearIndex?: number) => {
     const { name, value } = e.target;
 
-    const parsedValue =
-      name === 'RothConversionStart' || name === 'RothConversionEnd'
-        ? Number(value)
-        : value;
+    console.log("What is the name and value", name, value);
+
+
+    let parsedValue:any;
+    // const parsedValue =
+    //   name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal'
+    //     ? Number(value)
+    //     : value;
+
+    if (name === 'RothConversionStart' || name === 'RothConversionEnd' || name === 'financialGoal' || name === 'afterTaxContributionLimit') {
+      parsedValue = Number(value);
+    } 
+    else if (name === 'RothConversionOpt') {
+      parsedValue = (value === "true")
+    }
+    else {
+      parsedValue = value
+    }
+    
+
+    // if (name === 'RothConversionOpt') {
+    //       setValues((prev) => ({
+    //         ...prev,
+    //         [name]: value === 'true', 
+    //       }));
+    //       return;
+    //     }
   
     if (name === 'birthYear1' || name === 'birthYear2') {
       // Ask ChatGPT how to correctly put the birth year into the birthYears array
+      // setValues((prevValues) => {
+      //   const updatedBirthYears = [...prevValues.birthYears];
+      //   if (birthYearIndex !== undefined) {
+      //     updatedBirthYears[birthYearIndex] = value;
+      //   }
       setValues((prevValues) => {
         const updatedBirthYears = [...prevValues.birthYears];
         if (birthYearIndex !== undefined) {
-          updatedBirthYears[birthYearIndex] = value;
+          updatedBirthYears[birthYearIndex] = Number(value); // Ensure this is a number
         }
   
         return {
@@ -289,29 +362,74 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
                 ...form,
                 birthYears: (() => {
                   const updated = [...form.birthYears || []];
-                  updated[birthYearIndex || 0] = value;
+                  updated[birthYearIndex || 0] = Number(value);
                   return updated;
                 })(),
-                [name]: value,
-                name: name === 'scenarioName' ? value : form.name,
+                [name]: parsedValue,
+                name: name === 'name' ? value : form.name,
               }
             : form
         )
       );
-    } else {
+    } 
+    // else {
+    //   // Log the current state of values before updating
+    //   console.log("Before updating values:", values);
+    
+    //   // Log the field being updated and its new value
+    //   console.log("Updating field:", name, "with value:", parsedValue);
+    
+    //   setValues((prevValues) => {
+    //     const updatedValues = {
+    //       ...prevValues,
+    //       [name]: parsedValue,
+    //     };
+    //     // Log the updated values
+    //     console.log("Updated values:", updatedValues);
+    //     return updatedValues;
+    //   });
+    
+    //   saveForms((prevForms: any) =>
+    //     prevForms.map((form: any) => {
+    //       // Log each form being processed
+    //       console.log("DOES IT GOES IN HEREERERRRRRRRRRRRRRRRRRR");
+    //       console.log("Processing form:", { id: form._id, a: formInfo._id, name: form.name });
+    
+    //       if (form._id === formInfo._id) {
+    //         // Log the form being updated
+    //         console.log("Updating form:", { id: form.id, name: form.name });
+    //         const updatedForm = {
+    //           ...form,
+    //           [name]: parsedValue,
+    //           name: name === 'name' ? value : form.name,
+    //         };
+    //         // Log the updated form
+    //         console.log("Updated form:", updatedForm);
+    //         return updatedForm;
+    //       }
+    
+    //       // Log forms that are not updated
+    //       console.log("Form not updated:", { id: form.id, name: form.name });
+    //       return form;
+    //     })
+    //   );
+    // }
+    
+    else {
       
       setValues((prevValues) => ({
         ...prevValues,
-        [name]: value,
+        [name]: parsedValue,
       }));
-  
+      
+
       saveForms((prevForms: any) =>
         prevForms.map((form: any) =>
-          form.id === formInfo.id
+          form._id === formInfo._id
             ? {
                 ...form,
-                [name]: value,
-                name: name === 'scenarioName' ? value : form.name,
+                [name]: parsedValue,
+                name: name === 'name' ? value : form.name,
               }
             : form
         )
@@ -334,9 +452,19 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         )
       );
     }
-    setformStep(formStep + 1);
-  };
 
+    if (formStep === 4) {
+      console.log("PAGE5555555555555555")
+      saveForms((prevForms:any) =>
+        prevForms.map((form:any) =>
+          form.id === formInfo.id ? { ...form, ['RothConversionOpt']: values.RothConversionOpt, ['RothConversionStart']: 0, ['RothConversionEnd']: 0   } : form
+        )
+      )
+    }
+    setformStep(formStep + 1);
+    
+  };
+4
   const handleBack = (e:React.ChangeEvent<any>) => {
     e.preventDefault();
     setformStep(formStep - 1);
@@ -419,7 +547,16 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     // };
     
     const handleInvestmentCaseChange = (e:React.ChangeEvent<any>) => {
-      setInvestmentCaseValues({...investmentCaseValues, [e.target.name]:e.target.value});
+
+      const {name, value, type} = e.target;
+
+      let parsedValue = value;
+
+      if (type==="number"){
+        parsedValue = Number(value);
+      }
+
+      setInvestmentCaseValues({...investmentCaseValues, [e.target.name]:parsedValue});
     }
 
     const saveInvestmentCase = (e:React.ChangeEvent<any>) => {
@@ -543,7 +680,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       expenseRatio: '',
       incomeAmtOrPct: '',
       incomeDistribution: { type: ''},
-      taxability: '',
+      taxability: false,
       // investmentValues: [],
     });
 
@@ -744,7 +881,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
   }
   
   const editEventModal = (event:any, index:number) => {
-    // console.log("what is the event", event);
+    console.log("what is the event", event);
     setSelectedEvent(event.type);
     setAnswers({...event});
     setCurrentEventIndex(index);
@@ -753,6 +890,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
   const addNewEvent = (e:React.ChangeEvent<any>) => {
     setIsEditingEvent(false);
+    setCurrentEventIndex(-1);
+    setAnswers({});
+    setSelectedEvent("");
     setShowEventModal(true);
   }
 
@@ -881,7 +1021,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       ? { type: value }
       : {
           ...values[field],
-          [name]: value,
+          [name]: Number(value),
         };
   
     // Update local state
@@ -899,6 +1039,30 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       )
     );
   };
+
+  const handleLifeExpectancyChange = (e:React.ChangeEvent<any>, index: number) => {
+    const {name, value} = e.target;
+
+    console.log(name, value);
+
+    //user is selecting a new type
+    setValues(prev => {
+      const updatedLifeExpectancy = [...prev.lifeExpectancy];
+      if (!updatedLifeExpectancy[index]) {
+        updatedLifeExpectancy[index] = { type: '' }; // Initialize if it doesn't exist
+      }
+      if (name === 'type') {
+        updatedLifeExpectancy[index] = { type: value }; // Clear other fields when type changes
+      } else {
+        updatedLifeExpectancy[index] = {
+          ...updatedLifeExpectancy[index],
+          [name]: parseInt(value), // Handle empty input
+        };
+      }
+      return { ...prev, lifeExpectancy: updatedLifeExpectancy };
+    })
+  }
+
   
 
   const handleInvestmentDistributionChange = (e: React.ChangeEvent<any>, field: string) => {
@@ -912,7 +1076,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       } else {
         updatedValue = {
           ...prev[field],
-          [name]: value,
+          [name]: Number(value),
           }
       };
         return { ...prev, [field]: updatedValue };
@@ -945,7 +1109,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       ? { type: value }
       : {
           ...answers[field],
-          [name]: value,
+          [name]: Number(value),
         };
   
     // Update answers state
@@ -1116,11 +1280,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       RothConversionStrategy: conversionItems
     }));
   }
-
+  {console.log(values.lifeExpectancy[0])}
   return (
     <div className="create-scenario"> 
       <h1>Scenario</h1> 
-
       <form>
 
       {formStep === 1 && (
@@ -1128,10 +1291,10 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         <Page1 values={values} setValues={setValues} states={states} handleChanges={handleChanges} index={0} />
      
        {/* TODO: Life Expectancy is optional, if user no input, default is 80 */}
-       <DistributionForm name={'lifeExpectancy'} field={'lifeExpectancy'} text="Life Expectancy:" distribution={values.lifeExpectancy} handleChange={handleMainDistributionChange} />
-        
+       {/* <DistributionForm name={'lifeExpectancy'} field={'lifeExpectancy'} text="Life Expectancy:" distribution={values.lifeExpectancy[0]} handleChange={handleLifeExpectancyChange} index={0} /> */}
+       <LifeExpectancyForm text={"Life Expectancy:"} distribution={values.lifeExpectancy[0]} handleChange={handleLifeExpectancyChange} index={0}/>
        {values.maritalStatus === "couple" ? (
-        <DistributionForm name={'lifeExpectancySpouse'} field={'lifeExpectancySpouse'} text="Life Expectancy of Spouse:" distribution={values.lifeExpectancySpouse} handleChange={handleMainDistributionChange} />
+        <LifeExpectancyForm text={"Life Expectancy of Spouse: "} distribution={values.lifeExpectancy[1]} handleChange={handleLifeExpectancyChange} index={1} />
        ): null}
 
        <Button variant='light' onClick={handleNext}>Next</Button>
@@ -1243,8 +1406,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         <div className='scenarioPart2-container'>
           <DistributionForm name={"inflationAssumption"} text={"Inflation Assumption:"} field={"inflationAssumption"} distribution={values.inflationAssumption} handleChange={handleMainDistributionChange}/>
 
-          <label htmlFor="afterTaxContributionLimit"> After Tax Contribution Limit:</label>
-            <input
+          <Form.Label htmlFor="afterTaxContributionLimit"> After Tax Contribution Limit:</Form.Label>
+            <Form.Control
               type = "number" 
               name = "afterTaxContributionLimit"
               value = {values.afterTaxContributionLimit}
@@ -1252,16 +1415,16 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           />
 
           {/* Select the order of spending  */}
-          <label htmlFor="spendingStrategy"> Spending Strategy:</label>
+          <Form.Label htmlFor="spendingStrategy"> Spending Strategy:</Form.Label>
             <div className='spending-list'>
             {values.discretionary.length > 0 ? (
               values.discretionary.map((item, index) => (
                 <div key={index} className='spending-item'
-                draggable
-                onDragStart={(e)=> dragItem.current = index}
-                onDragEnter={(e)=> dragOver.current = index}
-                onDragEnd={handleSortDragForDiscretionary}
-                onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
+                  draggable
+                  onDragStart={(e)=> dragItem.current = index}
+                  onDragEnter={(e)=> dragOver.current = index}
+                  onDragEnd={handleSortDragForDiscretionary}
+                  onDragOver = {(e) => e.preventDefault()} //Allows things to drag so the red stop thing wont pop up
                 >
                   {/* {item.eventName}  */}
                   {item.name} 
@@ -1274,7 +1437,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             </div>
 
           {/* Select the order for withdraw strategy */}
-          <label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</label>
+          <Form.Label htmlFor="expenseWithdrawalStrategy"> Expense Withdrawal Strategy:</Form.Label>
           <div className='spending-list'>
             {values.expenseWithdrawalStrategy.length > 0 ? (
               values.expenseWithdrawalStrategy.map((item, index) => (
@@ -1299,7 +1462,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           
 
            {/* Select the order for RMD strategy  */}
-           <label htmlFor="RMDStrategy"> RMD Strategy:</label>
+           <Form.Label htmlFor="RMDStrategy"> RMD Strategy:</Form.Label>
             <div className='spending-list'>
               {values.RMDStrategy.length > 0 ? (
                 values.RMDStrategy.map((item, index) => (
@@ -1321,24 +1484,28 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             </div>
          
           {/* If it is true, then display the start and end year */}
-           <label htmlFor="RothConversionOpt"> Roth Conversion Opt:</label>
-            <input
-              type = "radio" 
+           <Form.Label htmlFor="RothConversionOpt"> Roth Conversion Opt:</Form.Label>
+            <Form.Check
+              type = "checkbox" 
               name = "RothConversionOpt"
-              value = "True"
-              checked = {values.RothConversionOpt === "True"}
-              onChange={handleChanges}/>True
-            <input 
-              type ="radio"
+              value = "true"
+              checked = {values.RothConversionOpt === true}
+              onChange={(e)=> handleChanges(e)}
+              label="True"
+            />
+            <Form.Check 
+              type ="checkbox"
               name = "RothConversionOpt" 
-              value = "False"
-              checked={values.RothConversionOpt === "False"} 
-              onChange={(e)=> handleChanges(e)} /> False 
+              value = "false"
+              checked={values.RothConversionOpt === false} 
+              onChange={(e)=> handleChanges(e)} 
+              label="False"
+            />  
 
-        {values.RothConversionOpt === "True" && (
+        {values.RothConversionOpt === true && (
           <>
-          <label htmlFor="RothConversionStart"> Roth Conversion Start:</label>
-            <input
+          <Form.Label htmlFor="RothConversionStart"> Roth Conversion Start:</Form.Label>
+            <Form.Control
               type = "number" 
               name = "RothConversionStart"
               value = {values.RothConversionStart}
@@ -1346,8 +1513,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           />
 
           
-          <label htmlFor="RothConversionEnd"> Roth Conversion End:</label>
-            <input
+          <Form.Label htmlFor="RothConversionEnd"> Roth Conversion End:</Form.Label>
+            <Form.Control
               type = "number" 
               name = "RothConversionEnd"
               value = {values.RothConversionEnd}
@@ -1356,7 +1523,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           </>
          )}
 
-        <label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</label>
+        <Form.Label htmlFor="RothConversionStrategy"> Roth Conversion Strategy:</Form.Label>
           <div className='spending-list'>
             {values.RothConversionStrategy.length > 0 ? (
               values.RothConversionStrategy.map((item:any, index:number) => (
@@ -1387,7 +1554,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       </form>
 
       {/* Events Modal */}
-      <Modal show={showEventModal} onHide={closeEventModal} centered>
+      <Modal show={showEventModal} onHide={closeEventModal} backdrop='static' centered>
         <Modal.Header closeButton> </Modal.Header>
 
           <Modal.Body>
