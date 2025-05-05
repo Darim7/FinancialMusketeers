@@ -73,19 +73,31 @@ import Form from 'react-bootstrap/Form';
                 <Form.Check 
                     type='checkbox'
                     id = "Taxable"
-                    value = "true"
+                    // value = "true"
                     name = "taxability"
-                    checked={investment.taxability === "True" || investment.taxability === true}
-                    onChange={handleInvestmentChange}
+                    checked={investment.taxability === true}
+                    // onChange={handleInvestmentChange}
+                    onChange={(e) => handleInvestmentChange({
+                        target: {
+                            name: e.target.name,
+                            value: e.target.checked, // Set the boolean value directly
+                        },
+                    })}
                     label="Taxable"
                 />
                 <Form.Check 
                     type='checkbox'
                     id = "Tax-Exempt"
                     name=  "taxability"     
-                    value = "False"
-                    checked={investment.taxability === "False" || investment.taxability === false}
-                    onChange={handleInvestmentChange}
+                    value = "false"
+                    checked={investment.taxability === false}
+                    // onChange={handleInvestmentChange}
+                    onChange={(e) => handleInvestmentChange({
+                        target: {
+                            name: e.target.name,
+                            value: e.target.checked, // Set the boolean value directly
+                        },
+                    })}
                     label="Tax-Exempt"
                 />
                 </div>

@@ -10,7 +10,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreateScenario from '../components/scenarioData';
-import axios from 'axios';
+import axios, { formToJSON } from 'axios';
 
 
 function Scenario() {
@@ -237,8 +237,16 @@ function Scenario() {
     }, [UserScenarioForm]);
     
     useEffect(() => {
-        console.log("Updated Save Form Array:", UserSaveFormArray);
+        console.log("Updated Save User Array:", UserSaveFormArray);
     }, [UserSaveFormArray]);
+
+    useEffect(() => {
+        console.log("Updated Guest Save Form Array:", saveFormArray);
+    }, [saveFormArray]);
+
+    console.log("what is saveForm", scenarioForm)
+
+    
 
     console.log("SAVE FORM ARRAY", UserSaveFormArray)
 
@@ -271,12 +279,14 @@ function Scenario() {
     const exportYAML = async (scenarioId: number|string) => {       
         // Find the selected scenario in saveFormArray
         console.log("Scenario ID WTF:", scenarioId);
+        console.log("Save form array inside Export:", saveFormArray);
         const selectedScenario =
         (!userEmail || !userName
-            ? saveFormArray.find((form) => form._id === scenarioId)
+            ? saveFormArray.find((form) => String(form.id) === String(scenarioId))
             : null) || // If not logged in, check saveFormArray
         UserSaveFormArray.find((form) => form._id === scenarioId) 
         console.log("Selected Scenario:", selectedScenario);
+        
     
         if (!selectedScenario) {
             alert("Selected scenario not found!");
@@ -391,7 +401,6 @@ function Scenario() {
                     <Button onClick={handleExportModalShow} variant="primary">
                       + Export Scenario
                     </Button>
-
                     <Modal show={exportModalShow} onHide={handleExportModalClose} backdrop="static" >
                         <Modal.Header closeButton>
                             <Modal.Title>
@@ -407,6 +416,7 @@ function Scenario() {
                                 value={selectedScenarioId || ''} // Set the selected value
                                 onChange={(e) => {
                                     console.log("Selected Scenario ID:", e.target.value)
+                                    // console.log("what is saveFormArray", saveFormArray);
                                     setSelectedScenarioId(e.target.value)
                                 }} // Will know which scenario to export, base on num
                                 >
@@ -541,6 +551,7 @@ function Scenario() {
                 onClick={() => {
                 handleClose(); 
                 setScenarioSaved(true); 
+                
                 if (userName && userEmail) {
                     console.log("User Scenario Form:", UserScenarioForm);
                     if (UserScenarioForm?._id) {
