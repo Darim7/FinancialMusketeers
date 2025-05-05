@@ -8,6 +8,7 @@ import Scenario from './pages/Scenarios';
 // import Scenario from './pages/testScenario';
 import ProfilePage from './pages/ProfilePage';
 import ScenarioData from './components/scenarioData';
+import Sharing from './pages/Sharing';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -22,6 +23,7 @@ function App(){
           <Route path = "/scenarios" element={<Scenario/>} />
           <Route path = "/createscenario" element={<ScenarioData/>} />
           <Route path = '/profile' element={<ProfilePage/>} />
+          <Route path = '/sharing' element={<Sharing/>} />
         </Routes>
       </BrowserRouter>
     </div>

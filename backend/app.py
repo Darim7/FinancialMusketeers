@@ -191,6 +191,7 @@ def import_scenario():
     user = User(user_name, user_email)
 
     app.logger.info("WHAT IS REQUEST FILE", request.files)
+    app.logger.info("what is user", user_email)
 
     # Ensure a file is provided
     if 'file' not in request.files:

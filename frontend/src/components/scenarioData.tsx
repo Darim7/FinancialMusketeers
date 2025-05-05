@@ -46,15 +46,22 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     investmentTypes: [
       {name: 'Cash',
       description: 'Cash',
-      returnAmtOrPct: '',
-      returnDistribution: {type:""},
-      expenseRatio: '',
-      incomeAmtOrPct: '',
-      incomeDistribution: {type:""},
-      taxability: '',
+      returnAmtOrPct: 'amount',
+      returnDistribution: {type:"fixed", value: 0},
+      expenseRatio: '0.00',
+      incomeAmtOrPct: 'amount',
+      incomeDistribution: {type:"fixed", value: 0},
+      taxability: false,
       }
     ] as any[],
-    investments: [] as any[],
+    investments: [
+      // {
+      //   investmentType: 'Cash',
+      //   value: '0',
+      //   taxStatus: 'non-retirement',
+      //   id: 'Cash',
+      // },
+    ] as any[],
     eventSeries: [] as any[],
     discretionary: [] as any []
   })
@@ -89,15 +96,26 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       investmentTypes: formInfo.investmentTypes || [
         {name: 'Cash',
         description: 'Cash',
-        returnAmtOrPct: '',
-        returnDistribution: {type:""},
-        expenseRatio: '',
-        incomeAmtOrPct: '',
-        incomeDistribution: {type:""},
+        returnAmtOrPct: 'amount',
+        returnDistribution: {type:"fixed", value: 0},
+        expenseRatio: '0.00',
+        incomeAmtOrPct: 'amount',
+        incomeDistribution: {type:"fixed", value: 0},
         taxability: false,
         }
       ],
-      investments: formInfo.investments || [],
+      // investments: formInfo.investments || [],
+      investments: formInfo.investments?.length > 0
+      ? formInfo.investments
+      : [
+          {
+            investmentType: 'Cash',
+            value: '0',
+            taxStatus: 'non-retirement',
+            id: 'Cash',
+          },
+        ],
+      
       eventSeries: formInfo.eventSeries || [],
       discretionary: formInfo.discretionary || []
     });
@@ -112,7 +130,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     expenseRatio: '',
     incomeAmtOrPct: '',
     incomeDistribution: {type:""},
-    taxability: '',
+    taxability: false,
     // investmentValues: [] as any[]
   })
 
@@ -662,7 +680,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       expenseRatio: '',
       incomeAmtOrPct: '',
       incomeDistribution: { type: ''},
-      taxability: '',
+      taxability: false,
       // investmentValues: [],
     });
 

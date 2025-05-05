@@ -10,6 +10,7 @@ const Page1 = ({ values, setValues, states, handleChanges, index }:any) => {
         name="name"
         value={values.name || ''}
         onChange={(e) => handleChanges(e, index)}
+        
       />
 
       <Form.Label htmlFor="state-of-residence">State of Residence:</Form.Label>
