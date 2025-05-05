@@ -222,9 +222,6 @@ class Scenario(Exportable):
     @classmethod
     def from_dict(cls, data: Dict) -> Self:
         """Factory method for creating from dictionary"""
-        # logger.info("what is Roth Conversion Start : %s",data['RothConversionStart'])
-        # logger.info("what is Roth Conversion End : %s",data['RothConversionEnd'])
-        logger.info("DATA: ", data)
 
         return cls(
             name=data['name'],

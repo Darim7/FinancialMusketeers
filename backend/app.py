@@ -10,6 +10,7 @@ import traceback
 from models.user import User
 from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
 from models.scenario import Scenario
+from muskets.simulations import run_financial_planner
 
 app = Flask(__name__)
 
@@ -251,7 +252,49 @@ def get_user():
     user['_id'] = str(user['_id'])
     return jsonify({"data": user}), 200
 
+@app.route('/api/share_scenario', methods=['POST'])
+def share_scenario():
+
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    # Get the user email from the request
+    user_email = data['user_email']
+    if not user_email:
+        return jsonify({"error": "User email is required"}), 400
+
+    target_user_email = data['target_user_email']
+    if not target_user_email:
+        return jsonify({"error": "Target user email is required"}), 400
+    
+    # Get the scenario ID from the request
+    scenario_id = data['scenario_id']
+    if not scenario_id:
+        return jsonify({"error": "Scenario ID is required"}), 400
+    
+    app.logger.info(f'User {user_email} Reached share_scenario route. To {target_user_email}')
+
+    # Find the scenario by ID
+    scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
+    if not scenario:
+        return jsonify({"error": "Scenario not found"}), 404
+
+    # Share the scenario with the user
+    target_user = User("", target_user_email)
+    target_user.scenarios.append(ObjectId(scenario_id))
+    target_user.update_to_db()
+    app.logger.info(f'Scenario {scenario_id} shared with {target_user_email}')
+    return jsonify({"message": "Scenario shared successfully"}), 200
+
 if __name__ == "__main__":
+    # Test simulations
+    scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
+    # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
+    scenario_res = run_financial_planner(scenario.to_dict(), 5)
+
+    exit(0)
+
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)
     app.logger.info('Stopping Flask application')
