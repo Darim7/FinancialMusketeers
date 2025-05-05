@@ -14,6 +14,7 @@ import ShadedLineChart from '../components/ShadedLineChart';
 import axios from 'axios';
 import SurfacePlot from '../components/SurfacePlot';
 import ContourPlot from '../components/ContourPlot';
+import Card from 'react-bootstrap/Card';
 
 // user: {email, scenarios}
 // pass in user
@@ -78,6 +79,9 @@ function Overview() {
   const [userData, setUserData] = useState<string[] | null>(null);
   const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
   const selectedScenarioData = fetchUserScenarios[parseInt(scenario)];
+  const [explorationMode, setExplorationMode] = useState<"one-dimensional" | "two-dimensional" | "none">("none");
+
+  const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
 
   const getUser = async () => {
     try {
@@ -184,10 +188,7 @@ function Overview() {
   
   const totalSelectedCharts = countSelectedCharts();
 
-  const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setScenario(e.target.value);
-
-    // Reset the charts and simulation data when a new scenario is selected
+  const resetAllChartSelections = () => {
     setLineChart({
       probabilityofSuccess: false,
     });
@@ -205,13 +206,36 @@ function Overview() {
     setSurfacePlot({
       finalValueOfProbabilityOfSuccess: false,
       finalValueOfMedianTotalInvestments: false,
-    })
-    setSimulationData(false);
-    setSimulationAmount(0);
+    });
+    setContourPlot({
+      finalValueOfProbabilityOfSuccess: false,
+      finalValueOfMedianTotalInvestments: false,
+    });
+  };
+
+  const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    setScenario(e.target.value);
+
+    // Reset the charts and simulation data when a new scenario is selected
+    resetAllChartSelections();
 
     console.log("Selected Scenario:", e.target.value);
   }
 
+  const handleExplorationModeChange = (mode: 'one-dimensional' | 'two-dimensional' | 'none') => {
+      // Reset all chart selections when changing modes
+      resetAllChartSelections();
+      setExplorationMode(mode);
+    };
+
+  const handleEventSelection = (index:number) => {
+      // If the same card is clicked again, deselect it
+    if (selectedEvent === index) {
+      setSelectedEvent(null);
+    } else {
+      setSelectedEvent(index);
+    }
+  }
 
   const handleLineChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
@@ -272,6 +296,7 @@ function Overview() {
       
       <div id="main-content">
       <div id="selectScenario">
+        <h5>Select a Scenario</h5>
         {/* Dropdown to select the scenarios */}
         <Form.Select 
           id="selectScenarioForm"
@@ -280,17 +305,17 @@ function Overview() {
           onChange={(e)=>handleScenarioSelection(e)}
         >
           <option value="" disabled>Select a scenario</option>
-          {Object.keys(testScenarios).map((scenario, index) => (
-            <option key={scenario} value={scenario}>
-              {scenario}
-            </option>
+          {/* {Object.keys(testScenarios).map((scenario, index) => ( */}
+            {/* <option key={scenario} value={scenario}> */}
+              {/* {scenario} */}
+            {/* </option> */}
 
-          // {fetchUserScenarios.map((scenario, index) => (
-          //   <option key={scenario._id} value={index}>
-          //     {scenario.name}
-          //   </option>
-          // ))}
+          {fetchUserScenarios.map((scenario, index) => (
+            <option key={scenario._id} value={index}>
+              {scenario.name}
+            </option>
           ))}
+          {/* ))} */}
         </Form.Select>
         </div>
         {/* If user selcts a scenario, allow them to checkbox the charts they want to see*/}
@@ -324,7 +349,109 @@ function Overview() {
           </div>
         )}
 
-        {simulationData &&(
+        {simulationData && (
+          <div id="explorationModes" className="mb-4">
+            <h5>Select Exploration Mode</h5>
+            <div>
+              <Button
+                variant={explorationMode === 'none' ? "primary" : "outline-primary"}
+                onClick={() => handleExplorationModeChange("none")}
+              >
+                None
+              </Button>
+              <Button 
+                variant={explorationMode === 'one-dimensional' ? "primary" : "outline-primary"}
+                onClick={() => handleExplorationModeChange('one-dimensional')}
+              >
+                One-Dimensional Exploration
+              </Button>
+              <Button 
+                variant={explorationMode === 'two-dimensional' ? "primary" : "outline-primary"}
+                onClick={() => handleExplorationModeChange('two-dimensional')}
+              >
+                Two-Dimensional Exploration
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {simulationData && explorationMode === 'one-dimensional' && (
+          <div id="explorationMode">
+            <h5>One-Dimensional Exploration</h5>
+            <div id="explorationModeDescription">
+              <p>
+                In this mode, you can explore the impact of changing one parameter at a time on the simulation results.
+              </p>
+            </div>
+
+            <div id="one-dimensional-events">
+              <h6> Available Events:</h6>  
+              <div>
+              {selectedEvent === null ? (
+                selectedScenarioData["eventSeries"].map((events:any, index:any) => (
+                  <Card key={index} className='mb-3' onClick={() => handleEventSelection(index)}>
+                    <Card.Body>
+                      <Card.Title>{events.name}</Card.Title>
+                      <Card.Text>
+                        Type: {events.type}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card> 
+                ))
+              ) : ( 
+                <Card 
+                  key={selectedEvent} 
+                  className='mb-3' 
+                  onClick={() => handleEventSelection(selectedEvent)}
+                  style={{ 
+                    cursor: 'pointer',
+                    borderColor: '#007bff',
+                    boxShadow: '0 0 0 0.2rem rgba(0, 123, 255, 0.25)'
+                  }}
+                >
+                  <Card.Body>
+                    <Card.Title>{selectedScenarioData["eventSeries"][selectedEvent].name}</Card.Title>
+                    <Card.Text>
+                      Type: {selectedScenarioData["eventSeries"][selectedEvent].type}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedEvent != null  && (
+          <div id="one-dimensional-parameters">
+              <h6>Available Parameters:</h6>
+              <div> 
+                <Form>
+                  <Form.Check
+                    id="selectParameter"
+                    name="selectParameter"
+                    label="Start Year"
+                  />
+                  <Form.Check
+                    id="selectParameter"
+                    name="selectParameter"
+                    label="Duration"
+                  />
+
+                  {selectedScenarioData["eventSeries"][selectedEvent].type === "income" || selectedScenarioData["eventSeries"][selectedEvent].type === "expense" && (
+                    <Form.Check
+                      id="selectParameter"
+                      name="selectParameter"
+                      label="Initial Amount"
+                    />
+                  )}
+
+                </Form>
+              </div>
+          </div>
+        )}
+
+        {simulationData && explorationMode === 'none' && (
          <div id="charts">
             <div>
               <Form.Label className="availableChartHeaders" id="chartsLabel">
