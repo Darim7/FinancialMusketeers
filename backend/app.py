@@ -15,7 +15,7 @@ from muskets.simulations import run_financial_planner
 app = Flask(__name__)
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(filename="/app/debug.log", level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logging.getLogger('models.scenario').setLevel(logging.DEBUG)
 
 @app.route('/api/test')
@@ -224,6 +224,43 @@ def import_scenario():
         return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
     except Exception as e:
         return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
+    
+@app.route('/api/import_scenario_guest', methods=['POST'])
+def import_scenario_guest():
+    app.logger.info('Reached import_scenario_guest route.')
+
+    # data = request.get_json()
+    app.logger.info(f'Importing scenario: {request.form}')
+
+    if not request.form:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    app.logger.info("WHAT IS REQUEST FILE", request.files)
+
+    # Ensure a file is provided
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    app.logger.info(f'File received: {file}')
+    # Ensure it's a YAML file
+    if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
+        return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
+    
+    fname = f"uploads/{file.filename}"
+    file.save(fname)
+    
+    try:
+        # Parse YAML content
+        scenario = Scenario.from_yaml(fname)
+        app.logger.info(f'Parsed scenario: {scenario}')
+
+        return jsonify({"message": "Scenario imported successfully", "data": scenario.to_dict()}), 201
+
+    except yaml.YAMLError as e:
+        return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
 
 # PT: Can you help me to implement a route to get a user profile by email?
 @app.route('/api/get_user', methods=['GET'])
@@ -290,11 +327,31 @@ def share_scenario():
     app.logger.info(f'Scenario {scenario_id} shared with {target_user_email}')
     return jsonify({"message": "Scenario shared successfully"}), 200
 
+@app.route('/api/run_simulation', methods=['POST'])
+def run_simulation():
+    app.logger.info('Reached run_simulation route.')
+
+    # Get the scenario ID from the request
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    scenario = data['scenario']
+    if not scenario:
+        return jsonify({"error": "Scenario is required"}), 400
+    
+    scenario = Scenario.from_dict(scenario)
+
+    # Run the simulation
+    result = run_financial_planner(scenario)
+    
+    return jsonify({"message": "Simulation completed successfully", "result": result}), 200
+
 if __name__ == "__main__":
     # Test simulations
     scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    scenario_res = run_financial_planner(scenario.to_dict(), 5)
+    scenario_res = run_financial_planner(scenario.to_dict(), 1)
 
    
 
