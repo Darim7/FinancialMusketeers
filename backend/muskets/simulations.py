@@ -559,17 +559,12 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     capital_gains = update_investments(scenario.ivmt_types, investments)
     cash_investment.value += capital_gains
 
-    # STEP 5: Calculate federal and state income tax
-    federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
-    state_tax_value = state_income_tax(state_tax, currYearIncome, marital_status)
-
-    # Calculate capital gains tax
-    federal_tax_value += capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
-
-    # TODO: STEP 6: Roth conversion
+    # STEP 5: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
     upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status], 'income')[1]
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
+    currYearIncome += roth_converted
+    currYearIncome += rmd_amount
 
     logger.info(f"Roth conversion: {roth_converted}")
 
@@ -618,6 +613,16 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 9: Rebalance the investments
     rebalance_event = find_event(event_series, "rebalance")
     amount_rebalanced = rebalance(rebalance_event, investments, year)
+    capital_gains += amount_rebalanced
+
+    logger.info(f"Rebalanced amount: {amount_rebalanced}.")
+
+    # Calculate federal and state income tax
+    federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
+    # Calculate capital gains tax
+    federal_tax_value += capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
+    # Calculate state tax
+    state_tax_value = state_income_tax(state_tax, currYearIncome, marital_status)
 
     # Check if the financial goal is met
     currYearSum = 0
