@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
  function InvestmentForm({showInvestmentModal, closeInvestmentModal, saveInvestment, investment, values,handleInvestmentChange, returnDistribution, incomeDistribution, handleDistributionChange, addInvestmentCase, handleInvestmentCaseChange}:any) {
 
     return (
-        <Modal show={showInvestmentModal} onHide={closeInvestmentModal} centered>
+        <Modal show={showInvestmentModal} onHide={closeInvestmentModal} backdrop='static' centered>
 
             <Modal.Header closeButton> </Modal.Header>
 
@@ -76,7 +76,6 @@ import Form from 'react-bootstrap/Form';
                     value = "true"
                     name = "taxability"
                     checked={investment.taxability === "True" || investment.taxability === true}
-                    checked={investment.taxability === true}
                     onChange={handleInvestmentChange}
                     label="Taxable"
                 />

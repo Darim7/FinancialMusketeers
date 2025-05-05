@@ -6,7 +6,7 @@ function InvestmentCaseForm({investmentTypes, investment, showInvestmentCase, cl
     
 
     return (
-        <Modal show={showInvestmentCase} onHide={closeInvestmentCase}>
+        <Modal show={showInvestmentCase} onHide={closeInvestmentCase} backdrop='static'>
             <Modal.Header closeButton> </Modal.Header>
 
             <Modal.Body>

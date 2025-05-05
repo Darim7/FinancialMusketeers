@@ -403,7 +403,8 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         ...prevValues,
         [name]: parsedValue,
       }));
-  
+      
+
       saveForms((prevForms: any) =>
         prevForms.map((form: any) =>
           form.id === formInfo.id
@@ -1535,7 +1536,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       </form>
 
       {/* Events Modal */}
-      <Modal show={showEventModal} onHide={closeEventModal} centered>
+      <Modal show={showEventModal} onHide={closeEventModal} backdrop='static' centered>
         <Modal.Header closeButton> </Modal.Header>
 
           <Modal.Body>

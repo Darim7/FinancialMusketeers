@@ -341,7 +341,7 @@ function Scenario() {
                       + Export Scenario
                     </Button>
 
-                    <Modal show={exportModalShow} onHide={handleExportModalClose}>
+                    <Modal show={exportModalShow} onHide={handleExportModalClose} backdrop="static" >
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 Select a Scenario to Export
@@ -439,7 +439,7 @@ function Scenario() {
             
             
             
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} backdrop="static" >
 
                 <Modal.Header closeButton>
                     <Modal.Title>
