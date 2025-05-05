@@ -192,6 +192,7 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     
     pretax_list = rmd_obj.ord_tax_deferred_ivmts
     nonretire_by_type_dict = defaultdict(list)
+    # Find existing after-tax investments
     for ivmt in investments: 
         if ivmt.tax_status == 'after-tax':
             nonretire_by_type_dict[ivmt.asset_type].append(ivmt)
@@ -200,7 +201,8 @@ def perform_rmd(rmd_obj: RMD, age: int, investments: list[Investment])-> float:
     print("Inside RMD: pretax list")
     for ivmt in pretax_list:
         print(f"investment type: {ivmt.asset_type}, investment id: {ivmt.investment_id}, value: {ivmt.value}, tax status: {ivmt.tax_status}")
-        
+    
+    # Find the total investment value of pre-tax accounts
     sum=reduce(lambda sum, curr: sum+curr.value, pretax_list, 0)
     
     # Calculate RMD 
