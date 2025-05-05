@@ -296,7 +296,7 @@ def run_simulation():
 
 if __name__ == "__main__":
     # Test simulations
-    scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
+    scenario = Scenario.from_yaml("new_test_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
     scenario_res = run_financial_planner(scenario.to_dict(), 1)
 
