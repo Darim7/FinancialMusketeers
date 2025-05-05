@@ -75,6 +75,7 @@ function Overview() {
   const [simulationAmount, setSimulationAmount] = useState(0);
   const [simulationData, setSimulationData] = useState<any>();
   const MAX_NUMBER_OF_CHARTS = 3;
+  const MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER = 1;
   let user;
   const [userData, setUserData] = useState<string[] | null>(null);
   const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
@@ -150,6 +151,11 @@ function Overview() {
     
     console.log("Fetch Scenarios:", fetchUserScenarios);
 
+  const [oneDimensionalParameters, setOneDimensionalParameters] = useState({
+    startYear: false,
+    duration: false,
+    initialAmount: false,
+  });
 
   const [lineChart, setLineChart] = useState({
     probabilityofSuccess: false,
@@ -184,6 +190,11 @@ function Overview() {
     const shadedLineSelected = Object.values(shadedLineChart).filter(Boolean).length;
     const stackedSelected = Object.values(stackedBarGraph).filter(Boolean).length
     return lineSelected + shadedLineSelected + stackedSelected;
+  };
+
+  const countSelectedOneDimensionalParameters = () => {
+    const oneDimensionalSelected = Object.values(oneDimensionalParameters).filter(Boolean).length;
+    return oneDimensionalSelected;
   };
   
   const totalSelectedCharts = countSelectedCharts();
@@ -235,6 +246,19 @@ function Overview() {
     } else {
       setSelectedEvent(index);
     }
+
+    {console.log("Selected Event:", selectedScenarioData["eventSeries"][selectedEvent])}
+
+  }
+
+  const handleOneDimensionalParameterSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setOneDimensionalParameters(prevParameters => ({
+      ...prevParameters,
+      [name]: checked,
+    }));
+
+    console.log(oneDimensionalParameters);
   }
 
   const handleLineChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -354,18 +378,21 @@ function Overview() {
             <h5>Select Exploration Mode</h5>
             <div>
               <Button
+                className="mb-4"
                 variant={explorationMode === 'none' ? "primary" : "outline-primary"}
                 onClick={() => handleExplorationModeChange("none")}
               >
                 None
               </Button>
               <Button 
+                className='mb-4'
                 variant={explorationMode === 'one-dimensional' ? "primary" : "outline-primary"}
                 onClick={() => handleExplorationModeChange('one-dimensional')}
               >
                 One-Dimensional Exploration
               </Button>
               <Button 
+                className='mb-4'
                 variant={explorationMode === 'two-dimensional' ? "primary" : "outline-primary"}
                 onClick={() => handleExplorationModeChange('two-dimensional')}
               >
@@ -429,29 +456,76 @@ function Overview() {
                 <Form>
                   <Form.Check
                     id="selectParameter"
-                    name="selectParameter"
+                    name="startYear"
                     label="Start Year"
+                    checked={oneDimensionalParameters.startYear}
+                    disabled={countSelectedOneDimensionalParameters() >= MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER && !oneDimensionalParameters.startYear}
+                    onChange={(e) => handleOneDimensionalParameterSelection(e)} 
                   />
                   <Form.Check
                     id="selectParameter"
-                    name="selectParameter"
+                    name="duration"
                     label="Duration"
+                    checked={oneDimensionalParameters.duration}
+                    disabled={countSelectedOneDimensionalParameters() >= MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER && !oneDimensionalParameters.duration}
+                    onChange={(e) => handleOneDimensionalParameterSelection(e)}
                   />
 
                   {selectedScenarioData["eventSeries"][selectedEvent].type === "income" || selectedScenarioData["eventSeries"][selectedEvent].type === "expense" && (
                     <Form.Check
                       id="selectParameter"
-                      name="selectParameter"
+                      name="initialAmount"
                       label="Initial Amount"
+                      checked={oneDimensionalParameters.initialAmount}
+                      disabled={countSelectedOneDimensionalParameters() >= MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER && !oneDimensionalParameters.initialAmount}
+                      onChange={(e) => handleOneDimensionalParameterSelection(e)}
                     />
                   )}
-
                 </Form>
               </div>
-          </div>
-        )}
 
-        {simulationData && explorationMode === 'none' && (
+              {oneDimensionalParameters.startYear && (
+                  <div>
+                    <Form.Label htmlFor="startYearInput">
+                      Current Start Year: {selectedScenarioData["eventSeries"][selectedEvent].start.value}
+                    </Form.Label>
+                    <Form.Control
+                      id="startYearInput"
+                      name="lowerbound"
+                      type="number"
+                      placeholder="Enter the new lower bound"
+                      className="mb-2"
+                    />
+                    <Form.Control
+                      id="startYearInput"
+                      name="upperbound"
+                      type="number"
+                      placeholder="Enter the new upper bound"
+                      className="mb-2"
+                    />
+                    <Form.Control
+                      id="startYearInput"
+                      name="step"
+                      type="number"
+                      placeholder="Enter the step size"
+                      className="mb-2"
+                    />
+                    <Button
+                      id="runSimulationButton"
+                      name="runSimulationButton"
+                      variant="success"
+                    >
+                     Run Simulation
+                    </Button>
+
+                    </div>
+                  )}
+              </div>
+        )}  
+
+
+        
+        {simulationData && (
          <div id="charts">
             <div>
               <Form.Label className="availableChartHeaders" id="chartsLabel">
@@ -549,7 +623,8 @@ function Overview() {
                 onChange={(e) => handleStackedBarGraphSelection(e)}
               />
             </div>
-
+            {explorationMode === 'two-dimensional' && (
+            <>
             <div id='surfacePlot'>
               <Form.Label class="availableChartHeaders" id="surfacePlotLabel">
                 Surface Plot
@@ -572,27 +647,29 @@ function Overview() {
               />
               </div>
 
-              <div id='contourPlot'>
-              <Form.Label class="availableChartHeaders" id="contourPlotLabel">
-                Contour Plot
-              </Form.Label> 
-              <Form.Check
-                type="checkbox"
-                id="contourPlot"
-                name="finalValueOfProbabilityOfSuccess"
-                label="Final Value of Probability of Success"
-                checked={contourPlot.finalValueOfProbabilityOfSuccess}
-                onChange={(e) => handleContourPlotSelection(e)}
-              />
-              <Form.Check
-                type="checkbox"
-                id="contourPlot"
-                name="finalValueOfMedianTotalInvestments"
-                label="Final Value of Median Total Investments"
-                checked={contourPlot.finalValueOfMedianTotalInvestments}
-                onChange={(e) => handleContourPlotSelection(e)}
-              />
+                <div id='contourPlot'>
+                <Form.Label class="availableChartHeaders" id="contourPlotLabel">
+                  Contour Plot
+                </Form.Label> 
+                <Form.Check
+                  type="checkbox"
+                  id="contourPlot"
+                  name="finalValueOfProbabilityOfSuccess"
+                  label="Final Value of Probability of Success"
+                  checked={contourPlot.finalValueOfProbabilityOfSuccess}
+                  onChange={(e) => handleContourPlotSelection(e)}
+                />
+                <Form.Check
+                  type="checkbox"
+                  id="contourPlot"
+                  name="finalValueOfMedianTotalInvestments"
+                  label="Final Value of Median Total Investments"
+                  checked={contourPlot.finalValueOfMedianTotalInvestments}
+                  onChange={(e) => handleContourPlotSelection(e)}
+                />
               </div>
+            </>
+            )}
             </div>
           </div>
         )}
