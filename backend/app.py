@@ -14,7 +14,7 @@ from muskets.simulations import run_financial_planner
 app = Flask(__name__)
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(filename="/app/debug.log", level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logging.getLogger('models.scenario').setLevel(logging.DEBUG)
 
 @app.route('/api/test')
