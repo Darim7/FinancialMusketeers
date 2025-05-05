@@ -221,6 +221,43 @@ def import_scenario():
         return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
     except Exception as e:
         return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
+    
+@app.route('/api/import_scenario_guest', methods=['POST'])
+def import_scenario_guest():
+    app.logger.info('Reached import_scenario_guest route.')
+
+    # data = request.get_json()
+    app.logger.info(f'Importing scenario: {request.form}')
+
+    if not request.form:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    app.logger.info("WHAT IS REQUEST FILE", request.files)
+
+    # Ensure a file is provided
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    app.logger.info(f'File received: {file}')
+    # Ensure it's a YAML file
+    if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
+        return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
+    
+    fname = f"uploads/{file.filename}"
+    file.save(fname)
+    
+    try:
+        # Parse YAML content
+        scenario = Scenario.from_yaml(fname)
+        app.logger.info(f'Parsed scenario: {scenario}')
+
+        return jsonify({"message": "Scenario imported successfully", "data": scenario.to_dict()}), 201
+
+    except yaml.YAMLError as e:
+        return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
 
 # PT: Can you help me to implement a route to get a user profile by email?
 @app.route('/api/get_user', methods=['GET'])
