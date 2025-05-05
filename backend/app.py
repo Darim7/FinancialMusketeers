@@ -9,6 +9,7 @@ import yaml
 from models.user import User
 from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
 from models.scenario import Scenario
+from muskets.simulations import run_financial_planner
 
 app = Flask(__name__)
 
@@ -237,6 +238,13 @@ def get_user():
     return jsonify({"data": user}), 200
 
 if __name__ == "__main__":
+    # Test simulations
+    scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
+    # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
+    scenario_res = run_financial_planner(scenario.to_dict(), 5)
+
+    exit(0)
+
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)
     app.logger.info('Stopping Flask application')

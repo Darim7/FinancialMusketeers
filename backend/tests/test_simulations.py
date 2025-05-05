@@ -77,7 +77,7 @@ class TestInflation:
         for upper, percentage in init_tax_brackets[marital_status]['income'].items():
             if upper != 'inf': 
                 # Calculate new bracket with inflation 
-                new_upper= upper * (1 + inflation_rate)
+                new_upper= round(upper * (1 + inflation_rate), 2)
                 expected_income_bracket[new_upper] = percentage
             else:
                 expected_income_bracket[upper] = percentage
