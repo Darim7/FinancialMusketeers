@@ -375,9 +375,9 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     //     prevForms.map((form: any) => {
     //       // Log each form being processed
     //       console.log("DOES IT GOES IN HEREERERRRRRRRRRRRRRRRRRR");
-    //       console.log("Processing form:", { id: form.id, name: form.name });
+    //       console.log("Processing form:", { id: form._id, a: formInfo._id, name: form.name });
     
-    //       if (form.id === formInfo.id) {
+    //       if (form._id === formInfo._id) {
     //         // Log the form being updated
     //         console.log("Updating form:", { id: form.id, name: form.name });
     //         const updatedForm = {
@@ -396,7 +396,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     //     })
     //   );
     // }
-    // 
+    
     else {
       
       setValues((prevValues) => ({
@@ -407,7 +407,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
 
       saveForms((prevForms: any) =>
         prevForms.map((form: any) =>
-          form.id === formInfo.id
+          form._id === formInfo._id
             ? {
                 ...form,
                 [name]: parsedValue,
