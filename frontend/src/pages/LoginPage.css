@@ -33,6 +33,7 @@
     margin: 0;
     padding: 0;
     text-align: center;
+    
 }
 
 .google-login{
@@ -41,8 +42,8 @@
     justify-content: center;
     align-items: center;
     width: 250px; /* Adjust the width as needed */
-    height: 20px;
-    padding: 20px;
+    height: 30px;
+    padding: 35px;
     margin-top: 120px;
     background-color: #ffffff; /* Whitih background color */
     border-radius: 8px; /* Rounded corners */
@@ -61,6 +62,7 @@
     margin: 0;
     padding: 0;
     text-align: center;
+    font-size: 19px;
     cursor: pointer; /* Change cursor to pointer on hover */
     transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
 }
@@ -73,7 +75,7 @@
 }
 
 .separate{
-    margin-top: 0px; /* Add some space above the separate element */
+    margin-top: 20px; /* Add some space above the separate element */
     width: 100%;
     text-align: center;
 }
@@ -85,7 +87,7 @@
     align-items: center;
     width: 250px; /* Adjust the width as needed */
     height: 20px;
-    padding: 20px;
+    padding: 25px;
     margin-top: 20px;
     background-color: #ffffff; /* Whitih background color */
     border-radius: 8px; /* Rounded corners */
@@ -93,6 +95,7 @@
 }
 
 .guest {
+    font-size: 19px;
     cursor: pointer; /* Change cursor to pointer on hover */
     transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
 }

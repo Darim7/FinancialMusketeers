@@ -111,15 +111,16 @@ function Scenario() {
 
     // If user not logged in, can simply call this
     // If user logged in, call this, and also call remove_scenario from the backend 
-    const handleDeleteForm = (id: number) => {
+    const handleDeleteForm = (id: number | string) => {
         if (userEmail && userName) {
-            setUserSaveFormArray((prevForms) => prevForms.filter((form) => form.id !== id));
+            setUserSaveFormArray((prevForms) => prevForms.filter((form) => form._id !== id));
             // Call the backend to remove the scenario  
             axios.post('/api/delete_scenario', {
                 user_email: userEmail,
                 user_name: userName,
                 scenario_id: id
             })
+            console.log("Scenario deleted successfully from backend");
 
         }
 
@@ -163,7 +164,8 @@ function Scenario() {
             console.error("No scenario IDs found in userData.");
             return;
         }
-    
+        console.log("What is User Data:", userData);
+        
         try {
             // Asked ChatGPT: How do I loop through user scenario IDs and fetch data from the backend?
             const scenarioPromises = userData.map(async (scenario) => {
@@ -581,7 +583,7 @@ function Scenario() {
                 onClick={() => {
                 if (userEmail && userName) {
                     if (UserScenarioForm) {
-                        handleDeleteForm(UserScenarioForm.id);
+                        handleDeleteForm(UserScenarioForm._id);
                     }
                 } else {
                     handleDeleteForm(scenarioForm.id); 
