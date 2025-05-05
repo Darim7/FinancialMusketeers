@@ -272,11 +272,31 @@ def share_scenario():
     app.logger.info(f'Scenario {scenario_id} shared with {target_user_email}')
     return jsonify({"message": "Scenario shared successfully"}), 200
 
+@app.route('/api/run_simulation', methods=['POST'])
+def run_simulation():
+    app.logger.info('Reached run_simulation route.')
+
+    # Get the scenario ID from the request
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    scenario = data['scenario']
+    if not scenario:
+        return jsonify({"error": "Scenario is required"}), 400
+    
+    scenario = Scenario.from_dict(scenario)
+
+    # Run the simulation
+    result = run_financial_planner(scenario)
+    
+    return jsonify({"message": "Simulation completed successfully", "result": result}), 200
+
 if __name__ == "__main__":
     # Test simulations
     scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    scenario_res = run_financial_planner(scenario.to_dict(), 5)
+    scenario_res = run_financial_planner(scenario.to_dict(), 1)
 
     exit(0)
 
