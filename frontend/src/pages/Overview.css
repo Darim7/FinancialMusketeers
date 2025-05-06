@@ -38,9 +38,4 @@
     font-weight: bold;
 }
 
-#graphContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns, each takes equal space */
-    gap: 5px;
-    height: 50vh;
-}
+

@@ -59,7 +59,9 @@ const LineGraph = ({datasets}:any) => {
     
     return (
         <>
-          <Line data={data} options={defaultOptions} />
+          <div style={{ height: '400px', width: '100%' }}>
+            <Line data={data} options={defaultOptions} />
+          </div>
         </>
     )
 };

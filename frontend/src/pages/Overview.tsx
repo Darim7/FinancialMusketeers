@@ -844,7 +844,6 @@ function Overview() {
         {/* Check if the bar chart is selectd */}
         <div id="graphContainer">
           <div id="stackedBarGraph">
-          
             {stackedBarGraph.totalInvestments.checked && (
               <StackedBarGraph
                 datasets={simulationData["result"]["organized_results"]} 

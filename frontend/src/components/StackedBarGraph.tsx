@@ -27,16 +27,6 @@ const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
       const years = Object.keys(datasets);
       const values = Object.values(datasets);
 
-      console.log(values);
-      // values.forEach((value:any) => {
-      //   console.log(value);
-      //   let avg_val = 0;
-      //   value.forEach((v:any) => {
-      //       console.log(v);
-      //   }
-      // )
-      // })
-
     const processInvestmentDataAvg = () => {
       const types = new Set<string>();
       values.forEach((value:any) => {
@@ -296,7 +286,7 @@ const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
       if (option === "average") {
         cleaned_data = processInvestmentDataAvg();
       }
-      else {
+      else if (option === "median"){
         cleaned_data = processInvestmentDataMedian();
       }
     }
@@ -304,7 +294,7 @@ const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
       if (option === "average") {
         cleaned_data = processIncomeAvg();
       }
-      else {
+      else if (option === "median"){
         cleaned_data = processIncomeMedian();
       }
     }    
@@ -312,7 +302,7 @@ const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
       if (option === "average") {
         cleaned_data = processExpenseDataAvg();
       }
-      else {
+      else if (option === "median"){
         cleaned_data = processExpenseDataMedian();
       }
     }
@@ -342,9 +332,12 @@ const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
 
     return (
         <>
+        <div style={{ height: '400px', width: '100%' }}>
           <Bar 
-            data={chartData} options={defaultOptions}
+            data={chartData} 
+            options={defaultOptions}
           />
+        </div>
         </>
     )
 }
