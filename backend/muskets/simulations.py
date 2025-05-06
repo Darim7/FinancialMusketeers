@@ -1,6 +1,7 @@
 import numpy as np
 import logging
 import copy
+import csv
 from collections import deque
 from datetime import datetime
 
@@ -559,17 +560,12 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     capital_gains = update_investments(scenario.ivmt_types, investments)
     cash_investment.value += capital_gains
 
-    # STEP 5: Calculate federal and state income tax
-    federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
-    state_tax_value = state_income_tax(state_tax, currYearIncome, marital_status)
-
-    # Calculate capital gains tax
-    federal_tax_value += capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
-
-    # TODO: STEP 6: Roth conversion
+    # STEP 5: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
     upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status], 'income')[1]
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat)
+    currYearIncome += roth_converted
+    currYearIncome += rmd_amount
 
     logger.info(f"Roth conversion: {roth_converted}")
 
@@ -618,6 +614,16 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # STEP 9: Rebalance the investments
     rebalance_event = find_event(event_series, "rebalance")
     amount_rebalanced = rebalance(rebalance_event, investments, year)
+    capital_gains += amount_rebalanced
+
+    logger.info(f"Rebalanced amount: {amount_rebalanced}.")
+
+    # Calculate federal and state income tax
+    federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
+    # Calculate capital gains tax
+    federal_tax_value += capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
+    # Calculate state tax
+    state_tax_value = state_income_tax(state_tax, currYearIncome, marital_status)
 
     # Check if the financial goal is met
     currYearSum = 0
@@ -637,7 +643,19 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'financial_goal': currYearSum >= scenario.financial_goal
     }
 
-def run_simulation(scenario: Scenario) -> list[dict]:
+def save_logs_to_csv(logs: list[dict], filename: str) -> None:
+    # Get all unique keys, excluding the one you want first
+    first_key = "year"
+    all_keys = set().union(*(d.keys() for d in logs))
+    remaining_keys = sorted(k for k in all_keys if k != first_key)
+    order = [first_key] + remaining_keys
+
+    with open(filename, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=order)
+        writer.writeheader()
+        writer.writerows(logs)
+
+def run_simulation(scenario: Scenario, user: str, num_sim: int) -> list[dict]:
     """
     Run the simulation for the given scenario.
     """
@@ -679,6 +697,8 @@ def run_simulation(scenario: Scenario) -> list[dict]:
     logger.info(f"Spouse current age: {spouse_curr_age}, Spouse death age: {spouse_death_age}")
     logger.info(f"Start year: {start_year}, End year: {end_year}")
 
+    investment_logs = []
+
     for year in range(start_year, end_year):
         # Check if the user or spouse is alive
         user_alive = user_curr_age <= user_death_age
@@ -690,6 +710,12 @@ def run_simulation(scenario: Scenario) -> list[dict]:
         logger.info(f"User age/alive: {user_curr_age}/{user_alive} and spouse age/alive: {spouse_curr_age}/{spouse_alive}")
         year_res = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
         
+        year_investments = {'year': year}
+        for invest in scenario.get_investments():
+            logger.info(f"Investment ID: {invest.investment_id}, Value: {invest.value}")
+            year_investments[invest.investment_id] = round(invest.value, 2)
+        investment_logs.append(year_investments)
+        
         # Update the user and spouse ages and the previous year tax values
         user_curr_age += 1
         spouse_curr_age += 1 if scenario.is_married else 0
@@ -697,6 +723,9 @@ def run_simulation(scenario: Scenario) -> list[dict]:
         prev_fed_tax = year_res['federal_tax']
 
         result.append({year: year_res})
+
+    if num_sim == 0:
+        save_logs_to_csv(investment_logs, f"{user}_{datetime.now()}.csv")
 
     return result
 
@@ -711,7 +740,7 @@ def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
         logger.info(f"Running simulation {_ + 1} of {num_simulations}.")
         running_scenario = copy.deepcopy(scenario_dict)
         scenario = Scenario.from_dict(running_scenario)
-        result = run_simulation(scenario)
+        result = run_simulation(scenario, "test_user", _)
         results.append(result)
     
     return results
