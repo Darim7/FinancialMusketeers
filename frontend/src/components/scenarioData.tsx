@@ -385,7 +385,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         prevForms.map((form: any) =>
           {
             if (userEmail){
-              return form.id === formInfo.id
+              return form._id === formInfo._id
               ? {
                   ...form,
                   [name]: parsedValue,
