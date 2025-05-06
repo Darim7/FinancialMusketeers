@@ -1,0 +1,1263 @@
+Year, Transaction Type, Amount, Message
+_______________________________________________________
+Year: 2025, Transaction Type: INCOME, Amount: 76313.34428484706, Message: Adding income from salary
+Year: 2025, Transaction Type: INVEST, Amount: 10620.786998534917, Message: Updating investment S&P 500 non-retirement
+Year: 2025, Transaction Type: INVEST, Amount: 2055.6834654358936, Message: Updating investment tax-exempt bonds
+Year: 2025, Transaction Type: INVEST, Amount: 10873.089066097697, Message: Updating investment S&P 500 pre-tax
+Year: 2025, Transaction Type: INVEST, Amount: 2060.7743528869755, Message: Updating investment S&P 500 after-tax
+Year: 2025, Transaction Type: INVEST, Amount: 104.92101165541631, Message: Total generated income from updating investments
+Year: 2025, Transaction Type: INCOME, Amount: 104.92101165541631, Message: New total income for current year: 76313.34
+Year: 2025, Transaction Type: ROTH CONVERSION, Amount: 10873.089066097697, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 12933.863418984673, remaining RC value: 40018.57093390231
+Year: 2025, Transaction Type: ROTH CONVERSION, Amount: 10873.089066097697, Message: Total converted value from Roth Conversion: 10873.089066097697
+Year: 2025, Transaction Type: EXPENSE, Amount: 5150.0, Message: Adding discretionary expense from food
+Year: 2025, Transaction Type: EXPENSE, Amount: 5150.0, Message: Total non-discretionary expenses
+Year: 2025, Transaction Type: EXPENSE, Amount: 1236.0, Message: Adding discretionary expense from vacation
+Year: 2025, Transaction Type: EXPENSE, Amount: 515.0, Message: Adding discretionary expense from streaming services
+Year: 2025, Transaction Type: EXPENSE, Amount: {'vacation': 1236.0, 'streaming services': 515.0}, Message: Total discretionary expenses
+Year: 2025, Transaction Type: TAX, Amount: 0, Message: Subtracting previous year federal tax
+Year: 2025, Transaction Type: TAX, Amount: 0, Message: Subtracting previous year state tax
+Year: 2025, Transaction Type: EXPENSE, Amount: 5150.0, Message: Subtracting non-discretionary expenses
+Year: 2025, Transaction Type: EXPENSE, Amount: 1236.0, Message: Paying vacation. Cash remaining: 71263.34
+Year: 2025, Transaction Type: EXPENSE, Amount: 515.0, Message: Paying streaming services. Cash remaining: 70027.34
+Year: 2025, Transaction Type: TAX, Amount: 5070.56, Message: Federal Income Tax Calculated
+Year: 2025, Transaction Type: INCOME, Amount: 10978.010077753113, Message: Capital Gains Total Income
+Year: 2025, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5070.56
+Year: 2025, Transaction Type: TAX, Amount: 3854.76, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2026, Transaction Type: INCOME, Amount: 76815.86937206391, Message: Adding income from salary
+Year: 2026, Transaction Type: INVEST, Amount: 11055.292785446683, Message: Updating investment S&P 500 non-retirement
+Year: 2026, Transaction Type: INVEST, Amount: 2115.464880816887, Message: Updating investment tax-exempt bonds
+Year: 2026, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2026, Transaction Type: INVEST, Amount: 13690.853726712678, Message: Updating investment S&P 500 after-tax
+Year: 2026, Transaction Type: INVEST, Amount: 125.99246820973207, Message: Total generated income from updating investments
+Year: 2026, Transaction Type: INCOME, Amount: 125.99246820973207, Message: New total income for current year: 76815.87
+Year: 2026, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 13690.853726712678, remaining RC value: 54205.28
+Year: 2026, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2026, Transaction Type: EXPENSE, Amount: 5304.5, Message: Adding discretionary expense from food
+Year: 2026, Transaction Type: EXPENSE, Amount: 5304.5, Message: Total non-discretionary expenses
+Year: 2026, Transaction Type: EXPENSE, Amount: 1273.08, Message: Adding discretionary expense from vacation
+Year: 2026, Transaction Type: EXPENSE, Amount: 530.45, Message: Adding discretionary expense from streaming services
+Year: 2026, Transaction Type: EXPENSE, Amount: {'vacation': 1273.08, 'streaming services': 530.45}, Message: Total discretionary expenses
+Year: 2026, Transaction Type: TAX, Amount: 5070.56, Message: Subtracting previous year federal tax
+Year: 2026, Transaction Type: TAX, Amount: 3854.76, Message: Subtracting previous year state tax
+Year: 2026, Transaction Type: EXPENSE, Amount: 5304.5, Message: Subtracting non-discretionary expenses
+Year: 2026, Transaction Type: EXPENSE, Amount: 1273.08, Message: Paying vacation. Cash remaining: 132098.38999999998
+Year: 2026, Transaction Type: EXPENSE, Amount: 530.45, Message: Paying streaming services. Cash remaining: 130825.30999999998
+Year: 2026, Transaction Type: REBALANCE, Amount: -1835.7624190621846, Message: Selling from S&P 500 non-retirement. New value: 9219.530366384499, Target value: 9219.530366384499, Target Allocation: 0.7
+Year: 2026, Transaction Type: REBALANCE, Amount: 1835.762419062184, Message: Buying tax-exempt bonds. New value: 3951.2272998790713, Target value: 3951.2272998790713, Target Allocation: 0.3
+Year: 2026, Transaction Type: REBALANCE, Amount: 1835.7624190621846, Message: Total sales from rebalancing
+Year: 2026, Transaction Type: TAX, Amount: 5008.25, Message: Federal Income Tax Calculated
+Year: 2026, Transaction Type: INCOME, Amount: 1961.7548872719167, Message: Capital Gains Total Income
+Year: 2026, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5008.25
+Year: 2026, Transaction Type: TAX, Amount: 3872.12, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2027, Transaction Type: INCOME, Amount: 78058.43876287718, Message: Adding income from salary
+Year: 2027, Transaction Type: INVEST, Amount: 10049.509979102058, Message: Updating investment S&P 500 non-retirement
+Year: 2027, Transaction Type: INVEST, Amount: 4089.6406819908743, Message: Updating investment tax-exempt bonds
+Year: 2027, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2027, Transaction Type: INVEST, Amount: 14235.554132563353, Message: Updating investment S&P 500 after-tax
+Year: 2027, Transaction Type: INVEST, Amount: 48.02700759093259, Message: Total generated income from updating investments
+Year: 2027, Transaction Type: INCOME, Amount: 48.02700759093259, Message: New total income for current year: 78058.44
+Year: 2027, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 14235.554132563353, remaining RC value: 56893.3484
+Year: 2027, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2027, Transaction Type: EXPENSE, Amount: 5463.635, Message: Adding discretionary expense from food
+Year: 2027, Transaction Type: EXPENSE, Amount: 5463.635, Message: Total non-discretionary expenses
+Year: 2027, Transaction Type: EXPENSE, Amount: 1311.2724, Message: Adding discretionary expense from vacation
+Year: 2027, Transaction Type: EXPENSE, Amount: 546.3635, Message: Adding discretionary expense from streaming services
+Year: 2027, Transaction Type: EXPENSE, Amount: {'vacation': 1311.2724, 'streaming services': 546.3635}, Message: Total discretionary expenses
+Year: 2027, Transaction Type: TAX, Amount: 5008.25, Message: Subtracting previous year federal tax
+Year: 2027, Transaction Type: TAX, Amount: 3872.12, Message: Subtracting previous year state tax
+Year: 2027, Transaction Type: EXPENSE, Amount: 5463.635, Message: Subtracting non-discretionary expenses
+Year: 2027, Transaction Type: EXPENSE, Amount: 1311.27, Message: Paying vacation. Cash remaining: 194009.3
+Year: 2027, Transaction Type: EXPENSE, Amount: 546.36, Message: Paying streaming services. Cash remaining: 192698.03
+Year: 2027, Transaction Type: REBALANCE, Amount: -152.10451633700723, Message: Selling from S&P 500 non-retirement. New value: 9897.405462765051, Target value: 9897.405462765051, Target Allocation: 0.7
+Year: 2027, Transaction Type: REBALANCE, Amount: 152.1045163370054, Message: Buying tax-exempt bonds. New value: 4241.74519832788, Target value: 4241.74519832788, Target Allocation: 0.3
+Year: 2027, Transaction Type: REBALANCE, Amount: 152.10451633700723, Message: Total sales from rebalancing
+Year: 2027, Transaction Type: TAX, Amount: 5031.07, Message: Federal Income Tax Calculated
+Year: 2027, Transaction Type: INCOME, Amount: 200.1315239279398, Message: Capital Gains Total Income
+Year: 2027, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5031.07
+Year: 2027, Transaction Type: TAX, Amount: 3929.88, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2028, Transaction Type: INCOME, Amount: 79412.61946602864, Message: Adding income from salary
+Year: 2028, Transaction Type: INVEST, Amount: 10785.760434545693, Message: Updating investment S&P 500 non-retirement
+Year: 2028, Transaction Type: INVEST, Amount: 4392.680934857272, Message: Updating investment tax-exempt bonds
+Year: 2028, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2028, Transaction Type: INVEST, Amount: 15452.065523312387, Message: Updating investment S&P 500 after-tax
+Year: 2028, Transaction Type: INVEST, Amount: 108.53041596849965, Message: Total generated income from updating investments
+Year: 2028, Transaction Type: INCOME, Amount: 108.53041596849965, Message: New total income for current year: 79412.62
+Year: 2028, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 15452.065523312387, remaining RC value: 59587.71725200001
+Year: 2028, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2028, Transaction Type: EXPENSE, Amount: 5627.54405, Message: Adding discretionary expense from food
+Year: 2028, Transaction Type: EXPENSE, Amount: 5627.54405, Message: Total non-discretionary expenses
+Year: 2028, Transaction Type: EXPENSE, Amount: 1350.610572, Message: Adding discretionary expense from vacation
+Year: 2028, Transaction Type: EXPENSE, Amount: 562.754405, Message: Adding discretionary expense from streaming services
+Year: 2028, Transaction Type: EXPENSE, Amount: {'vacation': 1350.610572, 'streaming services': 562.754405}, Message: Total discretionary expenses
+Year: 2028, Transaction Type: TAX, Amount: 5031.07, Message: Subtracting previous year federal tax
+Year: 2028, Transaction Type: TAX, Amount: 3929.88, Message: Subtracting previous year state tax
+Year: 2028, Transaction Type: EXPENSE, Amount: 5627.54405, Message: Subtracting non-discretionary expenses
+Year: 2028, Transaction Type: EXPENSE, Amount: 1350.61, Message: Paying vacation. Cash remaining: 256975.80000000005
+Year: 2028, Transaction Type: EXPENSE, Amount: 562.75, Message: Paying streaming services. Cash remaining: 255625.19000000006
+Year: 2028, Transaction Type: INVEST, Amount: 152437.46400000004, Message: Investing in S&P 500 non-retirement with allocation 0.6. New value: 163223.22443454573
+Year: 2028, Transaction Type: INVEST, Amount: 101624.97600000002, Message: Investing in S&P 500 after-tax with allocation 0.4. New value: 117077.04152331241
+Year: 2028, Transaction Type: REBALANCE, Amount: -45892.09067596363, Message: Selling from S&P 500 non-retirement. New value: 117331.1337585821, Target value: 117331.1337585821, Target Allocation: 0.7
+Year: 2028, Transaction Type: REBALANCE, Amount: 45892.090675963635, Message: Buying tax-exempt bonds. New value: 50284.771610820906, Target value: 50284.771610820906, Target Allocation: 0.3
+Year: 2028, Transaction Type: REBALANCE, Amount: 45892.09067596363, Message: Total sales from rebalancing
+Year: 2028, Transaction Type: TAX, Amount: 5063.5, Message: Federal Income Tax Calculated
+Year: 2028, Transaction Type: INCOME, Amount: 46000.621091932124, Message: Capital Gains Total Income
+Year: 2028, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5063.5
+Year: 2028, Transaction Type: TAX, Amount: 3993.46, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2029, Transaction Type: INCOME, Amount: 81325.85056414979, Message: Adding income from salary
+Year: 2029, Transaction Type: INVEST, Amount: 121172.22535668734, Message: Updating investment S&P 500 non-retirement
+Year: 2029, Transaction Type: INVEST, Amount: 51592.322855158774, Message: Updating investment tax-exempt bonds
+Year: 2029, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2029, Transaction Type: INVEST, Amount: 124157.63458033724, Message: Updating investment S&P 500 after-tax
+Year: 2029, Transaction Type: INVEST, Amount: 380.44326396360543, Message: Total generated income from updating investments
+Year: 2029, Transaction Type: INCOME, Amount: 380.44326396360543, Message: New total income for current year: 81325.85
+Year: 2029, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 124157.63458033724, remaining RC value: 61844.49296956
+Year: 2029, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2029, Transaction Type: EXPENSE, Amount: 5796.3703715, Message: Adding discretionary expense from food
+Year: 2029, Transaction Type: EXPENSE, Amount: 5796.3703715, Message: Total non-discretionary expenses
+Year: 2029, Transaction Type: EXPENSE, Amount: 1391.12888916, Message: Adding discretionary expense from vacation
+Year: 2029, Transaction Type: EXPENSE, Amount: 579.6370371500001, Message: Adding discretionary expense from streaming services
+Year: 2029, Transaction Type: EXPENSE, Amount: {'vacation': 1391.12888916, 'streaming services': 579.6370371500001}, Message: Total discretionary expenses
+Year: 2029, Transaction Type: TAX, Amount: 5063.5, Message: Subtracting previous year federal tax
+Year: 2029, Transaction Type: TAX, Amount: 3993.46, Message: Subtracting previous year state tax
+Year: 2029, Transaction Type: EXPENSE, Amount: 5796.3703715, Message: Subtracting non-discretionary expenses
+Year: 2029, Transaction Type: EXPENSE, Amount: 1391.13, Message: Paying vacation. Cash remaining: 67472.52
+Year: 2029, Transaction Type: EXPENSE, Amount: 579.64, Message: Paying streaming services. Cash remaining: 66081.39
+Year: 2029, Transaction Type: INVEST, Amount: 39991.085, Message: Investing in S&P 500 non-retirement with allocation 0.62. New value: 161163.31035668735
+Year: 2029, Transaction Type: INVEST, Amount: 24510.665, Message: Investing in S&P 500 after-tax with allocation 0.38. New value: 148668.29958033725
+Year: 2029, Transaction Type: REBALANCE, Amount: -12234.36710839509, Message: Selling from S&P 500 non-retirement. New value: 148928.94324829226, Target value: 148928.94324829226, Target Allocation: 0.7
+Year: 2029, Transaction Type: REBALANCE, Amount: 12234.367108395054, Message: Buying tax-exempt bonds. New value: 63826.68996355383, Target value: 63826.68996355383, Target Allocation: 0.3
+Year: 2029, Transaction Type: REBALANCE, Amount: 12234.36710839509, Message: Total sales from rebalancing
+Year: 2029, Transaction Type: TAX, Amount: 5159.1, Message: Federal Income Tax Calculated
+Year: 2029, Transaction Type: INCOME, Amount: 12614.810372358696, Message: Capital Gains Total Income
+Year: 2029, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5159.1
+Year: 2029, Transaction Type: TAX, Amount: 4087.46, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2030, Transaction Type: INCOME, Amount: 82542.49751964209, Message: Adding income from salary
+Year: 2030, Transaction Type: INVEST, Amount: 164297.2501525404, Message: Updating investment S&P 500 non-retirement
+Year: 2030, Transaction Type: INVEST, Amount: 64918.78534828557, Message: Updating investment tax-exempt bonds
+Year: 2030, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2030, Transaction Type: INVEST, Amount: 158222.6024578433, Message: Updating investment S&P 500 after-tax
+Year: 2030, Transaction Type: INVEST, Amount: 2025.039691558179, Message: Total generated income from updating investments
+Year: 2030, Transaction Type: INCOME, Amount: 2025.039691558179, Message: New total income for current year: 82542.5
+Year: 2030, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 158222.6024578433, remaining RC value: 64922.95705864682
+Year: 2030, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2030, Transaction Type: EXPENSE, Amount: 5970.261482645, Message: Adding discretionary expense from food
+Year: 2030, Transaction Type: EXPENSE, Amount: 5970.261482645, Message: Total non-discretionary expenses
+Year: 2030, Transaction Type: EXPENSE, Amount: 1432.8627558348, Message: Adding discretionary expense from vacation
+Year: 2030, Transaction Type: EXPENSE, Amount: 597.0261482645001, Message: Adding discretionary expense from streaming services
+Year: 2030, Transaction Type: EXPENSE, Amount: {'vacation': 1432.8627558348, 'streaming services': 597.0261482645001}, Message: Total discretionary expenses
+Year: 2030, Transaction Type: TAX, Amount: 5159.1, Message: Subtracting previous year federal tax
+Year: 2030, Transaction Type: TAX, Amount: 4087.46, Message: Subtracting previous year state tax
+Year: 2030, Transaction Type: EXPENSE, Amount: 5970.261482645, Message: Subtracting non-discretionary expenses
+Year: 2030, Transaction Type: EXPENSE, Amount: 1432.86, Message: Paying vacation. Cash remaining: 68325.68
+Year: 2030, Transaction Type: EXPENSE, Amount: 597.03, Message: Paying streaming services. Cash remaining: 66892.81999999999
+Year: 2030, Transaction Type: INVEST, Amount: 41789.3056, Message: Investing in S&P 500 non-retirement with allocation 0.64. New value: 206086.5557525404
+Year: 2030, Transaction Type: INVEST, Amount: 23506.484399999998, Message: Investing in S&P 500 after-tax with allocation 0.36. New value: 181729.0868578433
+Year: 2030, Transaction Type: REBALANCE, Amount: -16382.816981962242, Message: Selling from S&P 500 non-retirement. New value: 189703.73877057814, Target value: 189703.73877057814, Target Allocation: 0.7
+Year: 2030, Transaction Type: REBALANCE, Amount: 16382.816981962198, Message: Buying tax-exempt bonds. New value: 81301.60233024777, Target value: 81301.60233024777, Target Allocation: 0.3
+Year: 2030, Transaction Type: REBALANCE, Amount: 16382.816981962242, Message: Total sales from rebalancing
+Year: 2030, Transaction Type: TAX, Amount: 5167.1, Message: Federal Income Tax Calculated
+Year: 2030, Transaction Type: INCOME, Amount: 18407.856673520422, Message: Capital Gains Total Income
+Year: 2030, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5167.1
+Year: 2030, Transaction Type: TAX, Amount: 4142.82, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2031, Transaction Type: INCOME, Amount: 83928.91742463634, Message: Adding income from salary
+Year: 2031, Transaction Type: INVEST, Amount: 201866.1456248346, Message: Updating investment S&P 500 non-retirement
+Year: 2031, Transaction Type: INVEST, Amount: 83993.38197362226, Message: Updating investment tax-exempt bonds
+Year: 2031, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2031, Transaction Type: INVEST, Amount: 197996.50593890157, Message: Updating investment S&P 500 after-tax
+Year: 2031, Transaction Type: INVEST, Amount: 1160.1086729892909, Message: Total generated income from updating investments
+Year: 2031, Transaction Type: INCOME, Amount: 1160.1086729892909, Message: New total income for current year: 83928.92
+Year: 2031, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 197996.50593890157, remaining RC value: 67960.49687040623
+Year: 2031, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2031, Transaction Type: EXPENSE, Amount: 6149.36932712435, Message: Adding discretionary expense from food
+Year: 2031, Transaction Type: EXPENSE, Amount: 6149.36932712435, Message: Total non-discretionary expenses
+Year: 2031, Transaction Type: EXPENSE, Amount: 1475.848638509844, Message: Adding discretionary expense from vacation
+Year: 2031, Transaction Type: EXPENSE, Amount: 614.9369327124351, Message: Adding discretionary expense from streaming services
+Year: 2031, Transaction Type: EXPENSE, Amount: {'vacation': 1475.848638509844, 'streaming services': 614.9369327124351}, Message: Total discretionary expenses
+Year: 2031, Transaction Type: TAX, Amount: 5167.1, Message: Subtracting previous year federal tax
+Year: 2031, Transaction Type: TAX, Amount: 4142.82, Message: Subtracting previous year state tax
+Year: 2031, Transaction Type: EXPENSE, Amount: 6149.36932712435, Message: Subtracting non-discretionary expenses
+Year: 2031, Transaction Type: EXPENSE, Amount: 1475.85, Message: Paying vacation. Cash remaining: 69469.63
+Year: 2031, Transaction Type: EXPENSE, Amount: 614.94, Message: Paying streaming services. Cash remaining: 67993.78
+Year: 2031, Transaction Type: INVEST, Amount: 43810.0344, Message: Investing in S&P 500 non-retirement with allocation 0.66. New value: 245676.1800248346
+Year: 2031, Transaction Type: INVEST, Amount: 22568.805599999996, Message: Investing in S&P 500 after-tax with allocation 0.33999999999999997. New value: 220565.31153890156
+Year: 2031, Transaction Type: REBALANCE, Amount: -14907.486625914811, Message: Selling from S&P 500 non-retirement. New value: 230768.6933989198, Target value: 230768.6933989198, Target Allocation: 0.7
+Year: 2031, Transaction Type: REBALANCE, Amount: 14907.486625914797, Message: Buying tax-exempt bonds. New value: 98900.86859953706, Target value: 98900.86859953706, Target Allocation: 0.3
+Year: 2031, Transaction Type: REBALANCE, Amount: 14907.486625914811, Message: Total sales from rebalancing
+Year: 2031, Transaction Type: TAX, Amount: 5191.33, Message: Federal Income Tax Calculated
+Year: 2031, Transaction Type: INCOME, Amount: 16067.595298904102, Message: Capital Gains Total Income
+Year: 2031, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5191.33
+Year: 2031, Transaction Type: TAX, Amount: 4207.16, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2032, Transaction Type: INCOME, Amount: 85189.62298646156, Message: Adding income from salary
+Year: 2032, Transaction Type: INVEST, Amount: 244704.69123450856, Message: Updating investment S&P 500 non-retirement
+Year: 2032, Transaction Type: INVEST, Amount: 102136.65093502765, Message: Updating investment tax-exempt bonds
+Year: 2032, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2032, Transaction Type: INVEST, Amount: 226568.21971980875, Message: Updating investment S&P 500 after-tax
+Year: 2032, Transaction Type: INVEST, Amount: 1150.6318977715125, Message: Total generated income from updating investments
+Year: 2032, Transaction Type: INCOME, Amount: 1150.6318977715125, Message: New total income for current year: 85189.62
+Year: 2032, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 226568.21971980875, remaining RC value: 71256.47637651842
+Year: 2032, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2032, Transaction Type: EXPENSE, Amount: 6333.850406938081, Message: Adding discretionary expense from food
+Year: 2032, Transaction Type: EXPENSE, Amount: 6333.850406938081, Message: Total non-discretionary expenses
+Year: 2032, Transaction Type: EXPENSE, Amount: 1520.1240976651393, Message: Adding discretionary expense from vacation
+Year: 2032, Transaction Type: EXPENSE, Amount: 633.3850406938082, Message: Adding discretionary expense from streaming services
+Year: 2032, Transaction Type: EXPENSE, Amount: {'vacation': 1520.1240976651393, 'streaming services': 633.3850406938082}, Message: Total discretionary expenses
+Year: 2032, Transaction Type: TAX, Amount: 5191.33, Message: Subtracting previous year federal tax
+Year: 2032, Transaction Type: TAX, Amount: 4207.16, Message: Subtracting previous year state tax
+Year: 2032, Transaction Type: EXPENSE, Amount: 6333.850406938081, Message: Subtracting non-discretionary expenses
+Year: 2032, Transaction Type: EXPENSE, Amount: 1520.12, Message: Paying vacation. Cash remaining: 70457.28
+Year: 2032, Transaction Type: EXPENSE, Amount: 633.39, Message: Paying streaming services. Cash remaining: 68937.16
+Year: 2032, Transaction Type: INVEST, Amount: 45766.56360000001, Message: Investing in S&P 500 non-retirement with allocation 0.68. New value: 290471.2548345086
+Year: 2032, Transaction Type: INVEST, Amount: 21537.2064, Message: Investing in S&P 500 after-tax with allocation 0.31999999999999995. New value: 248105.42611980875
+Year: 2032, Transaction Type: REBALANCE, Amount: -15645.720795833273, Message: Selling from S&P 500 non-retirement. New value: 274825.5340386753, Target value: 274825.5340386753, Target Allocation: 0.7
+Year: 2032, Transaction Type: REBALANCE, Amount: 15645.720795833215, Message: Buying tax-exempt bonds. New value: 117782.37173086086, Target value: 117782.37173086086, Target Allocation: 0.3
+Year: 2032, Transaction Type: REBALANCE, Amount: 15645.720795833273, Message: Total sales from rebalancing
+Year: 2032, Transaction Type: TAX, Amount: 5196.21, Message: Federal Income Tax Calculated
+Year: 2032, Transaction Type: INCOME, Amount: 16796.352693604786, Message: Capital Gains Total Income
+Year: 2032, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5196.21
+Year: 2032, Transaction Type: TAX, Amount: 4264.23, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2033, Transaction Type: INCOME, Amount: 86527.1944800448, Message: Adding income from salary
+Year: 2033, Transaction Type: INVEST, Amount: 295052.2612181899, Message: Updating investment S&P 500 non-retirement
+Year: 2033, Transaction Type: INVEST, Amount: 119750.71373113942, Message: Updating investment tax-exempt bonds
+Year: 2033, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2033, Transaction Type: INVEST, Amount: 259773.07675834946, Message: Updating investment S&P 500 after-tax
+Year: 2033, Transaction Type: INVEST, Amount: 906.9202159404031, Message: Total generated income from updating investments
+Year: 2033, Transaction Type: INCOME, Amount: 906.9202159404031, Message: New total income for current year: 86527.19
+Year: 2033, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 259773.07675834946, remaining RC value: 74612.28696781397
+Year: 2033, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2033, Transaction Type: EXPENSE, Amount: 6523.865919146223, Message: Adding discretionary expense from food
+Year: 2033, Transaction Type: EXPENSE, Amount: 6523.865919146223, Message: Total non-discretionary expenses
+Year: 2033, Transaction Type: EXPENSE, Amount: 1565.7278205950936, Message: Adding discretionary expense from vacation
+Year: 2033, Transaction Type: EXPENSE, Amount: 652.3865919146224, Message: Adding discretionary expense from streaming services
+Year: 2033, Transaction Type: EXPENSE, Amount: {'vacation': 1565.7278205950936, 'streaming services': 652.3865919146224}, Message: Total discretionary expenses
+Year: 2033, Transaction Type: TAX, Amount: 5196.21, Message: Subtracting previous year federal tax
+Year: 2033, Transaction Type: TAX, Amount: 4264.23, Message: Subtracting previous year state tax
+Year: 2033, Transaction Type: EXPENSE, Amount: 6523.865919146223, Message: Subtracting non-discretionary expenses
+Year: 2033, Transaction Type: EXPENSE, Amount: 1565.73, Message: Paying vacation. Cash remaining: 71542.88
+Year: 2033, Transaction Type: EXPENSE, Amount: 652.39, Message: Paying streaming services. Cash remaining: 69977.15000000001
+Year: 2033, Transaction Type: INVEST, Amount: 47827.33200000001, Message: Investing in S&P 500 non-retirement with allocation 0.7000000000000001. New value: 342879.5932181899
+Year: 2033, Transaction Type: INVEST, Amount: 20497.428, Message: Investing in S&P 500 after-tax with allocation 0.29999999999999993. New value: 280270.50475834945
+Year: 2033, Transaction Type: REBALANCE, Amount: -19038.378353659413, Message: Selling from S&P 500 non-retirement. New value: 323841.2148645305, Target value: 323841.2148645305, Target Allocation: 0.7
+Year: 2033, Transaction Type: REBALANCE, Amount: 19038.37835365937, Message: Buying tax-exempt bonds. New value: 138789.0920847988, Target value: 138789.0920847988, Target Allocation: 0.3
+Year: 2033, Transaction Type: REBALANCE, Amount: 19038.378353659413, Message: Total sales from rebalancing
+Year: 2033, Transaction Type: TAX, Amount: 5205.92, Message: Federal Income Tax Calculated
+Year: 2033, Transaction Type: INCOME, Amount: 19945.298569599814, Message: Capital Gains Total Income
+Year: 2033, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5205.92
+Year: 2033, Transaction Type: TAX, Amount: 4325.16, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2034, Transaction Type: INCOME, Amount: 87373.7611696222, Message: Adding income from salary
+Year: 2034, Transaction Type: INVEST, Amount: 341692.0761461444, Message: Updating investment S&P 500 non-retirement
+Year: 2034, Transaction Type: INVEST, Amount: 143373.56155990539, Message: Updating investment tax-exempt bonds
+Year: 2034, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2034, Transaction Type: INVEST, Amount: 304290.3448491704, Message: Updating investment S&P 500 after-tax
+Year: 2034, Transaction Type: INVEST, Amount: 2092.921172560118, Message: Total generated income from updating investments
+Year: 2034, Transaction Type: INCOME, Amount: 2092.921172560118, Message: New total income for current year: 87373.76
+Year: 2034, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 304290.3448491704, remaining RC value: 78599.8982768484
+Year: 2034, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2034, Transaction Type: EXPENSE, Amount: 6719.58189672061, Message: Adding discretionary expense from food
+Year: 2034, Transaction Type: EXPENSE, Amount: 6719.58189672061, Message: Total non-discretionary expenses
+Year: 2034, Transaction Type: EXPENSE, Amount: 1612.6996552129465, Message: Adding discretionary expense from vacation
+Year: 2034, Transaction Type: EXPENSE, Amount: 671.958189672061, Message: Adding discretionary expense from streaming services
+Year: 2034, Transaction Type: EXPENSE, Amount: {'vacation': 1612.6996552129465, 'streaming services': 671.958189672061}, Message: Total discretionary expenses
+Year: 2034, Transaction Type: TAX, Amount: 5205.92, Message: Subtracting previous year federal tax
+Year: 2034, Transaction Type: TAX, Amount: 4325.16, Message: Subtracting previous year state tax
+Year: 2034, Transaction Type: EXPENSE, Amount: 6719.58189672061, Message: Subtracting non-discretionary expenses
+Year: 2034, Transaction Type: EXPENSE, Amount: 1612.7, Message: Paying vacation. Cash remaining: 72123.09999999999
+Year: 2034, Transaction Type: EXPENSE, Amount: 671.96, Message: Paying streaming services. Cash remaining: 70510.4
+Year: 2034, Transaction Type: INVEST, Amount: 49563.676799999994, Message: Investing in S&P 500 non-retirement with allocation 0.7200000000000001. New value: 391255.75294614444
+Year: 2034, Transaction Type: INVEST, Amount: 19274.76319999999, Message: Investing in S&P 500 after-tax with allocation 0.2799999999999999. New value: 323565.1080491704
+Year: 2034, Transaction Type: REBALANCE, Amount: -17015.23279190954, Message: Selling from S&P 500 non-retirement. New value: 374240.5201542349, Target value: 374240.5201542349, Target Allocation: 0.7
+Year: 2034, Transaction Type: REBALANCE, Amount: 17015.23279190957, Message: Buying tax-exempt bonds. New value: 160388.79435181496, Target value: 160388.79435181496, Target Allocation: 0.3
+Year: 2034, Transaction Type: REBALANCE, Amount: 17015.23279190954, Message: Total sales from rebalancing
+Year: 2034, Transaction Type: TAX, Amount: 5152.19, Message: Federal Income Tax Calculated
+Year: 2034, Transaction Type: INCOME, Amount: 19108.15396446966, Message: Capital Gains Total Income
+Year: 2034, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5152.19
+Year: 2034, Transaction Type: TAX, Amount: 4358.7, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2035, Transaction Type: INCOME, Amount: 87983.5779997478, Message: Adding income from salary
+Year: 2035, Transaction Type: INVEST, Amount: 395095.5769419157, Message: Updating investment S&P 500 non-retirement
+Year: 2035, Transaction Type: INVEST, Amount: 164792.67552308922, Message: Updating investment tax-exempt bonds
+Year: 2035, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2035, Transaction Type: INVEST, Amount: 349327.93279807287, Message: Updating investment S&P 500 after-tax
+Year: 2035, Transaction Type: INVEST, Amount: 3181.8947686352653, Message: Total generated income from updating investments
+Year: 2035, Transaction Type: INCOME, Amount: 3181.8947686352653, Message: New total income for current year: 87983.58
+Year: 2035, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 349327.93279807287, remaining RC value: 82969.28902515385
+Year: 2035, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2035, Transaction Type: EXPENSE, Amount: 6921.169353622228, Message: Adding discretionary expense from food
+Year: 2035, Transaction Type: EXPENSE, Amount: 6921.169353622228, Message: Total non-discretionary expenses
+Year: 2035, Transaction Type: EXPENSE, Amount: 1661.080644869335, Message: Adding discretionary expense from vacation
+Year: 2035, Transaction Type: EXPENSE, Amount: 692.1169353622229, Message: Adding discretionary expense from streaming services
+Year: 2035, Transaction Type: EXPENSE, Amount: {'vacation': 1661.080644869335, 'streaming services': 692.1169353622229}, Message: Total discretionary expenses
+Year: 2035, Transaction Type: TAX, Amount: 5152.19, Message: Subtracting previous year federal tax
+Year: 2035, Transaction Type: TAX, Amount: 4358.7, Message: Subtracting previous year state tax
+Year: 2035, Transaction Type: EXPENSE, Amount: 6921.169353622228, Message: Subtracting non-discretionary expenses
+Year: 2035, Transaction Type: EXPENSE, Amount: 1661.08, Message: Paying vacation. Cash remaining: 72551.52
+Year: 2035, Transaction Type: EXPENSE, Amount: 692.12, Message: Paying streaming services. Cash remaining: 70890.44
+Year: 2035, Transaction Type: INVEST, Amount: 51206.75680000001, Message: Investing in S&P 500 non-retirement with allocation 0.7400000000000001. New value: 446302.3337419157
+Year: 2035, Transaction Type: INVEST, Amount: 17991.563199999993, Message: Investing in S&P 500 after-tax with allocation 0.2599999999999999. New value: 367319.49599807285
+Year: 2035, Transaction Type: REBALANCE, Amount: -18535.827256412304, Message: Selling from S&P 500 non-retirement. New value: 427766.5064855034, Target value: 427766.5064855034, Target Allocation: 0.7
+Year: 2035, Transaction Type: REBALANCE, Amount: 18535.827256412245, Message: Buying tax-exempt bonds. New value: 183328.50277950146, Target value: 183328.50277950146, Target Allocation: 0.3
+Year: 2035, Transaction Type: REBALANCE, Amount: 18535.827256412304, Message: Total sales from rebalancing
+Year: 2035, Transaction Type: TAX, Amount: 5065.39, Message: Federal Income Tax Calculated
+Year: 2035, Transaction Type: INCOME, Amount: 21717.72202504757, Message: Capital Gains Total Income
+Year: 2035, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5065.39
+Year: 2035, Transaction Type: TAX, Amount: 4378.84, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2036, Transaction Type: INCOME, Amount: 89546.61137178361, Message: Adding income from salary
+Year: 2036, Transaction Type: INVEST, Amount: 454181.23830647947, Message: Updating investment S&P 500 non-retirement
+Year: 2036, Transaction Type: INVEST, Amount: 190734.29436208226, Message: Updating investment tax-exempt bonds
+Year: 2036, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2036, Transaction Type: INVEST, Amount: 390203.1344104154, Message: Updating investment S&P 500 after-tax
+Year: 2036, Transaction Type: INVEST, Amount: 8300.524333985613, Message: Total generated income from updating investments
+Year: 2036, Transaction Type: INCOME, Amount: 8300.524333985613, Message: New total income for current year: 89546.61
+Year: 2036, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 390203.1344104154, remaining RC value: 86534.84789590845
+Year: 2036, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2036, Transaction Type: EXPENSE, Amount: 7128.804434230895, Message: Adding discretionary expense from food
+Year: 2036, Transaction Type: EXPENSE, Amount: 7128.804434230895, Message: Total non-discretionary expenses
+Year: 2036, Transaction Type: EXPENSE, Amount: 1710.913064215415, Message: Adding discretionary expense from vacation
+Year: 2036, Transaction Type: EXPENSE, Amount: 712.8804434230896, Message: Adding discretionary expense from streaming services
+Year: 2036, Transaction Type: EXPENSE, Amount: {'vacation': 1710.913064215415, 'streaming services': 712.8804434230896}, Message: Total discretionary expenses
+Year: 2036, Transaction Type: TAX, Amount: 5065.39, Message: Subtracting previous year federal tax
+Year: 2036, Transaction Type: TAX, Amount: 4378.84, Message: Subtracting previous year state tax
+Year: 2036, Transaction Type: EXPENSE, Amount: 7128.804434230895, Message: Subtracting non-discretionary expenses
+Year: 2036, Transaction Type: EXPENSE, Amount: 1710.91, Message: Paying vacation. Cash remaining: 73973.58
+Year: 2036, Transaction Type: EXPENSE, Amount: 712.88, Message: Paying streaming services. Cash remaining: 72262.67
+Year: 2036, Transaction Type: INVEST, Amount: 53617.8404, Message: Investing in S&P 500 non-retirement with allocation 0.7600000000000001. New value: 507799.07870647946
+Year: 2036, Transaction Type: INVEST, Amount: 16931.949599999993, Message: Investing in S&P 500 after-tax with allocation 0.2399999999999999. New value: 407135.0840104154
+Year: 2036, Transaction Type: TAX, Amount: 5088.17, Message: Federal Income Tax Calculated
+Year: 2036, Transaction Type: INCOME, Amount: 8300.524333985613, Message: Capital Gains Total Income
+Year: 2036, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5088.17
+Year: 2036, Transaction Type: TAX, Amount: 4451.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2037, Transaction Type: INCOME, Amount: 91146.1455463527, Message: Adding income from salary
+Year: 2037, Transaction Type: INVEST, Amount: 536735.6599362942, Message: Updating investment S&P 500 non-retirement
+Year: 2037, Transaction Type: INVEST, Amount: 195625.45130933166, Message: Updating investment tax-exempt bonds
+Year: 2037, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2037, Transaction Type: INVEST, Amount: 429928.874126751, Message: Updating investment S&P 500 after-tax
+Year: 2037, Transaction Type: INVEST, Amount: 2143.96761338816, Message: Total generated income from updating investments
+Year: 2037, Transaction Type: INCOME, Amount: 2143.96761338816, Message: New total income for current year: 91146.15
+Year: 2037, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 429928.874126751, remaining RC value: 90217.75443278572
+Year: 2037, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2037, Transaction Type: EXPENSE, Amount: 7342.668567257822, Message: Adding discretionary expense from food
+Year: 2037, Transaction Type: EXPENSE, Amount: 7342.668567257822, Message: Total non-discretionary expenses
+Year: 2037, Transaction Type: EXPENSE, Amount: 1762.2404561418775, Message: Adding discretionary expense from vacation
+Year: 2037, Transaction Type: EXPENSE, Amount: 734.2668567257823, Message: Adding discretionary expense from streaming services
+Year: 2037, Transaction Type: EXPENSE, Amount: {'vacation': 1762.2404561418775, 'streaming services': 734.2668567257823}, Message: Total discretionary expenses
+Year: 2037, Transaction Type: TAX, Amount: 5088.17, Message: Subtracting previous year federal tax
+Year: 2037, Transaction Type: TAX, Amount: 4451.0, Message: Subtracting previous year state tax
+Year: 2037, Transaction Type: EXPENSE, Amount: 7342.668567257822, Message: Subtracting non-discretionary expenses
+Year: 2037, Transaction Type: EXPENSE, Amount: 1762.24, Message: Paying vacation. Cash remaining: 75264.31
+Year: 2037, Transaction Type: EXPENSE, Amount: 734.27, Message: Paying streaming services. Cash remaining: 73502.06999999999
+Year: 2037, Transaction Type: INVEST, Amount: 55978.884, Message: Investing in S&P 500 non-retirement with allocation 0.7800000000000001. New value: 592714.5439362942
+Year: 2037, Transaction Type: INVEST, Amount: 15788.915999999992, Message: Investing in S&P 500 after-tax with allocation 0.21999999999999992. New value: 445717.79012675094
+Year: 2037, Transaction Type: TAX, Amount: 5110.4, Message: Federal Income Tax Calculated
+Year: 2037, Transaction Type: INCOME, Amount: 2143.96761338816, Message: Capital Gains Total Income
+Year: 2037, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5110.4
+Year: 2037, Transaction Type: TAX, Amount: 4524.75, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2038, Transaction Type: INCOME, Amount: 91784.11860220715, Message: Adding income from salary
+Year: 2038, Transaction Type: INVEST, Amount: 628968.0450753222, Message: Updating investment S&P 500 non-retirement
+Year: 2038, Transaction Type: INVEST, Amount: 196766.91704340352, Message: Updating investment tax-exempt bonds
+Year: 2038, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2038, Transaction Type: INVEST, Amount: 487263.5587725312, Message: Updating investment S&P 500 after-tax
+Year: 2038, Transaction Type: INVEST, Amount: 4349.342402034508, Message: Total generated income from updating investments
+Year: 2038, Transaction Type: INCOME, Amount: 4349.342402034508, Message: New total income for current year: 91784.12
+Year: 2038, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 487263.5587725312, remaining RC value: 95020.69996576931
+Year: 2038, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2038, Transaction Type: EXPENSE, Amount: 7562.948624275557, Message: Adding discretionary expense from food
+Year: 2038, Transaction Type: EXPENSE, Amount: 7562.948624275557, Message: Total non-discretionary expenses
+Year: 2038, Transaction Type: EXPENSE, Amount: 1815.1076698261338, Message: Adding discretionary expense from vacation
+Year: 2038, Transaction Type: EXPENSE, Amount: 756.2948624275558, Message: Adding discretionary expense from streaming services
+Year: 2038, Transaction Type: EXPENSE, Amount: {'vacation': 1815.1076698261338, 'streaming services': 756.2948624275558}, Message: Total discretionary expenses
+Year: 2038, Transaction Type: TAX, Amount: 5110.4, Message: Subtracting previous year federal tax
+Year: 2038, Transaction Type: TAX, Amount: 4524.75, Message: Subtracting previous year state tax
+Year: 2038, Transaction Type: EXPENSE, Amount: 7562.948624275557, Message: Subtracting non-discretionary expenses
+Year: 2038, Transaction Type: EXPENSE, Amount: 1815.11, Message: Paying vacation. Cash remaining: 75586.01999999999
+Year: 2038, Transaction Type: EXPENSE, Amount: 756.29, Message: Paying streaming services. Cash remaining: 73770.90999999999
+Year: 2038, Transaction Type: TAX, Amount: 5012.14, Message: Federal Income Tax Calculated
+Year: 2038, Transaction Type: INCOME, Amount: 4349.342402034508, Message: Capital Gains Total Income
+Year: 2038, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 5012.14
+Year: 2038, Transaction Type: TAX, Amount: 4545.19, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2039, Transaction Type: INCOME, Amount: 92407.30089876006, Message: Adding income from salary
+Year: 2039, Transaction Type: INVEST, Amount: 680810.3918972625, Message: Updating investment S&P 500 non-retirement
+Year: 2039, Transaction Type: INVEST, Amount: 201745.80542265304, Message: Updating investment tax-exempt bonds
+Year: 2039, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2039, Transaction Type: INVEST, Amount: 503093.1630013341, Message: Updating investment S&P 500 after-tax
+Year: 2039, Transaction Type: INVEST, Amount: 4059.884031967274, Message: Total generated income from updating investments
+Year: 2039, Transaction Type: INCOME, Amount: 4059.884031967274, Message: New total income for current year: 92407.3
+Year: 2039, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 503093.1630013341, remaining RC value: 100001.66856474237
+Year: 2039, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2039, Transaction Type: EXPENSE, Amount: 7789.837083003825, Message: Adding discretionary expense from food
+Year: 2039, Transaction Type: EXPENSE, Amount: 7789.837083003825, Message: Total non-discretionary expenses
+Year: 2039, Transaction Type: EXPENSE, Amount: 1869.5608999209178, Message: Adding discretionary expense from vacation
+Year: 2039, Transaction Type: EXPENSE, Amount: 778.9837083003825, Message: Adding discretionary expense from streaming services
+Year: 2039, Transaction Type: EXPENSE, Amount: {'vacation': 1869.5608999209178, 'streaming services': 778.9837083003825}, Message: Total discretionary expenses
+Year: 2039, Transaction Type: TAX, Amount: 5012.14, Message: Subtracting previous year federal tax
+Year: 2039, Transaction Type: TAX, Amount: 4545.19, Message: Subtracting previous year state tax
+Year: 2039, Transaction Type: EXPENSE, Amount: 7789.837083003825, Message: Subtracting non-discretionary expenses
+Year: 2039, Transaction Type: EXPENSE, Amount: 1869.56, Message: Paying vacation. Cash remaining: 148074.75
+Year: 2039, Transaction Type: EXPENSE, Amount: 778.98, Message: Paying streaming services. Cash remaining: 146205.19
+Year: 2039, Transaction Type: TAX, Amount: 4906.86, Message: Federal Income Tax Calculated
+Year: 2039, Transaction Type: INCOME, Amount: 4059.884031967274, Message: Capital Gains Total Income
+Year: 2039, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4906.86
+Year: 2039, Transaction Type: TAX, Amount: 4564.38, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2040, Transaction Type: INCOME, Amount: 93421.07806286977, Message: Adding income from salary
+Year: 2040, Transaction Type: INVEST, Amount: 703985.6808300964, Message: Updating investment S&P 500 non-retirement
+Year: 2040, Transaction Type: INVEST, Amount: 206556.15446097704, Message: Updating investment tax-exempt bonds
+Year: 2040, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2040, Transaction Type: INVEST, Amount: 543834.1098983273, Message: Updating investment S&P 500 after-tax
+Year: 2040, Transaction Type: INVEST, Amount: 4737.0787911877605, Message: Total generated income from updating investments
+Year: 2040, Transaction Type: INCOME, Amount: 4737.0787911877605, Message: New total income for current year: 93421.08
+Year: 2040, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 543834.1098983273, remaining RC value: 104760.15802168462
+Year: 2040, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2040, Transaction Type: EXPENSE, Amount: 8023.53219549394, Message: Adding discretionary expense from food
+Year: 2040, Transaction Type: EXPENSE, Amount: 8023.53219549394, Message: Total non-discretionary expenses
+Year: 2040, Transaction Type: EXPENSE, Amount: 1925.6477269185455, Message: Adding discretionary expense from vacation
+Year: 2040, Transaction Type: EXPENSE, Amount: 802.353219549394, Message: Adding discretionary expense from streaming services
+Year: 2040, Transaction Type: EXPENSE, Amount: {'vacation': 1925.6477269185455, 'streaming services': 802.353219549394}, Message: Total discretionary expenses
+Year: 2040, Transaction Type: TAX, Amount: 4906.86, Message: Subtracting previous year federal tax
+Year: 2040, Transaction Type: TAX, Amount: 4564.38, Message: Subtracting previous year state tax
+Year: 2040, Transaction Type: EXPENSE, Amount: 8023.53219549394, Message: Subtracting non-discretionary expenses
+Year: 2040, Transaction Type: EXPENSE, Amount: 1925.65, Message: Paying vacation. Cash remaining: 221352.52
+Year: 2040, Transaction Type: EXPENSE, Amount: 802.35, Message: Paying streaming services. Cash remaining: 219426.87
+Year: 2040, Transaction Type: TAX, Amount: 4843.05, Message: Federal Income Tax Calculated
+Year: 2040, Transaction Type: INCOME, Amount: 4737.0787911877605, Message: Capital Gains Total Income
+Year: 2040, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4843.05
+Year: 2040, Transaction Type: TAX, Amount: 4604.59, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2041, Transaction Type: INCOME, Amount: 94474.31294947318, Message: Adding income from salary
+Year: 2041, Transaction Type: INVEST, Amount: 762106.2698464264, Message: Updating investment S&P 500 non-retirement
+Year: 2041, Transaction Type: INVEST, Amount: 210501.7592405256, Message: Updating investment tax-exempt bonds
+Year: 2041, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2041, Transaction Type: INVEST, Amount: 582294.4815374376, Message: Updating investment S&P 500 after-tax
+Year: 2041, Transaction Type: INVEST, Amount: 2277.7021761662354, Message: Total generated income from updating investments
+Year: 2041, Transaction Type: INCOME, Amount: 2277.7021761662354, Message: New total income for current year: 94474.31
+Year: 2041, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 582294.4815374376, remaining RC value: 109652.36086233516
+Year: 2041, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2041, Transaction Type: EXPENSE, Amount: 8264.238161358759, Message: Adding discretionary expense from food
+Year: 2041, Transaction Type: EXPENSE, Amount: 8264.238161358759, Message: Total non-discretionary expenses
+Year: 2041, Transaction Type: EXPENSE, Amount: 1983.417158726102, Message: Adding discretionary expense from vacation
+Year: 2041, Transaction Type: EXPENSE, Amount: 826.4238161358759, Message: Adding discretionary expense from streaming services
+Year: 2041, Transaction Type: EXPENSE, Amount: {'vacation': 1983.417158726102, 'streaming services': 826.4238161358759}, Message: Total discretionary expenses
+Year: 2041, Transaction Type: TAX, Amount: 4843.05, Message: Subtracting previous year federal tax
+Year: 2041, Transaction Type: TAX, Amount: 4604.59, Message: Subtracting previous year state tax
+Year: 2041, Transaction Type: EXPENSE, Amount: 8264.238161358759, Message: Subtracting non-discretionary expenses
+Year: 2041, Transaction Type: EXPENSE, Amount: 1983.42, Message: Paying vacation. Cash remaining: 295386.94999999995
+Year: 2041, Transaction Type: EXPENSE, Amount: 826.42, Message: Paying streaming services. Cash remaining: 293403.52999999997
+Year: 2041, Transaction Type: TAX, Amount: 4778.42, Message: Federal Income Tax Calculated
+Year: 2041, Transaction Type: INCOME, Amount: 2277.7021761662354, Message: Capital Gains Total Income
+Year: 2041, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4778.42
+Year: 2041, Transaction Type: TAX, Amount: 4646.52, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2042, Transaction Type: INCOME, Amount: 95691.45838240179, Message: Adding income from salary
+Year: 2042, Transaction Type: INVEST, Amount: 828837.8761016908, Message: Updating investment S&P 500 non-retirement
+Year: 2042, Transaction Type: INVEST, Amount: 213422.04650239443, Message: Updating investment tax-exempt bonds
+Year: 2042, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2042, Transaction Type: INVEST, Amount: 622892.377569161, Message: Updating investment S&P 500 after-tax
+Year: 2042, Transaction Type: INVEST, Amount: 5574.3304743550825, Message: Total generated income from updating investments
+Year: 2042, Transaction Type: INCOME, Amount: 5574.3304743550825, Message: New total income for current year: 95691.46
+Year: 2042, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 622892.377569161, remaining RC value: 114559.01538820521
+Year: 2042, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2042, Transaction Type: EXPENSE, Amount: 8512.165306199522, Message: Adding discretionary expense from food
+Year: 2042, Transaction Type: EXPENSE, Amount: 8512.165306199522, Message: Total non-discretionary expenses
+Year: 2042, Transaction Type: EXPENSE, Amount: 2042.919673487885, Message: Adding discretionary expense from vacation
+Year: 2042, Transaction Type: EXPENSE, Amount: 851.2165306199522, Message: Adding discretionary expense from streaming services
+Year: 2042, Transaction Type: EXPENSE, Amount: {'vacation': 2042.919673487885, 'streaming services': 851.2165306199522}, Message: Total discretionary expenses
+Year: 2042, Transaction Type: TAX, Amount: 4778.42, Message: Subtracting previous year federal tax
+Year: 2042, Transaction Type: TAX, Amount: 4646.52, Message: Subtracting previous year state tax
+Year: 2042, Transaction Type: EXPENSE, Amount: 8512.165306199522, Message: Subtracting non-discretionary expenses
+Year: 2042, Transaction Type: EXPENSE, Amount: 2042.92, Message: Paying vacation. Cash remaining: 370331.46
+Year: 2042, Transaction Type: EXPENSE, Amount: 851.22, Message: Paying streaming services. Cash remaining: 368288.54000000004
+Year: 2042, Transaction Type: TAX, Amount: 4727.72, Message: Federal Income Tax Calculated
+Year: 2042, Transaction Type: INCOME, Amount: 5574.3304743550825, Message: Capital Gains Total Income
+Year: 2042, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4727.72
+Year: 2042, Transaction Type: TAX, Amount: 4696.97, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2043, Transaction Type: INCOME, Amount: 96375.17145709963, Message: Adding income from salary
+Year: 2043, Transaction Type: INVEST, Amount: 913453.8233217078, Message: Updating investment S&P 500 non-retirement
+Year: 2043, Transaction Type: INVEST, Amount: 219212.80552734685, Message: Updating investment tax-exempt bonds
+Year: 2043, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2043, Transaction Type: INVEST, Amount: 680978.6083089559, Message: Updating investment S&P 500 after-tax
+Year: 2043, Transaction Type: INVEST, Amount: 4860.140869694267, Message: Total generated income from updating investments
+Year: 2043, Transaction Type: INCOME, Amount: 4860.140869694267, Message: New total income for current year: 96375.17
+Year: 2043, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 680978.6083089559, remaining RC value: 120182.81674985136
+Year: 2043, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2043, Transaction Type: EXPENSE, Amount: 8767.530265385509, Message: Adding discretionary expense from food
+Year: 2043, Transaction Type: EXPENSE, Amount: 8767.530265385509, Message: Total non-discretionary expenses
+Year: 2043, Transaction Type: EXPENSE, Amount: 2104.2072636925213, Message: Adding discretionary expense from vacation
+Year: 2043, Transaction Type: EXPENSE, Amount: 876.7530265385508, Message: Adding discretionary expense from streaming services
+Year: 2043, Transaction Type: EXPENSE, Amount: {'vacation': 2104.2072636925213, 'streaming services': 876.7530265385508}, Message: Total discretionary expenses
+Year: 2043, Transaction Type: TAX, Amount: 4727.72, Message: Subtracting previous year federal tax
+Year: 2043, Transaction Type: TAX, Amount: 4696.97, Message: Subtracting previous year state tax
+Year: 2043, Transaction Type: EXPENSE, Amount: 8767.530265385509, Message: Subtracting non-discretionary expenses
+Year: 2043, Transaction Type: EXPENSE, Amount: 2104.21, Message: Paying vacation. Cash remaining: 445620.27
+Year: 2043, Transaction Type: EXPENSE, Amount: 876.75, Message: Paying streaming services. Cash remaining: 443516.06
+Year: 2043, Transaction Type: TAX, Amount: 4607.11, Message: Federal Income Tax Calculated
+Year: 2043, Transaction Type: INCOME, Amount: 4860.140869694267, Message: Capital Gains Total Income
+Year: 2043, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4607.11
+Year: 2043, Transaction Type: TAX, Amount: 4717.59, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2044, Transaction Type: INCOME, Amount: 98274.85192785335, Message: Adding income from salary
+Year: 2044, Transaction Type: INVEST, Amount: 969525.6390200775, Message: Updating investment S&P 500 non-retirement
+Year: 2044, Transaction Type: INVEST, Amount: 224764.5916645906, Message: Updating investment tax-exempt bonds
+Year: 2044, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2044, Transaction Type: INVEST, Amount: 714842.4841365418, Message: Updating investment S&P 500 after-tax
+Year: 2044, Transaction Type: INVEST, Amount: 2574.3712384026753, Message: Total generated income from updating investments
+Year: 2044, Transaction Type: INCOME, Amount: 2574.3712384026753, Message: New total income for current year: 98274.85
+Year: 2044, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 714842.4841365418, remaining RC value: 124779.87805234692
+Year: 2044, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2044, Transaction Type: EXPENSE, Amount: 9030.556173347075, Message: Adding discretionary expense from food
+Year: 2044, Transaction Type: EXPENSE, Amount: 9030.556173347075, Message: Total non-discretionary expenses
+Year: 2044, Transaction Type: EXPENSE, Amount: 2167.333481603297, Message: Adding discretionary expense from vacation
+Year: 2044, Transaction Type: EXPENSE, Amount: 903.0556173347073, Message: Adding discretionary expense from streaming services
+Year: 2044, Transaction Type: EXPENSE, Amount: {'vacation': 2167.333481603297, 'streaming services': 903.0556173347073}, Message: Total discretionary expenses
+Year: 2044, Transaction Type: TAX, Amount: 4607.11, Message: Subtracting previous year federal tax
+Year: 2044, Transaction Type: TAX, Amount: 4717.59, Message: Subtracting previous year state tax
+Year: 2044, Transaction Type: EXPENSE, Amount: 9030.556173347075, Message: Subtracting non-discretionary expenses
+Year: 2044, Transaction Type: EXPENSE, Amount: 2167.33, Message: Paying vacation. Cash remaining: 522558.9
+Year: 2044, Transaction Type: EXPENSE, Amount: 903.06, Message: Paying streaming services. Cash remaining: 520391.57
+Year: 2044, Transaction Type: TAX, Amount: 4626.33, Message: Federal Income Tax Calculated
+Year: 2044, Transaction Type: INCOME, Amount: 2574.3712384026753, Message: Capital Gains Total Income
+Year: 2044, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4626.33
+Year: 2044, Transaction Type: TAX, Amount: 4804.58, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2045, Transaction Type: INCOME, Amount: 98786.8674103918, Message: Adding income from salary
+Year: 2045, Transaction Type: INVEST, Amount: 998069.1751723635, Message: Updating investment S&P 500 non-retirement
+Year: 2045, Transaction Type: INVEST, Amount: 233473.5935030855, Message: Updating investment tax-exempt bonds
+Year: 2045, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2045, Transaction Type: INVEST, Amount: 760649.5665416872, Message: Updating investment S&P 500 after-tax
+Year: 2045, Transaction Type: INVEST, Amount: 5676.487911391502, Message: Total generated income from updating investments
+Year: 2045, Transaction Type: INCOME, Amount: 5676.487911391502, Message: New total income for current year: 98786.87
+Year: 2045, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 760649.5665416872, remaining RC value: 130959.50149391733
+Year: 2045, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2045, Transaction Type: EXPENSE, Amount: 9301.472858547488, Message: Adding discretionary expense from food
+Year: 2045, Transaction Type: EXPENSE, Amount: 9301.472858547488, Message: Total non-discretionary expenses
+Year: 2045, Transaction Type: EXPENSE, Amount: 2232.353486051396, Message: Adding discretionary expense from vacation
+Year: 2045, Transaction Type: EXPENSE, Amount: 930.1472858547486, Message: Adding discretionary expense from streaming services
+Year: 2045, Transaction Type: EXPENSE, Amount: {'vacation': 2232.353486051396, 'streaming services': 930.1472858547486}, Message: Total discretionary expenses
+Year: 2045, Transaction Type: TAX, Amount: 4626.33, Message: Subtracting previous year federal tax
+Year: 2045, Transaction Type: TAX, Amount: 4804.58, Message: Subtracting previous year state tax
+Year: 2045, Transaction Type: EXPENSE, Amount: 9301.472858547488, Message: Subtracting non-discretionary expenses
+Year: 2045, Transaction Type: EXPENSE, Amount: 2232.35, Message: Paying vacation. Cash remaining: 599543.0
+Year: 2045, Transaction Type: EXPENSE, Amount: 930.15, Message: Paying streaming services. Cash remaining: 597310.65
+Year: 2045, Transaction Type: TAX, Amount: 4472.78, Message: Federal Income Tax Calculated
+Year: 2045, Transaction Type: INCOME, Amount: 5676.487911391502, Message: Capital Gains Total Income
+Year: 2045, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4472.78
+Year: 2045, Transaction Type: TAX, Amount: 4814.73, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2046, Transaction Type: INCOME, Amount: 99681.45233926341, Message: Adding income from salary
+Year: 2046, Transaction Type: INVEST, Amount: 1065271.658497636, Message: Updating investment S&P 500 non-retirement
+Year: 2046, Transaction Type: INVEST, Amount: 240655.2807010267, Message: Updating investment tax-exempt bonds
+Year: 2046, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2046, Transaction Type: INVEST, Amount: 797536.1348054998, Message: Updating investment S&P 500 after-tax
+Year: 2046, Transaction Type: INVEST, Amount: 18166.05532787959, Message: Total generated income from updating investments
+Year: 2046, Transaction Type: INCOME, Amount: 18166.05532787959, Message: New total income for current year: 99681.45
+Year: 2046, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 797536.1348054998, remaining RC value: 722.3595387348541
+Year: 2046, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2046, Transaction Type: EXPENSE, Amount: 9580.517044303913, Message: Adding discretionary expense from food
+Year: 2046, Transaction Type: EXPENSE, Amount: 9580.517044303913, Message: Total non-discretionary expenses
+Year: 2046, Transaction Type: EXPENSE, Amount: 2299.324090632938, Message: Adding discretionary expense from vacation
+Year: 2046, Transaction Type: EXPENSE, Amount: 958.051704430391, Message: Adding discretionary expense from streaming services
+Year: 2046, Transaction Type: EXPENSE, Amount: {'vacation': 2299.324090632938, 'streaming services': 958.051704430391}, Message: Total discretionary expenses
+Year: 2046, Transaction Type: TAX, Amount: 4472.78, Message: Subtracting previous year federal tax
+Year: 2046, Transaction Type: TAX, Amount: 4814.73, Message: Subtracting previous year state tax
+Year: 2046, Transaction Type: EXPENSE, Amount: 9580.517044303913, Message: Subtracting non-discretionary expenses
+Year: 2046, Transaction Type: EXPENSE, Amount: 2299.32, Message: Paying vacation. Cash remaining: 677193.9199999999
+Year: 2046, Transaction Type: EXPENSE, Amount: 958.05, Message: Paying streaming services. Cash remaining: 674894.6
+Year: 2046, Transaction Type: TAX, Amount: 4373.12, Message: Federal Income Tax Calculated
+Year: 2046, Transaction Type: INCOME, Amount: 18166.05532787959, Message: Capital Gains Total Income
+Year: 2046, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4373.12
+Year: 2046, Transaction Type: TAX, Amount: 4845.38, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2047, Transaction Type: INCOME, Amount: 101544.0664549884, Message: Adding income from salary
+Year: 2047, Transaction Type: INVEST, Amount: 1146956.1358092932, Message: Updating investment S&P 500 non-retirement
+Year: 2047, Transaction Type: INVEST, Amount: 248153.71816291512, Message: Updating investment tax-exempt bonds
+Year: 2047, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2047, Transaction Type: INVEST, Amount: 856290.9796063467, Message: Updating investment S&P 500 after-tax
+Year: 2047, Transaction Type: INVEST, Amount: 11934.776141799064, Message: Total generated income from updating investments
+Year: 2047, Transaction Type: INCOME, Amount: 11934.776141799064, Message: New total income for current year: 101544.07
+Year: 2047, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 856290.9796063467, remaining RC value: 1871.8561248968908
+Year: 2047, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2047, Transaction Type: EXPENSE, Amount: 9867.932555633031, Message: Adding discretionary expense from food
+Year: 2047, Transaction Type: EXPENSE, Amount: 9867.932555633031, Message: Total non-discretionary expenses
+Year: 2047, Transaction Type: EXPENSE, Amount: 2368.3038133519262, Message: Adding discretionary expense from vacation
+Year: 2047, Transaction Type: EXPENSE, Amount: 986.7932555633029, Message: Adding discretionary expense from streaming services
+Year: 2047, Transaction Type: EXPENSE, Amount: {'vacation': 2368.3038133519262, 'streaming services': 986.7932555633029}, Message: Total discretionary expenses
+Year: 2047, Transaction Type: TAX, Amount: 4373.12, Message: Subtracting previous year federal tax
+Year: 2047, Transaction Type: TAX, Amount: 4845.38, Message: Subtracting previous year state tax
+Year: 2047, Transaction Type: EXPENSE, Amount: 9867.932555633031, Message: Subtracting non-discretionary expenses
+Year: 2047, Transaction Type: EXPENSE, Amount: 2368.3, Message: Paying vacation. Cash remaining: 756394.1899999998
+Year: 2047, Transaction Type: EXPENSE, Amount: 986.79, Message: Paying streaming services. Cash remaining: 754025.8899999998
+Year: 2047, Transaction Type: TAX, Amount: 4391.53, Message: Federal Income Tax Calculated
+Year: 2047, Transaction Type: INCOME, Amount: 11934.776141799064, Message: Capital Gains Total Income
+Year: 2047, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4391.53
+Year: 2047, Transaction Type: TAX, Amount: 4928.71, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2048, Transaction Type: INCOME, Amount: 102627.61461986446, Message: Adding income from salary
+Year: 2048, Transaction Type: INVEST, Amount: 1244440.913346103, Message: Updating investment S&P 500 non-retirement
+Year: 2048, Transaction Type: INVEST, Amount: 252945.22941358955, Message: Updating investment tax-exempt bonds
+Year: 2048, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2048, Transaction Type: INVEST, Amount: 930915.6080056679, Message: Updating investment S&P 500 after-tax
+Year: 2048, Transaction Type: INVEST, Amount: 13355.237988087469, Message: Total generated income from updating investments
+Year: 2048, Transaction Type: INCOME, Amount: 13355.237988087469, Message: New total income for current year: 102627.61
+Year: 2048, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 930915.6080056679, remaining RC value: 3890.7979086438063
+Year: 2048, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2048, Transaction Type: EXPENSE, Amount: 10163.970532302023, Message: Adding discretionary expense from food
+Year: 2048, Transaction Type: EXPENSE, Amount: 10163.970532302023, Message: Total non-discretionary expenses
+Year: 2048, Transaction Type: EXPENSE, Amount: 2439.352927752484, Message: Adding discretionary expense from vacation
+Year: 2048, Transaction Type: EXPENSE, Amount: 1016.397053230202, Message: Adding discretionary expense from streaming services
+Year: 2048, Transaction Type: EXPENSE, Amount: {'vacation': 2439.352927752484, 'streaming services': 1016.397053230202}, Message: Total discretionary expenses
+Year: 2048, Transaction Type: TAX, Amount: 4391.53, Message: Subtracting previous year federal tax
+Year: 2048, Transaction Type: TAX, Amount: 4928.71, Message: Subtracting previous year state tax
+Year: 2048, Transaction Type: EXPENSE, Amount: 10163.970532302023, Message: Subtracting non-discretionary expenses
+Year: 2048, Transaction Type: EXPENSE, Amount: 2439.35, Message: Paying vacation. Cash remaining: 836182.4999999998
+Year: 2048, Transaction Type: EXPENSE, Amount: 1016.4, Message: Paying streaming services. Cash remaining: 833743.1499999998
+Year: 2048, Transaction Type: TAX, Amount: 4327.0, Message: Federal Income Tax Calculated
+Year: 2048, Transaction Type: INCOME, Amount: 13355.237988087469, Message: Capital Gains Total Income
+Year: 2048, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4327.0
+Year: 2048, Transaction Type: TAX, Amount: 4968.61, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2049, Transaction Type: INCOME, Amount: 103346.29919901889, Message: Adding income from salary
+Year: 2049, Transaction Type: INVEST, Amount: 1383038.8924780907, Message: Updating investment S&P 500 non-retirement
+Year: 2049, Transaction Type: INVEST, Amount: 258030.91712462288, Message: Updating investment tax-exempt bonds
+Year: 2049, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2049, Transaction Type: INVEST, Amount: 1027713.47468221, Message: Updating investment S&P 500 after-tax
+Year: 2049, Transaction Type: INVEST, Amount: 12740.240936057582, Message: Total generated income from updating investments
+Year: 2049, Transaction Type: INCOME, Amount: 12740.240936057582, Message: New total income for current year: 103346.3
+Year: 2049, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1027713.47468221, remaining RC value: 6367.655545903122
+Year: 2049, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2049, Transaction Type: EXPENSE, Amount: 10468.889648271084, Message: Adding discretionary expense from food
+Year: 2049, Transaction Type: EXPENSE, Amount: 10468.889648271084, Message: Total non-discretionary expenses
+Year: 2049, Transaction Type: EXPENSE, Amount: 2512.5335155850585, Message: Adding discretionary expense from vacation
+Year: 2049, Transaction Type: EXPENSE, Amount: 1046.888964827108, Message: Adding discretionary expense from streaming services
+Year: 2049, Transaction Type: EXPENSE, Amount: {'vacation': 2512.5335155850585, 'streaming services': 1046.888964827108}, Message: Total discretionary expenses
+Year: 2049, Transaction Type: TAX, Amount: 4327.0, Message: Subtracting previous year federal tax
+Year: 2049, Transaction Type: TAX, Amount: 4968.61, Message: Subtracting previous year state tax
+Year: 2049, Transaction Type: EXPENSE, Amount: 10468.889648271084, Message: Subtracting non-discretionary expenses
+Year: 2049, Transaction Type: EXPENSE, Amount: 2512.53, Message: Paying vacation. Cash remaining: 916308.5499999998
+Year: 2049, Transaction Type: EXPENSE, Amount: 1046.89, Message: Paying streaming services. Cash remaining: 913796.0199999998
+Year: 2049, Transaction Type: TAX, Amount: 4220.8, Message: Federal Income Tax Calculated
+Year: 2049, Transaction Type: INCOME, Amount: 12740.240936057582, Message: Capital Gains Total Income
+Year: 2049, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4220.8
+Year: 2049, Transaction Type: TAX, Amount: 4987.87, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2050, Transaction Type: INCOME, Amount: 104981.82328530506, Message: Adding income from salary
+Year: 2050, Transaction Type: INVEST, Amount: 1441142.333069712, Message: Updating investment S&P 500 non-retirement
+Year: 2050, Transaction Type: INVEST, Amount: 259362.48790783994, Message: Updating investment tax-exempt bonds
+Year: 2050, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2050, Transaction Type: INVEST, Amount: 1087305.3648705117, Message: Updating investment S&P 500 after-tax
+Year: 2050, Transaction Type: INVEST, Amount: 17669.935018235414, Message: Total generated income from updating investments
+Year: 2050, Transaction Type: INCOME, Amount: 17669.935018235414, Message: New total income for current year: 104981.82
+Year: 2050, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1087305.3648705117, remaining RC value: 8023.555012280216
+Year: 2050, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2050, Transaction Type: EXPENSE, Amount: 10782.956337719217, Message: Adding discretionary expense from food
+Year: 2050, Transaction Type: EXPENSE, Amount: 10782.956337719217, Message: Total non-discretionary expenses
+Year: 2050, Transaction Type: EXPENSE, Amount: 2587.90952105261, Message: Adding discretionary expense from vacation
+Year: 2050, Transaction Type: EXPENSE, Amount: 1078.2956337719213, Message: Adding discretionary expense from streaming services
+Year: 2050, Transaction Type: EXPENSE, Amount: {'vacation': 2587.90952105261, 'streaming services': 1078.2956337719213}, Message: Total discretionary expenses
+Year: 2050, Transaction Type: TAX, Amount: 4220.8, Message: Subtracting previous year federal tax
+Year: 2050, Transaction Type: TAX, Amount: 4987.87, Message: Subtracting previous year state tax
+Year: 2050, Transaction Type: EXPENSE, Amount: 10782.956337719217, Message: Subtracting non-discretionary expenses
+Year: 2050, Transaction Type: EXPENSE, Amount: 2587.91, Message: Paying vacation. Cash remaining: 997739.3199999997
+Year: 2050, Transaction Type: EXPENSE, Amount: 1078.3, Message: Paying streaming services. Cash remaining: 995151.4099999997
+Year: 2050, Transaction Type: TAX, Amount: 4200.94, Message: Federal Income Tax Calculated
+Year: 2050, Transaction Type: INCOME, Amount: 17669.935018235414, Message: Capital Gains Total Income
+Year: 2050, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4200.94
+Year: 2050, Transaction Type: TAX, Amount: 5056.93, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2051, Transaction Type: INCOME, Amount: 106435.72339203054, Message: Adding income from salary
+Year: 2051, Transaction Type: INVEST, Amount: 1530794.3953175307, Message: Updating investment S&P 500 non-retirement
+Year: 2051, Transaction Type: INVEST, Amount: 266924.7947387352, Message: Updating investment tax-exempt bonds
+Year: 2051, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2051, Transaction Type: INVEST, Amount: 1173851.5442311107, Message: Updating investment S&P 500 after-tax
+Year: 2051, Transaction Type: INVEST, Amount: 9125.071384487868, Message: Total generated income from updating investments
+Year: 2051, Transaction Type: INCOME, Amount: 9125.071384487868, Message: New total income for current year: 106435.72
+Year: 2051, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1173851.5442311107, remaining RC value: 9959.818962648627
+Year: 2051, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2051, Transaction Type: EXPENSE, Amount: 11106.445027850794, Message: Adding discretionary expense from food
+Year: 2051, Transaction Type: EXPENSE, Amount: 11106.445027850794, Message: Total non-discretionary expenses
+Year: 2051, Transaction Type: EXPENSE, Amount: 2665.5468066841886, Message: Adding discretionary expense from vacation
+Year: 2051, Transaction Type: EXPENSE, Amount: 1110.6445027850789, Message: Adding discretionary expense from streaming services
+Year: 2051, Transaction Type: EXPENSE, Amount: {'vacation': 2665.5468066841886, 'streaming services': 1110.6445027850789}, Message: Total discretionary expenses
+Year: 2051, Transaction Type: TAX, Amount: 4200.94, Message: Subtracting previous year federal tax
+Year: 2051, Transaction Type: TAX, Amount: 5056.93, Message: Subtracting previous year state tax
+Year: 2051, Transaction Type: EXPENSE, Amount: 11106.445027850794, Message: Subtracting non-discretionary expenses
+Year: 2051, Transaction Type: EXPENSE, Amount: 2665.55, Message: Paying vacation. Cash remaining: 1080144.5099999995
+Year: 2051, Transaction Type: EXPENSE, Amount: 1110.64, Message: Paying streaming services. Cash remaining: 1077478.9599999995
+Year: 2051, Transaction Type: TAX, Amount: 4157.41, Message: Federal Income Tax Calculated
+Year: 2051, Transaction Type: INCOME, Amount: 9125.071384487868, Message: Capital Gains Total Income
+Year: 2051, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4157.41
+Year: 2051, Transaction Type: TAX, Amount: 5115.39, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2052, Transaction Type: INCOME, Amount: 107763.83593163724, Message: Adding income from salary
+Year: 2052, Transaction Type: INVEST, Amount: 1700251.7864392113, Message: Updating investment S&P 500 non-retirement
+Year: 2052, Transaction Type: INVEST, Amount: 269622.8191280536, Message: Updating investment tax-exempt bonds
+Year: 2052, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2052, Transaction Type: INVEST, Amount: 1294793.521339467, Message: Updating investment S&P 500 after-tax
+Year: 2052, Transaction Type: INVEST, Amount: 10187.010458570841, Message: Total generated income from updating investments
+Year: 2052, Transaction Type: INCOME, Amount: 10187.010458570841, Message: New total income for current year: 107763.84
+Year: 2052, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1294793.521339467, remaining RC value: 12123.568131528096
+Year: 2052, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2052, Transaction Type: EXPENSE, Amount: 11439.638378686317, Message: Adding discretionary expense from food
+Year: 2052, Transaction Type: EXPENSE, Amount: 11439.638378686317, Message: Total non-discretionary expenses
+Year: 2052, Transaction Type: EXPENSE, Amount: 2745.513210884714, Message: Adding discretionary expense from vacation
+Year: 2052, Transaction Type: EXPENSE, Amount: 1143.9638378686313, Message: Adding discretionary expense from streaming services
+Year: 2052, Transaction Type: EXPENSE, Amount: {'vacation': 2745.513210884714, 'streaming services': 1143.9638378686313}, Message: Total discretionary expenses
+Year: 2052, Transaction Type: TAX, Amount: 4157.41, Message: Subtracting previous year federal tax
+Year: 2052, Transaction Type: TAX, Amount: 5115.39, Message: Subtracting previous year state tax
+Year: 2052, Transaction Type: EXPENSE, Amount: 11439.638378686317, Message: Subtracting non-discretionary expenses
+Year: 2052, Transaction Type: EXPENSE, Amount: 2745.51, Message: Paying vacation. Cash remaining: 1163419.7199999997
+Year: 2052, Transaction Type: EXPENSE, Amount: 1143.96, Message: Paying streaming services. Cash remaining: 1160674.2099999997
+Year: 2052, Transaction Type: TAX, Amount: 4095.64, Message: Federal Income Tax Calculated
+Year: 2052, Transaction Type: INCOME, Amount: 10187.010458570841, Message: Capital Gains Total Income
+Year: 2052, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 4095.64
+Year: 2052, Transaction Type: TAX, Amount: 5166.28, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2053, Transaction Type: INCOME, Amount: 108636.62947903138, Message: Adding income from salary
+Year: 2053, Transaction Type: INVEST, Amount: 1793638.2334111305, Message: Updating investment S&P 500 non-retirement
+Year: 2053, Transaction Type: INVEST, Amount: 279776.4073512779, Message: Updating investment tax-exempt bonds
+Year: 2053, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2053, Transaction Type: INVEST, Amount: 1383057.336778514, Message: Updating investment S&P 500 after-tax
+Year: 2053, Transaction Type: INVEST, Amount: 34685.54127462665, Message: Total generated income from updating investments
+Year: 2053, Transaction Type: INCOME, Amount: 34685.54127462665, Message: New total income for current year: 108636.63
+Year: 2053, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1383057.336778514, remaining RC value: 14847.402775473929
+Year: 2053, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2053, Transaction Type: EXPENSE, Amount: 11782.827530046907, Message: Adding discretionary expense from food
+Year: 2053, Transaction Type: EXPENSE, Amount: 11782.827530046907, Message: Total non-discretionary expenses
+Year: 2053, Transaction Type: EXPENSE, Amount: 2827.8786072112557, Message: Adding discretionary expense from vacation
+Year: 2053, Transaction Type: EXPENSE, Amount: 1178.2827530046902, Message: Adding discretionary expense from streaming services
+Year: 2053, Transaction Type: EXPENSE, Amount: {'vacation': 2827.8786072112557, 'streaming services': 1178.2827530046902}, Message: Total discretionary expenses
+Year: 2053, Transaction Type: TAX, Amount: 4095.64, Message: Subtracting previous year federal tax
+Year: 2053, Transaction Type: TAX, Amount: 5166.28, Message: Subtracting previous year state tax
+Year: 2053, Transaction Type: EXPENSE, Amount: 11782.827530046907, Message: Subtracting non-discretionary expenses
+Year: 2053, Transaction Type: EXPENSE, Amount: 2827.88, Message: Paying vacation. Cash remaining: 1247122.13
+Year: 2053, Transaction Type: EXPENSE, Amount: 1178.28, Message: Paying streaming services. Cash remaining: 1244294.25
+Year: 2053, Transaction Type: TAX, Amount: 3982.49, Message: Federal Income Tax Calculated
+Year: 2053, Transaction Type: INCOME, Amount: 34685.54127462665, Message: Capital Gains Total Income
+Year: 2053, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3982.49
+Year: 2053, Transaction Type: TAX, Amount: 5191.46, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2054, Transaction Type: INCOME, Amount: 109216.93987840807, Message: Adding income from salary
+Year: 2054, Transaction Type: INVEST, Amount: 1880864.5609114368, Message: Updating investment S&P 500 non-retirement
+Year: 2054, Transaction Type: INVEST, Amount: 285807.86525666853, Message: Updating investment tax-exempt bonds
+Year: 2054, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2054, Transaction Type: INVEST, Amount: 1455846.0582113913, Message: Updating investment S&P 500 after-tax
+Year: 2054, Transaction Type: INVEST, Amount: 16210.352151396888, Message: Total generated income from updating investments
+Year: 2054, Transaction Type: INCOME, Amount: 16210.352151396888, Message: New total income for current year: 109216.94
+Year: 2054, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1455846.0582113913, remaining RC value: 17971.61415873815
+Year: 2054, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2054, Transaction Type: EXPENSE, Amount: 12136.312355948314, Message: Adding discretionary expense from food
+Year: 2054, Transaction Type: EXPENSE, Amount: 12136.312355948314, Message: Total non-discretionary expenses
+Year: 2054, Transaction Type: EXPENSE, Amount: 2912.7149654275936, Message: Adding discretionary expense from vacation
+Year: 2054, Transaction Type: EXPENSE, Amount: 1213.631235594831, Message: Adding discretionary expense from streaming services
+Year: 2054, Transaction Type: EXPENSE, Amount: {'vacation': 2912.7149654275936, 'streaming services': 1213.631235594831}, Message: Total discretionary expenses
+Year: 2054, Transaction Type: TAX, Amount: 3982.49, Message: Subtracting previous year federal tax
+Year: 2054, Transaction Type: TAX, Amount: 5191.46, Message: Subtracting previous year state tax
+Year: 2054, Transaction Type: EXPENSE, Amount: 12136.312355948314, Message: Subtracting non-discretionary expenses
+Year: 2054, Transaction Type: EXPENSE, Amount: 2912.71, Message: Paying vacation. Cash remaining: 1331022.65
+Year: 2054, Transaction Type: EXPENSE, Amount: 1213.63, Message: Paying streaming services. Cash remaining: 1328109.94
+Year: 2054, Transaction Type: TAX, Amount: 3834.09, Message: Federal Income Tax Calculated
+Year: 2054, Transaction Type: INCOME, Amount: 16210.352151396888, Message: Capital Gains Total Income
+Year: 2054, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3834.09
+Year: 2054, Transaction Type: TAX, Amount: 5199.87, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2055, Transaction Type: INCOME, Amount: 111011.26187006437, Message: Adding income from salary
+Year: 2055, Transaction Type: INVEST, Amount: 2058432.5401720125, Message: Updating investment S&P 500 non-retirement
+Year: 2055, Transaction Type: INVEST, Amount: 294290.69089715043, Message: Updating investment tax-exempt bonds
+Year: 2055, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2055, Transaction Type: INVEST, Amount: 1531991.3211448651, Message: Updating investment S&P 500 after-tax
+Year: 2055, Transaction Type: INVEST, Amount: 32676.81688439212, Message: Total generated income from updating investments
+Year: 2055, Transaction Type: INCOME, Amount: 32676.81688439212, Message: New total income for current year: 111011.26
+Year: 2055, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1531991.3211448651, remaining RC value: 19992.946083500312
+Year: 2055, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2055, Transaction Type: EXPENSE, Amount: 12500.401726626764, Message: Adding discretionary expense from food
+Year: 2055, Transaction Type: EXPENSE, Amount: 12500.401726626764, Message: Total non-discretionary expenses
+Year: 2055, Transaction Type: EXPENSE, Amount: 3000.0964143904216, Message: Adding discretionary expense from vacation
+Year: 2055, Transaction Type: EXPENSE, Amount: 1250.040172662676, Message: Adding discretionary expense from streaming services
+Year: 2055, Transaction Type: EXPENSE, Amount: {'vacation': 3000.0964143904216, 'streaming services': 1250.040172662676}, Message: Total discretionary expenses
+Year: 2055, Transaction Type: TAX, Amount: 3834.09, Message: Subtracting previous year federal tax
+Year: 2055, Transaction Type: TAX, Amount: 5199.87, Message: Subtracting previous year state tax
+Year: 2055, Transaction Type: EXPENSE, Amount: 12500.401726626764, Message: Subtracting non-discretionary expenses
+Year: 2055, Transaction Type: EXPENSE, Amount: 3000.1, Message: Paying vacation. Cash remaining: 1416373.21
+Year: 2055, Transaction Type: EXPENSE, Amount: 1250.04, Message: Paying streaming services. Cash remaining: 1413373.1099999999
+Year: 2055, Transaction Type: TAX, Amount: 3800.89, Message: Federal Income Tax Calculated
+Year: 2055, Transaction Type: INCOME, Amount: 32676.81688439212, Message: Capital Gains Total Income
+Year: 2055, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3800.89
+Year: 2055, Transaction Type: TAX, Amount: 5274.34, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2056, Transaction Type: INCOME, Amount: 111631.17656027149, Message: Adding income from salary
+Year: 2056, Transaction Type: INVEST, Amount: 2146620.8471391606, Message: Updating investment S&P 500 non-retirement
+Year: 2056, Transaction Type: INVEST, Amount: 298152.9627238581, Message: Updating investment tax-exempt bonds
+Year: 2056, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2056, Transaction Type: INVEST, Amount: 1609205.7066727013, Message: Updating investment S&P 500 after-tax
+Year: 2056, Transaction Type: INVEST, Amount: 13966.307086359724, Message: Total generated income from updating investments
+Year: 2056, Transaction Type: INCOME, Amount: 13966.307086359724, Message: New total income for current year: 111631.18
+Year: 2056, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1609205.7066727013, remaining RC value: 23303.156466005326
+Year: 2056, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2056, Transaction Type: EXPENSE, Amount: 12875.413778425567, Message: Adding discretionary expense from food
+Year: 2056, Transaction Type: EXPENSE, Amount: 12875.413778425567, Message: Total non-discretionary expenses
+Year: 2056, Transaction Type: EXPENSE, Amount: 3090.099306822134, Message: Adding discretionary expense from vacation
+Year: 2056, Transaction Type: EXPENSE, Amount: 1287.5413778425564, Message: Adding discretionary expense from streaming services
+Year: 2056, Transaction Type: EXPENSE, Amount: {'vacation': 3090.099306822134, 'streaming services': 1287.5413778425564}, Message: Total discretionary expenses
+Year: 2056, Transaction Type: TAX, Amount: 3800.89, Message: Subtracting previous year federal tax
+Year: 2056, Transaction Type: TAX, Amount: 5274.34, Message: Subtracting previous year state tax
+Year: 2056, Transaction Type: EXPENSE, Amount: 12875.413778425567, Message: Subtracting non-discretionary expenses
+Year: 2056, Transaction Type: EXPENSE, Amount: 3090.1, Message: Paying vacation. Cash remaining: 1501803.6099999999
+Year: 2056, Transaction Type: EXPENSE, Amount: 1287.54, Message: Paying streaming services. Cash remaining: 1498713.5099999998
+Year: 2056, Transaction Type: TAX, Amount: 3643.88, Message: Federal Income Tax Calculated
+Year: 2056, Transaction Type: INCOME, Amount: 13966.307086359724, Message: Capital Gains Total Income
+Year: 2056, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3643.88
+Year: 2056, Transaction Type: TAX, Amount: 5283.5, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2057, Transaction Type: INCOME, Amount: 112717.80431250553, Message: Adding income from salary
+Year: 2057, Transaction Type: INVEST, Amount: 2274295.916346919, Message: Updating investment S&P 500 non-retirement
+Year: 2057, Transaction Type: INVEST, Amount: 307674.2475978113, Message: Updating investment tax-exempt bonds
+Year: 2057, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2057, Transaction Type: INVEST, Amount: 1694906.689718857, Message: Updating investment S&P 500 after-tax
+Year: 2057, Transaction Type: INVEST, Amount: 37329.91133613058, Message: Total generated income from updating investments
+Year: 2057, Transaction Type: INCOME, Amount: 37329.91133613058, Message: New total income for current year: 112717.8
+Year: 2057, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1694906.689718857, remaining RC value: 26264.568959985474
+Year: 2057, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2057, Transaction Type: EXPENSE, Amount: 13261.676191778335, Message: Adding discretionary expense from food
+Year: 2057, Transaction Type: EXPENSE, Amount: 13261.676191778335, Message: Total non-discretionary expenses
+Year: 2057, Transaction Type: EXPENSE, Amount: 3182.8022860267984, Message: Adding discretionary expense from vacation
+Year: 2057, Transaction Type: EXPENSE, Amount: 1326.167619177833, Message: Adding discretionary expense from streaming services
+Year: 2057, Transaction Type: EXPENSE, Amount: {'vacation': 3182.8022860267984, 'streaming services': 1326.167619177833}, Message: Total discretionary expenses
+Year: 2057, Transaction Type: TAX, Amount: 3643.88, Message: Subtracting previous year federal tax
+Year: 2057, Transaction Type: TAX, Amount: 5283.5, Message: Subtracting previous year state tax
+Year: 2057, Transaction Type: EXPENSE, Amount: 13261.676191778335, Message: Subtracting non-discretionary expenses
+Year: 2057, Transaction Type: EXPENSE, Amount: 3182.8, Message: Paying vacation. Cash remaining: 1587954.7099999997
+Year: 2057, Transaction Type: EXPENSE, Amount: 1326.17, Message: Paying streaming services. Cash remaining: 1584771.9099999997
+Year: 2057, Transaction Type: TAX, Amount: 3526.96, Message: Federal Income Tax Calculated
+Year: 2057, Transaction Type: INCOME, Amount: 37329.91133613058, Message: Capital Gains Total Income
+Year: 2057, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3526.96
+Year: 2057, Transaction Type: TAX, Amount: 5317.58, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2058, Transaction Type: INCOME, Amount: 113620.6510577429, Message: Adding income from salary
+Year: 2058, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 73
+Year: 2058, Transaction Type: INVEST, Amount: 2407215.882531731, Message: Updating investment S&P 500 non-retirement
+Year: 2058, Transaction Type: INVEST, Amount: 318002.47233502864, Message: Updating investment tax-exempt bonds
+Year: 2058, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2058, Transaction Type: INVEST, Amount: 1852655.1819811864, Message: Updating investment S&P 500 after-tax
+Year: 2058, Transaction Type: INVEST, Amount: 17536.23430810992, Message: Total generated income from updating investments
+Year: 2058, Transaction Type: INCOME, Amount: 17536.23430810992, Message: New total income for current year: 113620.65
+Year: 2058, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1852655.1819811864, remaining RC value: 29531.19462878505
+Year: 2058, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2058, Transaction Type: EXPENSE, Amount: 13659.526477531686, Message: Adding discretionary expense from food
+Year: 2058, Transaction Type: EXPENSE, Amount: 13659.526477531686, Message: Total non-discretionary expenses
+Year: 2058, Transaction Type: EXPENSE, Amount: 3278.2863546076023, Message: Adding discretionary expense from vacation
+Year: 2058, Transaction Type: EXPENSE, Amount: 1365.952647753168, Message: Adding discretionary expense from streaming services
+Year: 2058, Transaction Type: EXPENSE, Amount: {'vacation': 3278.2863546076023, 'streaming services': 1365.952647753168}, Message: Total discretionary expenses
+Year: 2058, Transaction Type: TAX, Amount: 3526.96, Message: Subtracting previous year federal tax
+Year: 2058, Transaction Type: TAX, Amount: 5317.58, Message: Subtracting previous year state tax
+Year: 2058, Transaction Type: EXPENSE, Amount: 13659.526477531686, Message: Subtracting non-discretionary expenses
+Year: 2058, Transaction Type: EXPENSE, Amount: 3278.29, Message: Paying vacation. Cash remaining: 1674562.3199999996
+Year: 2058, Transaction Type: EXPENSE, Amount: 1365.95, Message: Paying streaming services. Cash remaining: 1671284.0299999996
+Year: 2058, Transaction Type: TAX, Amount: 3384.9, Message: Federal Income Tax Calculated
+Year: 2058, Transaction Type: INCOME, Amount: 17536.23430810992, Message: Capital Gains Total Income
+Year: 2058, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3384.9
+Year: 2058, Transaction Type: TAX, Amount: 5340.78, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2059, Transaction Type: INCOME, Amount: 114898.81756019467, Message: Adding income from salary
+Year: 2059, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 74
+Year: 2059, Transaction Type: INVEST, Amount: 2532896.916768872, Message: Updating investment S&P 500 non-retirement
+Year: 2059, Transaction Type: INVEST, Amount: 319299.1674773176, Message: Updating investment tax-exempt bonds
+Year: 2059, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2059, Transaction Type: INVEST, Amount: 1935145.2952625498, Message: Updating investment S&P 500 after-tax
+Year: 2059, Transaction Type: INVEST, Amount: 30480.72172562058, Message: Total generated income from updating investments
+Year: 2059, Transaction Type: INCOME, Amount: 30480.72172562058, Message: New total income for current year: 114898.82
+Year: 2059, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 1935145.2952625498, remaining RC value: 32547.5836676486
+Year: 2059, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2059, Transaction Type: EXPENSE, Amount: 14069.312271857638, Message: Adding discretionary expense from food
+Year: 2059, Transaction Type: EXPENSE, Amount: 14069.312271857638, Message: Total non-discretionary expenses
+Year: 2059, Transaction Type: EXPENSE, Amount: 3376.6349452458303, Message: Adding discretionary expense from vacation
+Year: 2059, Transaction Type: EXPENSE, Amount: 1406.9312271857632, Message: Adding discretionary expense from streaming services
+Year: 2059, Transaction Type: EXPENSE, Amount: {'vacation': 3376.6349452458303, 'streaming services': 1406.9312271857632}, Message: Total discretionary expenses
+Year: 2059, Transaction Type: TAX, Amount: 3384.9, Message: Subtracting previous year federal tax
+Year: 2059, Transaction Type: TAX, Amount: 5340.78, Message: Subtracting previous year state tax
+Year: 2059, Transaction Type: EXPENSE, Amount: 14069.312271857638, Message: Subtracting non-discretionary expenses
+Year: 2059, Transaction Type: EXPENSE, Amount: 3376.63, Message: Paying vacation. Cash remaining: 1762021.9099999997
+Year: 2059, Transaction Type: EXPENSE, Amount: 1406.93, Message: Paying streaming services. Cash remaining: 1758645.2799999998
+Year: 2059, Transaction Type: TAX, Amount: 3273.4, Message: Federal Income Tax Calculated
+Year: 2059, Transaction Type: INCOME, Amount: 30480.72172562058, Message: Capital Gains Total Income
+Year: 2059, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3273.4
+Year: 2059, Transaction Type: TAX, Amount: 5383.83, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2060, Transaction Type: INCOME, Amount: 116038.6145412942, Message: Adding income from salary
+Year: 2060, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 75
+Year: 2060, Transaction Type: INVEST, Amount: 2747671.1725079, Message: Updating investment S&P 500 non-retirement
+Year: 2060, Transaction Type: INVEST, Amount: 325673.817584452, Message: Updating investment tax-exempt bonds
+Year: 2060, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2060, Transaction Type: INVEST, Amount: 2060757.0464977738, Message: Updating investment S&P 500 after-tax
+Year: 2060, Transaction Type: INVEST, Amount: 35637.063470949564, Message: Total generated income from updating investments
+Year: 2060, Transaction Type: INCOME, Amount: 35637.063470949564, Message: New total income for current year: 116038.61
+Year: 2060, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 2060757.0464977738, remaining RC value: 35831.187177678075
+Year: 2060, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2060, Transaction Type: EXPENSE, Amount: 14491.391640013368, Message: Adding discretionary expense from food
+Year: 2060, Transaction Type: EXPENSE, Amount: 14491.391640013368, Message: Total non-discretionary expenses
+Year: 2060, Transaction Type: EXPENSE, Amount: 3477.933993603205, Message: Adding discretionary expense from vacation
+Year: 2060, Transaction Type: EXPENSE, Amount: 1449.1391640013362, Message: Adding discretionary expense from streaming services
+Year: 2060, Transaction Type: EXPENSE, Amount: {'vacation': 3477.933993603205, 'streaming services': 1449.1391640013362}, Message: Total discretionary expenses
+Year: 2060, Transaction Type: TAX, Amount: 3273.4, Message: Subtracting previous year federal tax
+Year: 2060, Transaction Type: TAX, Amount: 5383.83, Message: Subtracting previous year state tax
+Year: 2060, Transaction Type: EXPENSE, Amount: 14491.391640013368, Message: Subtracting non-discretionary expenses
+Year: 2060, Transaction Type: EXPENSE, Amount: 3477.93, Message: Paying vacation. Cash remaining: 1850128.3399999999
+Year: 2060, Transaction Type: EXPENSE, Amount: 1449.14, Message: Paying streaming services. Cash remaining: 1846650.41
+Year: 2060, Transaction Type: TAX, Amount: 3140.89, Message: Federal Income Tax Calculated
+Year: 2060, Transaction Type: INCOME, Amount: 35637.063470949564, Message: Capital Gains Total Income
+Year: 2060, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3140.89
+Year: 2060, Transaction Type: TAX, Amount: 5418.45, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2061, Transaction Type: INCOME, Amount: 117411.09859307129, Message: Adding income from salary
+Year: 2061, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 76
+Year: 2061, Transaction Type: INVEST, Amount: 2898554.288668023, Message: Updating investment S&P 500 non-retirement
+Year: 2061, Transaction Type: INVEST, Amount: 336102.89747624553, Message: Updating investment tax-exempt bonds
+Year: 2061, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2061, Transaction Type: INVEST, Amount: 2223460.641120833, Message: Updating investment S&P 500 after-tax
+Year: 2061, Transaction Type: INVEST, Amount: 31259.997197457957, Message: Total generated income from updating investments
+Year: 2061, Transaction Type: INCOME, Amount: 31259.997197457957, Message: New total income for current year: 117411.1
+Year: 2061, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 2223460.641120833, remaining RC value: 39014.788993008406
+Year: 2061, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2061, Transaction Type: EXPENSE, Amount: 14926.133389213768, Message: Adding discretionary expense from food
+Year: 2061, Transaction Type: EXPENSE, Amount: 14926.133389213768, Message: Total non-discretionary expenses
+Year: 2061, Transaction Type: EXPENSE, Amount: 3582.2720134113015, Message: Adding discretionary expense from vacation
+Year: 2061, Transaction Type: EXPENSE, Amount: 1492.6133389213762, Message: Adding discretionary expense from streaming services
+Year: 2061, Transaction Type: EXPENSE, Amount: {'vacation': 3582.2720134113015, 'streaming services': 1492.6133389213762}, Message: Total discretionary expenses
+Year: 2061, Transaction Type: TAX, Amount: 3140.89, Message: Subtracting previous year federal tax
+Year: 2061, Transaction Type: TAX, Amount: 5418.45, Message: Subtracting previous year state tax
+Year: 2061, Transaction Type: EXPENSE, Amount: 14926.133389213768, Message: Subtracting non-discretionary expenses
+Year: 2061, Transaction Type: EXPENSE, Amount: 3582.27, Message: Paying vacation. Cash remaining: 1939126.9000000001
+Year: 2061, Transaction Type: EXPENSE, Amount: 1492.61, Message: Paying streaming services. Cash remaining: 1935544.6300000001
+Year: 2061, Transaction Type: TAX, Amount: 3024.25, Message: Federal Income Tax Calculated
+Year: 2061, Transaction Type: INCOME, Amount: 31259.997197457957, Message: Capital Gains Total Income
+Year: 2061, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 3024.25
+Year: 2061, Transaction Type: TAX, Amount: 5465.02, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2062, Transaction Type: INCOME, Amount: 118691.74047126903, Message: Adding income from salary
+Year: 2062, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 77
+Year: 2062, Transaction Type: INVEST, Amount: 3090049.853301709, Message: Updating investment S&P 500 non-retirement
+Year: 2062, Transaction Type: INVEST, Amount: 343433.9644239501, Message: Updating investment tax-exempt bonds
+Year: 2062, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2062, Transaction Type: INVEST, Amount: 2461878.099596148, Message: Updating investment S&P 500 after-tax
+Year: 2062, Transaction Type: INVEST, Amount: 26521.350881767008, Message: Total generated income from updating investments
+Year: 2062, Transaction Type: INCOME, Amount: 26521.350881767008, Message: New total income for current year: 118691.74
+Year: 2062, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 2461878.099596148, remaining RC value: 42426.927562798664
+Year: 2062, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2062, Transaction Type: EXPENSE, Amount: 15373.917390890181, Message: Adding discretionary expense from food
+Year: 2062, Transaction Type: EXPENSE, Amount: 15373.917390890181, Message: Total non-discretionary expenses
+Year: 2062, Transaction Type: EXPENSE, Amount: 3689.7401738136405, Message: Adding discretionary expense from vacation
+Year: 2062, Transaction Type: EXPENSE, Amount: 1537.3917390890176, Message: Adding discretionary expense from streaming services
+Year: 2062, Transaction Type: EXPENSE, Amount: {'vacation': 3689.7401738136405, 'streaming services': 1537.3917390890176}, Message: Total discretionary expenses
+Year: 2062, Transaction Type: TAX, Amount: 3024.25, Message: Subtracting previous year federal tax
+Year: 2062, Transaction Type: TAX, Amount: 5465.02, Message: Subtracting previous year state tax
+Year: 2062, Transaction Type: EXPENSE, Amount: 15373.917390890181, Message: Subtracting non-discretionary expenses
+Year: 2062, Transaction Type: EXPENSE, Amount: 3689.74, Message: Paying vacation. Cash remaining: 2028880.57
+Year: 2062, Transaction Type: EXPENSE, Amount: 1537.39, Message: Paying streaming services. Cash remaining: 2025190.83
+Year: 2062, Transaction Type: TAX, Amount: 2890.81, Message: Federal Income Tax Calculated
+Year: 2062, Transaction Type: INCOME, Amount: 26521.350881767008, Message: Capital Gains Total Income
+Year: 2062, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 2890.81
+Year: 2062, Transaction Type: TAX, Amount: 5505.68, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2063, Transaction Type: INCOME, Amount: 120527.11591068338, Message: Adding income from salary
+Year: 2063, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 78
+Year: 2063, Transaction Type: INVEST, Amount: 3328889.4283127813, Message: Updating investment S&P 500 non-retirement
+Year: 2063, Transaction Type: INVEST, Amount: 350083.06970928796, Message: Updating investment tax-exempt bonds
+Year: 2063, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2063, Transaction Type: INVEST, Amount: 2637530.846938219, Message: Updating investment S&P 500 after-tax
+Year: 2063, Transaction Type: INVEST, Amount: 35264.258368545634, Message: Total generated income from updating investments
+Year: 2063, Transaction Type: INCOME, Amount: 35264.258368545634, Message: New total income for current year: 120527.12
+Year: 2063, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 2637530.846938219, remaining RC value: 45425.10788968262
+Year: 2063, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2063, Transaction Type: EXPENSE, Amount: 15835.134912616886, Message: Adding discretionary expense from food
+Year: 2063, Transaction Type: EXPENSE, Amount: 15835.134912616886, Message: Total non-discretionary expenses
+Year: 2063, Transaction Type: EXPENSE, Amount: 3800.4323790280496, Message: Adding discretionary expense from vacation
+Year: 2063, Transaction Type: EXPENSE, Amount: 1583.5134912616882, Message: Adding discretionary expense from streaming services
+Year: 2063, Transaction Type: EXPENSE, Amount: {'vacation': 3800.4323790280496, 'streaming services': 1583.5134912616882}, Message: Total discretionary expenses
+Year: 2063, Transaction Type: TAX, Amount: 2890.81, Message: Subtracting previous year federal tax
+Year: 2063, Transaction Type: TAX, Amount: 5505.68, Message: Subtracting previous year state tax
+Year: 2063, Transaction Type: EXPENSE, Amount: 15835.134912616886, Message: Subtracting non-discretionary expenses
+Year: 2063, Transaction Type: EXPENSE, Amount: 3800.43, Message: Paying vacation. Cash remaining: 2119948.94
+Year: 2063, Transaction Type: EXPENSE, Amount: 1583.51, Message: Paying streaming services. Cash remaining: 2116148.51
+Year: 2063, Transaction Type: TAX, Amount: 2804.99, Message: Federal Income Tax Calculated
+Year: 2063, Transaction Type: INCOME, Amount: 35264.258368545634, Message: Capital Gains Total Income
+Year: 2063, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 2804.99
+Year: 2063, Transaction Type: TAX, Amount: 5575.96, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2064, Transaction Type: INCOME, Amount: 121809.80275349686, Message: Adding income from salary
+Year: 2064, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 79
+Year: 2064, Transaction Type: INVEST, Amount: 3422287.2929920903, Message: Updating investment S&P 500 non-retirement
+Year: 2064, Transaction Type: INVEST, Amount: 362765.48413776647, Message: Updating investment tax-exempt bonds
+Year: 2064, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2064, Transaction Type: INVEST, Amount: 2905381.409375895, Message: Updating investment S&P 500 after-tax
+Year: 2064, Transaction Type: INVEST, Amount: 45063.32460497813, Message: Total generated income from updating investments
+Year: 2064, Transaction Type: INCOME, Amount: 45063.32460497813, Message: New total income for current year: 121809.8
+Year: 2064, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 2905381.409375895, remaining RC value: 49120.9935263731
+Year: 2064, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2064, Transaction Type: EXPENSE, Amount: 16310.188959995394, Message: Adding discretionary expense from food
+Year: 2064, Transaction Type: EXPENSE, Amount: 16310.188959995394, Message: Total non-discretionary expenses
+Year: 2064, Transaction Type: EXPENSE, Amount: 3914.445350398891, Message: Adding discretionary expense from vacation
+Year: 2064, Transaction Type: EXPENSE, Amount: 1631.018895999539, Message: Adding discretionary expense from streaming services
+Year: 2064, Transaction Type: EXPENSE, Amount: {'vacation': 3914.445350398891, 'streaming services': 1631.018895999539}, Message: Total discretionary expenses
+Year: 2064, Transaction Type: TAX, Amount: 2804.99, Message: Subtracting previous year federal tax
+Year: 2064, Transaction Type: TAX, Amount: 5575.96, Message: Subtracting previous year state tax
+Year: 2064, Transaction Type: EXPENSE, Amount: 16310.188959995394, Message: Subtracting non-discretionary expenses
+Year: 2064, Transaction Type: EXPENSE, Amount: 3914.45, Message: Paying vacation. Cash remaining: 2211683.6599999997
+Year: 2064, Transaction Type: EXPENSE, Amount: 1631.02, Message: Paying streaming services. Cash remaining: 2207769.2099999995
+Year: 2064, Transaction Type: TAX, Amount: 2655.83, Message: Federal Income Tax Calculated
+Year: 2064, Transaction Type: INCOME, Amount: 45063.32460497813, Message: Capital Gains Total Income
+Year: 2064, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 2655.83
+Year: 2064, Transaction Type: TAX, Amount: 5614.91, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2065, Transaction Type: INCOME, Amount: 123026.84493275503, Message: Adding income from salary
+Year: 2065, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 80
+Year: 2065, Transaction Type: INVEST, Amount: 3606012.7919358537, Message: Updating investment S&P 500 non-retirement
+Year: 2065, Transaction Type: INVEST, Amount: 370343.17483802204, Message: Updating investment tax-exempt bonds
+Year: 2065, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2065, Transaction Type: INVEST, Amount: 3102085.9162289845, Message: Updating investment S&P 500 after-tax
+Year: 2065, Transaction Type: INVEST, Amount: 35927.750898061284, Message: Total generated income from updating investments
+Year: 2065, Transaction Type: INCOME, Amount: 35927.750898061284, Message: New total income for current year: 123026.84
+Year: 2065, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 3102085.9162289845, remaining RC value: 53031.87863216431
+Year: 2065, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2065, Transaction Type: EXPENSE, Amount: 16799.494628795255, Message: Adding discretionary expense from food
+Year: 2065, Transaction Type: EXPENSE, Amount: 16799.494628795255, Message: Total non-discretionary expenses
+Year: 2065, Transaction Type: EXPENSE, Amount: 4031.878710910858, Message: Adding discretionary expense from vacation
+Year: 2065, Transaction Type: EXPENSE, Amount: 1679.949462879525, Message: Adding discretionary expense from streaming services
+Year: 2065, Transaction Type: EXPENSE, Amount: {'vacation': 4031.878710910858, 'streaming services': 1679.949462879525}, Message: Total discretionary expenses
+Year: 2065, Transaction Type: TAX, Amount: 2655.83, Message: Subtracting previous year federal tax
+Year: 2065, Transaction Type: TAX, Amount: 5614.91, Message: Subtracting previous year state tax
+Year: 2065, Transaction Type: EXPENSE, Amount: 16799.494628795255, Message: Subtracting non-discretionary expenses
+Year: 2065, Transaction Type: EXPENSE, Amount: 4031.88, Message: Paying vacation. Cash remaining: 2304094.7999999993
+Year: 2065, Transaction Type: EXPENSE, Amount: 1679.95, Message: Paying streaming services. Cash remaining: 2300062.9199999995
+Year: 2065, Transaction Type: TAX, Amount: 2491.78, Message: Federal Income Tax Calculated
+Year: 2065, Transaction Type: INCOME, Amount: 35927.750898061284, Message: Capital Gains Total Income
+Year: 2065, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 2491.78
+Year: 2065, Transaction Type: TAX, Amount: 5649.31, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2066, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 81
+Year: 2066, Transaction Type: INVEST, Amount: 3931968.157747484, Message: Updating investment S&P 500 non-retirement
+Year: 2066, Transaction Type: INVEST, Amount: 377808.9946487598, Message: Updating investment tax-exempt bonds
+Year: 2066, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2066, Transaction Type: INVEST, Amount: 3496563.659065114, Message: Updating investment S&P 500 after-tax
+Year: 2066, Transaction Type: INVEST, Amount: 19841.916870850033, Message: Total generated income from updating investments
+Year: 2066, Transaction Type: INCOME, Amount: 19841.916870850033, Message: New total income for current year: 0.0
+Year: 2066, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 3496563.659065114, remaining RC value: 90670.20004556462
+Year: 2066, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2066, Transaction Type: EXPENSE, Amount: 17303.479467659112, Message: Adding discretionary expense from food
+Year: 2066, Transaction Type: EXPENSE, Amount: 17303.479467659112, Message: Total non-discretionary expenses
+Year: 2066, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2066, Transaction Type: TAX, Amount: 2491.78, Message: Subtracting previous year federal tax
+Year: 2066, Transaction Type: TAX, Amount: 5649.31, Message: Subtracting previous year state tax
+Year: 2066, Transaction Type: EXPENSE, Amount: 17303.479467659112, Message: Subtracting non-discretionary expenses
+Year: 2066, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2066, Transaction Type: INCOME, Amount: 19841.916870850033, Message: Capital Gains Total Income
+Year: 2066, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2066, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2067, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 82
+Year: 2067, Transaction Type: INVEST, Amount: 4130794.70586425, Message: Updating investment S&P 500 non-retirement
+Year: 2067, Transaction Type: INVEST, Amount: 386876.6472916868, Message: Updating investment tax-exempt bonds
+Year: 2067, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2067, Transaction Type: INVEST, Amount: 3767910.7988181515, Message: Updating investment S&P 500 after-tax
+Year: 2067, Transaction Type: INVEST, Amount: 38355.567692120865, Message: Total generated income from updating investments
+Year: 2067, Transaction Type: INCOME, Amount: 38355.567692120865, Message: New total income for current year: 0.0
+Year: 2067, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 3767910.7988181515, remaining RC value: 93390.30484693157
+Year: 2067, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2067, Transaction Type: EXPENSE, Amount: 17822.583851688887, Message: Adding discretionary expense from food
+Year: 2067, Transaction Type: EXPENSE, Amount: 17822.583851688887, Message: Total non-discretionary expenses
+Year: 2067, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2067, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2067, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2067, Transaction Type: EXPENSE, Amount: 17822.583851688887, Message: Subtracting non-discretionary expenses
+Year: 2067, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2067, Transaction Type: INCOME, Amount: 38355.567692120865, Message: Capital Gains Total Income
+Year: 2067, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2067, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2068, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 83
+Year: 2068, Transaction Type: INVEST, Amount: 4378317.376437902, Message: Updating investment S&P 500 non-retirement
+Year: 2068, Transaction Type: INVEST, Amount: 401196.27729454613, Message: Updating investment tax-exempt bonds
+Year: 2068, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2068, Transaction Type: INVEST, Amount: 4070413.251761817, Message: Updating investment S&P 500 after-tax
+Year: 2068, Transaction Type: INVEST, Amount: 44360.84035908909, Message: Total generated income from updating investments
+Year: 2068, Transaction Type: INCOME, Amount: 44360.84035908909, Message: New total income for current year: 0.0
+Year: 2068, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 4070413.251761817, remaining RC value: 96192.01319233951
+Year: 2068, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2068, Transaction Type: EXPENSE, Amount: 18357.261367239553, Message: Adding discretionary expense from food
+Year: 2068, Transaction Type: EXPENSE, Amount: 18357.261367239553, Message: Total non-discretionary expenses
+Year: 2068, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2068, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2068, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2068, Transaction Type: EXPENSE, Amount: 18357.261367239553, Message: Subtracting non-discretionary expenses
+Year: 2068, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2068, Transaction Type: INCOME, Amount: 44360.84035908909, Message: Capital Gains Total Income
+Year: 2068, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2068, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2069, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 84
+Year: 2069, Transaction Type: INVEST, Amount: 4598815.250838534, Message: Updating investment S&P 500 non-retirement
+Year: 2069, Transaction Type: INVEST, Amount: 405552.4695919264, Message: Updating investment tax-exempt bonds
+Year: 2069, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2069, Transaction Type: INVEST, Amount: 4299333.088744903, Message: Updating investment S&P 500 after-tax
+Year: 2069, Transaction Type: INVEST, Amount: 25257.631576608834, Message: Total generated income from updating investments
+Year: 2069, Transaction Type: INCOME, Amount: 25257.631576608834, Message: New total income for current year: 0.0
+Year: 2069, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 4299333.088744903, remaining RC value: 99077.7692881097
+Year: 2069, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2069, Transaction Type: EXPENSE, Amount: 18907.97920825674, Message: Adding discretionary expense from food
+Year: 2069, Transaction Type: EXPENSE, Amount: 18907.97920825674, Message: Total non-discretionary expenses
+Year: 2069, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2069, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2069, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2069, Transaction Type: EXPENSE, Amount: 18907.97920825674, Message: Subtracting non-discretionary expenses
+Year: 2069, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2069, Transaction Type: INCOME, Amount: 25257.631576608834, Message: Capital Gains Total Income
+Year: 2069, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2069, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2070, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 85
+Year: 2070, Transaction Type: INVEST, Amount: 4985249.843160655, Message: Updating investment S&P 500 non-retirement
+Year: 2070, Transaction Type: INVEST, Amount: 414903.44715358026, Message: Updating investment tax-exempt bonds
+Year: 2070, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2070, Transaction Type: INVEST, Amount: 4572535.997187253, Message: Updating investment S&P 500 after-tax
+Year: 2070, Transaction Type: INVEST, Amount: 44571.86435779296, Message: Total generated income from updating investments
+Year: 2070, Transaction Type: INCOME, Amount: 44571.86435779296, Message: New total income for current year: 0.0
+Year: 2070, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 4572535.997187253, remaining RC value: 102050.09826675299
+Year: 2070, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2070, Transaction Type: EXPENSE, Amount: 19475.218584504444, Message: Adding discretionary expense from food
+Year: 2070, Transaction Type: EXPENSE, Amount: 19475.218584504444, Message: Total non-discretionary expenses
+Year: 2070, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2070, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2070, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2070, Transaction Type: EXPENSE, Amount: 19475.218584504444, Message: Subtracting non-discretionary expenses
+Year: 2070, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2070, Transaction Type: INCOME, Amount: 44571.86435779296, Message: Capital Gains Total Income
+Year: 2070, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2070, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2071, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 86
+Year: 2071, Transaction Type: INVEST, Amount: 5340428.49921533, Message: Updating investment S&P 500 non-retirement
+Year: 2071, Transaction Type: INVEST, Amount: 424964.6372560793, Message: Updating investment tax-exempt bonds
+Year: 2071, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2071, Transaction Type: INVEST, Amount: 4976894.528650678, Message: Updating investment S&P 500 after-tax
+Year: 2071, Transaction Type: INVEST, Amount: 67675.12774324822, Message: Total generated income from updating investments
+Year: 2071, Transaction Type: INCOME, Amount: 67675.12774324822, Message: New total income for current year: 0.0
+Year: 2071, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 4976894.528650678, remaining RC value: 105111.59741475558
+Year: 2071, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2071, Transaction Type: EXPENSE, Amount: 20059.475142039577, Message: Adding discretionary expense from food
+Year: 2071, Transaction Type: EXPENSE, Amount: 20059.475142039577, Message: Total non-discretionary expenses
+Year: 2071, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2071, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2071, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2071, Transaction Type: EXPENSE, Amount: 20059.475142039577, Message: Subtracting non-discretionary expenses
+Year: 2071, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2071, Transaction Type: INCOME, Amount: 67675.12774324822, Message: Capital Gains Total Income
+Year: 2071, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2071, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2072, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 87
+Year: 2072, Transaction Type: INVEST, Amount: 5710805.221491656, Message: Updating investment S&P 500 non-retirement
+Year: 2072, Transaction Type: INVEST, Amount: 433313.57744885643, Message: Updating investment tax-exempt bonds
+Year: 2072, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2072, Transaction Type: INVEST, Amount: 5302257.639103091, Message: Updating investment S&P 500 after-tax
+Year: 2072, Transaction Type: INVEST, Amount: 91552.91936180509, Message: Total generated income from updating investments
+Year: 2072, Transaction Type: INCOME, Amount: 91552.91936180509, Message: New total income for current year: 0.0
+Year: 2072, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 5302257.639103091, remaining RC value: 108264.94743719825
+Year: 2072, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2072, Transaction Type: EXPENSE, Amount: 20661.259396300764, Message: Adding discretionary expense from food
+Year: 2072, Transaction Type: EXPENSE, Amount: 20661.259396300764, Message: Total non-discretionary expenses
+Year: 2072, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2072, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2072, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2072, Transaction Type: EXPENSE, Amount: 20661.259396300764, Message: Subtracting non-discretionary expenses
+Year: 2072, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2072, Transaction Type: INCOME, Amount: 91552.91936180509, Message: Capital Gains Total Income
+Year: 2072, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2072, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2073, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 88
+Year: 2073, Transaction Type: INVEST, Amount: 6085829.202683471, Message: Updating investment S&P 500 non-retirement
+Year: 2073, Transaction Type: INVEST, Amount: 445501.1940856921, Message: Updating investment tax-exempt bonds
+Year: 2073, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2073, Transaction Type: INVEST, Amount: 5574295.792035592, Message: Updating investment S&P 500 after-tax
+Year: 2073, Transaction Type: INVEST, Amount: 75520.81445562423, Message: Total generated income from updating investments
+Year: 2073, Transaction Type: INCOME, Amount: 75520.81445562423, Message: New total income for current year: 0.0
+Year: 2073, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 5574295.792035592, remaining RC value: 111512.8937603142
+Year: 2073, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2073, Transaction Type: EXPENSE, Amount: 21281.097178189786, Message: Adding discretionary expense from food
+Year: 2073, Transaction Type: EXPENSE, Amount: 21281.097178189786, Message: Total non-discretionary expenses
+Year: 2073, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2073, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2073, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2073, Transaction Type: EXPENSE, Amount: 21281.097178189786, Message: Subtracting non-discretionary expenses
+Year: 2073, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2073, Transaction Type: INCOME, Amount: 75520.81445562423, Message: Capital Gains Total Income
+Year: 2073, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2073, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2074, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 89
+Year: 2074, Transaction Type: INVEST, Amount: 6600391.61806507, Message: Updating investment S&P 500 non-retirement
+Year: 2074, Transaction Type: INVEST, Amount: 456282.11572639213, Message: Updating investment tax-exempt bonds
+Year: 2074, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2074, Transaction Type: INVEST, Amount: 5912246.749428128, Message: Updating investment S&P 500 after-tax
+Year: 2074, Transaction Type: INVEST, Amount: 82221.13110374287, Message: Total generated income from updating investments
+Year: 2074, Transaction Type: INCOME, Amount: 82221.13110374287, Message: New total income for current year: 0.0
+Year: 2074, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 5912246.749428128, remaining RC value: 114858.27787312362
+Year: 2074, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2074, Transaction Type: EXPENSE, Amount: 21919.53009353548, Message: Adding discretionary expense from food
+Year: 2074, Transaction Type: EXPENSE, Amount: 21919.53009353548, Message: Total non-discretionary expenses
+Year: 2074, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2074, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2074, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2074, Transaction Type: EXPENSE, Amount: 21919.53009353548, Message: Subtracting non-discretionary expenses
+Year: 2074, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2074, Transaction Type: INCOME, Amount: 82221.13110374287, Message: Capital Gains Total Income
+Year: 2074, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2074, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2075, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 90
+Year: 2075, Transaction Type: INVEST, Amount: 7210195.663662247, Message: Updating investment S&P 500 non-retirement
+Year: 2075, Transaction Type: INVEST, Amount: 473154.35301324015, Message: Updating investment tax-exempt bonds
+Year: 2075, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2075, Transaction Type: INVEST, Amount: 6285726.19467473, Message: Updating investment S&P 500 after-tax
+Year: 2075, Transaction Type: INVEST, Amount: 92453.64639368306, Message: Total generated income from updating investments
+Year: 2075, Transaction Type: INCOME, Amount: 92453.64639368306, Message: New total income for current year: 0.0
+Year: 2075, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 6285726.19467473, remaining RC value: 118304.02870931732
+Year: 2075, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2075, Transaction Type: EXPENSE, Amount: 22577.115996341545, Message: Adding discretionary expense from food
+Year: 2075, Transaction Type: EXPENSE, Amount: 22577.115996341545, Message: Total non-discretionary expenses
+Year: 2075, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2075, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2075, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2075, Transaction Type: EXPENSE, Amount: 22577.115996341545, Message: Subtracting non-discretionary expenses
+Year: 2075, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2075, Transaction Type: INCOME, Amount: 92453.64639368306, Message: Capital Gains Total Income
+Year: 2075, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2075, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.
+_______________________________________________________
+Year: 2076, Transaction Type: RMD, Amount: 0.0, Message: RMD calculated for age 91
+Year: 2076, Transaction Type: INVEST, Amount: 7714274.746239341, Message: Updating investment S&P 500 non-retirement
+Year: 2076, Transaction Type: INVEST, Amount: 487177.4274469209, Message: Updating investment tax-exempt bonds
+Year: 2076, Transaction Type: INVEST, Amount: 0.0, Message: Updating investment S&P 500 pre-tax
+Year: 2076, Transaction Type: INVEST, Amount: 6649728.382885274, Message: Updating investment S&P 500 after-tax
+Year: 2076, Transaction Type: INVEST, Amount: 19408.73471905818, Message: Total generated income from updating investments
+Year: 2076, Transaction Type: INCOME, Amount: 19408.73471905818, Message: New total income for current year: 0.0
+Year: 2076, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Moving from S&P 500 pre-tax to S&P 500 after-tax. New value: 6649728.382885274, remaining RC value: 121853.15407059685
+Year: 2076, Transaction Type: ROTH CONVERSION, Amount: 0.0, Message: Total converted value from Roth Conversion: 0.0
+Year: 2076, Transaction Type: EXPENSE, Amount: 23254.42947623179, Message: Adding discretionary expense from food
+Year: 2076, Transaction Type: EXPENSE, Amount: 23254.42947623179, Message: Total non-discretionary expenses
+Year: 2076, Transaction Type: EXPENSE, Amount: {}, Message: Total discretionary expenses
+Year: 2076, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year federal tax
+Year: 2076, Transaction Type: TAX, Amount: 0.0, Message: Subtracting previous year state tax
+Year: 2076, Transaction Type: EXPENSE, Amount: 23254.42947623179, Message: Subtracting non-discretionary expenses
+Year: 2076, Transaction Type: TAX, Amount: 0, Message: Federal Income Tax Calculated
+Year: 2076, Transaction Type: INCOME, Amount: 19408.73471905818, Message: Capital Gains Total Income
+Year: 2076, Transaction Type: TAX, Amount: 0.0, Message: Federal Capital Gains Tax Calculated. Total Federal Tax: 0.0
+Year: 2076, Transaction Type: TAX, Amount: 0.0, Message: State Income Tax Calculated.

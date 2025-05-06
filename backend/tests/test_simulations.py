@@ -1,6 +1,6 @@
 import pytest
 
-from muskets.simulations import sample_from_distribution, update_inflation, update_investments, perform_rmd, fed_income_tax, state_income_tax, income_calculation
+from muskets.simulations import sample_from_distribution, update_inflation, update_investments, perform_rmd, fed_income_tax, state_income_tax, rebalance
 from muskets.tax_scraper import read_tax_to_dict,  read_rmd_to_dict
 from tests.utils.yaml_utils import ScenarioYamlUtils
 from tests.utils.compare_utils import assert_is_uniform, assert_within_range, assert_is_normal, compare_dict
@@ -53,10 +53,11 @@ class TestInflation:
     def test_update_inflation(self, create_scenario, inflation_assumption):
         scenario=create_scenario
         marital_status = scenario.get_marital_status()
-        tax_obj = FederalTax()
+        fed_tax = FederalTax()
+        state_tax = StateTax(scenario.get_residence_state())
         event_series = scenario.get_event_series()
         expected_event_series = copy.deepcopy(event_series)
-        inflation_rate=update_inflation(tax_obj, event_series, inflation_assumption)
+        inflation_rate=update_inflation(scenario, fed_tax, state_tax, event_series, inflation_assumption)
         
         # For each event in income or expense event series, ensure that the inflation rate is applied correctly 
         filtered_event_series = [event for event in event_series if event.type in ['income', 'expense']]
@@ -76,14 +77,14 @@ class TestInflation:
         for upper, percentage in init_tax_brackets[marital_status]['income'].items():
             if upper != 'inf': 
                 # Calculate new bracket with inflation 
-                new_upper= upper * (1 + inflation_rate)
+                new_upper= round(upper * (1 + inflation_rate), 2)
                 expected_income_bracket[new_upper] = percentage
             else:
                 expected_income_bracket[upper] = percentage
         
-        print(f"What is income: {tax_obj.bracket}")
+        print(f"What is income: {fed_tax.bracket}")
         # Compare the updated tax brackets with the expected ones 
-        assert compare_dict(tax_obj.bracket[marital_status]['income'], expected_income_bracket) is True
+        assert compare_dict(fed_tax.bracket[marital_status]['income'], expected_income_bracket) is True
 
 class TestRMD: 
     @pytest.mark.parametrize("age", [
@@ -202,7 +203,18 @@ class TestTax:
         else: 
             res = state_income_tax(tax_obj, income, marital_status)
         assert res == tax
-    
+
+class TestInvestment:
+    def test_rebalance(self, create_scenario):
+        scenario = create_scenario
+        investments = scenario.get_investments()
+        event_series = scenario.get_event_series()
+        rebalance_series = [event for event in event_series if event.type=='rebalance']
+        print(f"Rebalance Series: {rebalance_series[0]}")
+        start=sample_from_distribution(rebalance_series[0].start)
+        rebalance_amount = rebalance(rebalance_series, investments, int(start))
+        print(f"Rebalance Amount: {rebalance_amount}")
+        assert rebalance_amount == 0
         
         
         

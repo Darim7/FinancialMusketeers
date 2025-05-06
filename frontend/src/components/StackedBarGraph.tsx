@@ -1,0 +1,342 @@
+import {Chart as ChartJS, registerables } from 'chart.js/auto';
+import { ReactElement } from 'react';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(...registerables);
+
+const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
+    const defaultOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top' as const,
+          },
+        },
+        scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true,
+            },
+          },
+      };  
+
+      console.log(datasets, option,type);
+      const years = Object.keys(datasets);
+      const values = Object.values(datasets);
+
+    const processInvestmentDataAvg = () => {
+      const types = new Set<string>();
+      values.forEach((value:any) => {
+        // console.log(value);
+        value.forEach((x:any) => {
+          Object.keys(x.investment_values).forEach((key:any) => {
+            types.add(key);
+          })
+        })
+      })
+      const investmentTypeArray = Array.from(types);
+      console.log(investmentTypeArray);
+      
+      const investmentData = {}
+      investmentTypeArray.forEach(type => {
+        investmentData[type] = [];
+      });
+
+      console.log(investmentData);
+
+      values.forEach((value:any) => {
+        let curr_val = {}
+        value.forEach((x:any) => {
+          Object.keys(x.investment_values).forEach((key:any) => {
+            if (curr_val[key] === undefined) {
+              curr_val[key] = x.investment_values[key];
+            }
+            else {
+              curr_val[key] += x.investment_values[key];
+            }
+          })
+        })
+        Object.keys(curr_val).forEach((key:any) => {
+          let avg = (curr_val[key] / value.length); 
+          investmentData[key].push(avg);
+        })
+      })
+      console.log(investmentData)
+      return investmentData;
+    }
+
+    const findMedian = (nums:[]) => {
+      console.log("MEDIANNNNNNNN", nums)
+      const sortedArr = [...nums].sort((a, b) => a - b);
+      const middleIndex = Math.floor(sortedArr.length / 2);
+      if (sortedArr.length % 2 !== 0) {
+        return sortedArr[middleIndex];
+      }
+      return (sortedArr[middleIndex - 1] + sortedArr[middleIndex]) / 2;
+    }
+  
+    const processInvestmentDataMedian = () => {
+      const types = new Set<string>();
+      values.forEach((value:any) => {
+        // console.log(value);
+        value.forEach((x:any) => {
+          Object.keys(x.investment_values).forEach((key:any) => {
+            types.add(key);
+          })
+        })
+      })
+      const investmentTypeArray = Array.from(types);
+
+      const investmentData = {}
+      investmentTypeArray.forEach(type => {
+        investmentData[type] = [];
+      });
+
+      values.forEach((value:any) => {
+        let curr_val = {}
+        value.forEach((x:any) => {
+          Object.keys(x.investment_values).forEach((key:any) => {
+            if (curr_val[key] === undefined) {
+              curr_val[key] = [];
+            }
+            curr_val[key].push(x.investment_values[key])
+          })
+        })
+        Object.keys(curr_val).forEach((key:any) => {
+          value = findMedian(curr_val[key]); 
+          investmentData[key].push(value);
+        })
+      })
+      
+      console.log(investmentData)
+      return investmentData;
+    }
+
+    const processIncomeAvg = () => {
+      const types = new Set<string>();
+      values.forEach((value:any) => {
+        // console.log(value);
+        value.forEach((x:any) => {
+          Object.keys(x.income_breakdown).forEach((key:any) => {
+            types.add(key);
+          })
+        })
+      })
+      const incomeTypeArray = Array.from(types);
+      console.log(incomeTypeArray);
+      
+      const incomeData = {}
+      incomeTypeArray.forEach(type => {
+        incomeData[type] = [];
+      });
+
+      console.log(incomeData);
+
+      values.forEach((value:any) => {
+        let curr_val = {}
+        value.forEach((x:any) => {
+          Object.keys(x.income_breakdown).forEach((key:any) => {
+            if (curr_val[key] === undefined) {
+              curr_val[key] = x.income_breakdown[key];
+            }
+            else {
+              curr_val[key] += x.income_breakdown[key];
+            }
+          })
+        })
+        Object.keys(curr_val).forEach((key:any) => {
+          let avg = (curr_val[key] / value.length); 
+          incomeData[key].push(avg);
+        })
+
+
+      })
+      
+      console.log(incomeData)
+      return incomeData;
+    }
+
+    const processIncomeMedian = () => {
+      const types = new Set<string>();
+      values.forEach((value:any) => {
+        // console.log(value);
+        value.forEach((x:any) => {
+          Object.keys(x.income_breakdown).forEach((key:any) => {
+            types.add(key);
+          })
+        })
+      })
+      const incomeTypeArray = Array.from(types);
+
+      const incomeData = {}
+      incomeTypeArray.forEach(type => {
+        incomeData[type] = [];
+      });
+
+      values.forEach((value:any) => {
+        let curr_val = {}
+        value.forEach((x:any) => {
+          Object.keys(x.income_breakdown).forEach((key:any) => {
+            if (curr_val[key] === undefined) {
+              curr_val[key] = [];
+            }
+            curr_val[key].push(x.income_breakdown[key])
+          })
+        })
+        Object.keys(curr_val).forEach((key:any) => {
+          value = findMedian(curr_val[key]); 
+          incomeData[key].push(value);
+        })
+      })
+      
+      console.log(incomeData)
+      return incomeData;
+    }
+
+    const processExpenseDataAvg = () => {
+      const types = new Set<string>();
+      values.forEach((value:any) => {
+        // console.log(value);
+        value.forEach((x:any) => {
+          Object.keys(x.expenses_breakdown).forEach((key:any) => {
+            types.add(key);
+          })
+        })
+      })
+      const expenseTypeArray = Array.from(types);
+      console.log(expenseTypeArray);
+      
+      const expenseData = {}
+      expenseTypeArray.forEach(type => {
+        expenseData[type] = [];
+      });
+
+      console.log(expenseData);
+
+      values.forEach((value:any) => {
+        let curr_val = {}
+        value.forEach((x:any) => {
+          Object.keys(x.expenses_breakdown).forEach((key:any) => {
+            if (curr_val[key] === undefined) {
+              curr_val[key] = x.expenses_breakdown[key];
+            }
+            else {
+              curr_val[key] += x.expenses_breakdown[key];
+            }
+          })
+        })
+        Object.keys(curr_val).forEach((key:any) => {
+          let avg = (curr_val[key] / value.length); 
+          expenseData[key].push(avg);
+        })
+
+
+      })
+      
+      console.log(expenseData)
+      return expenseData;
+    }
+
+    const processExpenseDataMedian = () => {
+      const types = new Set<string>();
+      values.forEach((value:any) => {
+        // console.log(value);
+        value.forEach((x:any) => {
+          Object.keys(x.expenses_breakdown).forEach((key:any) => {
+            types.add(key);
+          })
+        })
+      })
+      const expenseTypeArray = Array.from(types);
+
+      const expenseData = {}
+      expenseTypeArray.forEach(type => {
+        expenseData[type] = [];
+      });
+
+      values.forEach((value:any) => {
+        let curr_val = {}
+        value.forEach((x:any) => {
+          Object.keys(x.expenses_breakdown).forEach((key:any) => {
+            if (curr_val[key] === undefined) {
+              curr_val[key] = [];
+            }
+            curr_val[key].push(x.expenses_breakdown[key])
+          })
+        })
+        Object.keys(curr_val).forEach((key:any) => {
+          value = findMedian(curr_val[key]); 
+          expenseData[key].push(value);
+        })
+      })
+      
+      console.log(expenseData)
+      return expenseData;
+    }
+
+    let cleaned_data;
+
+    if (type === "investment") {
+      if (option === "average") {
+        cleaned_data = processInvestmentDataAvg();
+      }
+      else if (option === "median"){
+        cleaned_data = processInvestmentDataMedian();
+      }
+    }
+    else if (type === "income") {
+      if (option === "average") {
+        cleaned_data = processIncomeAvg();
+      }
+      else if (option === "median"){
+        cleaned_data = processIncomeMedian();
+      }
+    }    
+    else if (type === "expense") {
+      if (option === "average") {
+        cleaned_data = processExpenseDataAvg();
+      }
+      else if (option === "median"){
+        cleaned_data = processExpenseDataMedian();
+      }
+    }
+
+    console.log(cleaned_data);
+
+    function transformDataForChart(cleaned_data: Record<string, number[]> | undefined) {
+      if (!cleaned_data) return { labels: [], datasets: [] };
+      
+      // Create datasets array with proper structure
+      const datasets = Object.keys(cleaned_data).map((key, index) => {
+        return {
+          label: key,
+          data: cleaned_data[key],
+        };
+      });
+      
+      return {
+        labels: years,
+        datasets: datasets
+      };
+    }
+
+    const chartData = transformDataForChart(cleaned_data);
+
+    console.log(chartData);
+
+    return (
+        <>
+        <div style={{ height: '400px', width: '100%' }}>
+          <Bar 
+            data={chartData} 
+            options={defaultOptions}
+          />
+        </div>
+        </>
+    )
+}
+
+export default StackedBarGraph;
