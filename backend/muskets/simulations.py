@@ -640,7 +640,8 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'roth_converted': roth_converted,
         'amount_invested': amount_invested,
         'amount_rebalanced': amount_rebalanced,
-        'financial_goal': currYearSum >= scenario.financial_goal
+        'financial_goal': currYearSum >= scenario.financial_goal,
+        'investment_values': {invest.investment_id: invest.value for invest in investments},
     }
 
 def save_logs_to_csv(logs: list[dict], filename: str) -> None:
