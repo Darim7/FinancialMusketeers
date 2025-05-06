@@ -454,9 +454,9 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
 
     if cash <= 0:
         return 0.0
-
+    logger.info(f"Starting Investments: (cash: {cash})")
     allocation = {invest.investment_id : invest_event.data['assetAllocation'][invest.investment_id] for invest in investments if invest.investment_id in invest_event.data['assetAllocation']}
-
+    logger.info(f"Allocation: {allocation}")
     # Check if already has a glide path if yes and if the gliding allocation is not empty
     # then update the gliding rates
     if invest_event.data['glidePath'] and 'glidingAllocation' in invest_event.data:
@@ -465,6 +465,7 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
             # Allocation used to invest
             invest_event.data['glidingAllocation'][alloc] = invest_event.data['glidingAllocation'][alloc] + invest_event.data['glidingIncrements'][alloc]
         allocation = invest_event.data['glidingAllocation']
+        logger.info(f"Glide Path: {invest_event.data['glidePath']}, Gliding Allocation: {invest_event.data['glidingAllocation']}")
 
     # If not, start with the first allocation and set up the current allocation.
     elif invest_event.data['glidePath'] and 'glidingAllocation' not in invest_event.data:
@@ -480,6 +481,7 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
     
     # Choose the amount to invest.
     cash = max(0, cash - invest_event.data['maxCash'])
+    logger.info(f"Cash to invest: {cash}, max cash: {invest_event.data['maxCash']}")
     if cash <= 0:
         return 0.0
 
@@ -492,6 +494,7 @@ def make_investments(invest_event: EventSeries, investments: list[Investment], y
         invest_amount = cash * allocation[investment.investment_id]
         investment.value += invest_amount
         tot_invested += invest_amount
+        logger.info(f"Investment ID: {investment.investment_id}, Invest Amount: {invest_amount}, Cash: {cash}, Allocation: {allocation[investment.investment_id]}")
 
     return tot_invested
 
@@ -514,10 +517,10 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment], year:
             logger.info(f"Investment ID: {invest.investment_id}, Target Allocation: {target_allocation}, Current Value: {invest.value}, Total Value: {total_value}")
             target_value = total_value * target_allocation
             diff = target_value - invest.value
-            # Process all the sales first, then the purchases.
+            # Process all the sales
             if diff < 0: 
                 invest.value += diff
-                total_value += diff
+                # total_value += diff
                 changed_amount += abs(diff)
                 logger.info(f"Target Value: {target_value}, Difference: {diff}, Changed Amount: {changed_amount}")
                 
@@ -530,7 +533,7 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment], year:
             # Process all the purchases.
             if diff > 0: 
                 invest.value += diff
-                total_value += diff
+                # total_value += diff
                 # changed_amount += abs(diff)
                 logger.info(f"Target Value: {target_value}, Difference: {diff}, Changed Amount: {changed_amount}")
     
