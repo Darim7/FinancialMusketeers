@@ -134,8 +134,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     // investmentValues: [] as any[]
   })
 
- 
-
 
   console.log('LIFE EXPECTANCY:', values.lifeExpectancy)
   
@@ -425,20 +423,36 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         [name]: parsedValue,
       }));
       
-
       saveForms((prevForms: any) =>
         prevForms.map((form: any) =>
-          form._id === formInfo._id
-            ? {
-                ...form,
-                [name]: parsedValue,
-                name: name === 'name' ? value : form.name,
-              }
-            : form
+          {
+            if (userEmail){
+              return form.id === formInfo.id
+              ? {
+                  ...form,
+                  [name]: parsedValue,
+                  name: name === 'name' ? value : form.name,
+                }
+              : form
+            }
+            else {
+              console.log("form id", form)
+              console.log("FORM INFO", formInfo)
+              return form.id === formInfo.id
+              ? {
+                  ...form,
+                  [name]: parsedValue,
+                  name: name === 'name' ? value : form.name,
+                }
+              : form
+            }
+            
+          }
+          
         )
       );
     }
-   
+    
   };
   
 
