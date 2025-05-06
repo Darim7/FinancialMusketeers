@@ -2481,3 +2481,695 @@
 2025-05-05 20:01:28,302 INFO Cash investment value: 2564210.1861484796
 2025-05-05 20:01:28,302 INFO Invested amount: 0.0, Cash investment value: 2564210.1861484796
 2025-05-05 20:01:28,302 INFO Current year net worth: 4884147.803445042, Financial goal: 10000
+2025-05-06 00:00:13,507 INFO #####################################################################################
+2025-05-06 00:00:13,508 INFO Running simulation 1 of 1.
+2025-05-06 00:00:13,550 INFO Running simulation for 46 years.
+2025-05-06 00:00:13,550 INFO User current age: 40, User death age: 80
+2025-05-06 00:00:13,550 INFO Spouse current age: 38, Spouse death age: 84
+2025-05-06 00:00:13,550 INFO Start year: 2025, End year: 2072
+2025-05-06 00:00:13,550 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,550 INFO Running year 2025.
+2025-05-06 00:00:13,550 INFO User age/alive: 40/True and spouse age/alive: 38/True
+2025-05-06 00:00:13,550 INFO Marital status: couple.
+2025-05-06 00:00:13,550 INFO prev_fed_tax: 0. prev_state_tax: 0.
+2025-05-06 00:00:13,550 INFO Gross income: 75933.116325627, Social Security: 0, Current Year Income: 75933.12
+2025-05-06 00:00:13,555 INFO Roth conversion: 51271.880000000005
+2025-05-06 00:00:13,555 INFO Non-discretionary expenses: 5150.0, Discretionary expenses: [1236.0, 515.0]
+2025-05-06 00:00:13,555 INFO Cash investment value: 69268.29391326227
+2025-05-06 00:00:13,555 INFO Invested amount: 0.0, Cash investment value: 69268.29391326227
+2025-05-06 00:00:13,555 INFO Current year net worth: 93145.24392503564, Financial goal: 10000
+2025-05-06 00:00:13,555 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,555 INFO Running year 2026.
+2025-05-06 00:00:13,555 INFO User age/alive: 41/True and spouse age/alive: 39/True
+2025-05-06 00:00:13,555 INFO Marital status: couple.
+2025-05-06 00:00:13,555 INFO prev_fed_tax: 5024.93. prev_state_tax: 3833.85.
+2025-05-06 00:00:13,555 INFO Gross income: 76985.15173867751, Social Security: 0, Current Year Income: 76985.15
+2025-05-06 00:00:13,559 INFO Roth conversion: 54036.0
+2025-05-06 00:00:13,560 INFO Non-discretionary expenses: 5304.5, Discretionary expenses: [1273.08, 530.45]
+2025-05-06 00:00:13,560 INFO Cash investment value: 130384.66554228461
+2025-05-06 00:00:13,560 INFO Invested amount: 0.0, Cash investment value: 130384.66554228461
+2025-05-06 00:00:13,560 INFO Current year net worth: 156325.00159138493, Financial goal: 10000
+2025-05-06 00:00:13,560 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,560 INFO Running year 2027.
+2025-05-06 00:00:13,560 INFO User age/alive: 42/True and spouse age/alive: 40/True
+2025-05-06 00:00:13,560 INFO Marital status: couple.
+2025-05-06 00:00:13,560 INFO prev_fed_tax: 5028.57. prev_state_tax: 3881.43.
+2025-05-06 00:00:13,560 INFO Gross income: 77868.57125009924, Social Security: 0, Current Year Income: 77868.57
+2025-05-06 00:00:13,564 INFO Roth conversion: 57083.2184
+2025-05-06 00:00:13,564 INFO Non-discretionary expenses: 5463.635, Discretionary expenses: [1311.2724, 546.3635]
+2025-05-06 00:00:13,564 INFO Cash investment value: 192195.71576698325
+2025-05-06 00:00:13,564 INFO Invested amount: 0.0, Cash investment value: 192195.71576698325
+2025-05-06 00:00:13,564 INFO Current year net worth: 219975.04305383406, Financial goal: 10000
+2025-05-06 00:00:13,564 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,564 INFO Running year 2028.
+2025-05-06 00:00:13,564 INFO User age/alive: 43/True and spouse age/alive: 41/True
+2025-05-06 00:00:13,564 INFO Marital status: couple.
+2025-05-06 00:00:13,564 INFO prev_fed_tax: 5008.29. prev_state_tax: 3919.44.
+2025-05-06 00:00:13,565 INFO Gross income: 78460.35255866851, Social Security: 0, Current Year Income: 78460.35
+2025-05-06 00:00:13,578 INFO Roth conversion: 60539.987252
+2025-05-06 00:00:13,579 INFO Non-discretionary expenses: 5627.54405, Discretionary expenses: [1350.610572, 562.754405]
+2025-05-06 00:00:13,579 INFO Cash investment value: 254275.5165150482
+2025-05-06 00:00:13,579 INFO Invested amount: 253275.5165150482, Cash investment value: 1000.0
+2025-05-06 00:00:13,579 INFO Current year net worth: 283164.84883936914, Financial goal: 10000
+2025-05-06 00:00:13,579 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,579 INFO Running year 2029.
+2025-05-06 00:00:13,579 INFO User age/alive: 44/True and spouse age/alive: 42/True
+2025-05-06 00:00:13,579 INFO Marital status: couple.
+2025-05-06 00:00:13,579 INFO prev_fed_tax: 4949.22. prev_state_tax: 3941.09.
+2025-05-06 00:00:13,580 INFO Gross income: 79422.47471762779, Social Security: 0, Current Year Income: 79422.47
+2025-05-06 00:00:13,584 INFO Roth conversion: 63747.872969560005
+2025-05-06 00:00:13,584 INFO Non-discretionary expenses: 5796.3703715, Discretionary expenses: [1391.12888916, 579.6370371500001]
+2025-05-06 00:00:13,584 INFO Cash investment value: 64007.89645004781
+2025-05-06 00:00:13,584 INFO Invested amount: 63007.8964500478, Cash investment value: 1000.0000000000073
+2025-05-06 00:00:13,584 INFO Current year net worth: 371307.9445387092, Financial goal: 10000
+2025-05-06 00:00:13,584 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,584 INFO Running year 2030.
+2025-05-06 00:00:13,584 INFO User age/alive: 45/True and spouse age/alive: 43/True
+2025-05-06 00:00:13,584 INFO Marital status: couple.
+2025-05-06 00:00:13,584 INFO prev_fed_tax: 4930.7. prev_state_tax: 3982.78.
+2025-05-06 00:00:13,584 INFO Gross income: 80234.12063851443, Social Security: 0, Current Year Income: 80234.12
+2025-05-06 00:00:13,588 INFO Roth conversion: 67231.33705864682
+2025-05-06 00:00:13,589 INFO Non-discretionary expenses: 5970.261482645, Discretionary expenses: [1432.8627558348, 597.0261482645001]
+2025-05-06 00:00:13,589 INFO Cash investment value: 67619.28706727865
+2025-05-06 00:00:13,589 INFO Invested amount: 66619.28706727865, Cash investment value: 1000.0
+2025-05-06 00:00:13,589 INFO Current year net worth: 432703.0386393181, Financial goal: 10000
+2025-05-06 00:00:13,589 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,589 INFO Running year 2031.
+2025-05-06 00:00:13,589 INFO User age/alive: 46/True and spouse age/alive: 44/True
+2025-05-06 00:00:13,589 INFO Marital status: couple.
+2025-05-06 00:00:13,589 INFO prev_fed_tax: 4890.09. prev_state_tax: 4015.85.
+2025-05-06 00:00:13,589 INFO Gross income: 80953.4433717732, Social Security: 0, Current Year Income: 80953.44
+2025-05-06 00:00:13,592 INFO Roth conversion: 70935.97687040622
+2025-05-06 00:00:13,592 INFO Non-discretionary expenses: 6149.36932712435, Discretionary expenses: [1475.848638509844, 614.9369327124351]
+2025-05-06 00:00:13,592 INFO Cash investment value: 64359.69168451684
+2025-05-06 00:00:13,592 INFO Invested amount: 63359.69168451684, Cash investment value: 1000.0
+2025-05-06 00:00:13,592 INFO Current year net worth: 510050.9795502069, Financial goal: 10000
+2025-05-06 00:00:13,592 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,592 INFO Running year 2032.
+2025-05-06 00:00:13,592 INFO User age/alive: 47/True and spouse age/alive: 45/True
+2025-05-06 00:00:13,592 INFO Marital status: couple.
+2025-05-06 00:00:13,592 INFO prev_fed_tax: 4834.27. prev_state_tax: 4043.51.
+2025-05-06 00:00:13,592 INFO Gross income: 82092.49486134821, Social Security: 0, Current Year Income: 82092.49
+2025-05-06 00:00:13,595 INFO Roth conversion: 74353.60637651841
+2025-05-06 00:00:13,595 INFO Non-discretionary expenses: 6333.850406938081, Discretionary expenses: [1520.1240976651393, 633.3850406938082]
+2025-05-06 00:00:13,595 INFO Cash investment value: 67348.09246309979
+2025-05-06 00:00:13,595 INFO Invested amount: 66348.09246309979, Cash investment value: 1000.0
+2025-05-06 00:00:13,595 INFO Current year net worth: 596778.0541094112, Financial goal: 10000
+2025-05-06 00:00:13,595 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,595 INFO Running year 2033.
+2025-05-06 00:00:13,595 INFO User age/alive: 48/True and spouse age/alive: 46/True
+2025-05-06 00:00:13,595 INFO Marital status: couple.
+2025-05-06 00:00:13,595 INFO prev_fed_tax: 4824.56. prev_state_tax: 4093.89.
+2025-05-06 00:00:13,595 INFO Gross income: 82817.17538292345, Social Security: 0, Current Year Income: 82817.18
+2025-05-06 00:00:13,599 INFO Roth conversion: 78322.29696781398
+2025-05-06 00:00:13,599 INFO Non-discretionary expenses: 6523.865919146223, Discretionary expenses: [1565.7278205950936, 652.3865919146224]
+2025-05-06 00:00:13,599 INFO Cash investment value: 70903.00138081092
+2025-05-06 00:00:13,599 INFO Invested amount: 69903.00138081092, Cash investment value: 1000.0
+2025-05-06 00:00:13,599 INFO Current year net worth: 664417.0328303527, Financial goal: 10000
+2025-05-06 00:00:13,599 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,599 INFO Running year 2034.
+2025-05-06 00:00:13,599 INFO User age/alive: 49/True and spouse age/alive: 47/True
+2025-05-06 00:00:13,599 INFO Marital status: couple.
+2025-05-06 00:00:13,599 INFO prev_fed_tax: 4760.72. prev_state_tax: 4121.11.
+2025-05-06 00:00:13,599 INFO Gross income: 83806.4895695685, Social Security: 0, Current Year Income: 83806.49
+2025-05-06 00:00:13,602 INFO Roth conversion: 82167.16827684839
+2025-05-06 00:00:13,603 INFO Non-discretionary expenses: 6719.58189672061, Discretionary expenses: [1612.6996552129465, 671.958189672061]
+2025-05-06 00:00:13,603 INFO Cash investment value: 73564.82154386152
+2025-05-06 00:00:13,603 INFO Invested amount: 72564.82154386152, Cash investment value: 1000.0
+2025-05-06 00:00:13,603 INFO Current year net worth: 756928.8374951145, Financial goal: 10000
+2025-05-06 00:00:13,603 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,603 INFO Running year 2035.
+2025-05-06 00:00:13,603 INFO User age/alive: 50/True and spouse age/alive: 48/True
+2025-05-06 00:00:13,603 INFO Marital status: couple.
+2025-05-06 00:00:13,603 INFO prev_fed_tax: 4724.12. prev_state_tax: 4162.5.
+2025-05-06 00:00:13,603 INFO Gross income: 85739.1055465556, Social Security: 0, Current Year Income: 85739.11
+2025-05-06 00:00:13,605 INFO Roth conversion: 85213.75902515385
+2025-05-06 00:00:13,605 INFO Non-discretionary expenses: 6921.169353622228, Discretionary expenses: [1661.080644869335, 692.1169353622229]
+2025-05-06 00:00:13,605 INFO Cash investment value: 75344.36002117205
+2025-05-06 00:00:13,605 INFO Invested amount: 74344.36002117205, Cash investment value: 1000.0
+2025-05-06 00:00:13,605 INFO Current year net worth: 835803.1906856792, Financial goal: 10000
+2025-05-06 00:00:13,605 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,605 INFO Running year 2036.
+2025-05-06 00:00:13,605 INFO User age/alive: 51/True and spouse age/alive: 49/True
+2025-05-06 00:00:13,605 INFO Marital status: couple.
+2025-05-06 00:00:13,605 INFO prev_fed_tax: 4796.05. prev_state_tax: 4255.39.
+2025-05-06 00:00:13,605 INFO Gross income: 86998.64581639435, Social Security: 0, Current Year Income: 86998.65
+2025-05-06 00:00:13,607 INFO Roth conversion: 89082.80789590845
+2025-05-06 00:00:13,607 INFO Non-discretionary expenses: 7128.804434230895, Discretionary expenses: [1710.913064215415, 712.8804434230896]
+2025-05-06 00:00:13,608 INFO Cash investment value: 75743.33988632454
+2025-05-06 00:00:13,608 INFO Invested amount: 74743.33988632454, Cash investment value: 1000.0
+2025-05-06 00:00:13,608 INFO Current year net worth: 955771.8262962196, Financial goal: 10000
+2025-05-06 00:00:13,608 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,608 INFO Running year 2037.
+2025-05-06 00:00:13,608 INFO User age/alive: 52/True and spouse age/alive: 50/True
+2025-05-06 00:00:13,608 INFO Marital status: couple.
+2025-05-06 00:00:13,608 INFO prev_fed_tax: 4782.42. prev_state_tax: 4310.86.
+2025-05-06 00:00:13,608 INFO Gross income: 87550.09977371868, Social Security: 0, Current Year Income: 87550.1
+2025-05-06 00:00:13,610 INFO Roth conversion: 93813.8044327857
+2025-05-06 00:00:13,610 INFO Non-discretionary expenses: 7342.668567257822, Discretionary expenses: [1762.2404561418775, 734.2668567257823]
+2025-05-06 00:00:13,610 INFO Cash investment value: 69613.72441148502
+2025-05-06 00:00:13,610 INFO Invested amount: 68613.72441148502, Cash investment value: 1000.0
+2025-05-06 00:00:13,610 INFO Current year net worth: 947204.2045668268, Financial goal: 10000
+2025-05-06 00:00:13,610 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,610 INFO Running year 2038.
+2025-05-06 00:00:13,610 INFO User age/alive: 53/True and spouse age/alive: 51/True
+2025-05-06 00:00:13,610 INFO Marital status: couple.
+2025-05-06 00:00:13,610 INFO prev_fed_tax: 4678.87. prev_state_tax: 4326.97.
+2025-05-06 00:00:13,610 INFO Gross income: 88561.5845525684, Social Security: 0, Current Year Income: 88561.58
+2025-05-06 00:00:13,612 INFO Roth conversion: 98243.23996576929
+2025-05-06 00:00:13,612 INFO Non-discretionary expenses: 7562.948624275557, Discretionary expenses: [1815.1076698261338, 756.2948624275558]
+2025-05-06 00:00:13,612 INFO Cash investment value: 73468.69136799467
+2025-05-06 00:00:13,612 INFO Invested amount: 0.0, Cash investment value: 73468.69136799467
+2025-05-06 00:00:13,613 INFO Current year net worth: 1001982.9973209213, Financial goal: 10000
+2025-05-06 00:00:13,613 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,613 INFO Running year 2039.
+2025-05-06 00:00:13,613 INFO User age/alive: 54/True and spouse age/alive: 52/True
+2025-05-06 00:00:13,613 INFO Marital status: couple.
+2025-05-06 00:00:13,613 INFO prev_fed_tax: 4625.43. prev_state_tax: 4367.95.
+2025-05-06 00:00:13,613 INFO Gross income: 90414.76224092332, Social Security: 0, Current Year Income: 90414.76
+2025-05-06 00:00:13,616 INFO Roth conversion: 101994.20856474238
+2025-05-06 00:00:13,616 INFO Non-discretionary expenses: 7789.837083003825, Discretionary expenses: [1869.5608999209178, 778.9837083003825]
+2025-05-06 00:00:13,616 INFO Cash investment value: 152295.3602012587
+2025-05-06 00:00:13,616 INFO Invested amount: 0.0, Cash investment value: 152295.3602012587
+2025-05-06 00:00:13,616 INFO Current year net worth: 1062728.2738600047, Financial goal: 10000
+2025-05-06 00:00:13,616 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,616 INFO Running year 2040.
+2025-05-06 00:00:13,616 INFO User age/alive: 55/True and spouse age/alive: 53/True
+2025-05-06 00:00:13,616 INFO Marital status: couple.
+2025-05-06 00:00:13,616 INFO prev_fed_tax: 4667.76. prev_state_tax: 4454.79.
+2025-05-06 00:00:13,616 INFO Gross income: 91719.0554609213, Social Security: 0, Current Year Income: 91719.06
+2025-05-06 00:00:13,618 INFO Roth conversion: 106462.17802168464
+2025-05-06 00:00:13,618 INFO Non-discretionary expenses: 8023.53219549394, Discretionary expenses: [1925.6477269185455, 802.353219549394]
+2025-05-06 00:00:13,618 INFO Cash investment value: 226685.6131090267
+2025-05-06 00:00:13,618 INFO Invested amount: 0.0, Cash investment value: 226685.6131090267
+2025-05-06 00:00:13,618 INFO Current year net worth: 1223134.667683431, Financial goal: 10000
+2025-05-06 00:00:13,618 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,618 INFO Running year 2041.
+2025-05-06 00:00:13,618 INFO User age/alive: 56/True and spouse age/alive: 54/True
+2025-05-06 00:00:13,618 INFO Marital status: couple.
+2025-05-06 00:00:13,619 INFO prev_fed_tax: 4638.81. prev_state_tax: 4510.98.
+2025-05-06 00:00:13,619 INFO Gross income: 92505.56698301698, Social Security: 0, Current Year Income: 92505.57
+2025-05-06 00:00:13,621 INFO Roth conversion: 111621.10086233515
+2025-05-06 00:00:13,621 INFO Non-discretionary expenses: 8264.238161358759, Discretionary expenses: [1983.417158726102, 826.4238161358759]
+2025-05-06 00:00:13,621 INFO Cash investment value: 300705.6869246055
+2025-05-06 00:00:13,621 INFO Invested amount: 0.0, Cash investment value: 300705.6869246055
+2025-05-06 00:00:13,621 INFO Current year net worth: 1324950.5223437496, Financial goal: 10000
+2025-05-06 00:00:13,621 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,621 INFO Running year 2042.
+2025-05-06 00:00:13,621 INFO User age/alive: 57/True and spouse age/alive: 55/True
+2025-05-06 00:00:13,621 INFO Marital status: couple.
+2025-05-06 00:00:13,621 INFO prev_fed_tax: 4542.17. prev_state_tax: 4538.23.
+2025-05-06 00:00:13,621 INFO Gross income: 93659.77040311387, Social Security: 0, Current Year Income: 93659.77
+2025-05-06 00:00:13,623 INFO Roth conversion: 116590.70538820521
+2025-05-06 00:00:13,623 INFO Non-discretionary expenses: 8512.165306199522, Discretionary expenses: [2042.919673487885, 851.2165306199522]
+2025-05-06 00:00:13,623 INFO Cash investment value: 378393.863258496
+2025-05-06 00:00:13,623 INFO Invested amount: 0.0, Cash investment value: 378393.863258496
+2025-05-06 00:00:13,623 INFO Current year net worth: 1437797.094093928, Financial goal: 10000
+2025-05-06 00:00:13,623 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,623 INFO Running year 2043.
+2025-05-06 00:00:13,623 INFO User age/alive: 58/True and spouse age/alive: 56/True
+2025-05-06 00:00:13,623 INFO Marital status: couple.
+2025-05-06 00:00:13,623 INFO prev_fed_tax: 4483.92. prev_state_tax: 4585.23.
+2025-05-06 00:00:13,623 INFO Gross income: 95520.78707975095, Social Security: 0, Current Year Income: 95520.79
+2025-05-06 00:00:13,625 INFO Roth conversion: 121037.19674985137
+2025-05-06 00:00:13,625 INFO Non-discretionary expenses: 8767.530265385509, Discretionary expenses: [2104.2072636925213, 876.7530265385508]
+2025-05-06 00:00:13,625 INFO Cash investment value: 461446.3115157163
+2025-05-06 00:00:13,625 INFO Invested amount: 0.0, Cash investment value: 461446.3115157163
+2025-05-06 00:00:13,625 INFO Current year net worth: 1500636.022397938, Financial goal: 10000
+2025-05-06 00:00:13,625 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,625 INFO Running year 2044.
+2025-05-06 00:00:13,625 INFO User age/alive: 59/True and spouse age/alive: 57/True
+2025-05-06 00:00:13,625 INFO Marital status: couple.
+2025-05-06 00:00:13,625 INFO prev_fed_tax: 4504.58. prev_state_tax: 4670.6.
+2025-05-06 00:00:13,626 INFO Gross income: 97464.43452111658, Social Security: 0, Current Year Income: 97464.43
+2025-05-06 00:00:13,628 INFO Roth conversion: 125590.29805234693
+2025-05-06 00:00:13,628 INFO Non-discretionary expenses: 9030.556173347075, Discretionary expenses: [2167.333481603297, 903.0556173347073]
+2025-05-06 00:00:13,628 INFO Cash investment value: 547407.7894763382
+2025-05-06 00:00:13,628 INFO Invested amount: 0.0, Cash investment value: 547407.7894763382
+2025-05-06 00:00:13,628 INFO Current year net worth: 1693259.3750082466, Financial goal: 10000
+2025-05-06 00:00:13,628 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,628 INFO Running year 2045.
+2025-05-06 00:00:13,628 INFO User age/alive: 60/True and spouse age/alive: 58/True
+2025-05-06 00:00:13,628 INFO Marital status: couple.
+2025-05-06 00:00:13,628 INFO prev_fed_tax: 4529.08. prev_state_tax: 4760.01.
+2025-05-06 00:00:13,628 INFO Gross income: 99210.64065365365, Social Security: 0, Current Year Income: 99210.64
+2025-05-06 00:00:13,630 INFO Roth conversion: 130535.73149391732
+2025-05-06 00:00:13,630 INFO Non-discretionary expenses: 9301.472858547488, Discretionary expenses: [2232.353486051396, 930.1472858547486]
+2025-05-06 00:00:13,630 INFO Cash investment value: 636377.4294385535
+2025-05-06 00:00:13,630 INFO Invested amount: 0.0, Cash investment value: 636377.4294385535
+2025-05-06 00:00:13,630 INFO Current year net worth: 1942195.2336549293, Financial goal: 10000
+2025-05-06 00:00:13,630 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,630 INFO Running year 2046.
+2025-05-06 00:00:13,630 INFO User age/alive: 61/True and spouse age/alive: 59/True
+2025-05-06 00:00:13,630 INFO Marital status: couple.
+2025-05-06 00:00:13,630 INFO prev_fed_tax: 4523.63. prev_state_tax: 4838.04.
+2025-05-06 00:00:13,631 INFO Gross income: 100100.37391887716, Social Security: 0, Current Year Income: 100100.37
+2025-05-06 00:00:13,633 INFO Roth conversion: 303.4395387348559
+2025-05-06 00:00:13,633 INFO Non-discretionary expenses: 9580.517044303913, Discretionary expenses: [2299.324090632938, 958.051704430391]
+2025-05-06 00:00:13,633 INFO Cash investment value: 720588.8448984151
+2025-05-06 00:00:13,633 INFO Invested amount: 0.0, Cash investment value: 720588.8448984151
+2025-05-06 00:00:13,633 INFO Current year net worth: 2047483.1219308567, Financial goal: 10000
+2025-05-06 00:00:13,633 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,633 INFO Running year 2047.
+2025-05-06 00:00:13,633 INFO User age/alive: 62/True and spouse age/alive: 60/True
+2025-05-06 00:00:13,633 INFO Marital status: couple.
+2025-05-06 00:00:13,633 INFO prev_fed_tax: 4415.02. prev_state_tax: 4868.42.
+2025-05-06 00:00:13,633 INFO Gross income: 101576.81743359882, Social Security: 0, Current Year Income: 101576.82
+2025-05-06 00:00:13,635 INFO Roth conversion: 1839.1061248968908
+2025-05-06 00:00:13,635 INFO Non-discretionary expenses: 9867.932555633031, Discretionary expenses: [2368.3038133519262, 986.7932555633029]
+2025-05-06 00:00:13,635 INFO Cash investment value: 803979.6419090361
+2025-05-06 00:00:13,635 INFO Invested amount: 0.0, Cash investment value: 803979.6419090361
+2025-05-06 00:00:13,635 INFO Current year net worth: 2153736.074919103, Financial goal: 10000
+2025-05-06 00:00:13,635 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,635 INFO Running year 2048.
+2025-05-06 00:00:13,635 INFO User age/alive: 63/True and spouse age/alive: 61/True
+2025-05-06 00:00:13,635 INFO Marital status: couple.
+2025-05-06 00:00:13,635 INFO prev_fed_tax: 4394.81. prev_state_tax: 4930.51.
+2025-05-06 00:00:13,635 INFO Gross income: 102812.72159125416, Social Security: 0, Current Year Income: 102812.72
+2025-05-06 00:00:13,637 INFO Roth conversion: 3705.6879086438057
+2025-05-06 00:00:13,638 INFO Non-discretionary expenses: 10163.970532302023, Discretionary expenses: [2439.352927752484, 1016.397053230202]
+2025-05-06 00:00:13,638 INFO Cash investment value: 888373.7161618469
+2025-05-06 00:00:13,638 INFO Invested amount: 0.0, Cash investment value: 888373.7161618469
+2025-05-06 00:00:13,638 INFO Current year net worth: 2247582.0851039025, Financial goal: 10000
+2025-05-06 00:00:13,638 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,638 INFO Running year 2049.
+2025-05-06 00:00:13,638 INFO User age/alive: 64/True and spouse age/alive: 62/True
+2025-05-06 00:00:13,638 INFO Marital status: couple.
+2025-05-06 00:00:13,638 INFO prev_fed_tax: 4345.51. prev_state_tax: 4978.8.
+2025-05-06 00:00:13,638 INFO Gross income: 103457.86448699309, Social Security: 0, Current Year Income: 103457.86
+2025-05-06 00:00:13,640 INFO Roth conversion: 6256.095545903125
+2025-05-06 00:00:13,640 INFO Non-discretionary expenses: 10468.889648271084, Discretionary expenses: [2512.5335155850585, 1046.888964827108]
+2025-05-06 00:00:13,640 INFO Cash investment value: 973764.9784720148
+2025-05-06 00:00:13,640 INFO Invested amount: 0.0, Cash investment value: 973764.9784720148
+2025-05-06 00:00:13,640 INFO Current year net worth: 2321313.32583173, Financial goal: 10000
+2025-05-06 00:00:13,640 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,640 INFO Running year 2050.
+2025-05-06 00:00:13,640 INFO User age/alive: 65/True and spouse age/alive: 63/True
+2025-05-06 00:00:13,640 INFO Marital status: couple.
+2025-05-06 00:00:13,640 INFO prev_fed_tax: 4231.95. prev_state_tax: 4994.0.
+2025-05-06 00:00:13,640 INFO Gross income: 104924.25256235403, Social Security: 0, Current Year Income: 104924.25
+2025-05-06 00:00:13,642 INFO Roth conversion: 8081.125012280223
+2025-05-06 00:00:13,642 INFO Non-discretionary expenses: 10782.956337719217, Discretionary expenses: [2587.90952105261, 1078.2956337719213]
+2025-05-06 00:00:13,642 INFO Cash investment value: 1063001.6167951517
+2025-05-06 00:00:13,642 INFO Invested amount: 0.0, Cash investment value: 1063001.6167951517
+2025-05-06 00:00:13,642 INFO Current year net worth: 2352749.796390065, Financial goal: 10000
+2025-05-06 00:00:13,642 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,642 INFO Running year 2051.
+2025-05-06 00:00:13,642 INFO User age/alive: 66/True and spouse age/alive: 64/True
+2025-05-06 00:00:13,642 INFO Marital status: couple.
+2025-05-06 00:00:13,642 INFO prev_fed_tax: 4195.18. prev_state_tax: 5053.77.
+2025-05-06 00:00:13,642 INFO Gross income: 106520.53245467214, Social Security: 0, Current Year Income: 106520.53
+2025-05-06 00:00:13,644 INFO Roth conversion: 9875.00896264863
+2025-05-06 00:00:13,645 INFO Non-discretionary expenses: 11106.445027850794, Discretionary expenses: [2665.5468066841886, 1110.6445027850789]
+2025-05-06 00:00:13,645 INFO Cash investment value: 1154716.668667136
+2025-05-06 00:00:13,645 INFO Invested amount: 0.0, Cash investment value: 1154716.668667136
+2025-05-06 00:00:13,645 INFO Current year net worth: 2411507.1222797935, Financial goal: 10000
+2025-05-06 00:00:13,645 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,645 INFO Running year 2052.
+2025-05-06 00:00:13,645 INFO User age/alive: 67/True and spouse age/alive: 65/True
+2025-05-06 00:00:13,645 INFO Marital status: couple.
+2025-05-06 00:00:13,645 INFO prev_fed_tax: 4165.89. prev_state_tax: 5120.05.
+2025-05-06 00:00:13,645 INFO Gross income: 107568.30367744647, Social Security: 0, Current Year Income: 107568.3
+2025-05-06 00:00:13,648 INFO Roth conversion: 12319.10813152809
+2025-05-06 00:00:13,648 INFO Non-discretionary expenses: 11439.638378686317, Discretionary expenses: [2745.513210884714, 1143.9638378686313]
+2025-05-06 00:00:13,648 INFO Cash investment value: 1243863.2643888847
+2025-05-06 00:00:13,648 INFO Invested amount: 0.0, Cash investment value: 1243863.2643888847
+2025-05-06 00:00:13,648 INFO Current year net worth: 2490331.524472637, Financial goal: 10000
+2025-05-06 00:00:13,648 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,648 INFO Running year 2053.
+2025-05-06 00:00:13,648 INFO User age/alive: 68/True and spouse age/alive: 66/True
+2025-05-06 00:00:13,648 INFO Marital status: couple.
+2025-05-06 00:00:13,648 INFO prev_fed_tax: 4076.08. prev_state_tax: 5155.52.
+2025-05-06 00:00:13,648 INFO Gross income: 108121.64640014162, Social Security: 0, Current Year Income: 108121.65
+2025-05-06 00:00:13,650 INFO Roth conversion: 15362.38277547394
+2025-05-06 00:00:13,650 INFO Non-discretionary expenses: 11782.827530046907, Discretionary expenses: [2827.8786072112557, 1178.2827530046902]
+2025-05-06 00:00:13,650 INFO Cash investment value: 1340423.6497546851
+2025-05-06 00:00:13,650 INFO Invested amount: 0.0, Cash investment value: 1340423.6497546851
+2025-05-06 00:00:13,650 INFO Current year net worth: 2656505.7645958653, Financial goal: 10000
+2025-05-06 00:00:13,650 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,651 INFO Running year 2054.
+2025-05-06 00:00:13,651 INFO User age/alive: 69/True and spouse age/alive: 67/True
+2025-05-06 00:00:13,651 INFO Marital status: couple.
+2025-05-06 00:00:13,651 INFO prev_fed_tax: 3930.99. prev_state_tax: 5163.13.
+2025-05-06 00:00:13,651 INFO Gross income: 109773.33107518559, Social Security: 0, Current Year Income: 109773.33
+2025-05-06 00:00:13,653 INFO Roth conversion: 17415.22415873815
+2025-05-06 00:00:13,653 INFO Non-discretionary expenses: 12136.312355948314, Discretionary expenses: [2912.7149654275936, 1213.631235594831]
+2025-05-06 00:00:13,653 INFO Cash investment value: 1438059.257917636
+2025-05-06 00:00:13,653 INFO Invested amount: 0.0, Cash investment value: 1438059.257917636
+2025-05-06 00:00:13,653 INFO Current year net worth: 2743336.428037495, Financial goal: 10000
+2025-05-06 00:00:13,653 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,653 INFO Running year 2055.
+2025-05-06 00:00:13,653 INFO User age/alive: 70/True and spouse age/alive: 68/True
+2025-05-06 00:00:13,653 INFO Marital status: couple.
+2025-05-06 00:00:13,653 INFO prev_fed_tax: 3889.73. prev_state_tax: 5230.47.
+2025-05-06 00:00:13,653 INFO Gross income: 111114.3120409576, Social Security: 0, Current Year Income: 111114.31
+2025-05-06 00:00:13,655 INFO Roth conversion: 19889.89608350031
+2025-05-06 00:00:13,655 INFO Non-discretionary expenses: 12500.401726626764, Discretionary expenses: [3000.0964143904216, 1250.040172662676]
+2025-05-06 00:00:13,655 INFO Cash investment value: 1530590.2168692679
+2025-05-06 00:00:13,655 INFO Invested amount: 0.0, Cash investment value: 1530590.2168692679
+2025-05-06 00:00:13,655 INFO Current year net worth: 2892390.9636712815, Financial goal: 10000
+2025-05-06 00:00:13,655 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,655 INFO Running year 2056.
+2025-05-06 00:00:13,655 INFO User age/alive: 71/True and spouse age/alive: 69/True
+2025-05-06 00:00:13,655 INFO Marital status: couple.
+2025-05-06 00:00:13,655 INFO prev_fed_tax: 3811.2. prev_state_tax: 5280.01.
+2025-05-06 00:00:13,655 INFO Gross income: 111930.33371886154, Social Security: 0, Current Year Income: 111930.33
+2025-05-06 00:00:13,657 INFO Roth conversion: 23004.006466005318
+2025-05-06 00:00:13,657 INFO Non-discretionary expenses: 12875.413778425567, Discretionary expenses: [3090.099306822134, 1287.5413778425564]
+2025-05-06 00:00:13,657 INFO Cash investment value: 1624526.9251290504
+2025-05-06 00:00:13,657 INFO Invested amount: 0.0, Cash investment value: 1624526.9251290504
+2025-05-06 00:00:13,657 INFO Current year net worth: 3056011.5923755122, Financial goal: 10000
+2025-05-06 00:00:13,657 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,657 INFO Running year 2057.
+2025-05-06 00:00:13,657 INFO User age/alive: 72/True and spouse age/alive: 70/True
+2025-05-06 00:00:13,657 INFO Marital status: couple.
+2025-05-06 00:00:13,657 INFO prev_fed_tax: 3673.79. prev_state_tax: 5299.95.
+2025-05-06 00:00:13,657 INFO Gross income: 113427.61421566647, Social Security: 0, Current Year Income: 113427.61
+2025-05-06 00:00:13,659 INFO Roth conversion: 25554.758959985476
+2025-05-06 00:00:13,659 INFO Non-discretionary expenses: 13261.676191778335, Discretionary expenses: [3182.8022860267984, 1326.167619177833]
+2025-05-06 00:00:13,659 INFO Cash investment value: 1714719.5011272135
+2025-05-06 00:00:13,659 INFO Invested amount: 0.0, Cash investment value: 1714719.5011272135
+2025-05-06 00:00:13,659 INFO Current year net worth: 3165712.9314540587, Financial goal: 10000
+2025-05-06 00:00:13,659 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,659 INFO Running year 2058.
+2025-05-06 00:00:13,660 INFO User age/alive: 73/True and spouse age/alive: 71/True
+2025-05-06 00:00:13,660 INFO Marital status: couple.
+2025-05-06 00:00:13,660 INFO prev_fed_tax: 3597.94. prev_state_tax: 5356.62.
+2025-05-06 00:00:13,660 INFO Gross income: 115200.96105309264, Social Security: 0, Current Year Income: 115200.96
+2025-05-06 00:00:13,662 INFO Roth conversion: 27950.88462878504
+2025-05-06 00:00:13,662 INFO Non-discretionary expenses: 13659.526477531686, Discretionary expenses: [3278.2863546076023, 1365.952647753168]
+2025-05-06 00:00:13,662 INFO Cash investment value: 1807551.904143406
+2025-05-06 00:00:13,662 INFO Invested amount: 0.0, Cash investment value: 1807551.904143406
+2025-05-06 00:00:13,662 INFO Current year net worth: 3370036.864075473, Financial goal: 10000
+2025-05-06 00:00:13,662 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,662 INFO Running year 2059.
+2025-05-06 00:00:13,662 INFO User age/alive: 74/True and spouse age/alive: 72/True
+2025-05-06 00:00:13,662 INFO Marital status: couple.
+2025-05-06 00:00:13,662 INFO prev_fed_tax: 3542.93. prev_state_tax: 5427.69.
+2025-05-06 00:00:13,662 INFO Gross income: 116928.72909021236, Social Security: 0, Current Year Income: 116928.73
+2025-05-06 00:00:13,665 INFO Roth conversion: 30517.67366764861
+2025-05-06 00:00:13,666 INFO Non-discretionary expenses: 14069.312271857638, Discretionary expenses: [3376.6349452458303, 1406.9312271857632]
+2025-05-06 00:00:13,666 INFO Cash investment value: 1909202.6820464993
+2025-05-06 00:00:13,666 INFO Invested amount: 0.0, Cash investment value: 1909202.6820464993
+2025-05-06 00:00:13,666 INFO Current year net worth: 3552637.75524375, Financial goal: 10000
+2025-05-06 00:00:13,666 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,666 INFO Running year 2060.
+2025-05-06 00:00:13,666 INFO User age/alive: 75/True and spouse age/alive: 73/True
+2025-05-06 00:00:13,666 INFO Marital status: couple.
+2025-05-06 00:00:13,666 INFO prev_fed_tax: 3476.39. prev_state_tax: 5495.47.
+2025-05-06 00:00:13,666 INFO Gross income: 118615.74985860217, Social Security: 0, Current Year Income: 118615.75
+2025-05-06 00:00:13,668 INFO Roth conversion: 33254.047177678076
+2025-05-06 00:00:13,669 INFO Non-discretionary expenses: 14491.391640013368, Discretionary expenses: [3477.933993603205, 1449.1391640013362]
+2025-05-06 00:00:13,669 INFO Cash investment value: 2015757.8828978965
+2025-05-06 00:00:13,669 INFO Invested amount: 0.0, Cash investment value: 2015757.8828978965
+2025-05-06 00:00:13,669 INFO Current year net worth: 3730409.5920416377, Financial goal: 10000
+2025-05-06 00:00:13,669 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,669 INFO Running year 2061.
+2025-05-06 00:00:13,669 INFO User age/alive: 76/True and spouse age/alive: 74/True
+2025-05-06 00:00:13,669 INFO Marital status: couple.
+2025-05-06 00:00:13,669 INFO prev_fed_tax: 3398.6. prev_state_tax: 5560.19.
+2025-05-06 00:00:13,669 INFO Gross income: 119973.62573434762, Social Security: 0, Current Year Income: 119973.63
+2025-05-06 00:00:13,672 INFO Roth conversion: 36452.25899300841
+2025-05-06 00:00:13,672 INFO Non-discretionary expenses: 14926.133389213768, Discretionary expenses: [3582.2720134113015, 1492.6133389213762]
+2025-05-06 00:00:13,672 INFO Cash investment value: 2120755.3668212383
+2025-05-06 00:00:13,672 INFO Invested amount: 0.0, Cash investment value: 2120755.3668212383
+2025-05-06 00:00:13,672 INFO Current year net worth: 3850863.6437001363, Financial goal: 10000
+2025-05-06 00:00:13,672 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,672 INFO Running year 2062.
+2025-05-06 00:00:13,672 INFO User age/alive: 77/True and spouse age/alive: 75/True
+2025-05-06 00:00:13,672 INFO Marital status: couple.
+2025-05-06 00:00:13,672 INFO prev_fed_tax: 3280.5. prev_state_tax: 5605.96.
+2025-05-06 00:00:13,672 INFO Gross income: 121947.87011071434, Social Security: 0, Current Year Income: 121947.87
+2025-05-06 00:00:13,675 INFO Roth conversion: 39170.797562798674
+2025-05-06 00:00:13,675 INFO Non-discretionary expenses: 15373.917390890181, Discretionary expenses: [3689.7401738136405, 1537.3917390890176]
+2025-05-06 00:00:13,675 INFO Cash investment value: 2219487.2106468156
+2025-05-06 00:00:13,675 INFO Invested amount: 0.0, Cash investment value: 2219487.2106468156
+2025-05-06 00:00:13,675 INFO Current year net worth: 4050623.4600060293, Financial goal: 10000
+2025-05-06 00:00:13,675 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,675 INFO Running year 2063.
+2025-05-06 00:00:13,675 INFO User age/alive: 78/True and spouse age/alive: 76/True
+2025-05-06 00:00:13,675 INFO Marital status: couple.
+2025-05-06 00:00:13,675 INFO prev_fed_tax: 3216.42. prev_state_tax: 5684.77.
+2025-05-06 00:00:13,675 INFO Gross income: 123466.09495334623, Social Security: 0, Current Year Income: 123466.09
+2025-05-06 00:00:13,679 INFO Roth conversion: 42486.13788968262
+2025-05-06 00:00:13,679 INFO Non-discretionary expenses: 15835.134912616886, Discretionary expenses: [3800.4323790280496, 1583.5134912616882]
+2025-05-06 00:00:13,679 INFO Cash investment value: 2336530.243104226
+2025-05-06 00:00:13,679 INFO Invested amount: 0.0, Cash investment value: 2336530.243104226
+2025-05-06 00:00:13,679 INFO Current year net worth: 4198399.840362932, Financial goal: 10000
+2025-05-06 00:00:13,679 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,679 INFO Running year 2064.
+2025-05-06 00:00:13,679 INFO User age/alive: 79/True and spouse age/alive: 77/True
+2025-05-06 00:00:13,679 INFO Marital status: couple.
+2025-05-06 00:00:13,679 INFO prev_fed_tax: 3098.89. prev_state_tax: 5737.6.
+2025-05-06 00:00:13,679 INFO Gross income: 124320.17962125983, Social Security: 0, Current Year Income: 124320.18
+2025-05-06 00:00:13,684 INFO Roth conversion: 46610.61352637311
+2025-05-06 00:00:13,685 INFO Non-discretionary expenses: 16310.188959995394, Discretionary expenses: [3914.445350398891, 1631.018895999539]
+2025-05-06 00:00:13,685 INFO Cash investment value: 2445881.6641133167
+2025-05-06 00:00:13,685 INFO Invested amount: 0.0, Cash investment value: 2445881.6641133167
+2025-05-06 00:00:13,685 INFO Current year net worth: 4380162.24970754, Financial goal: 10000
+2025-05-06 00:00:13,685 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,685 INFO Running year 2065.
+2025-05-06 00:00:13,685 INFO User age/alive: 80/True and spouse age/alive: 78/True
+2025-05-06 00:00:13,685 INFO Marital status: couple.
+2025-05-06 00:00:13,685 INFO prev_fed_tax: 2906.87. prev_state_tax: 5752.98.
+2025-05-06 00:00:13,685 INFO Gross income: 124884.81713279664, Social Security: 0, Current Year Income: 124884.82
+2025-05-06 00:00:13,690 INFO Roth conversion: 51173.8986321643
+2025-05-06 00:00:13,690 INFO Non-discretionary expenses: 16799.494628795255, Discretionary expenses: [4031.878710910858, 1679.949462879525]
+2025-05-06 00:00:13,690 INFO Cash investment value: 2548702.094492922
+2025-05-06 00:00:13,690 INFO Invested amount: 0.0, Cash investment value: 2548702.094492922
+2025-05-06 00:00:13,690 INFO Current year net worth: 4559558.7262681695, Financial goal: 10000
+2025-05-06 00:00:13,690 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,690 INFO Running year 2066.
+2025-05-06 00:00:13,690 INFO User age/alive: 81/False and spouse age/alive: 79/True
+2025-05-06 00:00:13,690 INFO Marital status: individual.
+2025-05-06 00:00:13,690 INFO prev_fed_tax: 2677.58. prev_state_tax: 5751.5.
+2025-05-06 00:00:13,690 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 00:00:13,694 INFO Roth conversion: 90670.20004556462
+2025-05-06 00:00:13,694 INFO Non-discretionary expenses: 17303.479467659112, Discretionary expenses: []
+2025-05-06 00:00:13,694 INFO Cash investment value: 2527915.956527526
+2025-05-06 00:00:13,694 INFO Invested amount: 0.0, Cash investment value: 2527915.956527526
+2025-05-06 00:00:13,694 INFO Current year net worth: 4647392.789759148, Financial goal: 10000
+2025-05-06 00:00:13,694 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,694 INFO Running year 2067.
+2025-05-06 00:00:13,694 INFO User age/alive: 82/False and spouse age/alive: 80/True
+2025-05-06 00:00:13,694 INFO Marital status: individual.
+2025-05-06 00:00:13,694 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 00:00:13,694 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 00:00:13,698 INFO Roth conversion: 93390.30484693157
+2025-05-06 00:00:13,698 INFO Non-discretionary expenses: 17822.583851688887, Discretionary expenses: []
+2025-05-06 00:00:13,698 INFO Cash investment value: 2517687.621004124
+2025-05-06 00:00:13,698 INFO Invested amount: 0.0, Cash investment value: 2517687.621004124
+2025-05-06 00:00:13,698 INFO Current year net worth: 4687858.363988896, Financial goal: 10000
+2025-05-06 00:00:13,698 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,698 INFO Running year 2068.
+2025-05-06 00:00:13,699 INFO User age/alive: 83/False and spouse age/alive: 81/True
+2025-05-06 00:00:13,699 INFO Marital status: individual.
+2025-05-06 00:00:13,699 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 00:00:13,699 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 00:00:13,702 INFO Roth conversion: 96192.01319233951
+2025-05-06 00:00:13,702 INFO Non-discretionary expenses: 18357.261367239553, Discretionary expenses: []
+2025-05-06 00:00:13,702 INFO Cash investment value: 2506284.5341230608
+2025-05-06 00:00:13,702 INFO Invested amount: 0.0, Cash investment value: 2506284.5341230608
+2025-05-06 00:00:13,702 INFO Current year net worth: 4587915.241211544, Financial goal: 10000
+2025-05-06 00:00:13,702 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,702 INFO Running year 2069.
+2025-05-06 00:00:13,702 INFO User age/alive: 84/False and spouse age/alive: 82/True
+2025-05-06 00:00:13,702 INFO Marital status: individual.
+2025-05-06 00:00:13,702 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 00:00:13,702 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 00:00:13,705 INFO Roth conversion: 99077.7692881097
+2025-05-06 00:00:13,705 INFO Non-discretionary expenses: 18907.97920825674, Discretionary expenses: []
+2025-05-06 00:00:13,705 INFO Cash investment value: 2510801.862826451
+2025-05-06 00:00:13,705 INFO Invested amount: 0.0, Cash investment value: 2510801.862826451
+2025-05-06 00:00:13,705 INFO Current year net worth: 4707290.976475258, Financial goal: 10000
+2025-05-06 00:00:13,705 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,705 INFO Running year 2070.
+2025-05-06 00:00:13,705 INFO User age/alive: 85/False and spouse age/alive: 83/True
+2025-05-06 00:00:13,705 INFO Marital status: individual.
+2025-05-06 00:00:13,705 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 00:00:13,705 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 00:00:13,707 INFO Roth conversion: 102050.09826675299
+2025-05-06 00:00:13,707 INFO Non-discretionary expenses: 19475.218584504444, Discretionary expenses: []
+2025-05-06 00:00:13,707 INFO Cash investment value: 2500435.316332042
+2025-05-06 00:00:13,707 INFO Invested amount: 0.0, Cash investment value: 2500435.316332042
+2025-05-06 00:00:13,707 INFO Current year net worth: 4767892.28762726, Financial goal: 10000
+2025-05-06 00:00:13,708 INFO ---------------------------------------------------------------------------
+2025-05-06 00:00:13,708 INFO Running year 2071.
+2025-05-06 00:00:13,708 INFO User age/alive: 86/False and spouse age/alive: 84/True
+2025-05-06 00:00:13,708 INFO Marital status: individual.
+2025-05-06 00:00:13,708 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 00:00:13,708 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 00:00:13,710 INFO Roth conversion: 105111.59741475558
+2025-05-06 00:00:13,710 INFO Non-discretionary expenses: 20059.475142039577, Discretionary expenses: []
+2025-05-06 00:00:13,710 INFO Cash investment value: 2493362.1211031284
+2025-05-06 00:00:13,710 INFO Invested amount: 0.0, Cash investment value: 2493362.1211031284
+2025-05-06 00:00:13,710 INFO Current year net worth: 4880440.490361782, Financial goal: 10000
+2025-05-06 00:00:13,710 INFO Starting Flask application
+2025-05-06 00:00:13,718 WARNING  * Debugger is active!
+2025-05-06 00:00:13,719 INFO  * Debugger PIN: 535-072-586
+2025-05-06 00:00:26,917 INFO  * Detected change in '/app/app.py', reloading
+2025-05-06 00:00:27,932 INFO Starting Flask application
+2025-05-06 00:00:27,941 WARNING  * Debugger is active!
+2025-05-06 00:00:27,941 INFO  * Debugger PIN: 535-072-586
+2025-05-06 00:00:28,960 INFO  * Detected change in '/app/app.py', reloading
+2025-05-06 00:00:30,201 INFO Starting Flask application
+2025-05-06 00:00:30,228 WARNING  * Debugger is active!
+2025-05-06 00:00:30,229 INFO  * Debugger PIN: 535-072-586
+2025-05-06 00:00:47,467 INFO Reached import_scenario_guest route.
+2025-05-06 00:00:47,468 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:00:47,468 INFO WHAT IS REQUEST FILE
+2025-05-06 00:00:47,468 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:00:47,482 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f833d368c80>
+2025-05-06 00:00:47,483 INFO 172.18.0.4 - - [06/May/2025 00:00:47] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:01:58,585 INFO Reached import_scenario_guest route.
+2025-05-06 00:01:58,586 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:01:58,587 INFO WHAT IS REQUEST FILE
+2025-05-06 00:01:58,587 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:01:58,598 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83347a0860>
+2025-05-06 00:01:58,599 INFO 172.18.0.4 - - [06/May/2025 00:01:58] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:03:44,399 INFO Reached import_scenario_guest route.
+2025-05-06 00:03:44,400 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:03:44,401 INFO WHAT IS REQUEST FILE
+2025-05-06 00:03:44,401 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:03:44,421 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83347b7590>
+2025-05-06 00:03:44,421 INFO 172.18.0.4 - - [06/May/2025 00:03:44] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:04:12,633 INFO Reached import_scenario_guest route.
+2025-05-06 00:04:12,635 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:04:12,635 INFO WHAT IS REQUEST FILE
+2025-05-06 00:04:12,635 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:04:12,656 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343de660>
+2025-05-06 00:04:12,656 INFO 172.18.0.4 - - [06/May/2025 00:04:12] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:07:29,870 INFO Reached import_scenario_guest route.
+2025-05-06 00:07:29,872 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:07:29,872 INFO WHAT IS REQUEST FILE
+2025-05-06 00:07:29,872 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:07:29,886 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c6de0>
+2025-05-06 00:07:29,887 INFO 172.18.0.4 - - [06/May/2025 00:07:29] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:41:23,927 INFO Reached import_scenario_guest route.
+2025-05-06 00:41:23,932 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:41:23,932 INFO WHAT IS REQUEST FILE
+2025-05-06 00:41:23,932 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:41:23,946 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343dc530>
+2025-05-06 00:41:23,948 INFO 172.18.0.4 - - [06/May/2025 00:41:23] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:42:35,071 INFO Reached import_scenario_guest route.
+2025-05-06 00:42:35,073 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:42:35,074 INFO WHAT IS REQUEST FILE
+2025-05-06 00:42:35,074 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:42:35,085 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c7470>
+2025-05-06 00:42:35,086 INFO 172.18.0.4 - - [06/May/2025 00:42:35] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:43:48,924 INFO Reached import_scenario_guest route.
+2025-05-06 00:43:48,926 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:43:48,926 INFO WHAT IS REQUEST FILE
+2025-05-06 00:43:48,926 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:43:48,953 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f833cad7ec0>
+2025-05-06 00:43:48,955 INFO 172.18.0.4 - - [06/May/2025 00:43:48] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:44:09,512 INFO Reached import_scenario_guest route.
+2025-05-06 00:44:09,514 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:44:09,514 INFO WHAT IS REQUEST FILE
+2025-05-06 00:44:09,514 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:44:09,537 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343df170>
+2025-05-06 00:44:09,538 INFO 172.18.0.4 - - [06/May/2025 00:44:09] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:48:24,682 INFO Reached import_scenario_guest route.
+2025-05-06 00:48:24,683 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:48:24,683 INFO WHAT IS REQUEST FILE
+2025-05-06 00:48:24,683 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:48:24,694 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c7560>
+2025-05-06 00:48:24,695 INFO 172.18.0.4 - - [06/May/2025 00:48:24] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:52:06,754 INFO Reached import_scenario_guest route.
+2025-05-06 00:52:06,755 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:52:06,755 INFO WHAT IS REQUEST FILE
+2025-05-06 00:52:06,755 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:52:06,767 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343dde50>
+2025-05-06 00:52:06,768 INFO 172.18.0.4 - - [06/May/2025 00:52:06] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:57:41,409 INFO Reached import_scenario_guest route.
+2025-05-06 00:57:41,411 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:57:41,411 INFO WHAT IS REQUEST FILE
+2025-05-06 00:57:41,411 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:57:41,430 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c77a0>
+2025-05-06 00:57:41,431 INFO 172.18.0.4 - - [06/May/2025 00:57:41] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 00:59:44,150 INFO Reached import_scenario_guest route.
+2025-05-06 00:59:44,151 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 00:59:44,151 INFO WHAT IS REQUEST FILE
+2025-05-06 00:59:44,151 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 00:59:44,171 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c7710>
+2025-05-06 00:59:44,172 INFO 172.18.0.4 - - [06/May/2025 00:59:44] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:06:09,885 INFO Reached import_scenario_guest route.
+2025-05-06 01:06:09,888 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:06:09,888 INFO WHAT IS REQUEST FILE
+2025-05-06 01:06:09,888 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:06:09,908 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c78c0>
+2025-05-06 01:06:09,909 INFO 172.18.0.4 - - [06/May/2025 01:06:09] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:07:21,802 INFO Reached import_scenario_guest route.
+2025-05-06 01:07:21,803 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:07:21,803 INFO WHAT IS REQUEST FILE
+2025-05-06 01:07:21,803 INFO File received: <FileStorage: 'TestAA.yaml' ('application/octet-stream')>
+2025-05-06 01:07:21,809 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343dfb00>
+2025-05-06 01:07:21,810 INFO 172.18.0.4 - - [06/May/2025 01:07:21] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:09:12,203 INFO Reached import_scenario_guest route.
+2025-05-06 01:09:12,205 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:09:12,205 INFO WHAT IS REQUEST FILE
+2025-05-06 01:09:12,205 INFO File received: <FileStorage: 'scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:09:12,222 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343fb320>
+2025-05-06 01:09:12,222 INFO 172.18.0.4 - - [06/May/2025 01:09:12] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:09:19,464 INFO Reached export_scenario route.
+2025-05-06 01:09:19,469 INFO Exporting is scenario: {'scenario': {'RMDStrategy': ['S&P 500 pre-tax'], 'RothConversionEnd': 2060, 'RothConversionOpt': True, 'RothConversionStart': 2050, 'RothConversionStrategy': ['S&P 500 pre-tax'], 'afterTaxContributionLimit': 7000, 'birthYears': [1985, 1987], 'eventSeries': [{'changeAmtOrPct': 'amount', 'changeDistribution': {'lower': 500, 'type': 'uniform', 'upper': 2000}, 'duration': {'type': 'fixed', 'value': 40}, 'inflationAdjusted': False, 'initialAmount': 75000, 'name': 'salary', 'socialSecurity': False, 'start': {'type': 'fixed', 'value': 2025}, 'type': 'income', 'userFraction': 1}, {'changeAmtOrPct': 'percent', 'changeDistribution': {'mean': 0.02, 'stdev': 0.01, 'type': 'normal'}, 'discretionary': False, 'duration': {'type': 'fixed', 'value': 200}, 'inflationAdjusted': True, 'initialAmount': 5000, 'name': 'food', 'start': {'eventSeries': 'salary', 'type': 'startWith'}, 'type': 'expense', 'userFraction': 0.5}, {'changeAmtOrPct': 'amount', 'changeDistribution': {'type': 'fixed', 'value': 0}, 'discretionary': True, 'duration': {'type': 'fixed', 'value': 40}, 'inflationAdjusted': True, 'initialAmount': 1200, 'name': 'vacation', 'start': {'eventSeries': 'salary', 'type': 'startWith'}, 'type': 'expense', 'userFraction': 0.6}, {'changeAmtOrPct': 'amount', 'changeDistribution': {'type': 'fixed', 'value': 0}, 'discretionary': True, 'duration': {'type': 'fixed', 'value': 40}, 'inflationAdjusted': True, 'initialAmount': 500, 'name': 'streaming services', 'start': {'eventSeries': 'salary', 'type': 'startWith'}, 'type': 'expense', 'userFraction': 1}, {'assetAllocation': {'S&P 500 after-tax': 0.4, 'S&P 500 non-retirement': 0.6}, 'assetAllocation2': {'S&P 500 after-tax': 0.2, 'S&P 500 non-retirement': 0.8}, 'duration': {'type': 'fixed', 'value': 10}, 'glidePath': True, 'maxCash': 1000, 'name': 'my investments', 'start': {'lower': 2025, 'type': 'uniform', 'upper': 2030}, 'type': 'invest'}, {'assetAllocation': {'S&P 500 non-retirement': 0.7, 'tax-exempt bonds': 0.3}, 'duration': {'type': 'fixed', 'value': 10}, 'name': 'rebalance', 'start': {'lower': 2025, 'type': 'uniform', 'upper': 2030}, 'type': 'rebalance'}], 'expenseWithdrawalStrategy': ['S&P 500 non-retirement', 'tax-exempt bonds', 'S&P 500 after-tax'], 'financialGoal': 10000, 'inflationAssumption': {'type': 'fixed', 'value': 0.03}, 'investmentTypes': [{'description': 'cash', 'expenseRatio': 0, 'incomeAmtOrPct': 'percent', 'incomeDistribution': {'type': 'fixed', 'value': 0}, 'name': 'cash', 'returnAmtOrPct': 'amount', 'returnDistribution': {'type': 'fixed', 'value': 0}, 'taxability': True}, {'description': 'S&P 500 index fund', 'expenseRatio': 0.001, 'incomeAmtOrPct': 'percent', 'incomeDistribution': {'mean': 0.01, 'stdev': 0.005, 'type': 'normal'}, 'name': 'S&P 500', 'returnAmtOrPct': 'percent', 'returnDistribution': {'mean': 0.06, 'stdev': 0.02, 'type': 'normal'}, 'taxability': True}, {'description': 'NY tax-exempt bonds', 'expenseRatio': 0.004, 'incomeAmtOrPct': 'percent', 'incomeDistribution': {'mean': 0.03, 'stdev': 0.01, 'type': 'normal'}, 'name': 'tax-exempt bonds', 'returnAmtOrPct': 'amount', 'returnDistribution': {'type': 'fixed', 'value': 0}, 'taxability': False}], 'investments': [{'id': 'cash', 'investmentType': 'cash', 'taxStatus': 'non-retirement', 'value': 100}, {'id': 'S&P 500 non-retirement', 'investmentType': 'S&P 500', 'taxStatus': 'non-retirement', 'value': 10000}, {'id': 'tax-exempt bonds', 'investmentType': 'tax-exempt bonds', 'taxStatus': 'non-retirement', 'value': 2000}, {'id': 'S&P 500 pre-tax', 'investmentType': 'S&P 500', 'taxStatus': 'pre-tax', 'value': 10000}, {'id': 'S&P 500 after-tax', 'investmentType': 'S&P 500', 'taxStatus': 'after-tax', 'value': 2000}], 'lifeExpectancy': [{'type': 'fixed', 'value': 80}, {'mean': 82, 'stdev': 3, 'type': 'normal'}], 'maritalStatus': 'couple', 'name': 'Retirement Planning Scenario', 'residenceState': 'NY', 'spendingStrategy': ['vacation', 'streaming services'], 'id': 1746493753092}}
+2025-05-06 01:09:19,470 INFO Exporting scenario: <models.scenario.Scenario object at 0x7f83343f9190>
+2025-05-06 01:09:19,506 INFO 172.18.0.4 - - [06/May/2025 01:09:19] "[35m[1mPOST /api/export_scenario HTTP/1.1[0m" 201 -
+2025-05-06 01:12:46,523 INFO Reached export_scenario route.
+2025-05-06 01:12:46,524 INFO Exporting is scenario: {'scenario': {'RMDStrategy': ['S&P 500 pre-tax'], 'RothConversionEnd': 0, 'RothConversionOpt': True, 'RothConversionStart': 0, 'RothConversionStrategy': ['S&P 500 pre-tax'], 'afterTaxContributionLimit': 7000, 'birthYears': [1985, 1987], 'eventSeries': [{'changeAmtOrPct': 'amount', 'changeDistribution': {'lower': 500, 'type': 'uniform', 'upper': 2000}, 'duration': {'type': 'fixed', 'value': 40}, 'inflationAdjusted': False, 'initialAmount': 75000, 'name': 'salary', 'socialSecurity': False, 'start': {'type': 'fixed', 'value': 2025}, 'type': 'income', 'userFraction': 1}, {'changeAmtOrPct': 'percent', 'changeDistribution': {'mean': 0.02, 'stdev': 0.01, 'type': 'normal'}, 'discretionary': False, 'duration': {'type': 'fixed', 'value': 200}, 'inflationAdjusted': True, 'initialAmount': 5000, 'name': 'food', 'start': {'eventSeries': 'salary', 'type': 'startWith'}, 'type': 'expense', 'userFraction': 0.5}, {'changeAmtOrPct': 'amount', 'changeDistribution': {'type': 'fixed', 'value': 0}, 'discretionary': True, 'duration': {'type': 'fixed', 'value': 40}, 'inflationAdjusted': True, 'initialAmount': 1200, 'name': 'vacation', 'start': {'eventSeries': 'salary', 'type': 'startWith'}, 'type': 'expense', 'userFraction': 0.6}, {'changeAmtOrPct': 'amount', 'changeDistribution': {'type': 'fixed', 'value': 0}, 'discretionary': True, 'duration': {'type': 'fixed', 'value': 40}, 'inflationAdjusted': True, 'initialAmount': 500, 'name': 'streaming services', 'start': {'eventSeries': 'salary', 'type': 'startWith'}, 'type': 'expense', 'userFraction': 1}, {'assetAllocation': {'S&P 500 after-tax': 0.4, 'S&P 500 non-retirement': 0.6}, 'assetAllocation2': {'S&P 500 after-tax': 0.2, 'S&P 500 non-retirement': 0.8}, 'duration': {'type': 'fixed', 'value': 10}, 'glidePath': True, 'maxCash': 1000, 'name': 'my investments', 'start': {'lower': 2025, 'type': 'uniform', 'upper': 2030}, 'type': 'invest'}, {'assetAllocation': {'S&P 500 non-retirement': 0.7, 'tax-exempt bonds': 0.3}, 'duration': {'type': 'fixed', 'value': 10}, 'name': 'rebalance', 'start': {'lower': 2025, 'type': 'uniform', 'upper': 2030}, 'type': 'rebalance'}], 'expenseWithdrawalStrategy': ['S&P 500 non-retirement', 'tax-exempt bonds', 'S&P 500 after-tax'], 'financialGoal': 10000, 'inflationAssumption': {'type': 'fixed', 'value': 0.03}, 'investmentTypes': [{'description': 'cash', 'expenseRatio': 0, 'incomeAmtOrPct': 'percent', 'incomeDistribution': {'type': 'fixed', 'value': 0}, 'name': 'cash', 'returnAmtOrPct': 'amount', 'returnDistribution': {'type': 'fixed', 'value': 0}, 'taxability': True}, {'description': 'S&P 500 index fund', 'expenseRatio': 0.001, 'incomeAmtOrPct': 'percent', 'incomeDistribution': {'mean': 0.01, 'stdev': 0.005, 'type': 'normal'}, 'name': 'S&P 500', 'returnAmtOrPct': 'percent', 'returnDistribution': {'mean': 0.06, 'stdev': 0.02, 'type': 'normal'}, 'taxability': True}, {'description': 'NY tax-exempt bonds', 'expenseRatio': 0.004, 'incomeAmtOrPct': 'percent', 'incomeDistribution': {'mean': 0.03, 'stdev': 0.01, 'type': 'normal'}, 'name': 'tax-exempt bonds', 'returnAmtOrPct': 'amount', 'returnDistribution': {'type': 'fixed', 'value': 0}, 'taxability': False}], 'investments': [{'id': 'cash', 'investmentType': 'cash', 'taxStatus': 'non-retirement', 'value': 100}, {'id': 'S&P 500 non-retirement', 'investmentType': 'S&P 500', 'taxStatus': 'non-retirement', 'value': 10000}, {'id': 'tax-exempt bonds', 'investmentType': 'tax-exempt bonds', 'taxStatus': 'non-retirement', 'value': 2000}, {'id': 'S&P 500 pre-tax', 'investmentType': 'S&P 500', 'taxStatus': 'pre-tax', 'value': 10000}, {'id': 'S&P 500 after-tax', 'investmentType': 'S&P 500', 'taxStatus': 'after-tax', 'value': 2000}], 'lifeExpectancy': [{'type': 'fixed', 'value': 80}, {'mean': 82, 'stdev': 3, 'type': 'normal'}], 'maritalStatus': 'couple', 'name': 'Retirement Planning Scenario', 'residenceState': 'NY', 'spendingStrategy': ['vacation', 'streaming services'], 'id': 1746493753092}}
+2025-05-06 01:12:46,524 INFO Exporting scenario: <models.scenario.Scenario object at 0x7f83343fab10>
+2025-05-06 01:12:46,532 INFO 172.18.0.4 - - [06/May/2025 01:12:46] "[35m[1mPOST /api/export_scenario HTTP/1.1[0m" 201 -
+2025-05-06 01:17:13,150 INFO Reached import_scenario_guest route.
+2025-05-06 01:17:13,152 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:17:13,152 INFO WHAT IS REQUEST FILE
+2025-05-06 01:17:13,152 INFO File received: <FileStorage: 'Retirement Planning Scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:17:13,171 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343dfd40>
+2025-05-06 01:17:13,172 INFO 172.18.0.4 - - [06/May/2025 01:17:13] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:20:18,451 INFO Reached import_scenario_guest route.
+2025-05-06 01:20:18,452 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:20:18,453 INFO WHAT IS REQUEST FILE
+2025-05-06 01:20:18,453 INFO File received: <FileStorage: 'Retirement Planning Scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:20:18,471 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83342187d0>
+2025-05-06 01:20:18,472 INFO 172.18.0.4 - - [06/May/2025 01:20:18] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:20:33,566 INFO Reached import_scenario_guest route.
+2025-05-06 01:20:33,567 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:20:33,568 INFO WHAT IS REQUEST FILE
+2025-05-06 01:20:33,568 INFO File received: <FileStorage: 'Retirement Planning Scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:20:33,583 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f8334e42960>
+2025-05-06 01:20:33,584 INFO 172.18.0.4 - - [06/May/2025 01:20:33] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:20:51,638 INFO Reached import_scenario_guest route.
+2025-05-06 01:20:51,641 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:20:51,641 INFO WHAT IS REQUEST FILE
+2025-05-06 01:20:51,642 INFO File received: <FileStorage: 'Retirement Planning Scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:20:51,669 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343f9910>
+2025-05-06 01:20:51,670 INFO 172.18.0.4 - - [06/May/2025 01:20:51] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:23:08,854 INFO Reached import_scenario_guest route.
+2025-05-06 01:23:08,857 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:23:08,857 INFO WHAT IS REQUEST FILE
+2025-05-06 01:23:08,857 INFO File received: <FileStorage: 'Retirement Planning Scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:23:08,883 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343f77d0>
+2025-05-06 01:23:08,884 INFO 172.18.0.4 - - [06/May/2025 01:23:08] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:47:28,135 INFO Reached import_scenario_guest route.
+2025-05-06 01:47:28,141 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:47:28,141 INFO WHAT IS REQUEST FILE
+2025-05-06 01:47:28,141 INFO File received: <FileStorage: 'Retirement Planning Scenario.yaml' ('application/octet-stream')>
+2025-05-06 01:47:28,155 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f8334219760>
+2025-05-06 01:47:28,157 INFO 172.18.0.4 - - [06/May/2025 01:47:28] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:47:32,728 INFO Reached import_scenario_guest route.
+2025-05-06 01:47:32,729 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:47:32,729 INFO WHAT IS REQUEST FILE
+2025-05-06 01:47:32,729 INFO File received: <FileStorage: 'Retirement Planning Scenario (1).yaml' ('application/octet-stream')>
+2025-05-06 01:47:32,742 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c7a40>
+2025-05-06 01:47:32,743 INFO 172.18.0.4 - - [06/May/2025 01:47:32] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:47:36,452 INFO Reached import_scenario_guest route.
+2025-05-06 01:47:36,453 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:47:36,453 INFO WHAT IS REQUEST FILE
+2025-05-06 01:47:36,453 INFO File received: <FileStorage: 'Retirement Planning Scenario.yaml' ('application/octet-stream')>
+2025-05-06 01:47:36,465 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c6f90>
+2025-05-06 01:47:36,466 INFO 172.18.0.4 - - [06/May/2025 01:47:36] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
+2025-05-06 01:47:40,579 INFO Reached import_scenario_guest route.
+2025-05-06 01:47:40,580 INFO Importing scenario: ImmutableMultiDict([('user_email', ''), ('user_name', '')])
+2025-05-06 01:47:40,580 INFO WHAT IS REQUEST FILE
+2025-05-06 01:47:40,580 INFO File received: <FileStorage: 'Retirement Planning Scenario.yaml' ('application/octet-stream')>
+2025-05-06 01:47:40,591 INFO Parsed scenario: <models.scenario.Scenario object at 0x7f83343c7860>
+2025-05-06 01:47:40,592 INFO 172.18.0.4 - - [06/May/2025 01:47:40] "[35m[1mPOST /api/import_scenario_guest HTTP/1.1[0m" 201 -
