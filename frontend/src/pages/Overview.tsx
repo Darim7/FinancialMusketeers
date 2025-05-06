@@ -26,6 +26,9 @@ Chart.register(CategoryScale);
 
 const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
+const localData = JSON.parse(localStorage.getItem('saveFormArray'));
+
+// console.log(JSON.parse(localData))
 
 const testScenarios = {
   scenario1:{ name:"test1", 
@@ -77,12 +80,13 @@ function Overview() {
   const MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER = 1;
 
   const [userData, setUserData] = useState<string[] | null>(null);
-  const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
+  const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>(localData);
   const selectedScenarioData = fetchUserScenarios[parseInt(scenario)];
   const [explorationMode, setExplorationMode] = useState<"one-dimensional" | "two-dimensional" | "none">("none");
 
   const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
 
+  
   const getUser = async () => {
     try {
       const response = await axios.get('/api/get_user', {
@@ -144,7 +148,7 @@ function Overview() {
       const response = await axios.post('/api/run_simulation', {
         scenario: selectedScenarioData,
         num_simulations: simulationAmount,
-        user_name: userName,
+        user_name: userName ? userName:"Guest",
       });
       console.log("Simulation Response:", response.data);
       setSimulationData(response.data);
@@ -153,6 +157,7 @@ function Overview() {
       console.error("Error running simulation:", error);
     }
   }
+
 
   const [oneDimensionalParameters, setOneDimensionalParameters] = useState({
     startYear: false,
@@ -373,12 +378,17 @@ function Overview() {
             {/* <option key={scenario} value={scenario}> */}
               {/* {scenario} */}
             {/* </option> */}
-
-          {fetchUserScenarios.map((scenario, index) => (
+          
+          {userName && userEmail ? fetchUserScenarios.map((scenario, index) => (
             <option key={scenario._id} value={index}>
               {scenario.name}
             </option>
-          ))}
+          )):(
+            fetchUserScenarios.map((scenario, index) => ( 
+              <option key={scenario.id} value={index}>
+                {scenario.name}
+              </option>
+          )))}
           {/* ))} */}
         </Form.Select>
         </div>
