@@ -25,6 +25,11 @@ const [userData, setUserData] = useState<string[] | null>(null);
 const [SharingModalShow, setSharingModalShow] = useState(false); 
 
 
+const [targetEmail, setTargetEmail] = useState("");
+
+console.log("Target Email:", targetEmail);
+
+
 const handleSharingModalShow = () => setSharingModalShow(true);
 
 const handleSharingModalClose = () => setSharingModalShow(false);
@@ -87,6 +92,23 @@ useEffect(() => {
     }, [userData]);
 
 
+const shareScenario = async () => {
+    if (!selectedScenarioId) {
+        console.error("No scenario ID selected for sharing.");
+        return;
+    }
+    try {
+        const response = await axios.post('/api/share_scenario', {
+            scenario_id: selectedScenarioId,
+            user_email: userEmail,
+            target_user_email: targetEmail
+        });
+        console.log("Scenario shared successfully:", response.data);
+    } catch (error) {       
+        console.error("Error sharing scenario:", error);
+    }
+};
+
   return (
     <div id='scenario-header'>
         <div id ='navbar'>
@@ -98,7 +120,7 @@ useEffect(() => {
                 + Export Scenario
             </Button>
 
-            <Modal show={SharingModalShow} onHide={handleSharingModalClose} backdrop="static" >
+            <Modal show={SharingModalShow} onHide={handleSharingModalClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         Select a Scenario to Share
@@ -135,18 +157,22 @@ useEffect(() => {
                 ) : (
                     <p>Please log in to share your scenarios.</p>
                 )}
-            
-           
+                <h4>Enter Recipient's Email:</h4>
+                <input
+                    type="email"
+                    className="form-control"
+                    value={targetEmail}
+                    onChange={(e) => setTargetEmail(e.target.value)}
+                    placeholder="Enter email address"
+                />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleSharingModalClose}>
                         Close
                     </Button>
                     <Button variant="primary" onClick={() => {
-                        // Handle sharing logic here
-                        // Called Modified addScenario function
-                        console.log("Sharing scenario:", UserScenarioForm);
-                        // handleSharingModalShow();
+                        shareScenario();
+                        handleSharingModalClose();
                     }
                     }>
                         Share
@@ -155,9 +181,6 @@ useEffect(() => {
 
             </Modal>
 
-
-
-            
         </div>
     </div>
   );

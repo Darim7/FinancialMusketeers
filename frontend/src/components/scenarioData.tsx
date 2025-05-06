@@ -44,15 +44,15 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     RothConversionStrategy: [] as any,
     AssetAllocation: [] as any[],
     investmentTypes: [
-      {name: 'Cash',
-      description: 'Cash',
-      returnAmtOrPct: 'amount',
-      returnDistribution: {type:"fixed", value: 0},
-      expenseRatio: '0.00',
-      incomeAmtOrPct: 'amount',
-      incomeDistribution: {type:"fixed", value: 0},
-      taxability: false,
-      }
+      // {name: 'Cash',
+      // description: 'Cash',
+      // returnAmtOrPct: 'amount',
+      // returnDistribution: {type:"fixed", value: 0},
+      // expenseRatio: '0.00',
+      // incomeAmtOrPct: 'amount',
+      // incomeDistribution: {type:"fixed", value: 0},
+      // taxability: false,
+      // }
     ] as any[],
     investments: [
       // {
@@ -133,6 +133,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     taxability: false,
     // investmentValues: [] as any[]
   })
+
 
   console.log('LIFE EXPECTANCY:', values.lifeExpectancy)
   
@@ -372,48 +373,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         )
       );
     } 
-    // else {
-    //   // Log the current state of values before updating
-    //   console.log("Before updating values:", values);
-    
-    //   // Log the field being updated and its new value
-    //   console.log("Updating field:", name, "with value:", parsedValue);
-    
-    //   setValues((prevValues) => {
-    //     const updatedValues = {
-    //       ...prevValues,
-    //       [name]: parsedValue,
-    //     };
-    //     // Log the updated values
-    //     console.log("Updated values:", updatedValues);
-    //     return updatedValues;
-    //   });
-    
-    //   saveForms((prevForms: any) =>
-    //     prevForms.map((form: any) => {
-    //       // Log each form being processed
-    //       console.log("DOES IT GOES IN HEREERERRRRRRRRRRRRRRRRRR");
-    //       console.log("Processing form:", { id: form._id, a: formInfo._id, name: form.name });
-    
-    //       if (form._id === formInfo._id) {
-    //         // Log the form being updated
-    //         console.log("Updating form:", { id: form.id, name: form.name });
-    //         const updatedForm = {
-    //           ...form,
-    //           [name]: parsedValue,
-    //           name: name === 'name' ? value : form.name,
-    //         };
-    //         // Log the updated form
-    //         console.log("Updated form:", updatedForm);
-    //         return updatedForm;
-    //       }
-    
-    //       // Log forms that are not updated
-    //       console.log("Form not updated:", { id: form.id, name: form.name });
-    //       return form;
-    //     })
-    //   );
-    // }
     
     else {
       
@@ -422,24 +381,38 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         [name]: parsedValue,
       }));
       
-
       saveForms((prevForms: any) =>
         prevForms.map((form: any) =>
-          form._id === formInfo._id
-            ? {
-                ...form,
-                [name]: parsedValue,
-                name: name === 'name' ? value : form.name,
-              }
-            : form
+          {
+            if (userEmail){
+              return form._id === formInfo._id
+              ? {
+                  ...form,
+                  [name]: parsedValue,
+                  name: name === 'name' ? value : form.name,
+                }
+              : form
+            }
+            else {
+              console.log("form id", form)
+              console.log("FORM INFO", formInfo)
+              return form.id === formInfo.id
+              ? {
+                  ...form,
+                  [name]: parsedValue,
+                  name: name === 'name' ? value : form.name,
+                }
+              : form
+            }
+            
+          }
+          
         )
       );
     }
-   
+    
   };
   
-
-
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting
@@ -453,6 +426,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
       );
     }
 
+
     if (formStep === 4) {
       console.log("PAGE5555555555555555")
       saveForms((prevForms:any) =>
@@ -460,11 +434,12 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
           form.id === formInfo.id ? { ...form, ['RothConversionOpt']: values.RothConversionOpt, ['RothConversionStart']: 0, ['RothConversionEnd']: 0   } : form
         )
       )
+
     }
     setformStep(formStep + 1);
     
   };
-4
+
   const handleBack = (e:React.ChangeEvent<any>) => {
     e.preventDefault();
     setformStep(formStep - 1);
@@ -545,6 +520,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     //     )
     //   );
     // };
+
     
     const handleInvestmentCaseChange = (e:React.ChangeEvent<any>) => {
 
@@ -1488,17 +1464,19 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
             <Form.Check
               type = "checkbox" 
               name = "RothConversionOpt"
-              value = "true"
+              // value = "true"
               checked = {values.RothConversionOpt === true}
-              onChange={(e)=> handleChanges(e)}
+              // onChange={(e)=> handleChanges(e)}
+              onChange={(e) => handleChanges({ target: { name: e.target.name, value: e.target.checked } })}
               label="True"
             />
             <Form.Check 
               type ="checkbox"
               name = "RothConversionOpt" 
-              value = "false"
+              // value = "false"
               checked={values.RothConversionOpt === false} 
-              onChange={(e)=> handleChanges(e)} 
+              // onChange={(e)=> handleChanges(e)} 
+              onChange={(e) => handleChanges({ target: { name: e.target.name, value: e.target.checked } })}
               label="False"
             />  
 

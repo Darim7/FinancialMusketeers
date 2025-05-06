@@ -15,7 +15,7 @@ from muskets.simulations import run_financial_planner
 app = Flask(__name__)
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(filename="/app/debug.log", level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logging.getLogger('models.scenario').setLevel(logging.DEBUG)
 
 @app.route('/api/test')
@@ -42,7 +42,7 @@ def get_scenario():
         
         # Find the scenario by ID
         scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
-        app.logger.info("what is scenario", scenario)
+        app.logger.info(f"what is scenario: {scenario}")
         
         if scenario:
             # Convert ObjectId to string for JSON serialization
@@ -214,8 +214,48 @@ def import_scenario():
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
+        # app.logger.info("WTF:", scenario)
+        # user_data=user.to_dict()
+        # app.logger.info(f"USER SCENARIOS: {user_data}")
 
         return jsonify({"message": "Scenario imported successfully", "data": user.to_dict()}), 201
+
+    except yaml.YAMLError as e:
+        return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
+    
+@app.route('/api/import_scenario_guest', methods=['POST'])
+def import_scenario_guest():
+    app.logger.info('Reached import_scenario_guest route.')
+
+    # data = request.get_json()
+    app.logger.info(f'Importing scenario: {request.form}')
+
+    if not request.form:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    app.logger.info("WHAT IS REQUEST FILE", request.files)
+
+    # Ensure a file is provided
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    app.logger.info(f'File received: {file}')
+    # Ensure it's a YAML file
+    if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
+        return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
+    
+    fname = f"uploads/{file.filename}"
+    file.save(fname)
+    
+    try:
+        # Parse YAML content
+        scenario = Scenario.from_yaml(fname)
+        app.logger.info(f'Parsed scenario: {scenario}')
+
+        return jsonify({"message": "Scenario imported successfully", "data": scenario.to_dict()}), 201
 
     except yaml.YAMLError as e:
         return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400

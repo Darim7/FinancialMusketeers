@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreateScenario from '../components/scenarioData';
 import axios, { formToJSON } from 'axios';
+import { idText } from 'typescript';
 
 
 function Scenario() {
@@ -41,7 +42,13 @@ function Scenario() {
     const [scenarioForm, setScenarioForm] = useState<{ id: number; _id: string | null ; name: string;} | null>(null);
 
     //Store Multiple Scenario Forms
-    const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
+    // const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string| null; name: string; }[]>([]);
+    const [saveFormArray, setSaveFormArray] = useState<{ id: number; _id: string | null; name: string }[]>(
+        () => {
+            const savedData = localStorage.getItem('saveFormArray');
+            return savedData ? JSON.parse(savedData) : [];
+        }
+    );
    
 //---------------- For guest user, the scenario will be saved in the local storage ------------------------//
 
@@ -248,10 +255,7 @@ function Scenario() {
     }, [UserSaveFormArray]);
 
     useEffect(() => {
-      
         localStorage.setItem('saveFormArray', JSON.stringify(saveFormArray));
-        // const savedData = localStorage.getItem('saveFormArray');
-        // console.log("Saved Data:", savedData);
         console.log("Updated Guest Save Form Array:", saveFormArray);
     }, [saveFormArray]);
 
@@ -260,6 +264,8 @@ function Scenario() {
     
 
     console.log("SAVE FORM ARRAY", UserSaveFormArray)
+
+    console.log("WHAT IS SAVEFORM ARRAY LENGTH", saveFormArray)
 
     const updateScenario = async (formArray: { id: number; _id: string | null; name: string }[], formId: number | string) => {
         if (userEmail != null && UserScenarioForm) {
@@ -351,6 +357,7 @@ function Scenario() {
     const importYAML = async () =>{
         // Ask ChatGPT for help for this:
         // Create a file input element 
+
         const input = document.createElement('input');
         // Only allow YAML files
         input.type = 'file';
@@ -374,28 +381,61 @@ function Scenario() {
                 //   }
                 // fileRead.onload = async (e) => {
                 //     const content = e.target?.result;
-                    try {
-                        const response = await axios.post('/api/import_scenario', 
-                        formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
+                {
+                    if (userName && userEmail) {
+                        try {
+                            const response = await axios.post('/api/import_scenario', 
+                            formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
                             }
-                        }
 
-                        );
+                            );
+
                         
-                       
-                        const data = response.data;
-                        const userScenarios = data.data.scenarios;
-                         
-                        alert("Scenario imported successfully!");
+                            const data = response.data;
+                            const userScenarios = data.data.scenarios;
 
-                        } catch (error) {
-                            console.error("Error importing scenario:", error);
-                            alert("Failed to import scenario.");
-                        }
+                            alert("Scenario imported successfully!");
+
+                            } catch (error) {
+                                console.error("Error importing scenario:", error);
+                                alert("Failed to import scenario.");
+                            }
+                    }
+                    else{
+                        console.log("DOES IT GOESSS IN HERREEEEEE")
+                        try {
+                            const response = await axios.post('/api/import_scenario_guest', 
+                            formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }
+
+                            );
+
+                            const data = response.data;
+                            // console.log("what is data.data", data.data)
+                            // setSaveFormArray(data.data)
+                            // setScenarioForm(data.data);
+                            setScenarioForm({ ...data.data, id: Date.now() });
+                            setSaveFormArray((prev) => [...prev, { ...data.data, id: Date.now() }]);
+                            console.log("saveform array", saveFormArray)
+                            // const userScenarios = data.data.scenarios;
+                            console.log("Guest Scenario Import Data: ", data)
+                            alert("Scenario imported successfully!");
+
+                            } catch (error) {
+                                console.error("Error importing scenario:", error);
+                                alert("Failed to import scenario.");
+                            }
+
+                    }    
                     
                 };
+            }
             }
         
         input.click();
@@ -427,7 +467,7 @@ function Scenario() {
                                 value={selectedScenarioId || ''} // Set the selected value
                                 onChange={(e) => {
                                     console.log("Selected Scenario ID:", e.target.value)
-                                    // console.log("what is saveFormArray", saveFormArray);
+                                    console.log("what is saveFormArray", saveFormArray);
                                     setSelectedScenarioId(e.target.value)
                                 }} // Will know which scenario to export, base on num
                                 >
