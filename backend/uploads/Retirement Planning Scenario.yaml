@@ -26,7 +26,7 @@ investmentTypes:
 - name: S&P 500
   description: S&P 500 index fund
   returnAmtOrPct: percent
-  returnDistribution: {mean: 0.06, stdev: 0.02, type: normal}
+  returnDistribution: {mean: 0.02, stdev: 0.05, type: normal}
   expenseRatio: 0.001
   incomeAmtOrPct: percent
   incomeDistribution: {mean: 0.01, stdev: 0.005, type: normal}
@@ -94,7 +94,7 @@ eventSeries:
   name: my investments
   start: {lower: 2025, type: uniform, upper: 2030}
   type: invest
-- assetAllocation: {S&P 500 non-retirement: 0.7, tax-exempt bonds: 0.3}
+- assetAllocation: {S&P500 non-retirement: 0.7, tax-exempt bonds: 0.3}
   duration: {type: fixed, value: 10}
   name: rebalance
   start: {lower: 2025, type: uniform, upper: 2030}
@@ -105,8 +105,8 @@ spendingStrategy: [vacation, streaming services]
 expenseWithdrawalStrategy: [S&P 500 non-retirement, tax-exempt bonds, S&P 500 after-tax]
 RMDStrategy: [S&P 500 pre-tax]
 RothConversionOpt: true
-RothConversionStart: 2050
-RothConversionEnd: 2060
+RothConversionStart: 0
+RothConversionEnd: 0
 RothConversionStrategy: [S&P 500 pre-tax]
 financialGoal: 10000
 residenceState: NY
