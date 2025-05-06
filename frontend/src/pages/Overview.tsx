@@ -28,8 +28,6 @@ const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
 const localData = JSON.parse(localStorage.getItem('saveFormArray'));
 
-// console.log(JSON.parse(localData))
-
 const testScenarios = {
   scenario1:{ name:"test1", 
               years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033"], 
@@ -80,8 +78,8 @@ function Overview() {
   const MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER = 1;
 
   const [userData, setUserData] = useState<string[] | null>(null);
-  const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>(localData);
-  const selectedScenarioData = fetchUserScenarios[parseInt(scenario)];
+  const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>(localData || []);
+  const selectedScenarioData = scenario !== "" ? fetchUserScenarios[parseInt(scenario)] : null;
   const [explorationMode, setExplorationMode] = useState<"one-dimensional" | "two-dimensional" | "none">("none");
 
   const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
