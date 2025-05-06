@@ -352,13 +352,11 @@ def run_simulation():
 
 if __name__ == "__main__":
     # Test simulations
-    scenario = Scenario.from_yaml("new_test_scenario.yaml")
+    # scenario = Scenario.from_yaml("new_test_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    scenario_dict = scenario.to_dict()
-    logging.info(f"Running simulation with scenario: {scenario_dict['investments']}")
-    scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 5)
-
-    exit(0)
+    # scenario_dict = scenario.to_dict()
+    # logging.info(f"Running simulation with scenario: {scenario_dict['investments']}")
+    # scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 5)
 
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)
