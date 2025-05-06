@@ -330,9 +330,9 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
                 inv.value -= rc
                 rc = 0
             else:
-                log_financial_event(simulation_log, year, "ROTH CONVERSION", inv.value, f"Moving from {inv.investment_id} to {after_tax.investment_id}. New value: {after_tax.value}, remaining RC value: {rc}")
                 after_tax.value += inv.value
                 rc -= inv.value
+                log_financial_event(simulation_log, year, "ROTH CONVERSION", inv.value, f"Moving from {inv.investment_id} to {after_tax.investment_id}. New value: {after_tax.value}, remaining RC value: {rc}")
                 inv.value = 0
 
         else:
