@@ -75,7 +75,7 @@ function Overview() {
   const [simulationData, setSimulationData] = useState<any>();
   const MAX_NUMBER_OF_CHARTS = 3;
   const MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER = 1;
-  let user;
+
   const [userData, setUserData] = useState<string[] | null>(null);
   const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
   const selectedScenarioData = fetchUserScenarios[parseInt(scenario)];
@@ -123,20 +123,6 @@ function Overview() {
       const scenarios = await Promise.all(scenarioPromises);
       setFetchUserScenarios(scenarios);
           
-    
-            // Wait for all promises to resolve
-          
-            // const responses = await Promise.all(scenarioPromises);
-            // console.log("Responses:", responses);
-
-    
-            // Extract the scenario data from each response
-            // const scenarios = response.map((res) => res.data.data);
-    
-            // Update the state with the fetched scenarios
-            // setFetchUserScenarios(scenarios);
-    
-            // console.log("Fetched Scenarios:", scenarios);
         } catch (err) {
             console.error("Error fetching scenarios:", err);
         }
@@ -744,51 +730,6 @@ function Overview() {
                   </div>
                 )}
               </div>
-              {/* <Form.Check
-                type="checkbox"
-                id="stackedBarGraph"
-                name="average"
-                label="Average Values"
-                checked={stackedBarGraph.average}
-                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS || stackedBarGraph.median) && !stackedBarGraph.average}
-                onChange={(e) => handleStackedBarGraphSelection(e)}
-              />
-              <Form.Check
-                type="checkbox"
-                id="stackedBarGraph"
-                name="median"
-                label="Median Values"
-                checked={stackedBarGraph.median}
-                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS || stackedBarGraph.average) && !stackedBarGraph.median}
-                onChange={(e) => handleStackedBarGraphSelection(e)}
-              />
-              <Form.Check
-                type="checkbox"
-                id="stackedBarGraph"
-                name="totalInvestments"
-                label="Total Investments Breakdown"
-                checked={stackedBarGraph.totalInvestments}
-                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
-                onChange={(e) => handleStackedBarGraphSelection(e)}
-              />
-              <Form.Check
-                type="checkbox"
-                id="stackedBarGraph"
-                name="totalIncome"
-                label="Total Income Breakdown"
-                checked={stackedBarGraph.totalIncome}
-                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
-                onChange={(e) => handleStackedBarGraphSelection(e)}
-              />
-              <Form.Check
-                type="checkbox"
-                id="stackedBarGraph"
-                name="totalExpenses"
-                label="Total Expenses Breakdown"
-                checked={stackedBarGraph.totalExpenses}
-                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
-                onChange={(e) => handleStackedBarGraphSelection(e)}
-              /> */}
             </div>
             {explorationMode === 'two-dimensional' && (
             <>
@@ -869,50 +810,6 @@ function Overview() {
             )}
             
           </div>
-          {/* {stackedBarGraph.totalInvestments && (
-            <div id="barGraph">
-              <StackedBarGraph
-                labels={testScenarios[scenario].years}
-                datasets={[
-                  {
-                    label: "Total Investments",
-                    data: testScenarios[scenario].totalInvestmentsAvg,
-                  },
-                  {
-                    label:"Total Income",
-                    data: testScenarios[scenario].totalIncomeAvg,
-                  },
-                  {
-                    label:"Total Expense",
-                    data: testScenarios[scenario].expensesAvg,
-                  },
-                ]}
-              />
-            </div>
-          )}
-
-          {stackedBarGraph.median && (
-            <div id="barGraph">
-              <StackedBarGraph
-                labels={testScenarios[scenario].years}
-                datasets={[
-                  {
-                    label: "Total Investments",
-                    data: testScenarios[scenario].totalInvestmentsMedian,
-                  },
-                  {
-                    label:"Total Income",
-                    data: testScenarios[scenario].totalIncomeMedian,
-                  },
-                  {
-                    label:"Total Expense",
-                    data: testScenarios[scenario].expensesMedian,
-                  },
-                ]}
-              />
-            </div>
-          )} */}
-
           {/* Check if Line Graph is selected */}
           {lineChart.probabilityofSuccess && (
             <div id="lineGraph">
@@ -920,26 +817,49 @@ function Overview() {
                 datasets= {simulationData["result"]["probability_of_success"]}
               />
             </div>           
-            //  {/* <div id="lineGraph">
-            //   <Line data={{
-            //     labels: testScenarios[scenario].years,
-            //     datasets: [
-            //       {
-            //         label: "Probability",
-            //         data: testScenarios[scenario].probability,
-            //       },
-            //     ]
-            //     }}
-            //     options={{maintainAspectRatio: false}}>
-            //   </Line>
-            // </div> */}
           )}
 
           {/* Check if Shaded Line Graph is selected */}
           {shadedLineChart.totalInvestments && (
             <div id="shadedLineGraph">
               <ShadedLineChart
-                labels = {testScenarios[scenario].years}
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"investments"}
+              />
+            </div>
+          )}
+
+          {shadedLineChart.totalIncome && (
+            <div id="shadedLineGraph">
+              <ShadedLineChart
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"income"}
+              />
+            </div>
+          )}
+
+          {shadedLineChart.totalExpenses && (
+            <div id="shadedLineGraph">
+              <ShadedLineChart
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"expenses"}
+              />
+            </div>
+          )}
+
+          {shadedLineChart.earlyWithdrawalTax && (
+            <div id="shadedLineGraph">
+              <ShadedLineChart
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"early"}
+              />
+            </div>
+          )}
+          {shadedLineChart.percentageOfTotalDiscretionaryExpenses && (
+            <div id="shadedLineGraph">
+              <ShadedLineChart
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"discretionary"}
               />
             </div>
           )}

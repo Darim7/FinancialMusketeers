@@ -63,10 +63,7 @@ const StackedBarGraph = ({datasets, type, option}:any): ReactElement => {
           let avg = (curr_val[key] / value.length); 
           investmentData[key].push(avg);
         })
-
-
       })
-      
       console.log(investmentData)
       return investmentData;
     }

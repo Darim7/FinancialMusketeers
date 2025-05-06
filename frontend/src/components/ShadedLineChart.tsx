@@ -4,7 +4,7 @@ import { Line } from 'react-chartjs-2';
 
 ChartJS.register(...registerables);
 
-const ShadedLineChart = ({labels, datasets, options}:any): ReactElement => {
+const ShadedLineChart = ({datasets, type }:any): ReactElement => {
     const defaultOptions = {
         maintainAspectRatio: false,
         responsive: true,
@@ -14,7 +14,6 @@ const ShadedLineChart = ({labels, datasets, options}:any): ReactElement => {
           },
         },
         fill: true,
-        ...options,
       };
 
       const data = {
