@@ -34,6 +34,7 @@ const LineGraph = ({datasets}:any) => {
         fill: true,
       };
     
+    console.log(datasets);
     const years = Object.keys(datasets);
     const values = Object.values(datasets);
 
