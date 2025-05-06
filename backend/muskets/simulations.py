@@ -1,6 +1,7 @@
 import numpy as np
 import logging
 import copy
+import csv
 from collections import deque
 from datetime import datetime
 
@@ -437,7 +438,7 @@ def discretionary_expenses(event_series: list[EventSeries], spending_strategy: l
         if event.type == 'expense' and 'discretionary' in event.data and event.data['discretionary'] and check_event_start(event, year):
             discretionary_expenses[event.name] = event.data['initialAmount']
 
-    return [discretionary_expenses[spending] for spending in spending_strategy if spending in discretionary_expenses]
+    return [(discretionary_expenses[spending], spending) for spending in spending_strategy if spending in discretionary_expenses]
 
 def make_investments(invest_event: EventSeries, investments: list[Investment], year: int) -> float:
     """
@@ -591,6 +592,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
 
     # STEP 7: Calculate non-discretionary
     non_discresionary_expenses_value = non_discretionary_expenses(event_series, year)
+    expenses_breakdown = {event.name: event.data['initialAmount'] for event in event_series if event.data['type'] == 'expense' and not event.data['discretionary'] and check_event_start(event, year)}
     discretionary_expenses_value = discretionary_expenses(event_series, scenario.spending_strat, year)
 
     logger.info(f"Non-discretionary expenses: {non_discresionary_expenses_value}, Discretionary expenses: {discretionary_expenses_value}")
@@ -614,11 +616,14 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # Pay discretionary expenses
     q = deque(discretionary_expenses_value)
     while cash_investment.value > 0 and q:
-        expense = round(q.popleft(), 2)
+        expense_amount, expense_name = q.popleft()
+        expense = round(expense_amount, 2)
         if cash_investment.value >= expense:
             cash_investment.value -= expense
+            expenses_breakdown[expense_name] = expense
         else:
             # If the current year income is less than the expense, pay partial.
+            expenses_breakdown[expense_name] = cash_investment.value
             cash_investment.value = 0
             break
 
@@ -652,6 +657,19 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
 
     logger.info(f"Current year net worth: {currYearSum}, Financial goal: {scenario.financial_goal}")
 
+    investment_breakdown = {invest.investment_id: invest.value for invest in investments}
+
+    income_breakdown = {
+        'gross_income': gross_income_value,
+        'social_security': social_security_income,
+        'capital_gains': capital_gains,
+        'current_year_income': currYearIncome,
+    }
+
+    logger.info(f'income breakdown: {income_breakdown}')
+    logger.info(f'expenses breakdown: {expenses_breakdown}')
+    logger.info(f"Investment values: {investment_breakdown}")
+
     return {
         'federal_tax': federal_tax_value,
         'state_tax': state_tax_value,
@@ -660,10 +678,25 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'roth_converted': roth_converted,
         'amount_invested': amount_invested,
         'amount_rebalanced': amount_rebalanced,
-        'financial_goal': currYearSum >= scenario.financial_goal
+        'financial_goal': currYearSum >= scenario.financial_goal,
+        'investment_values': investment_breakdown,
+        'income_breakdown': income_breakdown,
+        'expenses_breakdown': expenses_breakdown,
     }
 
-def run_simulation(scenario: Scenario) -> list[dict]:
+def save_logs_to_csv(logs: list[dict], filename: str) -> None:
+    # Get all unique keys, excluding the one you want first
+    first_key = "year"
+    all_keys = set().union(*(d.keys() for d in logs))
+    remaining_keys = sorted(k for k in all_keys if k != first_key)
+    order = [first_key] + remaining_keys
+
+    with open(filename, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=order)
+        writer.writeheader()
+        writer.writerows(logs)
+
+def run_simulation(scenario: Scenario, user: str, num_sim: int) -> list[dict]:
     """
     Run the simulation for the given scenario.
     """
@@ -705,6 +738,8 @@ def run_simulation(scenario: Scenario) -> list[dict]:
     logger.info(f"Spouse current age: {spouse_curr_age}, Spouse death age: {spouse_death_age}")
     logger.info(f"Start year: {start_year}, End year: {end_year}")
 
+    investment_logs = []
+
     for year in range(start_year, end_year):
         # Check if the user or spouse is alive
         user_alive = user_curr_age <= user_death_age
@@ -716,6 +751,11 @@ def run_simulation(scenario: Scenario) -> list[dict]:
         logger.info(f"User age/alive: {user_curr_age}/{user_alive} and spouse age/alive: {spouse_curr_age}/{spouse_alive}")
         year_res = run_year(scenario, year, state_tax, fed_tax, prev_state_tax, prev_fed_tax, user_curr_age, user_alive, spouse_curr_age, spouse_alive)
         
+        year_investments = {'year': year}
+        for invest in scenario.get_investments():
+            year_investments[invest.investment_id] = round(invest.value, 2)
+        investment_logs.append(year_investments)
+        
         # Update the user and spouse ages and the previous year tax values
         user_curr_age += 1
         spouse_curr_age += 1 if scenario.is_married else 0
@@ -723,6 +763,9 @@ def run_simulation(scenario: Scenario) -> list[dict]:
         prev_fed_tax = year_res['federal_tax']
 
         result.append({year: year_res})
+
+    if num_sim == 0:
+        save_logs_to_csv(investment_logs, f"{user}_{datetime.now()}.csv")
 
     return result
 
@@ -737,7 +780,7 @@ def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
         logger.info(f"Running simulation {_ + 1} of {num_simulations}.")
         running_scenario = copy.deepcopy(scenario_dict)
         scenario = Scenario.from_dict(running_scenario)
-        result = run_simulation(scenario)
+        result = run_simulation(scenario, "test_user", _)
         results.append(result)
     
     return results
