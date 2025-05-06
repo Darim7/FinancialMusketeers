@@ -337,20 +337,26 @@ def run_simulation():
     if not scenario:
         return jsonify({"error": "Scenario is required"}), 400
     
+    user_name = data['user_name']
+    if not user_name:
+        return jsonify({"error": "User name is required"}), 400
+    
     num_simulations = data['num_simulations']
     if not num_simulations:
         return jsonify({"error": "Number of simulations is required"}), 400
     
     # Run the simulation
-    result = run_financial_planner(scenario, num_simulations)
+    result = run_financial_planner(scenario, user_name, num_simulations)
     
     return jsonify({"message": "Simulation completed successfully", "result": result}), 200
 
 if __name__ == "__main__":
     # Test simulations
-    scenario = Scenario.from_yaml("new_test_scenario.yaml") 
-    app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    scenario_res = run_financial_planner(scenario.to_dict(), 1)
+    scenario = Scenario.from_yaml("new_test_scenario.yaml")
+    # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
+    scenario_dict = scenario.to_dict()
+    logging.info(f"Running simulation with scenario: {scenario_dict['investments']}")
+    scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 1)
 
     exit(0)
 

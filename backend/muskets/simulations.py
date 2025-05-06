@@ -669,10 +669,6 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'current_year_income': currYearIncome,
     }
 
-    logger.info(f'income breakdown: {income_breakdown}')
-    logger.info(f'expenses breakdown: {expenses_breakdown}')
-    logger.info(f"Investment values: {investment_breakdown}")
-
     return {
         'federal_tax': federal_tax_value,
         'state_tax': state_tax_value,
@@ -768,11 +764,11 @@ def run_simulation(scenario: Scenario, user: str, num_sim: int) -> list[dict]:
         result.append({year: year_res})
 
     if num_sim == 0:
-        save_logs_to_csv(investment_logs, f"{user}_{datetime.now()}.csv")
+        save_logs_to_csv(investment_logs, f"./user_logs/{user}_{datetime.now()}.csv")
 
     return result
 
-def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
+def simulates(scenario_dict: dict, user_name: str, num_simulations: int) -> list[dict]:
     """
     Run the simulation for the given scenario multiple times.
     """
@@ -783,7 +779,7 @@ def simulates(scenario_dict: dict, num_simulations: int) -> list[dict]:
         logger.info(f"Running simulation {_ + 1} of {num_simulations}.")
         running_scenario = copy.deepcopy(scenario_dict)
         scenario = Scenario.from_dict(running_scenario)
-        result = run_simulation(scenario, "test_user", _)
+        result = run_simulation(scenario, user_name, _)
         results.append(result)
     
     return results
@@ -825,12 +821,12 @@ def gather_probability_of_success(organized_results: dict[int, list]) -> dict:
 def calculate_statistics(simulations: list[dict]) -> dict:
     return {}
 
-def run_financial_planner(scenario_dict: dict, num_simulations: int) -> dict:
+def run_financial_planner(scenario_dict: dict, user_name: str, num_simulations: int) -> dict:
     """
     Run the financial planner for the given scenario.
     """
     # Run the simulations
-    simulations_result = simulates(scenario_dict, num_simulations)
+    simulations_result = simulates(scenario_dict, user_name, num_simulations)
 
     # Organize the results
     organized_result = organize_simulations(simulations_result)
