@@ -10517,3 +10517,689 @@
 2025-05-06 05:53:06,469 INFO Invested amount: 0.0, Cash investment value: 2149632.67
 2025-05-06 05:53:06,469 INFO Rebalanced amount: 0.0.
 2025-05-06 05:53:06,470 INFO Current year net worth: 13739916.221569672, Financial goal: 10000
+2025-05-06 05:59:43,113 INFO Running simulation with scenario: [{'investmentType': 'cash', 'value': 100, 'taxStatus': 'non-retirement', 'id': 'cash'}, {'investmentType': 'S&P 500', 'value': 10000, 'taxStatus': 'non-retirement', 'id': 'S&P 500 non-retirement'}, {'investmentType': 'tax-exempt bonds', 'value': 2000, 'taxStatus': 'non-retirement', 'id': 'tax-exempt bonds'}, {'investmentType': 'S&P 500', 'value': 10000, 'taxStatus': 'pre-tax', 'id': 'S&P 500 pre-tax'}, {'investmentType': 'S&P 500', 'value': 2000, 'taxStatus': 'after-tax', 'id': 'S&P 500 after-tax'}]
+2025-05-06 05:59:43,114 INFO #####################################################################################
+2025-05-06 05:59:43,114 INFO Running simulation 1 of 1.
+2025-05-06 05:59:43,136 INFO Running simulation for 44 years.
+2025-05-06 05:59:43,136 INFO User current age: 40, User death age: 80
+2025-05-06 05:59:43,136 INFO Spouse current age: 38, Spouse death age: 82
+2025-05-06 05:59:43,136 INFO Start year: 2025, End year: 2070
+2025-05-06 05:59:43,137 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,137 INFO Running year 2025.
+2025-05-06 05:59:43,137 INFO User age/alive: 40/True and spouse age/alive: 38/True
+2025-05-06 05:59:43,137 INFO Marital status: couple.
+2025-05-06 05:59:43,137 INFO prev_fed_tax: 0. prev_state_tax: 0.
+2025-05-06 05:59:43,138 INFO Gross income: 76787.64397251418, Social Security: 0, Current Year Income: 76787.64
+2025-05-06 05:59:43,142 INFO Roth conversion: 10490.745102616402
+2025-05-06 05:59:43,143 INFO Non-discretionary expenses: 5150.0, Discretionary expenses: [(1236.0, 'vacation'), (515.0, 'streaming services')]
+2025-05-06 05:59:43,144 INFO Cash investment value: 69986.64
+2025-05-06 05:59:43,144 INFO Invested amount: 0.0, Cash investment value: 69986.64
+2025-05-06 05:59:43,144 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,145 INFO Current year net worth: 95155.40293634926, Financial goal: 10000
+2025-05-06 05:59:43,145 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,145 INFO Running year 2026.
+2025-05-06 05:59:43,145 INFO User age/alive: 41/True and spouse age/alive: 39/True
+2025-05-06 05:59:43,146 INFO Marital status: couple.
+2025-05-06 05:59:43,146 INFO prev_fed_tax: 5127.48. prev_state_tax: 3880.85.
+2025-05-06 05:59:43,146 INFO Gross income: 77722.77704241867, Social Security: 0, Current Year Income: 77722.78
+2025-05-06 05:59:43,154 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,157 INFO Non-discretionary expenses: 5304.5, Discretionary expenses: [(1273.08, 'vacation'), (530.45, 'streaming services')]
+2025-05-06 05:59:43,160 INFO Cash investment value: 131593.06
+2025-05-06 05:59:43,160 INFO Invested amount: 0.0, Cash investment value: 131593.06
+2025-05-06 05:59:43,160 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,162 INFO Current year net worth: 158312.05244652941, Financial goal: 10000
+2025-05-06 05:59:43,162 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,163 INFO Running year 2027.
+2025-05-06 05:59:43,163 INFO User age/alive: 42/True and spouse age/alive: 40/True
+2025-05-06 05:59:43,163 INFO Marital status: couple.
+2025-05-06 05:59:43,163 INFO prev_fed_tax: 5117.08. prev_state_tax: 3922.0.
+2025-05-06 05:59:43,164 INFO Gross income: 78890.86995520782, Social Security: 0, Current Year Income: 78890.87
+2025-05-06 05:59:43,169 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,171 INFO Non-discretionary expenses: 5463.635, Discretionary expenses: [(1311.2724, 'vacation'), (546.3635, 'streaming services')]
+2025-05-06 05:59:43,172 INFO Cash investment value: 194123.58000000002
+2025-05-06 05:59:43,172 INFO Invested amount: 0.0, Cash investment value: 194123.58000000002
+2025-05-06 05:59:43,172 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,172 INFO Total Investment Value: 14376.138707705157
+2025-05-06 05:59:43,172 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 12196.933986939901, Total Value: 14376.138707705157
+2025-05-06 05:59:43,173 INFO Target Value: 10063.29709539361, Difference: -2133.6368915462917, Changed Amount: 2133.6368915462917
+2025-05-06 05:59:43,173 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 2179.204720765256, Total Value: 14376.138707705157
+2025-05-06 05:59:43,173 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 10063.29709539361, Total Value: 14376.138707705157
+2025-05-06 05:59:43,173 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 2179.204720765256, Total Value: 14376.138707705157
+2025-05-06 05:59:43,174 INFO Target Value: 4312.841612311547, Difference: 2133.636891546291, Changed Amount: 2133.6368915462917
+2025-05-06 05:59:43,174 INFO Rebalanced amount: 2133.6368915462917.
+2025-05-06 05:59:43,175 INFO Current year net worth: 223008.71384483963, Financial goal: 10000
+2025-05-06 05:59:43,176 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,176 INFO Running year 2028.
+2025-05-06 05:59:43,176 INFO User age/alive: 43/True and spouse age/alive: 41/True
+2025-05-06 05:59:43,176 INFO Marital status: couple.
+2025-05-06 05:59:43,176 INFO prev_fed_tax: 5130.96. prev_state_tax: 3975.67.
+2025-05-06 05:59:43,176 INFO Gross income: 80131.59972282594, Social Security: 0, Current Year Income: 80131.6
+2025-05-06 05:59:43,181 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,182 INFO Non-discretionary expenses: 5627.54405, Discretionary expenses: [(1350.610572, 'vacation'), (562.754405, 'streaming services')]
+2025-05-06 05:59:43,183 INFO Cash investment value: 257607.65000000005
+2025-05-06 05:59:43,183 INFO Invested amount: 0.0, Cash investment value: 257607.65000000005
+2025-05-06 05:59:43,183 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,183 INFO Total Investment Value: 15171.59450626312
+2025-05-06 05:59:43,183 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 10751.674475607377, Total Value: 15171.59450626312
+2025-05-06 05:59:43,183 INFO Target Value: 10620.116154384183, Difference: -131.55832122319407, Changed Amount: 131.55832122319407
+2025-05-06 05:59:43,183 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 4419.920030655743, Total Value: 15171.59450626312
+2025-05-06 05:59:43,184 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 10620.116154384183, Total Value: 15171.59450626312
+2025-05-06 05:59:43,184 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 4419.920030655743, Total Value: 15171.59450626312
+2025-05-06 05:59:43,184 INFO Target Value: 4551.478351878935, Difference: 131.55832122319225, Changed Amount: 131.55832122319407
+2025-05-06 05:59:43,184 INFO Rebalanced amount: 131.55832122319407.
+2025-05-06 05:59:43,185 INFO Current year net worth: 287966.1799351156, Financial goal: 10000
+2025-05-06 05:59:43,186 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,186 INFO Running year 2029.
+2025-05-06 05:59:43,186 INFO User age/alive: 44/True and spouse age/alive: 42/True
+2025-05-06 05:59:43,186 INFO Marital status: couple.
+2025-05-06 05:59:43,186 INFO prev_fed_tax: 5149.77. prev_state_tax: 4033.01.
+2025-05-06 05:59:43,186 INFO Gross income: 80984.59920818238, Social Security: 0, Current Year Income: 80984.6
+2025-05-06 05:59:43,191 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,193 INFO Non-discretionary expenses: 5796.3703715, Discretionary expenses: [(1391.12888916, 'vacation'), (579.6370371500001, 'streaming services')]
+2025-05-06 05:59:43,194 INFO Cash investment value: 321642.33
+2025-05-06 05:59:43,194 INFO Starting Investments: (cash: 321642.33)
+2025-05-06 05:59:43,194 INFO Allocation: {'S&P 500 non-retirement': 0.6, 'S&P 500 after-tax': 0.4}
+2025-05-06 05:59:43,194 INFO Cash to invest: 320642.33, max cash: 1000
+2025-05-06 05:59:43,194 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 192385.39800000002, Cash: 320642.33, Allocation: 0.6
+2025-05-06 05:59:43,195 INFO Investment ID: S&P 500 after-tax, Invest Amount: 128256.93200000002, Cash: 320642.33, Allocation: 0.4
+2025-05-06 05:59:43,195 INFO Invested amount: 320642.33, Cash investment value: 1000.0
+2025-05-06 05:59:43,195 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,195 INFO Total Investment Value: 208300.6861796494
+2025-05-06 05:59:43,195 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 203693.55527076675, Total Value: 208300.6861796494
+2025-05-06 05:59:43,195 INFO Target Value: 145810.4803257546, Difference: -57883.074945012166, Changed Amount: 57883.074945012166
+2025-05-06 05:59:43,196 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 4607.130908882653, Total Value: 208300.6861796494
+2025-05-06 05:59:43,196 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 145810.4803257546, Total Value: 208300.6861796494
+2025-05-06 05:59:43,196 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 4607.130908882653, Total Value: 208300.6861796494
+2025-05-06 05:59:43,196 INFO Target Value: 62490.20585389482, Difference: 57883.074945012166, Changed Amount: 57883.074945012166
+2025-05-06 05:59:43,196 INFO Rebalanced amount: 57883.074945012166.
+2025-05-06 05:59:43,197 INFO Current year net worth: 353612.7739058769, Financial goal: 10000
+2025-05-06 05:59:43,198 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,198 INFO Running year 2030.
+2025-05-06 05:59:43,198 INFO User age/alive: 45/True and spouse age/alive: 43/True
+2025-05-06 05:59:43,199 INFO Marital status: couple.
+2025-05-06 05:59:43,199 INFO prev_fed_tax: 5118.15. prev_state_tax: 4068.69.
+2025-05-06 05:59:43,199 INFO Gross income: 81706.56594263359, Social Security: 0, Current Year Income: 81706.57
+2025-05-06 05:59:43,203 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,204 INFO Non-discretionary expenses: 5970.261482645, Discretionary expenses: [(1432.8627558348, 'vacation'), (597.0261482645001, 'streaming services')]
+2025-05-06 05:59:43,205 INFO Cash investment value: 65519.58
+2025-05-06 05:59:43,205 INFO Starting Investments: (cash: 65519.58)
+2025-05-06 05:59:43,205 INFO Allocation: {'S&P 500 non-retirement': 0.6, 'S&P 500 after-tax': 0.4}
+2025-05-06 05:59:43,205 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.62, 'S&P 500 after-tax': 0.38}
+2025-05-06 05:59:43,205 INFO Cash to invest: 64519.58, max cash: 1000
+2025-05-06 05:59:43,205 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 40002.1396, Cash: 64519.58, Allocation: 0.62
+2025-05-06 05:59:43,206 INFO Investment ID: S&P 500 after-tax, Invest Amount: 24517.4404, Cash: 64519.58, Allocation: 0.38
+2025-05-06 05:59:43,206 INFO Invested amount: 64519.58, Cash investment value: 1000.0
+2025-05-06 05:59:43,206 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,206 INFO Total Investment Value: 261146.15538912656
+2025-05-06 05:59:43,206 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 197112.05787094077, Total Value: 261146.15538912656
+2025-05-06 05:59:43,207 INFO Target Value: 182802.30877238858, Difference: -14309.749098552187, Changed Amount: 14309.749098552187
+2025-05-06 05:59:43,207 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 64034.09751818578, Total Value: 261146.15538912656
+2025-05-06 05:59:43,207 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 182802.30877238858, Total Value: 261146.15538912656
+2025-05-06 05:59:43,207 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 64034.09751818578, Total Value: 261146.15538912656
+2025-05-06 05:59:43,207 INFO Target Value: 78343.84661673797, Difference: 14309.749098552187, Changed Amount: 14309.749098552187
+2025-05-06 05:59:43,207 INFO Rebalanced amount: 14309.749098552187.
+2025-05-06 05:59:43,208 INFO Current year net worth: 435550.8804787738, Financial goal: 10000
+2025-05-06 05:59:43,208 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,208 INFO Running year 2031.
+2025-05-06 05:59:43,209 INFO User age/alive: 46/True and spouse age/alive: 44/True
+2025-05-06 05:59:43,209 INFO Marital status: couple.
+2025-05-06 05:59:43,209 INFO prev_fed_tax: 5066.79. prev_state_tax: 4096.84.
+2025-05-06 05:59:43,209 INFO Gross income: 82847.83951353302, Social Security: 0, Current Year Income: 82847.84
+2025-05-06 05:59:43,213 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,214 INFO Non-discretionary expenses: 6149.36932712435, Discretionary expenses: [(1475.848638509844, 'vacation'), (614.9369327124351, 'streaming services')]
+2025-05-06 05:59:43,215 INFO Cash investment value: 66444.04999999999
+2025-05-06 05:59:43,215 INFO Starting Investments: (cash: 66444.04999999999)
+2025-05-06 05:59:43,215 INFO Allocation: {'S&P 500 non-retirement': 0.62, 'S&P 500 after-tax': 0.38}
+2025-05-06 05:59:43,215 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.64, 'S&P 500 after-tax': 0.36}
+2025-05-06 05:59:43,215 INFO Cash to invest: 65444.04999999999, max cash: 1000
+2025-05-06 05:59:43,215 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 41884.191999999995, Cash: 65444.04999999999, Allocation: 0.64
+2025-05-06 05:59:43,216 INFO Investment ID: S&P 500 after-tax, Invest Amount: 23559.857999999997, Cash: 65444.04999999999, Allocation: 0.36
+2025-05-06 05:59:43,216 INFO Invested amount: 65444.04999999999, Cash investment value: 1000.0
+2025-05-06 05:59:43,216 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,216 INFO Total Investment Value: 317155.5048080083
+2025-05-06 05:59:43,216 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 236572.57121508097, Total Value: 317155.5048080083
+2025-05-06 05:59:43,216 INFO Target Value: 222008.8533656058, Difference: -14563.717849475157, Changed Amount: 14563.717849475157
+2025-05-06 05:59:43,216 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 80582.93359292734, Total Value: 317155.5048080083
+2025-05-06 05:59:43,216 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 222008.8533656058, Total Value: 317155.5048080083
+2025-05-06 05:59:43,216 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 80582.93359292734, Total Value: 317155.5048080083
+2025-05-06 05:59:43,217 INFO Target Value: 95146.6514424025, Difference: 14563.717849475157, Changed Amount: 14563.717849475157
+2025-05-06 05:59:43,217 INFO Rebalanced amount: 14563.717849475157.
+2025-05-06 05:59:43,218 INFO Current year net worth: 526069.1177844647, Financial goal: 10000
+2025-05-06 05:59:43,218 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,218 INFO Running year 2032.
+2025-05-06 05:59:43,219 INFO User age/alive: 47/True and spouse age/alive: 45/True
+2025-05-06 05:59:43,219 INFO Marital status: couple.
+2025-05-06 05:59:43,220 INFO prev_fed_tax: 5061.6. prev_state_tax: 4147.7.
+2025-05-06 05:59:43,220 INFO Gross income: 84702.33202807856, Social Security: 0, Current Year Income: 84702.33
+2025-05-06 05:59:43,224 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,225 INFO Non-discretionary expenses: 6333.850406938081, Discretionary expenses: [(1520.1240976651393, 'vacation'), (633.3850406938082, 'streaming services')]
+2025-05-06 05:59:43,226 INFO Cash investment value: 68005.67000000001
+2025-05-06 05:59:43,226 INFO Starting Investments: (cash: 68005.67000000001)
+2025-05-06 05:59:43,226 INFO Allocation: {'S&P 500 non-retirement': 0.64, 'S&P 500 after-tax': 0.36}
+2025-05-06 05:59:43,226 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.66, 'S&P 500 after-tax': 0.33999999999999997}
+2025-05-06 05:59:43,226 INFO Cash to invest: 67005.67000000001, max cash: 1000
+2025-05-06 05:59:43,226 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 44223.74220000001, Cash: 67005.67000000001, Allocation: 0.66
+2025-05-06 05:59:43,226 INFO Investment ID: S&P 500 after-tax, Invest Amount: 22781.9278, Cash: 67005.67000000001, Allocation: 0.33999999999999997
+2025-05-06 05:59:43,226 INFO Invested amount: 67005.67000000001, Cash investment value: 1000.0
+2025-05-06 05:59:43,226 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,226 INFO Total Investment Value: 382876.84408525407
+2025-05-06 05:59:43,227 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 284846.8028415182, Total Value: 382876.84408525407
+2025-05-06 05:59:43,227 INFO Target Value: 268013.7908596778, Difference: -16833.011981840362, Changed Amount: 16833.011981840362
+2025-05-06 05:59:43,227 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 98030.04124373586, Total Value: 382876.84408525407
+2025-05-06 05:59:43,227 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 268013.7908596778, Total Value: 382876.84408525407
+2025-05-06 05:59:43,227 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 98030.04124373586, Total Value: 382876.84408525407
+2025-05-06 05:59:43,227 INFO Target Value: 114863.05322557622, Difference: 16833.011981840362, Changed Amount: 16833.011981840362
+2025-05-06 05:59:43,228 INFO Rebalanced amount: 16833.011981840362.
+2025-05-06 05:59:43,228 INFO Current year net worth: 623030.9871351639, Financial goal: 10000
+2025-05-06 05:59:43,229 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,229 INFO Running year 2033.
+2025-05-06 05:59:43,229 INFO User age/alive: 48/True and spouse age/alive: 46/True
+2025-05-06 05:59:43,229 INFO Marital status: couple.
+2025-05-06 05:59:43,229 INFO prev_fed_tax: 5137.74. prev_state_tax: 4237.43.
+2025-05-06 05:59:43,229 INFO Gross income: 86603.6803342672, Social Security: 0, Current Year Income: 86603.68
+2025-05-06 05:59:43,234 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,235 INFO Non-discretionary expenses: 6523.865919146223, Discretionary expenses: [(1565.7278205950936, 'vacation'), (652.3865919146224, 'streaming services')]
+2025-05-06 05:59:43,235 INFO Cash investment value: 69486.51999999999
+2025-05-06 05:59:43,236 INFO Starting Investments: (cash: 69486.51999999999)
+2025-05-06 05:59:43,236 INFO Allocation: {'S&P 500 non-retirement': 0.66, 'S&P 500 after-tax': 0.33999999999999997}
+2025-05-06 05:59:43,236 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.68, 'S&P 500 after-tax': 0.31999999999999995}
+2025-05-06 05:59:43,236 INFO Cash to invest: 68486.51999999999, max cash: 1000
+2025-05-06 05:59:43,236 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 46570.8336, Cash: 68486.51999999999, Allocation: 0.68
+2025-05-06 05:59:43,236 INFO Investment ID: S&P 500 after-tax, Invest Amount: 21915.686399999995, Cash: 68486.51999999999, Allocation: 0.31999999999999995
+2025-05-06 05:59:43,236 INFO Invested amount: 68486.51999999999, Cash investment value: 1000.0
+2025-05-06 05:59:43,236 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,236 INFO Total Investment Value: 456078.1504341127
+2025-05-06 05:59:43,236 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 336754.2856247126, Total Value: 456078.1504341127
+2025-05-06 05:59:43,237 INFO Target Value: 319254.7053038789, Difference: -17499.580320833717, Changed Amount: 17499.580320833717
+2025-05-06 05:59:43,237 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 119323.86480940013, Total Value: 456078.1504341127
+2025-05-06 05:59:43,237 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 319254.7053038789, Total Value: 456078.1504341127
+2025-05-06 05:59:43,237 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 119323.86480940013, Total Value: 456078.1504341127
+2025-05-06 05:59:43,237 INFO Target Value: 136823.4451302338, Difference: 17499.580320833673, Changed Amount: 17499.580320833717
+2025-05-06 05:59:43,237 INFO Rebalanced amount: 17499.580320833717.
+2025-05-06 05:59:43,238 INFO Current year net worth: 735651.3213825177, Financial goal: 10000
+2025-05-06 05:59:43,238 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,238 INFO Running year 2034.
+2025-05-06 05:59:43,239 INFO User age/alive: 49/True and spouse age/alive: 47/True
+2025-05-06 05:59:43,239 INFO Marital status: couple.
+2025-05-06 05:59:43,239 INFO prev_fed_tax: 5215.1. prev_state_tax: 4329.37.
+2025-05-06 05:59:43,239 INFO Gross income: 88402.56141359419, Social Security: 0, Current Year Income: 88402.56
+2025-05-06 05:59:43,244 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,245 INFO Non-discretionary expenses: 6719.58189672061, Discretionary expenses: [(1612.6996552129465, 'vacation'), (671.958189672061, 'streaming services')]
+2025-05-06 05:59:43,246 INFO Cash investment value: 70853.84999999999
+2025-05-06 05:59:43,246 INFO Starting Investments: (cash: 70853.84999999999)
+2025-05-06 05:59:43,246 INFO Allocation: {'S&P 500 non-retirement': 0.68, 'S&P 500 after-tax': 0.31999999999999995}
+2025-05-06 05:59:43,246 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.7000000000000001, 'S&P 500 after-tax': 0.29999999999999993}
+2025-05-06 05:59:43,246 INFO Cash to invest: 69853.84999999999, max cash: 1000
+2025-05-06 05:59:43,246 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 48897.695, Cash: 69853.84999999999, Allocation: 0.7000000000000001
+2025-05-06 05:59:43,246 INFO Investment ID: S&P 500 after-tax, Invest Amount: 20956.15499999999, Cash: 69853.84999999999, Allocation: 0.29999999999999993
+2025-05-06 05:59:43,247 INFO Invested amount: 69853.84999999999, Cash investment value: 1000.0
+2025-05-06 05:59:43,247 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,247 INFO Total Investment Value: 534476.551761941
+2025-05-06 05:59:43,247 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 393912.41044336837, Total Value: 534476.551761941
+2025-05-06 05:59:43,247 INFO Target Value: 374133.5862333587, Difference: -19778.824210009654, Changed Amount: 19778.824210009654
+2025-05-06 05:59:43,247 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 140564.14131857274, Total Value: 534476.551761941
+2025-05-06 05:59:43,247 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 374133.5862333587, Total Value: 534476.551761941
+2025-05-06 05:59:43,247 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 140564.14131857274, Total Value: 534476.551761941
+2025-05-06 05:59:43,247 INFO Target Value: 160342.9655285823, Difference: 19778.824210009567, Changed Amount: 19778.824210009654
+2025-05-06 05:59:43,248 INFO Rebalanced amount: 19778.824210009654.
+2025-05-06 05:59:43,249 INFO Current year net worth: 852914.5351669891, Financial goal: 10000
+2025-05-06 05:59:43,249 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,249 INFO Running year 2035.
+2025-05-06 05:59:43,249 INFO User age/alive: 50/True and spouse age/alive: 48/True
+2025-05-06 05:59:43,249 INFO Marital status: couple.
+2025-05-06 05:59:43,249 INFO prev_fed_tax: 5275.65. prev_state_tax: 4415.29.
+2025-05-06 05:59:43,249 INFO Gross income: 89760.0089781204, Social Security: 0, Current Year Income: 89760.01
+2025-05-06 05:59:43,255 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,256 INFO Non-discretionary expenses: 6921.169353622228, Discretionary expenses: [(1661.080644869335, 'vacation'), (692.1169353622229, 'streaming services')]
+2025-05-06 05:59:43,257 INFO Cash investment value: 71794.7
+2025-05-06 05:59:43,258 INFO Starting Investments: (cash: 71794.7)
+2025-05-06 05:59:43,258 INFO Allocation: {'S&P 500 non-retirement': 0.7000000000000001, 'S&P 500 after-tax': 0.29999999999999993}
+2025-05-06 05:59:43,258 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.7200000000000001, 'S&P 500 after-tax': 0.2799999999999999}
+2025-05-06 05:59:43,258 INFO Cash to invest: 70794.7, max cash: 1000
+2025-05-06 05:59:43,258 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 50972.184, Cash: 70794.7, Allocation: 0.7200000000000001
+2025-05-06 05:59:43,258 INFO Investment ID: S&P 500 after-tax, Invest Amount: 19822.515999999992, Cash: 70794.7, Allocation: 0.2799999999999999
+2025-05-06 05:59:43,259 INFO Invested amount: 70794.7, Cash investment value: 1000.0
+2025-05-06 05:59:43,259 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,259 INFO Total Investment Value: 624694.9958222625
+2025-05-06 05:59:43,259 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 457980.1987105744, Total Value: 624694.9958222625
+2025-05-06 05:59:43,259 INFO Target Value: 437286.4970755837, Difference: -20693.70163499069, Changed Amount: 20693.70163499069
+2025-05-06 05:59:43,259 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 166714.7971116881, Total Value: 624694.9958222625
+2025-05-06 05:59:43,259 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 437286.4970755837, Total Value: 624694.9958222625
+2025-05-06 05:59:43,259 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 166714.7971116881, Total Value: 624694.9958222625
+2025-05-06 05:59:43,260 INFO Target Value: 187408.49874667873, Difference: 20693.701634990633, Changed Amount: 20693.70163499069
+2025-05-06 05:59:43,260 INFO Rebalanced amount: 20693.70163499069.
+2025-05-06 05:59:43,262 INFO Current year net worth: 987466.8243066089, Financial goal: 10000
+2025-05-06 05:59:43,263 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,263 INFO Running year 2036.
+2025-05-06 05:59:43,263 INFO User age/alive: 51/True and spouse age/alive: 49/True
+2025-05-06 05:59:43,264 INFO Marital status: couple.
+2025-05-06 05:59:43,264 INFO prev_fed_tax: 5278.56. prev_state_tax: 4476.54.
+2025-05-06 05:59:43,267 INFO Gross income: 90755.46514397317, Social Security: 0, Current Year Income: 90755.47
+2025-05-06 05:59:43,283 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,284 INFO Non-discretionary expenses: 7128.804434230895, Discretionary expenses: [(1710.913064215415, 'vacation'), (712.8804434230896, 'streaming services')]
+2025-05-06 05:59:43,286 INFO Cash investment value: 72447.78
+2025-05-06 05:59:43,286 INFO Starting Investments: (cash: 72447.78)
+2025-05-06 05:59:43,286 INFO Allocation: {'S&P 500 non-retirement': 0.7200000000000001, 'S&P 500 after-tax': 0.2799999999999999}
+2025-05-06 05:59:43,286 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.7400000000000001, 'S&P 500 after-tax': 0.2599999999999999}
+2025-05-06 05:59:43,286 INFO Cash to invest: 71447.78, max cash: 1000
+2025-05-06 05:59:43,286 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 52871.357200000006, Cash: 71447.78, Allocation: 0.7400000000000001
+2025-05-06 05:59:43,287 INFO Investment ID: S&P 500 after-tax, Invest Amount: 18576.422799999993, Cash: 71447.78, Allocation: 0.2599999999999999
+2025-05-06 05:59:43,288 INFO Invested amount: 71447.78, Cash investment value: 1000.0
+2025-05-06 05:59:43,288 INFO Rebalancing set: {'S&P 500 non-retirement': <models.investment.Investment object at 0xffff98355e20>, 'tax-exempt bonds': <models.investment.Investment object at 0xffff98354290>}
+2025-05-06 05:59:43,288 INFO Total Investment Value: 710446.0443705618
+2025-05-06 05:59:43,288 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 516068.4569274214, Total Value: 710446.0443705618
+2025-05-06 05:59:43,289 INFO Target Value: 497312.23105939326, Difference: -18756.225868028123, Changed Amount: 18756.225868028123
+2025-05-06 05:59:43,289 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 194377.5874431404, Total Value: 710446.0443705618
+2025-05-06 05:59:43,289 INFO Investment ID: S&P 500 non-retirement, Target Allocation: 0.7, Current Value: 497312.23105939326, Total Value: 710446.0443705618
+2025-05-06 05:59:43,289 INFO Investment ID: tax-exempt bonds, Target Allocation: 0.3, Current Value: 194377.5874431404, Total Value: 710446.0443705618
+2025-05-06 05:59:43,290 INFO Target Value: 213133.81331116855, Difference: 18756.225868028152, Changed Amount: 18756.225868028123
+2025-05-06 05:59:43,291 INFO Rebalanced amount: 18756.225868028123.
+2025-05-06 05:59:43,293 INFO Current year net worth: 1121779.5229929164, Financial goal: 10000
+2025-05-06 05:59:43,294 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,294 INFO Running year 2037.
+2025-05-06 05:59:43,294 INFO User age/alive: 52/True and spouse age/alive: 50/True
+2025-05-06 05:59:43,294 INFO Marital status: couple.
+2025-05-06 05:59:43,294 INFO prev_fed_tax: 5233.24. prev_state_tax: 4517.49.
+2025-05-06 05:59:43,295 INFO Gross income: 92577.99902162445, Social Security: 0, Current Year Income: 92578.0
+2025-05-06 05:59:43,306 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,308 INFO Non-discretionary expenses: 7342.668567257822, Discretionary expenses: [(1762.2404561418775, 'vacation'), (734.2668567257823, 'streaming services')]
+2025-05-06 05:59:43,310 INFO Cash investment value: 73988.09
+2025-05-06 05:59:43,310 INFO Starting Investments: (cash: 73988.09)
+2025-05-06 05:59:43,310 INFO Allocation: {'S&P 500 non-retirement': 0.7400000000000001, 'S&P 500 after-tax': 0.2599999999999999}
+2025-05-06 05:59:43,311 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.7600000000000001, 'S&P 500 after-tax': 0.2399999999999999}
+2025-05-06 05:59:43,311 INFO Cash to invest: 72988.09, max cash: 1000
+2025-05-06 05:59:43,311 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 55470.94840000001, Cash: 72988.09, Allocation: 0.7600000000000001
+2025-05-06 05:59:43,311 INFO Investment ID: S&P 500 after-tax, Invest Amount: 17517.14159999999, Cash: 72988.09, Allocation: 0.2399999999999999
+2025-05-06 05:59:43,312 INFO Invested amount: 72988.09, Cash investment value: 1000.0
+2025-05-06 05:59:43,312 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,313 INFO Current year net worth: 1268751.711459174, Financial goal: 10000
+2025-05-06 05:59:43,313 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,314 INFO Running year 2038.
+2025-05-06 05:59:43,314 INFO User age/alive: 53/True and spouse age/alive: 51/True
+2025-05-06 05:59:43,314 INFO Marital status: couple.
+2025-05-06 05:59:43,314 INFO prev_fed_tax: 5282.22. prev_state_tax: 4603.5.
+2025-05-06 05:59:43,314 INFO Gross income: 93809.01563322102, Social Security: 0, Current Year Income: 93809.02
+2025-05-06 05:59:43,319 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,320 INFO Non-discretionary expenses: 7562.948624275557, Discretionary expenses: [(1815.1076698261338, 'vacation'), (756.2948624275558, 'streaming services')]
+2025-05-06 05:59:43,322 INFO Cash investment value: 74788.95000000001
+2025-05-06 05:59:43,322 INFO Starting Investments: (cash: 74788.95000000001)
+2025-05-06 05:59:43,322 INFO Allocation: {'S&P 500 non-retirement': 0.7600000000000001, 'S&P 500 after-tax': 0.2399999999999999}
+2025-05-06 05:59:43,322 INFO Glide Path: True, Gliding Allocation: {'S&P 500 non-retirement': 0.7800000000000001, 'S&P 500 after-tax': 0.21999999999999992}
+2025-05-06 05:59:43,322 INFO Cash to invest: 73788.95000000001, max cash: 1000
+2025-05-06 05:59:43,322 INFO Investment ID: S&P 500 non-retirement, Invest Amount: 57555.381000000016, Cash: 73788.95000000001, Allocation: 0.7800000000000001
+2025-05-06 05:59:43,322 INFO Investment ID: S&P 500 after-tax, Invest Amount: 16233.568999999996, Cash: 73788.95000000001, Allocation: 0.21999999999999992
+2025-05-06 05:59:43,323 INFO Invested amount: 73788.95000000001, Cash investment value: 1000.0
+2025-05-06 05:59:43,324 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,326 INFO Current year net worth: 1378583.7530289216, Financial goal: 10000
+2025-05-06 05:59:43,326 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,326 INFO Running year 2039.
+2025-05-06 05:59:43,327 INFO User age/alive: 54/True and spouse age/alive: 52/True
+2025-05-06 05:59:43,327 INFO Marital status: couple.
+2025-05-06 05:59:43,327 INFO prev_fed_tax: 5255.13. prev_state_tax: 4656.56.
+2025-05-06 05:59:43,327 INFO Gross income: 94956.66863399741, Social Security: 0, Current Year Income: 94956.67
+2025-05-06 05:59:43,336 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,337 INFO Non-discretionary expenses: 7789.837083003825, Discretionary expenses: [(1869.5608999209178, 'vacation'), (778.9837083003825, 'streaming services')]
+2025-05-06 05:59:43,339 INFO Cash investment value: 75606.6
+2025-05-06 05:59:43,339 INFO Invested amount: 0.0, Cash investment value: 75606.6
+2025-05-06 05:59:43,339 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,340 INFO Current year net worth: 1547163.6880000927, Financial goal: 10000
+2025-05-06 05:59:43,340 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,340 INFO Running year 2040.
+2025-05-06 05:59:43,340 INFO User age/alive: 55/True and spouse age/alive: 53/True
+2025-05-06 05:59:43,340 INFO Marital status: couple.
+2025-05-06 05:59:43,340 INFO prev_fed_tax: 5212.79. prev_state_tax: 4704.59.
+2025-05-06 05:59:43,341 INFO Gross income: 96766.12242899672, Social Security: 0, Current Year Income: 96766.12
+2025-05-06 05:59:43,349 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,350 INFO Non-discretionary expenses: 8023.53219549394, Discretionary expenses: [(1925.6477269185455, 'vacation'), (802.353219549394, 'streaming services')]
+2025-05-06 05:59:43,352 INFO Cash investment value: 151703.81
+2025-05-06 05:59:43,352 INFO Invested amount: 0.0, Cash investment value: 151703.81
+2025-05-06 05:59:43,352 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,353 INFO Current year net worth: 1702596.2347327545, Financial goal: 10000
+2025-05-06 05:59:43,354 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,354 INFO Running year 2041.
+2025-05-06 05:59:43,354 INFO User age/alive: 56/True and spouse age/alive: 54/True
+2025-05-06 05:59:43,354 INFO Marital status: couple.
+2025-05-06 05:59:43,354 INFO prev_fed_tax: 5244.46. prev_state_tax: 4788.57.
+2025-05-06 05:59:43,354 INFO Gross income: 98700.76141909527, Social Security: 0, Current Year Income: 98700.76
+2025-05-06 05:59:43,361 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,363 INFO Non-discretionary expenses: 8264.238161358759, Discretionary expenses: [(1983.417158726102, 'vacation'), (826.4238161358759, 'streaming services')]
+2025-05-06 05:59:43,365 INFO Cash investment value: 229297.46
+2025-05-06 05:59:43,365 INFO Invested amount: 0.0, Cash investment value: 229297.46
+2025-05-06 05:59:43,365 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,366 INFO Current year net worth: 1875332.6509719314, Financial goal: 10000
+2025-05-06 05:59:43,367 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,367 INFO Running year 2042.
+2025-05-06 05:59:43,367 INFO User age/alive: 57/True and spouse age/alive: 55/True
+2025-05-06 05:59:43,367 INFO Marital status: couple.
+2025-05-06 05:59:43,367 INFO prev_fed_tax: 5285.59. prev_state_tax: 4878.97.
+2025-05-06 05:59:43,368 INFO Gross income: 99611.11781621013, Social Security: 0, Current Year Income: 99611.12
+2025-05-06 05:59:43,377 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,378 INFO Non-discretionary expenses: 8512.165306199522, Discretionary expenses: [(2042.919673487885, 'vacation'), (851.2165306199522, 'streaming services')]
+2025-05-06 05:59:43,379 INFO Cash investment value: 307337.71
+2025-05-06 05:59:43,380 INFO Invested amount: 0.0, Cash investment value: 307337.71
+2025-05-06 05:59:43,380 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,380 INFO Current year net worth: 2080648.7943765777, Financial goal: 10000
+2025-05-06 05:59:43,381 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,381 INFO Running year 2043.
+2025-05-06 05:59:43,381 INFO User age/alive: 58/True and spouse age/alive: 56/True
+2025-05-06 05:59:43,381 INFO Marital status: couple.
+2025-05-06 05:59:43,381 INFO prev_fed_tax: 5198.08. prev_state_tax: 4912.55.
+2025-05-06 05:59:43,382 INFO Gross income: 100577.30634015471, Social Security: 0, Current Year Income: 100577.31
+2025-05-06 05:59:43,387 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,389 INFO Non-discretionary expenses: 8767.530265385509, Discretionary expenses: [(2104.2072636925213, 'vacation'), (876.7530265385508, 'streaming services')]
+2025-05-06 05:59:43,390 INFO Cash investment value: 386055.9
+2025-05-06 05:59:43,390 INFO Invested amount: 0.0, Cash investment value: 386055.9
+2025-05-06 05:59:43,390 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,391 INFO Current year net worth: 2275431.5552711766, Financial goal: 10000
+2025-05-06 05:59:43,391 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,391 INFO Running year 2044.
+2025-05-06 05:59:43,391 INFO User age/alive: 59/True and spouse age/alive: 57/True
+2025-05-06 05:59:43,391 INFO Marital status: couple.
+2025-05-06 05:59:43,391 INFO prev_fed_tax: 5111.37. prev_state_tax: 4948.71.
+2025-05-06 05:59:43,392 INFO Gross income: 101659.19041186724, Social Security: 0, Current Year Income: 101659.19
+2025-05-06 05:59:43,396 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,397 INFO Non-discretionary expenses: 9030.556173347075, Discretionary expenses: [(2167.333481603297, 'vacation'), (903.0556173347073, 'streaming services')]
+2025-05-06 05:59:43,399 INFO Cash investment value: 465554.06
+2025-05-06 05:59:43,399 INFO Invested amount: 0.0, Cash investment value: 465554.06
+2025-05-06 05:59:43,400 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,400 INFO Current year net worth: 2458995.513007913, Financial goal: 10000
+2025-05-06 05:59:43,401 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,401 INFO Running year 2045.
+2025-05-06 05:59:43,401 INFO User age/alive: 60/True and spouse age/alive: 58/True
+2025-05-06 05:59:43,401 INFO Marital status: couple.
+2025-05-06 05:59:43,401 INFO prev_fed_tax: 5032.45. prev_state_tax: 4990.72.
+2025-05-06 05:59:43,401 INFO Gross income: 103531.95352498717, Social Security: 0, Current Year Income: 103531.95
+2025-05-06 05:59:43,406 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,407 INFO Non-discretionary expenses: 9301.472858547488, Discretionary expenses: [(2232.353486051396, 'vacation'), (930.1472858547486, 'streaming services')]
+2025-05-06 05:59:43,408 INFO Cash investment value: 546598.87
+2025-05-06 05:59:43,408 INFO Invested amount: 0.0, Cash investment value: 546598.87
+2025-05-06 05:59:43,409 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,411 INFO Current year net worth: 2691091.333186569, Financial goal: 10000
+2025-05-06 05:59:43,412 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,412 INFO Running year 2046.
+2025-05-06 05:59:43,412 INFO User age/alive: 61/True and spouse age/alive: 59/True
+2025-05-06 05:59:43,413 INFO Marital status: couple.
+2025-05-06 05:59:43,413 INFO prev_fed_tax: 5042.19. prev_state_tax: 5075.71.
+2025-05-06 05:59:43,413 INFO Gross income: 104298.1527867251, Social Security: 0, Current Year Income: 104298.15
+2025-05-06 05:59:43,418 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,419 INFO Non-discretionary expenses: 9580.517044303913, Discretionary expenses: [(2299.324090632938, 'vacation'), (958.051704430391, 'streaming services')]
+2025-05-06 05:59:43,420 INFO Cash investment value: 627941.23
+2025-05-06 05:59:43,420 INFO Invested amount: 0.0, Cash investment value: 627941.23
+2025-05-06 05:59:43,420 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,421 INFO Current year net worth: 2949435.5632284125, Financial goal: 10000
+2025-05-06 05:59:43,422 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,422 INFO Running year 2047.
+2025-05-06 05:59:43,422 INFO User age/alive: 62/True and spouse age/alive: 60/True
+2025-05-06 05:59:43,422 INFO Marital status: couple.
+2025-05-06 05:59:43,422 INFO prev_fed_tax: 4912.68. prev_state_tax: 5099.29.
+2025-05-06 05:59:43,422 INFO Gross income: 105633.15793748904, Social Security: 0, Current Year Income: 105633.16
+2025-05-06 05:59:43,427 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,428 INFO Non-discretionary expenses: 9867.932555633031, Discretionary expenses: [(2368.3038133519262, 'vacation'), (986.7932555633029, 'streaming services')]
+2025-05-06 05:59:43,429 INFO Cash investment value: 710339.3999999999
+2025-05-06 05:59:43,429 INFO Invested amount: 0.0, Cash investment value: 710339.3999999999
+2025-05-06 05:59:43,429 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,430 INFO Current year net worth: 3184523.129182926, Financial goal: 10000
+2025-05-06 05:59:43,431 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,431 INFO Running year 2048.
+2025-05-06 05:59:43,431 INFO User age/alive: 63/True and spouse age/alive: 61/True
+2025-05-06 05:59:43,431 INFO Marital status: couple.
+2025-05-06 05:59:43,431 INFO prev_fed_tax: 4844.79. prev_state_tax: 5153.61.
+2025-05-06 05:59:43,431 INFO Gross income: 107170.03527404519, Social Security: 0, Current Year Income: 107170.04
+2025-05-06 05:59:43,436 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,437 INFO Non-discretionary expenses: 10163.970532302023, Discretionary expenses: [(2439.352927752484, 'vacation'), (1016.397053230202, 'streaming services')]
+2025-05-06 05:59:43,438 INFO Cash investment value: 793891.32
+2025-05-06 05:59:43,438 INFO Invested amount: 0.0, Cash investment value: 793891.32
+2025-05-06 05:59:43,438 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,439 INFO Current year net worth: 3427766.143413455, Financial goal: 10000
+2025-05-06 05:59:43,439 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,439 INFO Running year 2049.
+2025-05-06 05:59:43,439 INFO User age/alive: 64/True and spouse age/alive: 62/True
+2025-05-06 05:59:43,439 INFO Marital status: couple.
+2025-05-06 05:59:43,439 INFO prev_fed_tax: 4794.28. prev_state_tax: 5218.45.
+2025-05-06 05:59:43,440 INFO Gross income: 108188.1550470612, Social Security: 0, Current Year Income: 108188.16
+2025-05-06 05:59:43,444 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,445 INFO Non-discretionary expenses: 10468.889648271084, Discretionary expenses: [(2512.5335155850585, 'vacation'), (1046.888964827108, 'streaming services')]
+2025-05-06 05:59:43,446 INFO Cash investment value: 878038.44
+2025-05-06 05:59:43,447 INFO Invested amount: 0.0, Cash investment value: 878038.44
+2025-05-06 05:59:43,447 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,448 INFO Current year net worth: 3686656.716804489, Financial goal: 10000
+2025-05-06 05:59:43,448 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,448 INFO Running year 2050.
+2025-05-06 05:59:43,448 INFO User age/alive: 65/True and spouse age/alive: 63/True
+2025-05-06 05:59:43,448 INFO Marital status: couple.
+2025-05-06 05:59:43,448 INFO prev_fed_tax: 4704.98. prev_state_tax: 5254.17.
+2025-05-06 05:59:43,448 INFO Gross income: 109908.66584591872, Social Security: 0, Current Year Income: 109908.67
+2025-05-06 05:59:43,453 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,454 INFO Non-discretionary expenses: 10782.956337719217, Discretionary expenses: [(2587.90952105261, 'vacation'), (1078.2956337719213, 'streaming services')]
+2025-05-06 05:59:43,456 INFO Cash investment value: 963538.7899999999
+2025-05-06 05:59:43,456 INFO Invested amount: 0.0, Cash investment value: 963538.7899999999
+2025-05-06 05:59:43,456 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,457 INFO Current year net worth: 3917963.384031317, Financial goal: 10000
+2025-05-06 05:59:43,457 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,457 INFO Running year 2051.
+2025-05-06 05:59:43,457 INFO User age/alive: 66/True and spouse age/alive: 64/True
+2025-05-06 05:59:43,457 INFO Marital status: couple.
+2025-05-06 05:59:43,457 INFO prev_fed_tax: 4693.62. prev_state_tax: 5327.91.
+2025-05-06 05:59:43,458 INFO Gross income: 110479.84748995659, Social Security: 0, Current Year Income: 110479.85
+2025-05-06 05:59:43,462 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,463 INFO Non-discretionary expenses: 11106.445027850794, Discretionary expenses: [(2665.5468066841886, 'vacation'), (1110.6445027850789, 'streaming services')]
+2025-05-06 05:59:43,464 INFO Cash investment value: 1049114.47
+2025-05-06 05:59:43,464 INFO Invested amount: 0.0, Cash investment value: 1049114.47
+2025-05-06 05:59:43,464 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,465 INFO Current year net worth: 4221486.407585943, Financial goal: 10000
+2025-05-06 05:59:43,466 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,466 INFO Running year 2052.
+2025-05-06 05:59:43,466 INFO User age/alive: 67/True and spouse age/alive: 65/True
+2025-05-06 05:59:43,466 INFO Marital status: couple.
+2025-05-06 05:59:43,466 INFO prev_fed_tax: 4561.82. prev_state_tax: 5337.81.
+2025-05-06 05:59:43,467 INFO Gross income: 111741.16918940716, Social Security: 0, Current Year Income: 111741.17
+2025-05-06 05:59:43,471 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,472 INFO Non-discretionary expenses: 11439.638378686317, Discretionary expenses: [(2745.513210884714, 'vacation'), (1143.9638378686313, 'streaming services')]
+2025-05-06 05:59:43,473 INFO Cash investment value: 1135626.9
+2025-05-06 05:59:43,473 INFO Invested amount: 0.0, Cash investment value: 1135626.9
+2025-05-06 05:59:43,473 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,474 INFO Current year net worth: 4477516.966816163, Financial goal: 10000
+2025-05-06 05:59:43,474 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,475 INFO Running year 2053.
+2025-05-06 05:59:43,475 INFO User age/alive: 68/True and spouse age/alive: 66/True
+2025-05-06 05:59:43,475 INFO Marital status: couple.
+2025-05-06 05:59:43,475 INFO prev_fed_tax: 4493.37. prev_state_tax: 5385.03.
+2025-05-06 05:59:43,475 INFO Gross income: 113603.38938974039, Social Security: 0, Current Year Income: 113603.39
+2025-05-06 05:59:43,483 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,484 INFO Non-discretionary expenses: 11782.827530046907, Discretionary expenses: [(2827.8786072112557, 'vacation'), (1178.2827530046902, 'streaming services')]
+2025-05-06 05:59:43,486 INFO Cash investment value: 1223562.9
+2025-05-06 05:59:43,486 INFO Invested amount: 0.0, Cash investment value: 1223562.9
+2025-05-06 05:59:43,486 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,487 INFO Current year net worth: 4711912.424952458, Financial goal: 10000
+2025-05-06 05:59:43,487 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,487 INFO Running year 2054.
+2025-05-06 05:59:43,487 INFO User age/alive: 69/True and spouse age/alive: 67/True
+2025-05-06 05:59:43,487 INFO Marital status: couple.
+2025-05-06 05:59:43,488 INFO prev_fed_tax: 4479.17. prev_state_tax: 5464.63.
+2025-05-06 05:59:43,488 INFO Gross income: 114741.86466788212, Social Security: 0, Current Year Income: 114741.86
+2025-05-06 05:59:43,493 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,494 INFO Non-discretionary expenses: 12136.312355948314, Discretionary expenses: [(2912.7149654275936, 'vacation'), (1213.631235594831, 'streaming services')]
+2025-05-06 05:59:43,495 INFO Cash investment value: 1312098.31
+2025-05-06 05:59:43,495 INFO Invested amount: 0.0, Cash investment value: 1312098.31
+2025-05-06 05:59:43,495 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,496 INFO Current year net worth: 5030278.043049963, Financial goal: 10000
+2025-05-06 05:59:43,496 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,496 INFO Running year 2055.
+2025-05-06 05:59:43,496 INFO User age/alive: 70/True and spouse age/alive: 68/True
+2025-05-06 05:59:43,497 INFO Marital status: couple.
+2025-05-06 05:59:43,497 INFO prev_fed_tax: 4386.58. prev_state_tax: 5503.74.
+2025-05-06 05:59:43,497 INFO Gross income: 115685.23929136017, Social Security: 0, Current Year Income: 115685.24
+2025-05-06 05:59:43,501 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,503 INFO Non-discretionary expenses: 12500.401726626764, Discretionary expenses: [(3000.0964143904216, 'vacation'), (1250.040172662676, 'streaming services')]
+2025-05-06 05:59:43,504 INFO Cash investment value: 1401142.69
+2025-05-06 05:59:43,504 INFO Invested amount: 0.0, Cash investment value: 1401142.69
+2025-05-06 05:59:43,504 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,505 INFO Current year net worth: 5445843.165614858, Financial goal: 10000
+2025-05-06 05:59:43,505 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,505 INFO Running year 2056.
+2025-05-06 05:59:43,505 INFO User age/alive: 71/True and spouse age/alive: 69/True
+2025-05-06 05:59:43,505 INFO Marital status: couple.
+2025-05-06 05:59:43,505 INFO prev_fed_tax: 4268.29. prev_state_tax: 5531.41.
+2025-05-06 05:59:43,506 INFO Gross income: 116880.76124242843, Social Security: 0, Current Year Income: 116880.76
+2025-05-06 05:59:43,510 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,511 INFO Non-discretionary expenses: 12875.413778425567, Discretionary expenses: [(3090.099306822134, 'vacation'), (1287.5413778425564, 'streaming services')]
+2025-05-06 05:59:43,512 INFO Cash investment value: 1490970.6999999997
+2025-05-06 05:59:43,512 INFO Invested amount: 0.0, Cash investment value: 1490970.6999999997
+2025-05-06 05:59:43,512 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,513 INFO Current year net worth: 5827751.66014547, Financial goal: 10000
+2025-05-06 05:59:43,513 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,514 INFO Running year 2057.
+2025-05-06 05:59:43,514 INFO User age/alive: 72/True and spouse age/alive: 70/True
+2025-05-06 05:59:43,514 INFO Marital status: couple.
+2025-05-06 05:59:43,514 INFO prev_fed_tax: 4168.83. prev_state_tax: 5572.23.
+2025-05-06 05:59:43,514 INFO Gross income: 118398.89669066276, Social Security: 0, Current Year Income: 118398.9
+2025-05-06 05:59:43,519 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,520 INFO Non-discretionary expenses: 13261.676191778335, Discretionary expenses: [(3182.8022860267984, 'vacation'), (1326.167619177833, 'streaming services')]
+2025-05-06 05:59:43,521 INFO Cash investment value: 1581857.8899999997
+2025-05-06 05:59:43,521 INFO Invested amount: 0.0, Cash investment value: 1581857.8899999997
+2025-05-06 05:59:43,521 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,521 INFO Current year net worth: 6292046.090862206, Financial goal: 10000
+2025-05-06 05:59:43,522 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,522 INFO Running year 2058.
+2025-05-06 05:59:43,522 INFO User age/alive: 73/True and spouse age/alive: 71/True
+2025-05-06 05:59:43,522 INFO Marital status: couple.
+2025-05-06 05:59:43,522 INFO prev_fed_tax: 4095.07. prev_state_tax: 5630.04.
+2025-05-06 05:59:43,522 INFO Gross income: 119734.16866427755, Social Security: 0, Current Year Income: 119734.17
+2025-05-06 05:59:43,527 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,529 INFO Non-discretionary expenses: 13659.526477531686, Discretionary expenses: [(3278.2863546076023, 'vacation'), (1365.952647753168, 'streaming services')]
+2025-05-06 05:59:43,530 INFO Cash investment value: 1673563.1799999997
+2025-05-06 05:59:43,530 INFO Invested amount: 0.0, Cash investment value: 1673563.1799999997
+2025-05-06 05:59:43,530 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,531 INFO Current year net worth: 6645089.587451253, Financial goal: 10000
+2025-05-06 05:59:43,531 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,531 INFO Running year 2059.
+2025-05-06 05:59:43,531 INFO User age/alive: 74/True and spouse age/alive: 72/True
+2025-05-06 05:59:43,531 INFO Marital status: couple.
+2025-05-06 05:59:43,531 INFO prev_fed_tax: 3996.25. prev_state_tax: 5677.02.
+2025-05-06 05:59:43,532 INFO Gross income: 121522.36957092145, Social Security: 0, Current Year Income: 121522.37
+2025-05-06 05:59:43,536 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,538 INFO Non-discretionary expenses: 14069.312271857638, Discretionary expenses: [(3376.6349452458303, 'vacation'), (1406.9312271857632, 'streaming services')]
+2025-05-06 05:59:43,539 INFO Cash investment value: 1766559.41
+2025-05-06 05:59:43,539 INFO Invested amount: 0.0, Cash investment value: 1766559.41
+2025-05-06 05:59:43,539 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,540 INFO Current year net worth: 7006300.878177623, Financial goal: 10000
+2025-05-06 05:59:43,540 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,540 INFO Running year 2060.
+2025-05-06 05:59:43,540 INFO User age/alive: 75/True and spouse age/alive: 73/True
+2025-05-06 05:59:43,540 INFO Marital status: couple.
+2025-05-06 05:59:43,541 INFO prev_fed_tax: 3935.76. prev_state_tax: 5748.12.
+2025-05-06 05:59:43,541 INFO Gross income: 122051.19558557261, Social Security: 0, Current Year Income: 122051.2
+2025-05-06 05:59:43,546 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,547 INFO Non-discretionary expenses: 14491.391640013368, Discretionary expenses: [(3477.933993603205, 'vacation'), (1449.1391640013362, 'streaming services')]
+2025-05-06 05:59:43,549 INFO Cash investment value: 1859508.27
+2025-05-06 05:59:43,549 INFO Invested amount: 0.0, Cash investment value: 1859508.27
+2025-05-06 05:59:43,549 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,550 INFO Current year net worth: 7377784.666879788, Financial goal: 10000
+2025-05-06 05:59:43,550 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,551 INFO Running year 2061.
+2025-05-06 05:59:43,551 INFO User age/alive: 76/True and spouse age/alive: 74/True
+2025-05-06 05:59:43,551 INFO Marital status: couple.
+2025-05-06 05:59:43,551 INFO prev_fed_tax: 3742.15. prev_state_tax: 5749.14.
+2025-05-06 05:59:43,551 INFO Gross income: 123782.10768290021, Social Security: 0, Current Year Income: 123782.11
+2025-05-06 05:59:43,559 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,560 INFO Non-discretionary expenses: 14926.133389213768, Discretionary expenses: [(3582.2720134113015, 'vacation'), (1492.6133389213762, 'streaming services')]
+2025-05-06 05:59:43,561 INFO Cash investment value: 1953798.08
+2025-05-06 05:59:43,561 INFO Invested amount: 0.0, Cash investment value: 1953798.08
+2025-05-06 05:59:43,561 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,562 INFO Current year net worth: 7861571.725135559, Financial goal: 10000
+2025-05-06 05:59:43,563 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,563 INFO Running year 2062.
+2025-05-06 05:59:43,563 INFO User age/alive: 77/True and spouse age/alive: 75/True
+2025-05-06 05:59:43,563 INFO Marital status: couple.
+2025-05-06 05:59:43,563 INFO prev_fed_tax: 3661.35. prev_state_tax: 5815.43.
+2025-05-06 05:59:43,563 INFO Gross income: 124669.59029063578, Social Security: 0, Current Year Income: 124669.59
+2025-05-06 05:59:43,571 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,573 INFO Non-discretionary expenses: 15373.917390890181, Discretionary expenses: [(3689.7401738136405, 'vacation'), (1537.3917390890176, 'streaming services')]
+2025-05-06 05:59:43,575 INFO Cash investment value: 2048389.8400000003
+2025-05-06 05:59:43,575 INFO Invested amount: 0.0, Cash investment value: 2048389.8400000003
+2025-05-06 05:59:43,575 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,577 INFO Current year net worth: 8293184.93007179, Financial goal: 10000
+2025-05-06 05:59:43,577 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,577 INFO Running year 2063.
+2025-05-06 05:59:43,577 INFO User age/alive: 78/True and spouse age/alive: 76/True
+2025-05-06 05:59:43,577 INFO Marital status: couple.
+2025-05-06 05:59:43,577 INFO prev_fed_tax: 3488.59. prev_state_tax: 5834.46.
+2025-05-06 05:59:43,578 INFO Gross income: 125874.84115576746, Social Security: 0, Current Year Income: 125874.84
+2025-05-06 05:59:43,590 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,592 INFO Non-discretionary expenses: 15835.134912616886, Discretionary expenses: [(3800.4323790280496, 'vacation'), (1583.5134912616882, 'streaming services')]
+2025-05-06 05:59:43,594 INFO Cash investment value: 2143722.56
+2025-05-06 05:59:43,595 INFO Invested amount: 0.0, Cash investment value: 2143722.56
+2025-05-06 05:59:43,595 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,597 INFO Current year net worth: 8939115.889943747, Financial goal: 10000
+2025-05-06 05:59:43,598 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,598 INFO Running year 2064.
+2025-05-06 05:59:43,599 INFO User age/alive: 79/True and spouse age/alive: 77/True
+2025-05-06 05:59:43,599 INFO Marital status: couple.
+2025-05-06 05:59:43,599 INFO prev_fed_tax: 3339.77. prev_state_tax: 5870.08.
+2025-05-06 05:59:43,600 INFO Gross income: 127612.77252734016, Social Security: 0, Current Year Income: 127612.77
+2025-05-06 05:59:43,606 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,608 INFO Non-discretionary expenses: 16310.188959995394, Discretionary expenses: [(3914.445350398891, 'vacation'), (1631.018895999539, 'streaming services')]
+2025-05-06 05:59:43,610 INFO Cash investment value: 2240269.82
+2025-05-06 05:59:43,611 INFO Invested amount: 0.0, Cash investment value: 2240269.82
+2025-05-06 05:59:43,611 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,612 INFO Current year net worth: 9490914.093895081, Financial goal: 10000
+2025-05-06 05:59:43,613 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,613 INFO Running year 2065.
+2025-05-06 05:59:43,613 INFO User age/alive: 80/True and spouse age/alive: 78/True
+2025-05-06 05:59:43,613 INFO Marital status: couple.
+2025-05-06 05:59:43,613 INFO prev_fed_tax: 3236.13. prev_state_tax: 5934.07.
+2025-05-06 05:59:43,614 INFO Gross income: 129024.26662482777, Social Security: 0, Current Year Income: 129024.27
+2025-05-06 05:59:43,621 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,623 INFO Non-discretionary expenses: 16799.494628795255, Discretionary expenses: [(4031.878710910858, 'vacation'), (1679.949462879525, 'streaming services')]
+2025-05-06 05:59:43,625 INFO Cash investment value: 2337612.57
+2025-05-06 05:59:43,625 INFO Invested amount: 0.0, Cash investment value: 2337612.57
+2025-05-06 05:59:43,625 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,627 INFO Current year net worth: 9989780.783926113, Financial goal: 10000
+2025-05-06 05:59:43,627 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,628 INFO Running year 2066.
+2025-05-06 05:59:43,628 INFO User age/alive: 81/False and spouse age/alive: 79/True
+2025-05-06 05:59:43,628 INFO Marital status: individual.
+2025-05-06 05:59:43,629 INFO prev_fed_tax: 3091.52. prev_state_tax: 5979.17.
+2025-05-06 05:59:43,629 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 05:59:43,651 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,654 INFO Non-discretionary expenses: 17303.479467659112, Discretionary expenses: []
+2025-05-06 05:59:43,658 INFO Cash investment value: 2311238.4
+2025-05-06 05:59:43,658 INFO Invested amount: 0.0, Cash investment value: 2311238.4
+2025-05-06 05:59:43,658 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,661 INFO Current year net worth: 10696959.414591148, Financial goal: 10000
+2025-05-06 05:59:43,662 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,662 INFO Running year 2067.
+2025-05-06 05:59:43,662 INFO User age/alive: 82/False and spouse age/alive: 80/True
+2025-05-06 05:59:43,662 INFO Marital status: individual.
+2025-05-06 05:59:43,662 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 05:59:43,663 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 05:59:43,676 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,678 INFO Non-discretionary expenses: 17822.583851688887, Discretionary expenses: []
+2025-05-06 05:59:43,679 INFO Cash investment value: 2293415.82
+2025-05-06 05:59:43,680 INFO Invested amount: 0.0, Cash investment value: 2293415.82
+2025-05-06 05:59:43,680 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,684 INFO Current year net worth: 11249166.329528844, Financial goal: 10000
+2025-05-06 05:59:43,687 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,687 INFO Running year 2068.
+2025-05-06 05:59:43,687 INFO User age/alive: 83/False and spouse age/alive: 81/True
+2025-05-06 05:59:43,687 INFO Marital status: individual.
+2025-05-06 05:59:43,687 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 05:59:43,687 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 05:59:43,695 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,696 INFO Non-discretionary expenses: 18357.261367239553, Discretionary expenses: []
+2025-05-06 05:59:43,697 INFO Cash investment value: 2275058.56
+2025-05-06 05:59:43,697 INFO Invested amount: 0.0, Cash investment value: 2275058.56
+2025-05-06 05:59:43,697 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,698 INFO Current year net worth: 11551554.051815677, Financial goal: 10000
+2025-05-06 05:59:43,699 INFO ---------------------------------------------------------------------------
+2025-05-06 05:59:43,699 INFO Running year 2069.
+2025-05-06 05:59:43,699 INFO User age/alive: 84/False and spouse age/alive: 82/True
+2025-05-06 05:59:43,699 INFO Marital status: individual.
+2025-05-06 05:59:43,699 INFO prev_fed_tax: 0.0. prev_state_tax: 0.0.
+2025-05-06 05:59:43,699 INFO Gross income: 0, Social Security: 0, Current Year Income: 0.0
+2025-05-06 05:59:43,708 INFO Roth conversion: 0.0
+2025-05-06 05:59:43,709 INFO Non-discretionary expenses: 18907.97920825674, Discretionary expenses: []
+2025-05-06 05:59:43,711 INFO Cash investment value: 2256150.58
+2025-05-06 05:59:43,711 INFO Invested amount: 0.0, Cash investment value: 2256150.58
+2025-05-06 05:59:43,711 INFO Rebalanced amount: 0.0.
+2025-05-06 05:59:43,712 INFO Current year net worth: 12081457.789239801, Financial goal: 10000
