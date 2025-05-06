@@ -340,20 +340,22 @@ def run_simulation():
     if not scenario:
         return jsonify({"error": "Scenario is required"}), 400
     
-    scenario = Scenario.from_dict(scenario)
-
+    num_simulations = data['num_simulations']
+    if not num_simulations:
+        return jsonify({"error": "Number of simulations is required"}), 400
+    
     # Run the simulation
-    result = run_financial_planner(scenario)
+    result = run_financial_planner(scenario, num_simulations)
     
     return jsonify({"message": "Simulation completed successfully", "result": result}), 200
 
 if __name__ == "__main__":
     # Test simulations
-    # scenario = Scenario.from_yaml("test_simulation_scenario.yaml")
+    scenario = Scenario.from_yaml("new_test_scenario.yaml")
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    # scenario_res = run_financial_planner(scenario.to_dict(), 1)
+    scenario_res = run_financial_planner(scenario.to_dict(), 1)
 
-   
+    # exit(0)
 
     app.logger.info('Starting Flask application')
     app.run(host="0.0.0.0", port=8000, debug=True)

@@ -14,6 +14,7 @@ import ShadedLineChart from '../components/ShadedLineChart';
 import axios from 'axios';
 import SurfacePlot from '../components/SurfacePlot';
 import ContourPlot from '../components/ContourPlot';
+import Card from 'react-bootstrap/Card';
 
 // user: {email, scenarios}
 // pass in user
@@ -25,7 +26,6 @@ Chart.register(CategoryScale);
 
 const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
-
 
 const testScenarios = {
   scenario1:{ name:"test1", 
@@ -74,10 +74,14 @@ function Overview() {
   const [simulationAmount, setSimulationAmount] = useState(0);
   const [simulationData, setSimulationData] = useState<any>();
   const MAX_NUMBER_OF_CHARTS = 3;
+  const MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER = 1;
   let user;
   const [userData, setUserData] = useState<string[] | null>(null);
   const [fetchUserScenarios, setFetchUserScenarios] = useState<any[]>([]);
   const selectedScenarioData = fetchUserScenarios[parseInt(scenario)];
+  const [explorationMode, setExplorationMode] = useState<"one-dimensional" | "two-dimensional" | "none">("none");
+
+  const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
 
   const getUser = async () => {
     try {
@@ -146,6 +150,28 @@ function Overview() {
     
     console.log("Fetch Scenarios:", fetchUserScenarios);
 
+  const runSimulation = async () => {
+    console.log("Running simulation with scenario:", selectedScenarioData);
+    console.log("Simulation Amount:", simulationAmount);
+
+    try {
+      const response = await axios.post('/api/run_simulation', {
+        scenario: selectedScenarioData,
+        num_simulations: simulationAmount,
+      });
+      console.log("Simulation Response:", response.data);
+      setSimulationData(response.data);
+    }
+    catch (error) {
+      console.error("Error running simulation:", error);
+    }
+  }
+
+  const [oneDimensionalParameters, setOneDimensionalParameters] = useState({
+    startYear: false,
+    duration: false,
+    initialAmount: false,
+  });
 
   const [lineChart, setLineChart] = useState({
     probabilityofSuccess: false,
@@ -160,8 +186,18 @@ function Overview() {
   });
 
   const [stackedBarGraph, setStackedBarGraph] = useState({
-    average: false,
-    median: false,
+    totalInvestments: {
+      checked: false,
+      displayType: 'average' 
+    },
+    totalIncome: {
+      checked: false,
+      displayType: 'average' 
+    },
+    totalExpenses: {
+      checked: false,
+      displayType: 'average'
+    }
   });
 
   const [surfacePlot, setSurfacePlot] = useState({ 
@@ -178,16 +214,18 @@ function Overview() {
   const countSelectedCharts = () => {
     const lineSelected = Object.values(lineChart).filter(Boolean).length;
     const shadedLineSelected = Object.values(shadedLineChart).filter(Boolean).length;
-    const stackedSelected = Object.values(stackedBarGraph).filter(Boolean).length
+    const stackedSelected = Object.values(stackedBarGraph).filter(chart => chart.checked).length;
     return lineSelected + shadedLineSelected + stackedSelected;
+  };
+
+  const countSelectedOneDimensionalParameters = () => {
+    const oneDimensionalSelected = Object.values(oneDimensionalParameters).filter(Boolean).length;
+    return oneDimensionalSelected;
   };
   
   const totalSelectedCharts = countSelectedCharts();
 
-  const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setScenario(e.target.value);
-
-    // Reset the charts and simulation data when a new scenario is selected
+  const resetAllChartSelections = () => {
     setLineChart({
       probabilityofSuccess: false,
     });
@@ -199,19 +237,65 @@ function Overview() {
       percentageOfTotalDiscretionaryExpenses: false,
     });
     setStackedBarGraph({
-      average: false,
-      median: false,
+      totalInvestments: {
+        checked: false,
+        displayType: 'average'
+      },
+      totalIncome: {
+        checked: false,
+        displayType: 'average'
+      },
+      totalExpenses: {
+        checked: false,
+        displayType: 'average'
+      }
     });
     setSurfacePlot({
       finalValueOfProbabilityOfSuccess: false,
       finalValueOfMedianTotalInvestments: false,
-    })
-    setSimulationData(false);
-    setSimulationAmount(0);
+    });
+    setContourPlot({
+      finalValueOfProbabilityOfSuccess: false,
+      finalValueOfMedianTotalInvestments: false,
+    });
+  };
+
+  const handleScenarioSelection = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    setScenario(e.target.value);
+
+    // Reset the charts and simulation data when a new scenario is selected
+    resetAllChartSelections();
 
     console.log("Selected Scenario:", e.target.value);
   }
 
+  const handleExplorationModeChange = (mode: 'one-dimensional' | 'two-dimensional' | 'none') => {
+      // Reset all chart selections when changing modes
+      resetAllChartSelections();
+      setExplorationMode(mode);
+    };
+
+  const handleEventSelection = (index:number) => {
+      // If the same card is clicked again, deselect it
+    if (selectedEvent === index) {
+      setSelectedEvent(null);
+    } else {
+      setSelectedEvent(index);
+    }
+
+    {console.log("Selected Event:", selectedScenarioData["eventSeries"][selectedEvent])}
+
+  }
+
+  const handleOneDimensionalParameterSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, checked} = e.target;
+    setOneDimensionalParameters(prevParameters => ({
+      ...prevParameters,
+      [name]: checked,
+    }));
+
+    console.log(oneDimensionalParameters);
+  }
 
   const handleLineChartSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
@@ -235,13 +319,30 @@ function Overview() {
 
   const handleStackedBarGraphSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
+
+    console.log("Stacked Bar Graph Name:", name);
+    console.log("Stacked Bar Graph Checked:", checked);
+    
     setStackedBarGraph(prevCharts => ({
       ...prevCharts,
-      [name]: checked,
+      [name]: {
+        ...prevCharts[name],
+        checked: checked
+      }
     }));
 
     console.log(stackedBarGraph);
   }
+
+   const handleDisplayTypeChange = (chartName: string, displayType: 'average' | 'median') => {
+    setStackedBarGraph(prevCharts => ({
+      ...prevCharts,
+      [chartName]: {
+        ...prevCharts[chartName],
+        displayType: displayType
+      }
+    }));
+   }
 
   const handleSurfacePlotSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
@@ -272,6 +373,7 @@ function Overview() {
       
       <div id="main-content">
       <div id="selectScenario">
+        <h5>Select a Scenario</h5>
         {/* Dropdown to select the scenarios */}
         <Form.Select 
           id="selectScenarioForm"
@@ -280,17 +382,17 @@ function Overview() {
           onChange={(e)=>handleScenarioSelection(e)}
         >
           <option value="" disabled>Select a scenario</option>
-          {Object.keys(testScenarios).map((scenario, index) => (
-            <option key={scenario} value={scenario}>
-              {scenario}
-            </option>
+          {/* {Object.keys(testScenarios).map((scenario, index) => ( */}
+            {/* <option key={scenario} value={scenario}> */}
+              {/* {scenario} */}
+            {/* </option> */}
 
-          // {fetchUserScenarios.map((scenario, index) => (
-          //   <option key={scenario._id} value={index}>
-          //     {scenario.name}
-          //   </option>
-          // ))}
+          {fetchUserScenarios.map((scenario, index) => (
+            <option key={scenario._id} value={index}>
+              {scenario.name}
+            </option>
           ))}
+          {/* ))} */}
         </Form.Select>
         </div>
         {/* If user selcts a scenario, allow them to checkbox the charts they want to see*/}
@@ -313,18 +415,167 @@ function Overview() {
             <Button
               id="simulateButton"
               name="simulateButton"
-              variant="primary"
-              onClick={(e) => {
-                console.log("Simulating", simulationAmount, "times")
-                setSimulationData(true);}
-              }
+              variant="success"
+              onClick={(e) => runSimulation()}
             >
               Submit
             </Button>
           </div>
         )}
 
-        {simulationData &&(
+        {simulationData && (
+          <div id="explorationModes" className="mb-4">
+            <h5>Select Exploration Mode</h5>
+            <div>
+              <Button
+                className="mb-4"
+                variant={explorationMode === 'none' ? "primary" : "outline-primary"}
+                onClick={() => handleExplorationModeChange("none")}
+              >
+                None
+              </Button>
+              <Button 
+                className='mb-4'
+                variant={explorationMode === 'one-dimensional' ? "primary" : "outline-primary"}
+                onClick={() => handleExplorationModeChange('one-dimensional')}
+              >
+                One-Dimensional Exploration
+              </Button>
+              <Button 
+                className='mb-4'
+                variant={explorationMode === 'two-dimensional' ? "primary" : "outline-primary"}
+                onClick={() => handleExplorationModeChange('two-dimensional')}
+              >
+                Two-Dimensional Exploration
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {simulationData && explorationMode === 'one-dimensional' && (
+          <div id="explorationMode">
+            <h5>One-Dimensional Exploration</h5>
+            <div id="explorationModeDescription">
+              <p>
+                In this mode, you can explore the impact of changing one parameter at a time on the simulation results.
+              </p>
+            </div>
+
+            <div id="one-dimensional-events">
+              <h6> Available Events:</h6>  
+              <div>
+              {selectedEvent === null ? (
+                selectedScenarioData["eventSeries"].map((events:any, index:any) => (
+                  <Card key={index} className='mb-3' onClick={() => handleEventSelection(index)}>
+                    <Card.Body>
+                      <Card.Title>{events.name}</Card.Title>
+                      <Card.Text>
+                        Type: {events.type}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card> 
+                ))
+              ) : ( 
+                <Card 
+                  key={selectedEvent} 
+                  className='mb-3' 
+                  onClick={() => handleEventSelection(selectedEvent)}
+                  style={{ 
+                    cursor: 'pointer',
+                    borderColor: '#007bff',
+                    boxShadow: '0 0 0 0.2rem rgba(0, 123, 255, 0.25)'
+                  }}
+                >
+                  <Card.Body>
+                    <Card.Title>{selectedScenarioData["eventSeries"][selectedEvent].name}</Card.Title>
+                    <Card.Text>
+                      Type: {selectedScenarioData["eventSeries"][selectedEvent].type}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {selectedEvent != null  && (
+          <div id="one-dimensional-parameters">
+              <h6>Available Parameters:</h6>
+              <div> 
+                <Form>
+                  <Form.Check
+                    id="selectParameter"
+                    name="startYear"
+                    label="Start Year"
+                    checked={oneDimensionalParameters.startYear}
+                    disabled={countSelectedOneDimensionalParameters() >= MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER && !oneDimensionalParameters.startYear}
+                    onChange={(e) => handleOneDimensionalParameterSelection(e)} 
+                  />
+                  <Form.Check
+                    id="selectParameter"
+                    name="duration"
+                    label="Duration"
+                    checked={oneDimensionalParameters.duration}
+                    disabled={countSelectedOneDimensionalParameters() >= MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER && !oneDimensionalParameters.duration}
+                    onChange={(e) => handleOneDimensionalParameterSelection(e)}
+                  />
+
+                  {selectedScenarioData["eventSeries"][selectedEvent].type === "income" || selectedScenarioData["eventSeries"][selectedEvent].type === "expense" && (
+                    <Form.Check
+                      id="selectParameter"
+                      name="initialAmount"
+                      label="Initial Amount"
+                      checked={oneDimensionalParameters.initialAmount}
+                      disabled={countSelectedOneDimensionalParameters() >= MAX_NUMBER_OF_ONE_DIMENSIONAL_PARAMETER && !oneDimensionalParameters.initialAmount}
+                      onChange={(e) => handleOneDimensionalParameterSelection(e)}
+                    />
+                  )}
+                </Form>
+              </div>
+
+              {oneDimensionalParameters.startYear && (
+                  <div>
+                    <Form.Label htmlFor="startYearInput">
+                      Current Start Year: {selectedScenarioData["eventSeries"][selectedEvent].start.value}
+                    </Form.Label>
+                    <Form.Control
+                      id="startYearInput"
+                      name="lowerbound"
+                      type="number"
+                      placeholder="Enter the new lower bound"
+                      className="mb-2"
+                    />
+                    <Form.Control
+                      id="startYearInput"
+                      name="upperbound"
+                      type="number"
+                      placeholder="Enter the new upper bound"
+                      className="mb-2"
+                    />
+                    <Form.Control
+                      id="startYearInput"
+                      name="step"
+                      type="number"
+                      placeholder="Enter the step size"
+                      className="mb-2"
+                    />
+                    <Button
+                      id="runSimulationButton"
+                      name="runSimulationButton"
+                      variant="success"
+                    >
+                     Run Simulation
+                    </Button>
+
+                    </div>
+                  )}
+              </div>
+        )}  
+
+
+        
+        {simulationData && (
          <div id="charts">
             <div>
               <Form.Label className="availableChartHeaders" id="chartsLabel">
@@ -403,7 +654,96 @@ function Overview() {
               <Form.Label class="availableChartHeaders" id="stackedBarGraphLabel">
                 Stacked Bar Graph of Quantity Over Time
               </Form.Label>
-              <Form.Check
+
+              {/* Total Investments */}
+              <div className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  id="stackedBarGraphTotalInvestments"
+                  name="totalInvestments"
+                  label="Total Investments Breakdown"
+                  checked={stackedBarGraph.totalInvestments.checked}
+                  disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !stackedBarGraph.totalInvestments.checked}
+                  onChange={(e) => handleStackedBarGraphSelection(e)}
+                />
+                {stackedBarGraph.totalInvestments.checked && (
+                  <div className="ml-4 mt-2">
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Average"
+                      checked={stackedBarGraph.totalInvestments.displayType === 'average'}
+                      onChange={() => handleDisplayTypeChange('totalInvestments', 'average')}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Median"
+                      checked={stackedBarGraph.totalInvestments.displayType === 'median'}
+                      onChange={() => handleDisplayTypeChange('totalInvestments', 'median')}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  id="stackedBarGraphTotalInvestments"
+                  name="totalIncome"
+                  label="Total Income Breakdown"
+                  checked={stackedBarGraph.totalIncome.checked}
+                  disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !stackedBarGraph.totalIncome.checked}
+                  onChange={(e) => handleStackedBarGraphSelection(e)}
+                />
+                {stackedBarGraph.totalIncome.checked && (
+                  <div className="ml-4 mt-2">
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Average"
+                      checked={stackedBarGraph.totalIncome.displayType === 'average'}
+                      onChange={() => handleDisplayTypeChange('totalIncome', 'average')}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Median"
+                      checked={stackedBarGraph.totalIncome.displayType === 'median'}
+                      onChange={() => handleDisplayTypeChange('totalIncome', 'median')}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  id="stackedBarGraphTotalInvestments"
+                  name="totalExpenses"
+                  label="Total Expenses Breakdown"
+                  checked={stackedBarGraph.totalExpenses.checked}
+                  disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !stackedBarGraph.totalExpenses.checked}
+                  onChange={(e) => handleStackedBarGraphSelection(e)}
+                />
+                {stackedBarGraph.totalExpenses.checked && (
+                  <div className="ml-4 mt-2">
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Average"
+                      checked={stackedBarGraph.totalExpenses.displayType === 'average'}
+                      onChange={() => handleDisplayTypeChange('totalExpenses', 'average')}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Median"
+                      checked={stackedBarGraph.totalExpenses.displayType === 'median'}
+                      onChange={() => handleDisplayTypeChange('totalExpenses', 'median')}
+                    />
+                  </div>
+                )}
+              </div>
+              {/* <Form.Check
                 type="checkbox"
                 id="stackedBarGraph"
                 name="average"
@@ -421,8 +761,36 @@ function Overview() {
                 disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS || stackedBarGraph.average) && !stackedBarGraph.median}
                 onChange={(e) => handleStackedBarGraphSelection(e)}
               />
+              <Form.Check
+                type="checkbox"
+                id="stackedBarGraph"
+                name="totalInvestments"
+                label="Total Investments Breakdown"
+                checked={stackedBarGraph.totalInvestments}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
+              />
+              <Form.Check
+                type="checkbox"
+                id="stackedBarGraph"
+                name="totalIncome"
+                label="Total Income Breakdown"
+                checked={stackedBarGraph.totalIncome}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
+              />
+              <Form.Check
+                type="checkbox"
+                id="stackedBarGraph"
+                name="totalExpenses"
+                label="Total Expenses Breakdown"
+                checked={stackedBarGraph.totalExpenses}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
+              /> */}
             </div>
-
+            {explorationMode === 'two-dimensional' && (
+            <>
             <div id='surfacePlot'>
               <Form.Label class="availableChartHeaders" id="surfacePlotLabel">
                 Surface Plot
@@ -445,34 +813,36 @@ function Overview() {
               />
               </div>
 
-              <div id='contourPlot'>
-              <Form.Label class="availableChartHeaders" id="contourPlotLabel">
-                Contour Plot
-              </Form.Label> 
-              <Form.Check
-                type="checkbox"
-                id="contourPlot"
-                name="finalValueOfProbabilityOfSuccess"
-                label="Final Value of Probability of Success"
-                checked={contourPlot.finalValueOfProbabilityOfSuccess}
-                onChange={(e) => handleContourPlotSelection(e)}
-              />
-              <Form.Check
-                type="checkbox"
-                id="contourPlot"
-                name="finalValueOfMedianTotalInvestments"
-                label="Final Value of Median Total Investments"
-                checked={contourPlot.finalValueOfMedianTotalInvestments}
-                onChange={(e) => handleContourPlotSelection(e)}
-              />
+                <div id='contourPlot'>
+                <Form.Label class="availableChartHeaders" id="contourPlotLabel">
+                  Contour Plot
+                </Form.Label> 
+                <Form.Check
+                  type="checkbox"
+                  id="contourPlot"
+                  name="finalValueOfProbabilityOfSuccess"
+                  label="Final Value of Probability of Success"
+                  checked={contourPlot.finalValueOfProbabilityOfSuccess}
+                  onChange={(e) => handleContourPlotSelection(e)}
+                />
+                <Form.Check
+                  type="checkbox"
+                  id="contourPlot"
+                  name="finalValueOfMedianTotalInvestments"
+                  label="Final Value of Median Total Investments"
+                  checked={contourPlot.finalValueOfMedianTotalInvestments}
+                  onChange={(e) => handleContourPlotSelection(e)}
+                />
               </div>
+            </>
+            )}
             </div>
           </div>
         )}
           
         {/* Check if the bar chart is selectd */}
         <div id="graphContainer">
-          {stackedBarGraph.average && (
+          {/* {stackedBarGraph.totalInvestments && (
             <div id="barGraph">
               <StackedBarGraph
                 labels={testScenarios[scenario].years}
@@ -514,22 +884,13 @@ function Overview() {
                 ]}
               />
             </div>
-          )}
+          )} */}
 
           {/* Check if Line Graph is selected */}
           {lineChart.probabilityofSuccess && (
             <div id="lineGraph">
               <LineGraph 
-                labels={testScenarios[scenario].years}
-                datasets={[
-                  {
-                    label: "Probability of Success",
-                    data: testScenarios[scenario].probability,
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    fill: true,
-                  }
-                ]}
+                datasets= {simulationData["result"]["probability_of_success"]}
               />
             </div>           
             //  {/* <div id="lineGraph">
@@ -574,9 +935,7 @@ function Overview() {
         </div>
       </div>
   );
+
 }
 
 export default Overview;  
-
-
-

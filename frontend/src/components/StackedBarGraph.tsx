@@ -4,7 +4,7 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(...registerables);
 
-const StackedBarGraph = ({labels, datasets, options}:any): ReactElement => {
+const StackedBarGraph = ({datasets, option}:any): ReactElement => {
     const defaultOptions = {
         maintainAspectRatio: false,
         responsive: true,
@@ -21,21 +21,20 @@ const StackedBarGraph = ({labels, datasets, options}:any): ReactElement => {
               stacked: true,
             },
           },
-        ...options,
-      };
+      };  
 
-      const data = {
-        labels,
-        datasets,
-      };
-    
+    let data;
+      
+    if (option === "average") {
+      // average
+    }
+    else {
+      // median
+    }
 
     return (
         <>
-            <Bar 
-                data={data}
-                options={defaultOptions}>
-            </Bar>
+
         </>
     )
 }
