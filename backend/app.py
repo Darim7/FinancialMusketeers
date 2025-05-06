@@ -214,9 +214,12 @@ def import_scenario():
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
-        # app.logger.info("WTF:", scenario)
+        app.logger.info("WTF:", scenario.to_dict())
         # user_data=user.to_dict()
-        # app.logger.info(f"USER SCENARIOS: {user_data}")
+        # app.logger.info("AHHHHHHHHHHHHHHHHH")
+        # app.logger.info(f"USER SCENARIOS: {user}")
+
+        # app.logger.info(f'scenario to dict {scenario.to_dict()}')
 
         return jsonify({"message": "Scenario imported successfully", "data": user.to_dict()}), 201
 
@@ -254,6 +257,7 @@ def import_scenario_guest():
         # Parse YAML content
         scenario = Scenario.from_yaml(fname)
         app.logger.info(f'Parsed scenario: {scenario}')
+       
 
         return jsonify({"message": "Scenario imported successfully", "data": scenario.to_dict()}), 201
 

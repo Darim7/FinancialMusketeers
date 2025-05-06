@@ -435,6 +435,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         )
       )
 
+      
     }
     setformStep(formStep + 1);
     
@@ -536,6 +537,7 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     }
 
     const saveInvestmentCase = (e:React.ChangeEvent<any>) => {
+      console.log("DOES IT GOES IN HERE")
 
       let updatedInvestmentCases;
       let updateAssetAllocation;
@@ -612,6 +614,14 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         // }
 
       }
+
+      // const dict = updateAssetAllocation.reduce((acc, obj) => {
+      //   acc[obj.id] = obj;
+      //   return acc;
+      // }, {});
+
+      // console.log("what is asset alllocaiton", dict )
+      
 
       setValues(prevValues => ({
         ...prevValues,
