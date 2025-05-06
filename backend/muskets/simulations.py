@@ -657,6 +657,9 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'investment_values': investment_breakdown,
         'income_breakdown': income_breakdown,
         'expenses_breakdown': expenses_breakdown,
+        'income_total': currYearIncome,
+        'expenses_total': sum(expenses_breakdown.values()),
+        'investment_total': sum(investment_breakdown.values()),
     }
 
 def save_logs_to_csv(logs: list[dict], filename: str) -> None:
@@ -716,6 +719,7 @@ def run_simulation(scenario: Scenario, user: str, num_sim: int) -> list[dict]:
     investment_logs = []
 
     for year in range(start_year, end_year):
+        np.random.seed(year)
         # Check if the user or spouse is alive
         user_alive = user_curr_age <= user_death_age
         spouse_alive = spouse_curr_age <= spouse_death_age if scenario.is_married else False
@@ -794,7 +798,8 @@ def gather_probability_of_success(organized_results: dict[int, list]) -> dict:
     
     return prob_success
 
-def calculate_statistics(simulations: list[dict]) -> dict:
+def calculate_statistics(organized_simulations: dict[int, list], target: str) -> dict:
+
     return {}
 
 def run_financial_planner(scenario_dict: dict, user_name: str, num_simulations: int) -> dict:
@@ -811,7 +816,7 @@ def run_financial_planner(scenario_dict: dict, user_name: str, num_simulations: 
     prob_success = gather_probability_of_success(organized_result)
 
     # Calculate statistics
-    statistics = calculate_statistics(simulations_result)
+    statistics = calculate_statistics(organized_result, 'expenses_total')
 
     return {
         'probability_of_success': prob_success,
