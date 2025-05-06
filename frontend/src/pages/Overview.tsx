@@ -842,7 +842,7 @@ function Overview() {
           
         {/* Check if the bar chart is selectd */}
         <div id="graphContainer">
-          {stackedBarGraph.totalInvestments && (
+          {/* {stackedBarGraph.totalInvestments && (
             <div id="barGraph">
               <StackedBarGraph
                 labels={testScenarios[scenario].years}
@@ -884,7 +884,7 @@ function Overview() {
                 ]}
               />
             </div>
-          )}
+          )} */}
 
           {/* Check if Line Graph is selected */}
           {lineChart.probabilityofSuccess && (
