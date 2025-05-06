@@ -315,11 +315,11 @@ def run_simulation():
 
 if __name__ == "__main__":
     # Test simulations
-    scenario = Scenario.from_yaml("new_test_scenario.yaml")
-    # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
-    scenario_dict = scenario.to_dict()
-    logging.info(f"Running simulation with scenario: {scenario_dict['investments']}")
-    scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 1)
+    # scenario = Scenario.from_yaml("new_test_scenario.yaml")
+    # # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
+    # scenario_dict = scenario.to_dict()
+    # logging.info(f"Running simulation with scenario: {scenario_dict['investments']}")
+    # scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 1)
 
     # # exit(0)
 

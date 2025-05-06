@@ -158,6 +158,7 @@ function Overview() {
       const response = await axios.post('/api/run_simulation', {
         scenario: selectedScenarioData,
         num_simulations: simulationAmount,
+        user_name: userName,
       });
       console.log("Simulation Response:", response.data);
       setSimulationData(response.data);
@@ -849,6 +850,22 @@ function Overview() {
                 datasets={simulationData["result"]["organized_results"]} 
                 type = {"investment"}
                 option = {stackedBarGraph.totalInvestments.displayType}
+              />
+            )}
+
+            {stackedBarGraph.totalIncome.checked && (
+              <StackedBarGraph
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"income"}
+                option = {stackedBarGraph.totalIncome.displayType}
+              />
+            )}
+
+            {stackedBarGraph.totalExpenses.checked && (
+              <StackedBarGraph
+                datasets={simulationData["result"]["organized_results"]} 
+                type = {"expense"}
+                option = {stackedBarGraph.totalExpenses.displayType}
               />
             )}
             
