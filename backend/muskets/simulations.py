@@ -282,7 +282,7 @@ def update_investments(asset_types: list[AssetType], investments: list[Investmen
         avg_value = (ivmt.value + init_value) / 2
         expense = avg_value * asset_type.expenseRatio
         ivmt.value -= expense
-        log_financial_event(simulation_log, year, "INVEST", ivmt.value, f"Updating investment {ivmt.investment_id}")
+        log_financial_event(simulation_log, year, "INVEST", ivmt.value, f"Updating investment {ivmt.investment_id}, Annual Return: {ann_return}, Income: {income}, Expense:{expense}, Initial Value: {init_value}")
     log_financial_event(simulation_log, year, "INVEST", total_generated_income, f"Total generated income from updating investments")
     return total_generated_income
 
@@ -309,7 +309,8 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
     # Calculation amount of roth conversion.
     rc = upper_limit - (federal_taxable_income_after_deduction)
 
-    converted_value = rc
+    # converted_value = rc
+    converted_value = 0
     # Iterate over the investments in the Roth conversion strategy in the given order
     for investment_id in roth_conversion_strategy:
         if rc <= 0:
@@ -328,10 +329,13 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
                 log_financial_event(simulation_log, year, "ROTH CONVERSION", rc, f"Moving from {inv.investment_id} to {after_tax.investment_id}. New value: {after_tax.value}, remaining RC value: {0}")
                 after_tax.value += rc
                 inv.value -= rc
+                converted_value += rc
                 rc = 0
+                break
             else:
                 after_tax.value += inv.value
                 rc -= inv.value
+                converted_value += inv.value
                 log_financial_event(simulation_log, year, "ROTH CONVERSION", inv.value, f"Moving from {inv.investment_id} to {after_tax.investment_id}. New value: {after_tax.value}, remaining RC value: {rc}")
                 inv.value = 0
 
@@ -339,14 +343,16 @@ def roth_conversion(upper_limit: float, federal_taxable_income_after_deduction: 
             # Create a new investment with the same type and tax status = "after-tax retirement"
             new_investment = create_after_tax_retirement_investment(inv.asset_type)
             if inv.value >= rc:
-                log_financial_event(simulation_log, year, "ROTH CONVERSION", rc, f"Moving from {inv.investment_id} to {new_investment.investment_id}. New value: {new_investment.value}, remaining RC value: {0}")
+                log_financial_event(simulation_log, year, "ROTH CONVERSION", rc, f"Moving from {inv.investment_id} to {new_investment.investment_id}. {new_investment.investment_id}'s value: {new_investment.value}, remaining RC value: {0}")
                 new_investment.value += rc
                 inv.value -= rc
+                converted_value += rc
                 rc = 0
             else:
                 new_investment.value += inv.value
                 rc -= inv.value
-                log_financial_event(simulation_log, year, "ROTH CONVERSION", inv.value, f"Moving from {inv.investment_id} to {new_investment.investment_id}. New value: {new_investment.value}, remaining RC value: {rc}")
+                converted_value += inv.value
+                log_financial_event(simulation_log, year, "ROTH CONVERSION", inv.value, f"Moving from {inv.investment_id} to {new_investment.investment_id}. {new_investment.investment_id}'s value: {new_investment.value}, remaining RC value: {rc}")
                 inv.value = 0
             investments.append(new_investment)
     log_financial_event(simulation_log, year, "ROTH CONVERSION", converted_value, f"Total converted value from Roth Conversion: {converted_value}")
@@ -586,6 +592,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
 
     # Calculate the current year income and add it to the cash event
     currYearIncome = round(gross_income_value + 0.85 * social_security_income, 2) 
+    capital_gains = 0
     cash_investment.value += currYearIncome
 
     logger.info(f"Gross income: {gross_income_value}, Social Security: {social_security_income}, Current Year Income: {currYearIncome}")
@@ -596,16 +603,16 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     rmd_amount = perform_rmd(rmd_obj, user_age, investments, simulation_log, year)
 
     # STEP 4: Update investments
-    capital_gains = update_investments(scenario.ivmt_types, investments, simulation_log, year)
+    generated_inc = update_investments(scenario.ivmt_types, investments, simulation_log, year)
     # cash_investment.value += capital_gains
-    currYearIncome += capital_gains
+    capital_gains += generated_inc
     log_financial_event(simulation_log, year, "INCOME", capital_gains, f"New total income for current year: {currYearIncome}")
 
     # STEP 5: Roth conversion
     fed_taxable_income_after_deduction = currYearIncome - fed_tax.bracket[marital_status]['deduction']
     upper_limit = calculate_tax(fed_taxable_income_after_deduction, fed_tax.bracket[marital_status], 'income')[1]
     roth_converted = roth_conversion(upper_limit, fed_taxable_income_after_deduction, investments, scenario.roth_strat, simulation_log, year)
-    currYearIncome += roth_converted
+    capital_gains += roth_converted
     currYearIncome += rmd_amount
 
     logger.info(f"Roth conversion: {roth_converted}")
@@ -630,11 +637,13 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
                 raise ValueError(f"Investment {invest} not found in investments list. But it is in the strategy list.")
             if invest_obj.value >= abs(cash_investment.value):
                 invest_obj.value += cash_investment.value
+                capital_gains += abs(cash_investment.value)
                 log_financial_event(simulation_log, year, "EXPENSE", cash_investment.value, f"Withdrawing from {invest_obj.investment_id}. New value: {invest_obj.value}, remaining cash investment value: {0}")
                 cash_investment.value = 0
                 break
             else:
                 cash_investment.value += invest_obj.value
+                capital_gains += invest_obj.value
                 log_financial_event(simulation_log, year, "EXPENSE", invest_obj.value, f"Withdrawing from {invest_obj.investment_id}. New value: {invest_obj.value}, remaining cash investment value: {cash_investment.value}")
                 invest_obj.value = 0
 
@@ -673,6 +682,7 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
     # Calculate federal and state income tax
     federal_tax_value = fed_income_tax(fed_tax, currYearIncome, marital_status)
     log_financial_event(simulation_log, year, "TAX", federal_tax_value, f"Federal Income Tax Calculated")
+    log_financial_event(simulation_log, year, "INCOME", capital_gains, f"Capital Gains Total Income")
     # Calculate capital gains tax
     capital_gains = capital_gains_tax(fed_tax, currYearIncome, capital_gains, marital_status)
     federal_tax_value += capital_gains
