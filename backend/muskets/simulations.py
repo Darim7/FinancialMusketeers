@@ -500,20 +500,40 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment], year:
 
     # Get the set of investments to rebalance, make it a dict.
     rebalancing_set = {invest.investment_id : invest for invest in investments if invest.investment_id in rebalance_event.data['assetAllocation']}
-    
+    logger.info(f"Rebalancing set: {rebalancing_set}")
     # Caculate the total value of the listed investments for rebalancing
     total_value = sum(invest.value for invest in rebalancing_set.values())
-    
+    logger.info(f"Total Investment Value: {total_value}")
+
     # Go through the specified investments and rebalance them to the target allocation.
     changed_amount = 0
     for invest_id, target_allocation in rebalance_event.data['assetAllocation'].items():
         if invest_id in rebalancing_set:
             invest = rebalancing_set[invest_id]
+            logger.info(f"Investment ID: {invest.investment_id}, Target Allocation: {target_allocation}, Current Value: {invest.value}, Total Value: {total_value}")
             target_value = total_value * target_allocation
             diff = target_value - invest.value
-            invest.value += diff
-            total_value += diff
-            changed_amount += abs(diff)
+            # Process all the sales first, then the purchases.
+            if diff < 0: 
+                invest.value += diff
+                total_value += diff
+                changed_amount += abs(diff)
+                logger.info(f"Target Value: {target_value}, Difference: {diff}, Changed Amount: {changed_amount}")
+                
+    for invest_id, target_allocation in rebalance_event.data['assetAllocation'].items():
+        if invest_id in rebalancing_set:
+            invest = rebalancing_set[invest_id]
+            logger.info(f"Investment ID: {invest.investment_id}, Target Allocation: {target_allocation}, Current Value: {invest.value}, Total Value: {total_value}")
+            target_value = total_value * target_allocation
+            diff = target_value - invest.value
+            # Process all the purchases.
+            if diff > 0: 
+                invest.value += diff
+                total_value += diff
+                # changed_amount += abs(diff)
+                logger.info(f"Target Value: {target_value}, Difference: {diff}, Changed Amount: {changed_amount}")
+    
+
 
     return changed_amount
 
