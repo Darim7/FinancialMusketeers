@@ -5,6 +5,7 @@ import os
 import logging
 from datetime import datetime
 import yaml
+import traceback
 
 from models.user import User
 from dbconn import USER_COLLECTION, SCENARIO_COLLECTION, mongo_client, find_document, insert_document, update_document
@@ -14,7 +15,7 @@ from muskets.simulations import run_financial_planner
 app = Flask(__name__)
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(filename="/app/debug.log", level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 logging.getLogger('models.scenario').setLevel(logging.DEBUG)
 
 @app.route('/api/test')
@@ -33,6 +34,7 @@ def get_scenario():
     try:
         # Get the scenario ID from the query parameters
         scenario_id = request.get_json().get('_id')
+        app.logger.info("what is scenario_id", scenario_id)
         
         if not scenario_id:
             app.logger.error(f'Scenario ID is required received {scenario_id}')
@@ -40,6 +42,7 @@ def get_scenario():
         
         # Find the scenario by ID
         scenario = find_document(SCENARIO_COLLECTION, {"_id": ObjectId(scenario_id)})
+        app.logger.info("what is scenario", scenario)
         
         if scenario:
             # Convert ObjectId to string for JSON serialization
@@ -69,15 +72,9 @@ def add_scenario():
         # Grab User info
         user_email = data['user_email']
         user_name = data['user_name'] 
-        
-        # if isinstance(data, list):
-        #     for form in data:
-        #         user_email = form['user_email']
-        #         user_name = form['user_name'] 
              
         app.logger.info("User_email: %s", user_email)
         app.logger.info("User_name: %s", user_name)
-
 
         # Create objects
         user = User(user_name, user_email)
@@ -86,11 +83,13 @@ def add_scenario():
         
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
+        app.logger.info("what is user", user.scenarios)
 
         return jsonify({"message": "Scenario added successfully", "data": user.to_dict()}), 201
 
     except Exception as e:
         app.logger.error(f"Error adding scenario: {e}, type: {type(e)}")
+        traceback.print_exc()
         return jsonify({"error": "Failed to add scenario"}), 500
 
 @app.route('/api/update_scenario', methods=['POST'])
@@ -99,6 +98,8 @@ def update_scenario():
 
     # Get the updated scenario data
     data = request.get_json()
+    app.logger.info(f'Update scenario data: {data}')
+    
     if not data:
         return jsonify({"error": "Invalid JSON data"}), 400
     
@@ -151,7 +152,7 @@ def export_scenario():
     try:
         # Get the scenario object from the get request
         data = request.get_json()
-        app.logger.info(f'Exporting scenario: {data}')
+        app.logger.info(f'Exporting is scenario: {data}')
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400
 
@@ -175,20 +176,30 @@ def export_scenario():
 def import_scenario():
     app.logger.info('Reached import_scenario route.')
 
-    data = request.get_json()
-    if not data:
+    # data = request.get_json()
+    app.logger.info(f'Importing scenario: {request.form}')
+    app.logger.info("HELOOOOOOOOOO")
+
+    if not request.form:
         return jsonify({"error": "Invalid JSON data"}), 400
     
+    app.logger.info("REQUEST FORM email:", request.form.get('user_email'))
     # Get user email and create a user object
-    user_email = data['user_email']
-    user_name = data['user_name']
+    # user_email = data['user_email']
+    # user_name = data['user_name']
+    user_email = request.form.get('user_email')
+    user_name = request.form.get('user_name')
     user = User(user_name, user_email)
+
+    app.logger.info("WHAT IS REQUEST FILE", request.files)
+    app.logger.info("what is user", user_email)
 
     # Ensure a file is provided
     if 'file' not in request.files:
         return jsonify({"error": "No file provided"}), 400
 
     file = request.files['file']
+    app.logger.info(f'File received: {file}')
     # Ensure it's a YAML file
     if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
         return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
@@ -199,11 +210,49 @@ def import_scenario():
     try:
         # Parse YAML content
         scenario = Scenario.from_yaml(fname)
+        app.logger.info(f'Parsed scenario: {scenario}')
 
         # Add the scenario ID to the user's list of scenarios
         user.add_scenario(scenario)
-
+        app.logger.info("USER SCENARIOS", user.to_dict())
         return jsonify({"message": "Scenario imported successfully", "data": user.to_dict()}), 201
+
+    except yaml.YAMLError as e:
+        return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Failed to import scenario: {str(e)}"}), 500
+    
+@app.route('/api/import_scenario_guest', methods=['POST'])
+def import_scenario_guest():
+    app.logger.info('Reached import_scenario_guest route.')
+
+    # data = request.get_json()
+    app.logger.info(f'Importing scenario: {request.form}')
+
+    if not request.form:
+        return jsonify({"error": "Invalid JSON data"}), 400
+    
+    app.logger.info("WHAT IS REQUEST FILE", request.files)
+
+    # Ensure a file is provided
+    if 'file' not in request.files:
+        return jsonify({"error": "No file provided"}), 400
+
+    file = request.files['file']
+    app.logger.info(f'File received: {file}')
+    # Ensure it's a YAML file
+    if not file.filename or not file.filename.endswith(('.yaml', '.yml')):
+        return jsonify({"error": "Invalid file type, only YAML is accepted"}), 400
+    
+    fname = f"uploads/{file.filename}"
+    file.save(fname)
+    
+    try:
+        # Parse YAML content
+        scenario = Scenario.from_yaml(fname)
+        app.logger.info(f'Parsed scenario: {scenario}')
+
+        return jsonify({"message": "Scenario imported successfully", "data": scenario.to_dict()}), 201
 
     except yaml.YAMLError as e:
         return jsonify({"error": f"Invalid YAML format: {str(e)}"}), 400
@@ -218,7 +267,10 @@ def get_user():
     # Get the user email from the query parameters
     user_email = request.args.get('user_email')
     user_name = request.args.get('user_name')
-    
+
+    app.logger.info("what is user_email", user_email)
+    app.logger.info("what is user_name", user_name)
+
     if not user_email:
         return jsonify({"error": "User email is required"}), 400
     

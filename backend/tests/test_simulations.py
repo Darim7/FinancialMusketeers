@@ -1,6 +1,6 @@
 import pytest
 
-from muskets.simulations import sample_from_distribution, update_inflation, update_investments, perform_rmd, fed_income_tax, state_income_tax
+from muskets.simulations import sample_from_distribution, update_inflation, update_investments, perform_rmd, fed_income_tax, state_income_tax, rebalance
 from muskets.tax_scraper import read_tax_to_dict,  read_rmd_to_dict
 from tests.utils.yaml_utils import ScenarioYamlUtils
 from tests.utils.compare_utils import assert_is_uniform, assert_within_range, assert_is_normal, compare_dict
@@ -205,12 +205,16 @@ class TestTax:
         assert res == tax
 
 class TestInvestment:
-    def test_make_investments(self, create_scenario):
+    def test_rebalance(self, create_scenario):
         scenario = create_scenario
         investments = scenario.get_investments()
         event_series = scenario.get_event_series()
-        invest_series = [event for event in event_series if event.type=='invest']
-        
+        rebalance_series = [event for event in event_series if event.type=='rebalance']
+        print(f"Rebalance Series: {rebalance_series[0]}")
+        start=sample_from_distribution(rebalance_series[0].start)
+        rebalance_amount = rebalance(rebalance_series, investments, int(start))
+        print(f"Rebalance Amount: {rebalance_amount}")
+        assert rebalance_amount == 0
         
         
         

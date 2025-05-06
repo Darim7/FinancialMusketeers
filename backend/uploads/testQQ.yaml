@@ -1,0 +1,77 @@
+# file format for scenario import/export.
+# version: 2025-03-11
+# CSE416, Software Engineering, Scott D. Stoller.
+# a distribution is represented as a map with one of the following forms:
+# {type: fixed, value: <number>}
+# {type: normal, mean: <number>, stdev: <number>}
+# {type: uniform, lower: <number>, upper: <number>}
+# {type: GBM, mu: <number>, sigma: <number>}
+# percentages are represented by their decimal value, e.g., 4% is represented as 0.04.
+
+name: testQQ
+maritalStatus: individual
+birthYears: [2222]
+lifeExpectancy:
+- {type: fixed, value: 2}
+- {type: ''}
+investmentTypes:
+- name: Cash
+  description: Cash
+  returnAmtOrPct: amount
+  returnDistribution: {type: fixed, value: 3}
+  expenseRatio: '2'
+  incomeAmtOrPct: amount
+  incomeDistribution: {type: fixed, value: 2}
+  taxability: 'True'
+investments:
+- {investmentType: Cash, value: 22, taxStatus: non-retirement, id: Cash non-retirement}
+eventSeries:
+- type: Income
+  name: Income
+  discretionary: 'false'
+  start: {type: fixed, value: 2}
+  duration: {type: fixed, value: 3}
+  initialAmount: '2'
+  changeAmountOrPercent: amount
+  changeDistribution: {type: fixed, value: 2}
+  inflationAdjusted: 'true'
+  userFraction: '2'
+  socialSecurity: 'true'
+- type: Expense
+  name: Expense
+  discretionary: 'true'
+  start: {type: fixed, value: 2}
+  duration: {type: fixed, value: 3}
+  initialAmount: '2'
+  changeAmountOrPercent: amount
+  changeDistribution: {type: fixed, value: 2}
+  inflationAdjusted: 'true'
+  userFraction: '2'
+- type: Invest
+  name: Invest
+  discretionary: 'false'
+  start: {type: fixed, value: 2}
+  duration: {type: fixed, value: 3}
+  assetAllocation: {Cash non-retirement: '2'}
+  glidePath: 'false'
+inflationAssumption: {type: fixed, value: 2}
+afterTaxContributionLimit: '3'
+spendingStrategy:
+- type: Expense
+  name: Expense
+  discretionary: 'true'
+  start: {type: fixed, value: 2}
+  duration: {type: fixed, value: 3}
+  initialAmount: '2'
+  changeAmountOrPercent: amount
+  changeDistribution: {type: fixed, value: 2}
+  inflationAdjusted: 'true'
+  userFraction: '2'
+expenseWithdrawalStrategy: [Cash non-retirement]
+RMDStrategy: []
+RothConversionOpt: false
+RothConversionStart: 0
+RothConversionEnd: 0
+RothConversionStrategy: []
+financialGoal: 3
+residenceState: AL
