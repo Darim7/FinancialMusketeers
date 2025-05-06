@@ -27,7 +27,6 @@ Chart.register(CategoryScale);
 const userEmail = localStorage.getItem('userEmail');
 const userName = localStorage.getItem('userName');
 
-
 const testScenarios = {
   scenario1:{ name:"test1", 
               years:["2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033"], 
@@ -151,6 +150,23 @@ function Overview() {
     
     console.log("Fetch Scenarios:", fetchUserScenarios);
 
+  const runSimulation = async () => {
+    console.log("Running simulation with scenario:", selectedScenarioData);
+    console.log("Simulation Amount:", simulationAmount);
+
+    try {
+      const response = await axios.post('/api/run_simulation', {
+        scenario: selectedScenarioData,
+        num_simulations: simulationAmount,
+      });
+      console.log("Simulation Response:", response.data);
+      setSimulationData(response.data);
+    }
+    catch (error) {
+      console.error("Error running simulation:", error);
+    }
+  }
+
   const [oneDimensionalParameters, setOneDimensionalParameters] = useState({
     startYear: false,
     duration: false,
@@ -170,8 +186,18 @@ function Overview() {
   });
 
   const [stackedBarGraph, setStackedBarGraph] = useState({
-    average: false,
-    median: false,
+    totalInvestments: {
+      checked: false,
+      displayType: 'average' 
+    },
+    totalIncome: {
+      checked: false,
+      displayType: 'average' 
+    },
+    totalExpenses: {
+      checked: false,
+      displayType: 'average'
+    }
   });
 
   const [surfacePlot, setSurfacePlot] = useState({ 
@@ -188,7 +214,7 @@ function Overview() {
   const countSelectedCharts = () => {
     const lineSelected = Object.values(lineChart).filter(Boolean).length;
     const shadedLineSelected = Object.values(shadedLineChart).filter(Boolean).length;
-    const stackedSelected = Object.values(stackedBarGraph).filter(Boolean).length
+    const stackedSelected = Object.values(stackedBarGraph).filter(chart => chart.checked).length;
     return lineSelected + shadedLineSelected + stackedSelected;
   };
 
@@ -211,8 +237,18 @@ function Overview() {
       percentageOfTotalDiscretionaryExpenses: false,
     });
     setStackedBarGraph({
-      average: false,
-      median: false,
+      totalInvestments: {
+        checked: false,
+        displayType: 'average'
+      },
+      totalIncome: {
+        checked: false,
+        displayType: 'average'
+      },
+      totalExpenses: {
+        checked: false,
+        displayType: 'average'
+      }
     });
     setSurfacePlot({
       finalValueOfProbabilityOfSuccess: false,
@@ -283,13 +319,30 @@ function Overview() {
 
   const handleStackedBarGraphSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
+
+    console.log("Stacked Bar Graph Name:", name);
+    console.log("Stacked Bar Graph Checked:", checked);
+    
     setStackedBarGraph(prevCharts => ({
       ...prevCharts,
-      [name]: checked,
+      [name]: {
+        ...prevCharts[name],
+        checked: checked
+      }
     }));
 
     console.log(stackedBarGraph);
   }
+
+   const handleDisplayTypeChange = (chartName: string, displayType: 'average' | 'median') => {
+    setStackedBarGraph(prevCharts => ({
+      ...prevCharts,
+      [chartName]: {
+        ...prevCharts[chartName],
+        displayType: displayType
+      }
+    }));
+   }
 
   const handleSurfacePlotSelection = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, checked} = e.target;
@@ -362,11 +415,8 @@ function Overview() {
             <Button
               id="simulateButton"
               name="simulateButton"
-              variant="primary"
-              onClick={(e) => {
-                console.log("Simulating", simulationAmount, "times")
-                setSimulationData(true);}
-              }
+              variant="success"
+              onClick={(e) => runSimulation()}
             >
               Submit
             </Button>
@@ -604,7 +654,96 @@ function Overview() {
               <Form.Label class="availableChartHeaders" id="stackedBarGraphLabel">
                 Stacked Bar Graph of Quantity Over Time
               </Form.Label>
-              <Form.Check
+
+              {/* Total Investments */}
+              <div className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  id="stackedBarGraphTotalInvestments"
+                  name="totalInvestments"
+                  label="Total Investments Breakdown"
+                  checked={stackedBarGraph.totalInvestments.checked}
+                  disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !stackedBarGraph.totalInvestments.checked}
+                  onChange={(e) => handleStackedBarGraphSelection(e)}
+                />
+                {stackedBarGraph.totalInvestments.checked && (
+                  <div className="ml-4 mt-2">
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Average"
+                      checked={stackedBarGraph.totalInvestments.displayType === 'average'}
+                      onChange={() => handleDisplayTypeChange('totalInvestments', 'average')}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Median"
+                      checked={stackedBarGraph.totalInvestments.displayType === 'median'}
+                      onChange={() => handleDisplayTypeChange('totalInvestments', 'median')}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  id="stackedBarGraphTotalInvestments"
+                  name="totalIncome"
+                  label="Total Income Breakdown"
+                  checked={stackedBarGraph.totalIncome.checked}
+                  disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !stackedBarGraph.totalIncome.checked}
+                  onChange={(e) => handleStackedBarGraphSelection(e)}
+                />
+                {stackedBarGraph.totalIncome.checked && (
+                  <div className="ml-4 mt-2">
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Average"
+                      checked={stackedBarGraph.totalIncome.displayType === 'average'}
+                      onChange={() => handleDisplayTypeChange('totalIncome', 'average')}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Median"
+                      checked={stackedBarGraph.totalIncome.displayType === 'median'}
+                      onChange={() => handleDisplayTypeChange('totalIncome', 'median')}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  id="stackedBarGraphTotalInvestments"
+                  name="totalExpenses"
+                  label="Total Expenses Breakdown"
+                  checked={stackedBarGraph.totalExpenses.checked}
+                  disabled={totalSelectedCharts >= MAX_NUMBER_OF_CHARTS && !stackedBarGraph.totalExpenses.checked}
+                  onChange={(e) => handleStackedBarGraphSelection(e)}
+                />
+                {stackedBarGraph.totalExpenses.checked && (
+                  <div className="ml-4 mt-2">
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Average"
+                      checked={stackedBarGraph.totalExpenses.displayType === 'average'}
+                      onChange={() => handleDisplayTypeChange('totalExpenses', 'average')}
+                    />
+                    <Form.Check
+                      inline
+                      type="radio"
+                      label="Median"
+                      checked={stackedBarGraph.totalExpenses.displayType === 'median'}
+                      onChange={() => handleDisplayTypeChange('totalExpenses', 'median')}
+                    />
+                  </div>
+                )}
+              </div>
+              {/* <Form.Check
                 type="checkbox"
                 id="stackedBarGraph"
                 name="average"
@@ -622,6 +761,33 @@ function Overview() {
                 disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS || stackedBarGraph.average) && !stackedBarGraph.median}
                 onChange={(e) => handleStackedBarGraphSelection(e)}
               />
+              <Form.Check
+                type="checkbox"
+                id="stackedBarGraph"
+                name="totalInvestments"
+                label="Total Investments Breakdown"
+                checked={stackedBarGraph.totalInvestments}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
+              />
+              <Form.Check
+                type="checkbox"
+                id="stackedBarGraph"
+                name="totalIncome"
+                label="Total Income Breakdown"
+                checked={stackedBarGraph.totalIncome}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
+              />
+              <Form.Check
+                type="checkbox"
+                id="stackedBarGraph"
+                name="totalExpenses"
+                label="Total Expenses Breakdown"
+                checked={stackedBarGraph.totalExpenses}
+                disabled={(totalSelectedCharts >= MAX_NUMBER_OF_CHARTS)}
+                onChange={(e) => handleStackedBarGraphSelection(e)}
+              /> */}
             </div>
             {explorationMode === 'two-dimensional' && (
             <>
@@ -676,7 +842,7 @@ function Overview() {
           
         {/* Check if the bar chart is selectd */}
         <div id="graphContainer">
-          {stackedBarGraph.average && (
+          {stackedBarGraph.totalInvestments && (
             <div id="barGraph">
               <StackedBarGraph
                 labels={testScenarios[scenario].years}
@@ -724,16 +890,7 @@ function Overview() {
           {lineChart.probabilityofSuccess && (
             <div id="lineGraph">
               <LineGraph 
-                labels={testScenarios[scenario].years}
-                datasets={[
-                  {
-                    label: "Probability of Success",
-                    data: testScenarios[scenario].probability,
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    fill: true,
-                  }
-                ]}
+                datasets= {simulationData["result"]["probability_of_success"]}
               />
             </div>           
             //  {/* <div id="lineGraph">
@@ -778,9 +935,7 @@ function Overview() {
         </div>
       </div>
   );
+
 }
 
 export default Overview;  
-
-
-
