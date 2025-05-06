@@ -373,48 +373,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
         )
       );
     } 
-    // else {
-    //   // Log the current state of values before updating
-    //   console.log("Before updating values:", values);
-    
-    //   // Log the field being updated and its new value
-    //   console.log("Updating field:", name, "with value:", parsedValue);
-    
-    //   setValues((prevValues) => {
-    //     const updatedValues = {
-    //       ...prevValues,
-    //       [name]: parsedValue,
-    //     };
-    //     // Log the updated values
-    //     console.log("Updated values:", updatedValues);
-    //     return updatedValues;
-    //   });
-    
-    //   saveForms((prevForms: any) =>
-    //     prevForms.map((form: any) => {
-    //       // Log each form being processed
-    //       console.log("DOES IT GOES IN HEREERERRRRRRRRRRRRRRRRRR");
-    //       console.log("Processing form:", { id: form._id, a: formInfo._id, name: form.name });
-    
-    //       if (form._id === formInfo._id) {
-    //         // Log the form being updated
-    //         console.log("Updating form:", { id: form.id, name: form.name });
-    //         const updatedForm = {
-    //           ...form,
-    //           [name]: parsedValue,
-    //           name: name === 'name' ? value : form.name,
-    //         };
-    //         // Log the updated form
-    //         console.log("Updated form:", updatedForm);
-    //         return updatedForm;
-    //       }
-    
-    //       // Log forms that are not updated
-    //       console.log("Form not updated:", { id: form.id, name: form.name });
-    //       return form;
-    //     })
-    //   );
-    // }
     
     else {
       
@@ -455,8 +413,6 @@ function CreateScenario({formInfo, saveForms, userEmail}: any) {
     
   };
   
-
-
   /******************* Handles Pagination ****************************************/
   const handleNext = (e:React.ChangeEvent<any>) => {
     e.preventDefault(); // Prevent form from submitting

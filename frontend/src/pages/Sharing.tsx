@@ -109,9 +109,6 @@ const shareScenario = async () => {
     }
 };
 
-
-
-
   return (
     <div id='scenario-header'>
         <div id ='navbar'>
