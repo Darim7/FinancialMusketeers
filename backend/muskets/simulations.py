@@ -551,7 +551,7 @@ def rebalance(rebalance_event: EventSeries, investments: list[Investment], year:
                 log_financial_event(simulation_log, year, 'REBALANCE', diff, f"Buying {invest.investment_id}. New value: {invest.value}, Target value: {target_value}, Target Allocation: {target_allocation}")
                 logger.info(f"Target Value: {target_value}, Difference: {diff}, Changed Amount: {changed_amount}")
     
-    log_financial_event(simulation_log, year, 'REBALANCE', changed_amount, f"Total sales from rebalancing: {changed_amount}")
+    log_financial_event(simulation_log, year, 'REBALANCE', changed_amount, f"Total sales from rebalancing")
 
     return changed_amount
 
