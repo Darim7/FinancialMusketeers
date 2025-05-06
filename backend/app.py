@@ -304,7 +304,7 @@ if __name__ == "__main__":
     # app.logger.info(f"Running simulation with scenario: {scenario.to_dict()}")
     scenario_dict = scenario.to_dict()
     logging.info(f"Running simulation with scenario: {scenario_dict['investments']}")
-    scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 1)
+    scenario_res = run_financial_planner(scenario_dict, "test_user_on_app", 5)
 
     exit(0)
 
