@@ -645,10 +645,6 @@ def run_year(scenario: Scenario, year: int, state_tax: StateTax, fed_tax: Federa
         'current_year_income': currYearIncome,
     }
 
-    logger.info(f'income breakdown: {income_breakdown}')
-    logger.info(f'expenses breakdown: {expenses_breakdown}')
-    logger.info(f"Investment values: {investment_breakdown}")
-
     return {
         'federal_tax': federal_tax_value,
         'state_tax': state_tax_value,
@@ -744,7 +740,7 @@ def run_simulation(scenario: Scenario, user: str, num_sim: int) -> list[dict]:
         result.append({year: year_res})
 
     if num_sim == 0:
-        save_logs_to_csv(investment_logs, f"{user}_{datetime.now()}.csv")
+        save_logs_to_csv(investment_logs, f"./user_logs/{user}_{datetime.now()}.csv")
 
     return result
 
